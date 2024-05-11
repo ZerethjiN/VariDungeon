@@ -1,0 +1,46 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Modules
+*.pcm
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+#*.so
+#*.dylib
+#*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+# *.a
+# *.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.pdb
+*.exp
+
+# Others
+srcTest
+**.vscode
+#*.bat
+#*.sh
+**._*
+**.DS_STORE*
+*.x86_64
