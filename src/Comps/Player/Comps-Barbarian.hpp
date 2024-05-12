@@ -6,15 +6,20 @@ class Barbarian {};
 
 class IsBarbarianDash {
 public:
-    IsBarbarianDash(float newDuration, float newSpeedCoeff):
+    IsBarbarianDash(float newDuration, const glm::vec2& newDirection, float newSpeedCoeff):
         duration(newDuration),
         curTime(0),
+        direction(newDirection),
         speedCoeff(newSpeedCoeff) {
     }
 
     bool canStopDash(float delta) {
         curTime += delta;
         return curTime >= duration;
+    }
+
+    const glm::vec2& getDirection() const {
+        return direction;
     }
 
     float getSpeedCoeff() const {
@@ -24,6 +29,7 @@ public:
 private:
     const float duration;
     float curTime;
+    const glm::vec2 direction;
     float speedCoeff;
 };
 

@@ -5,16 +5,17 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateSwordImpact(World& world, const glm::vec2& position, int baseZIndex) {
+Ent instantiateJar(World& world, const glm::vec2& position) {
     return world.newEnt(
-        SpriteCreator(swordImpactUV),
-        Animation(swordImpactAnim, "Default"),
+        Breakable(),
+        Life(1),
+        SpriteCreator(jarUV),
         Transform(
             position,
             0,
             glm::vec2(1, 1)
         ),
-        ZIndex(baseZIndex + 1),
-        LifeTime(0.1f)
+        ZIndex(0),
+        Collider(-12 / 2, -12 / 2, 12, 12)
     );
 }

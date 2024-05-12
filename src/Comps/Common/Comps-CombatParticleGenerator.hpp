@@ -4,13 +4,14 @@
 
 class CombatParticleGenerator {
 public:
-    CombatParticleGenerator(float newDuration, int newNbParticles):
+    CombatParticleGenerator(float newDuration, int newNbRepulseParticles, int newNbSmallParticles):
         duration(newDuration),
         curTime(0),
-        particleInterval(newDuration / newNbParticles),
-        curParticleTime(0),
-        nbParticles(newNbParticles),
-        curNbParticles(0) {
+        repulseParticleInterval(newDuration / newNbRepulseParticles),
+        curRepulseParticleTime(0),
+        smallParticleInterval(newDuration / newNbSmallParticles),
+        curSmallParticleTime(0),
+        curSmallParticle(0) {
     }
 
     bool canStop(float delta) {
@@ -18,20 +19,40 @@ public:
         return curTime >= duration;
     }
 
-    bool canSpawnParticle(float delta) {
-        curParticleTime += delta;
-        if (curParticleTime >= particleInterval) {
-            curParticleTime -= particleInterval;
+    bool canSpawnRepulseParticle(float delta) {
+        curRepulseParticleTime += delta;
+        if (curRepulseParticleTime >= repulseParticleInterval) {
+            curRepulseParticleTime -= repulseParticleInterval;
             return true;
         }
         return false;
     }
 
+    bool canSpawnSmallParticle(float delta) {
+        curSmallParticleTime += delta;
+        if (curSmallParticleTime >= smallParticleInterval) {
+            curSmallParticleTime -= smallParticleInterval;
+            curSmallParticle++;
+            return true;
+        }
+        return false;
+    }
+
+    int getCurSmallParticle() const {
+        return curSmallParticle;
+    }
+
 private:
+    // Total Duration
     const float duration;
     float curTime;
-    const float particleInterval;
-    float curParticleTime;
-    const int nbParticles;
-    int curNbParticles;
+
+    // Repulse Particles
+    const float repulseParticleInterval;
+    float curRepulseParticleTime;
+
+    // Small Particles
+    const float smallParticleInterval;
+    float curSmallParticleTime;
+    int curSmallParticle;
 };

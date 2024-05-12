@@ -1,15 +1,15 @@
 @echo off
 
-@REM glslc -O --target-env=vulkan1.3 shaders/InGameShader.vert -o shaders/InGameShaderVert.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/InGameShader.frag -o shaders/InGameShaderFrag.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/UIShader.vert -o shaders/UIShaderVert.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/UIShader.frag -o shaders/UIShaderFrag.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/TextUIShader.vert -o shaders/TextUIShaderVert.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/TextUIShader.frag -o shaders/TextUIShaderFrag.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/TextShader.vert -o shaders/TextShaderVert.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/TextShader.frag -o shaders/TextShaderFrag.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/AberationShader.vert -o shaders/AberationShaderVert.spv
-@REM glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/AberationShaderFrag.spv
+glslc -O --target-env=vulkan1.3 shaders/InGameShader.vert -o shaders/InGameShaderVert.spv
+glslc -O --target-env=vulkan1.3 shaders/InGameShader.frag -o shaders/InGameShaderFrag.spv
+glslc -O --target-env=vulkan1.3 shaders/UIShader.vert -o shaders/UIShaderVert.spv
+glslc -O --target-env=vulkan1.3 shaders/UIShader.frag -o shaders/UIShaderFrag.spv
+glslc -O --target-env=vulkan1.3 shaders/TextUIShader.vert -o shaders/TextUIShaderVert.spv
+glslc -O --target-env=vulkan1.3 shaders/TextUIShader.frag -o shaders/TextUIShaderFrag.spv
+glslc -O --target-env=vulkan1.3 shaders/TextShader.vert -o shaders/TextShaderVert.spv
+glslc -O --target-env=vulkan1.3 shaders/TextShader.frag -o shaders/TextShaderFrag.spv
+glslc -O --target-env=vulkan1.3 shaders/AberationShader.vert -o shaders/AberationShaderVert.spv
+glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/AberationShaderFrag.spv
 
 clang++ -D DEBUG -o Varidungeon.exe src/Main.cpp^
     Lib/freetype-2.13.2/objs/freetype.a^

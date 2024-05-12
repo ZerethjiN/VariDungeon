@@ -7,11 +7,75 @@
 #include <Images.hpp>
 
 void barbarianStartDashSys(World& world) {
-    auto players = world.view(with<Player, Barbarian>, without<IsBarbarianDash>);
+    auto players = world.view<const Transform, const Orientation>(with<Player, Barbarian>, without<IsBarbarianDash>);
 
-    for (auto [playerEnt]: players) {
+    for (auto [playerEnt, transform, orientation]: players) {
         if (vulkanEngine.window.isKeyDown(B_BUTTON)) {
-            world.add(playerEnt, IsBarbarianDash(0.25f, 2.f));
+            glm::vec2 newDirection(0, 0);
+
+            if (orientation.x > 0) {
+                newDirection = glm::vec2(1, 0);
+                world.appendChildren(playerEnt, {
+                    world.newEnt(
+                        PlayerWeapon(),
+                        Transform(
+                            transform.getPosition() + glm::vec2(8, 0),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        Velocity(),
+                        LifeTime(0.25f),
+                        Trigger(-32 / 2, -16 / 2, 32, 16)
+                    )
+                });
+            } else if (orientation.x < 0) {
+                newDirection = glm::vec2(-1, 0);
+                world.appendChildren(playerEnt, {
+                    world.newEnt(
+                        PlayerWeapon(),
+                        Transform(
+                            transform.getPosition() + glm::vec2(-8, 0),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        Velocity(),
+                        LifeTime(0.25f),
+                        Trigger(-32 / 2, -16 / 2, 32, 16)
+                    )
+                });
+            } else if (orientation.y > 0) {
+                newDirection = glm::vec2(0, 1);
+                world.appendChildren(playerEnt, {
+                    world.newEnt(
+                        PlayerWeapon(),
+                        Transform(
+                            transform.getPosition() + glm::vec2(0, 8),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        Velocity(),
+                        LifeTime(0.25f),
+                        Trigger(-16 / 2, -32 / 2, 16, 32)
+                    )
+                });
+            } else if (orientation.y < 0) {
+                newDirection = glm::vec2(0, -1);
+                world.appendChildren(playerEnt, {
+                    world.newEnt(
+                        PlayerWeapon(),
+                        Transform(
+                            transform.getPosition() + glm::vec2(0, -8),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        Velocity(),
+                        LifeTime(0.25f),
+                        Trigger(-16 / 2, -32 / 2, 16, 32)
+                    )
+                });
+            }
+
+            world.add(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f));
         }
     }
 }
@@ -22,7 +86,7 @@ void barbarianStopDashSys(World& world) {
     auto [time] = world.getRes<const Time>();
 
     for (auto [playerEnt, isBarbarianDash]: players) {
-        if (isBarbarianDash.canStopDash(time.fixedDelta())) {
+        if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(B_BUTTON)) {
             world.del<IsBarbarianDash>(playerEnt);
         }
     }
@@ -50,7 +114,7 @@ void barbarianMovementSys(World& world) {
 
         if (auto opt = world.get<IsBarbarianDash>(playerEnt)) {
             auto [isBarbarianDash] = opt.value();
-            newVelocity *= isBarbarianDash.getSpeedCoeff();
+            newVelocity = isBarbarianDash.getDirection() * isBarbarianDash.getSpeedCoeff() * speed.speed * time.fixedDelta();
         }
 
         velocity = newVelocity;
@@ -122,6 +186,7 @@ void barbarianStartAttackSys(World& world) {
                             0,
                             glm::vec2(1, 1)
                         ),
+                        Velocity(),
                         LifeTime(0.2f),
                         Trigger(-32 / 2, -32 / 2, 32, 32)
                     )
@@ -136,6 +201,7 @@ void barbarianStartAttackSys(World& world) {
                             0,
                             glm::vec2(1, 1)
                         ),
+                        Velocity(),
                         LifeTime(0.2f),
                         Trigger(-32 / 2, -32 / 2, 32, 32)
                     )
@@ -150,6 +216,7 @@ void barbarianStartAttackSys(World& world) {
                             0,
                             glm::vec2(1, 1)
                         ),
+                        Velocity(),
                         LifeTime(0.2f),
                         Trigger(-32 / 2, -32 / 2, 32, 32)
                     )
@@ -164,6 +231,7 @@ void barbarianStartAttackSys(World& world) {
                             0,
                             glm::vec2(1, 1)
                         ),
+                        Velocity(),
                         LifeTime(0.2f),
                         Trigger(-32 / 2, -32 / 2, 32, 32)
                     )

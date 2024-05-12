@@ -6,7 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateBarbarian(World& world, const glm::vec2& position) {
-    return world.newEnt(
+    auto playerEnt = world.newEnt(
         Player(),
         Barbarian(),
         SpriteCreator(barbareUV),
@@ -16,9 +16,25 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
+        ZIndex(0),
         Velocity(),
-        Speed(64),
+        Speed(80),
         Orientation(Orientation::SOUTH),
         Collider(-8 / 2, -8 / 2, 8, 8)
     );
+
+    world.appendChildren(playerEnt, {
+        world.newEnt(
+            PlayerAttractor(),
+            Transform(
+                position,
+                0,
+                glm::vec2(1, 1)
+            ),
+            Velocity(),
+            Trigger(-64 / 2, -64 / 2, 64, 64)
+        )
+    });
+
+    return playerEnt;
 }

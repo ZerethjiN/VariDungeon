@@ -4,3 +4,4 @@
 
 class Player {};
 class PlayerWeapon {};
+class PlayerAttractor {};

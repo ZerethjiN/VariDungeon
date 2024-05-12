@@ -193,6 +193,10 @@ public:
         layer(newlayer) {
     }
 
+    operator int() const {
+        return layer;
+    }
+
 public:
     int layer;
 };

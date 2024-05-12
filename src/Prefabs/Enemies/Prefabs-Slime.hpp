@@ -16,6 +16,8 @@ Ent instantiateSlime(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
+        ZIndex(0),
+        Life(2),
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),
