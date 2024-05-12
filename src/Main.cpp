@@ -1,5 +1,4 @@
 #define DISPLAY_FPS
-#define ZER_NO_MULTITHREADING
 #define GLFW_INCLUDE_VULKAN
 #include <unordered_map>
 #include <any>
@@ -30,6 +29,8 @@ void pollEventsSys(World& world) {
 int main() {
     try {
         ZerEngine()
+            .useMultithreading(false)
+            .setFixedTimeStep(0.02f)
             .addRes<PipelineManager>()
             .addRes<FrameBufferManager>()
             .addRes<TextureManager>()
@@ -38,40 +39,22 @@ int main() {
             .addRes<LayerBasedCollisions>()
             .addRes<InGameView>(glm::vec4(0, 0, 800 / 4, 600 / 4))
             .addRes<UIView>(glm::vec4(0, 0, 800 / 4, 600 / 4))
-            .addRes<Time>()
             .addStartSys(startSys)
-            .addMainSys(updateTimeSys)
-            .addMainCondSys(
-                [](World& world) -> bool {
-                    auto [time] = world.getRes<const Time>();
-                    return time.isTimeStep();
-                },
+            .addMainFixedSys(
                 pollEventsSys
             )
-            .addMainCondSys(
-                [](World& world) -> bool {
-                    auto [time] = world.getRes<const Time>();
-                    return time.isTimeStep();
-                },
+            .addMainFixedSys(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 enemyHitSys,
                 invincibleFramesSys, knockbackSys, damageTextSys,
                 slimeMovementSys
             )
-            .addMainCondSys(
-                [](World& world) -> bool {
-                    auto [time] = world.getRes<const Time>();
-                    return time.isTimeStep();
-                },
+            .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,
                 lifeTimeSys,
                 updatePositionSys, updateVelocitySys, collisionSys
             )
-            .addLateCondSys(
-                [](World& world) -> bool {
-                    auto [time] = world.getRes<const Time>();
-                    return time.isTimeStep();
-                },
+            .addLateFixedSys(
                 spriteCreatorSys,
                 uiCreatorSys,
                 textCreatorSys,

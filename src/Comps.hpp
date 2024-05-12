@@ -1,6 +1,7 @@
 #pragma once
 
 // Common
+#include "Comps/Common/Comps-CombatParticleGenerator.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
 #include "Comps/Common/Comps-Knockback.hpp"
 #include "Comps/Common/Comps-InvincibleFrame.hpp"

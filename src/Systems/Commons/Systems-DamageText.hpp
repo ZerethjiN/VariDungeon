@@ -14,9 +14,7 @@ void damageTextSys(World& world) {
     for (auto [textEnt, velocity, transform, text]: texts) {
         velocity.vel += text.direction * text.speed * time.fixedDelta();
 
-        if (time.getTimeScale() != 0) {
-            transform.scale(glm::vec2((text.maxScale - 0.5) * text.duration, (text.maxScale - 0.5) * text.duration));
-        }
+        transform.scale(glm::vec2(text.maxScale, text.maxScale) / text.duration * time.fixedDelta());
 
         if (text.canDestroyText(time.fixedDelta())) {
             world.destroy(textEnt);
