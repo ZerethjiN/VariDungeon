@@ -111,8 +111,8 @@ void testScene(World& world) {
     // Enemies:
     instantiateSlime(world, glm::vec2(0, 0));
     instantiateSlime(world, glm::vec2(0, 0));
-    instantiateSlime(world, glm::vec2(0, 0));
-    instantiateSlime(world, glm::vec2(0, 0));
+    instantiateInsect(world, glm::vec2(0, 0));
+    instantiateAnubis(world, glm::vec2(0, 0));
 
     // Breakables:
     instantiateRock(world, glm::vec2(-48, -48));

@@ -18,6 +18,14 @@ public:
         orientation(newOrientation) {
     }
 
+    operator const glm::vec2&() const noexcept {
+        return orientation;
+    }
+
+    operator glm::vec2&() noexcept {
+        return orientation;
+    }
+
     [[nodiscard]] bool operator ==(const glm::vec2& oth) const noexcept {
         return orientation == oth;
     }

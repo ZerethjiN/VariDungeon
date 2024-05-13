@@ -8,6 +8,7 @@
 
 void enemyDropLootsSys(World& world) {
     auto loots = world.view<EnemyDropLoots, const Transform>();
+    auto players = world.view(with<Player>);
 
     auto [time] = world.getRes<const Time>();
 

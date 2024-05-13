@@ -6,33 +6,34 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void breakableNoHitSys(World& world) {
-    auto breakables = world.view<Animation>(with<Breakable>, without<InvincibleFrame>);
-
-    for (auto [_, animation]: breakables) {
-        animation.play("NoHit");
-    }
-}
-
 void breakableOnHitSys(World& world) {
-    auto breakables = world.view<Animation>(with<Breakable, InvincibleFrame>);
+    auto breakables = world.view<Animation, OnBreakableHit, const Breakable>();
 
-    for (auto [_, animation]: breakables) {
-        animation.play("Hit");
+    auto [time] = world.getRes<const Time>();
+
+    for (auto [breakableEnt, animation, onBreakableHit, breakable]: breakables) {
+        if (onBreakableHit.canStop(time.fixedDelta())) {
+            animation.play(breakable.getNoHitAnimName());
+            world.del<OnBreakableHit>(breakableEnt);
+        }
     }
 }
 
 void breakableHitSys(World& world) {
-    auto breakables = world.view<Transform, Life, const OnCollisionEnter, const Transform>(with<Breakable>, without<InvincibleFrame>);
+    auto breakables = world.view<Transform, Life, Animation, const OnCollisionEnter, const Transform, const Breakable>(without<OnBreakableHit, InvincibleFrame>);
 
-    for (auto [breakableEnt, transform, life, collisions, breakableTransform]: breakables) {
+    for (auto [breakableEnt, transform, life, animation, collisions, breakableTransform, breakable]: breakables) {
         for (auto othEnt: collisions) {
             if (world.has<PlayerWeapon>(othEnt)) {
                 // Damage:
                 life -= 1;
 
                 // Visual Effect:
-                world.add(breakableEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
+                animation.play(breakable.getOnHitAnimName());
+                world.add(breakableEnt,
+                    InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)),
+                    OnBreakableHit(0.25f)
+                );
                 transform.scale(-0.2f, -0.2f);
 
                 // IsDead:

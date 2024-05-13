@@ -7,7 +7,7 @@
 
 Ent instantiateJar(World& world, const glm::vec2& position) {
     return world.newEnt(
-        Breakable(),
+        Breakable("NoHit", "Hit"),
         Life(1),
         SpriteCreator(jarUV),
         Animation(jarAnim, "NoHit"),

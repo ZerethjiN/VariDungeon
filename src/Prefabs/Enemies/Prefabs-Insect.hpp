@@ -5,12 +5,18 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateSlime(World& world, const glm::vec2& position) {
+Ent instantiateInsect(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
-        Slime(0.5f),
-        SpriteCreator(slimeUV),
-        Animation(slimeAnim, "MoveDown"),
+        Insect(
+            /*MoveDuration:*/ 1.5f,
+            /*DirectionCooldown:*/ 0.5f,
+            /*AttackDuration:*/ 2.5f,
+            /*AttackSpeedCoeff:*/ 2.f
+        ),
+        IsInsectMove(1.5f, 0.5f),
+        SpriteCreator(insectUV),
+        Animation(insectAnim, "MoveDown"),
         Transform(
             position,
             0,

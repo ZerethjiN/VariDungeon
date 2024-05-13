@@ -46,11 +46,12 @@ int main() {
             .addMainFixedSys(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 playerLootSys, playerLootAttractSys,
-                breakableHitSys, breakableNoHitSys, breakableOnHitSys,
+                breakableHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
-                slimeMovementSys
+                slimeMoveSys, insectMoveSys, insectAttackSys, anubisMoveSys, anubisAttackSys,
+                fireBallAttackSys
             )
             .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,

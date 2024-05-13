@@ -6,43 +6,48 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void slimeMovementSys(World& world) {
-    auto slimes = world.view<Velocity, Animation, const Speed, const Transform>(with<Slime>);
-    auto players = world.view<const Transform>(with<Player>);
+void slimeMoveSys(World& world) {
+    auto slimes = world.view<Velocity, Animation, Orientation, Slime, const Speed>();
 
     auto [time] = world.getRes<const Time>();
 
-    for (auto [slimeEnt, velocity, animation, speed, slimeTransform]: slimes) {
-        for (auto [_, playerTransform]: players) {
-            auto newdirection = glm::normalize(playerTransform.getPosition() - slimeTransform.getPosition());
-            velocity += newdirection * speed.speed * time.fixedDelta();
-            if (fabs(newdirection.x) > fabs(newdirection.y)) {
-                if (newdirection.x > 0) {
-                    if (world.has<InvincibleFrame>(slimeEnt)) {
-                        animation.play("HitMoveRight");
-                    } else {
-                        animation.play("MoveRight");
-                    }
+    for (auto [slimeEnt, velocity, animation, orientation, slime, speed]: slimes) {
+        if (slime.canChangeDirection(time.fixedDelta())) {
+            switch (rand() % 4) {
+                case 0: orientation = Orientation::NORTH; break;
+                case 1: orientation = Orientation::SOUTH; break;
+                case 2: orientation = Orientation::EAST; break;
+                case 3: orientation = Orientation::WEST; break;
+            }
+        }
+
+        velocity += orientation.orientation * speed.speed * time.fixedDelta();
+        if (fabs(orientation.x) > fabs(orientation.y)) {
+            if (orientation.x > 0) {
+                if (world.has<InvincibleFrame>(slimeEnt)) {
+                    animation.play("HitMoveRight");
                 } else {
-                    if (world.has<InvincibleFrame>(slimeEnt)) {
-                        animation.play("HitMoveLeft");
-                    } else {
-                        animation.play("MoveLeft");
-                    }
+                    animation.play("MoveRight");
                 }
             } else {
-                if (newdirection.y > 0) {
-                    if (world.has<InvincibleFrame>(slimeEnt)) {
-                        animation.play("HitMoveDown");
-                    } else {
-                        animation.play("MoveDown");
-                    }
+                if (world.has<InvincibleFrame>(slimeEnt)) {
+                    animation.play("HitMoveLeft");
                 } else {
-                    if (world.has<InvincibleFrame>(slimeEnt)) {
-                        animation.play("HitMoveUp");
-                    } else {
-                        animation.play("MoveUp");
-                    }
+                    animation.play("MoveLeft");
+                }
+            }
+        } else {
+            if (orientation.y > 0) {
+                if (world.has<InvincibleFrame>(slimeEnt)) {
+                    animation.play("HitMoveDown");
+                } else {
+                    animation.play("MoveDown");
+                }
+            } else {
+                if (world.has<InvincibleFrame>(slimeEnt)) {
+                    animation.play("HitMoveUp");
+                } else {
+                    animation.play("MoveUp");
                 }
             }
         }

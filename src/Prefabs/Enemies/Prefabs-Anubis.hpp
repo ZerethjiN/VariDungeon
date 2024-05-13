@@ -5,19 +5,20 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateSlime(World& world, const glm::vec2& position) {
+Ent instantiateAnubis(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
-        Slime(0.5f),
-        SpriteCreator(slimeUV),
-        Animation(slimeAnim, "MoveDown"),
+        Anubis(1.5f, 1.0f),
+        IsAnubisMove(1.5f),
+        SpriteCreator(anubisUV),
+        Animation(anubisAnim, "MoveDown"),
         Transform(
             position,
             0,
             glm::vec2(1, 1)
         ),
         ZIndex(0),
-        Life(2),
+        Life(3),
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),

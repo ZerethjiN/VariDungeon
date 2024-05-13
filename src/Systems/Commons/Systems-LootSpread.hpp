@@ -8,17 +8,23 @@
 
 void lootSpreadSys(World& world) {
     auto loots = world.view<Velocity, LootSpread, const Collider>();
+    auto players = world.view(with<Player>);
 
     auto [time] = world.getRes<const Time>();
 
     for (auto [lootEnt, velocity, lootSpread, collider]: loots) {
         if (lootSpread.canStopSpreading(time.fixedDelta())) {
+            Ent newPlayerEnt = 0;
+            for (auto [playerEnt]: players) {
+                newPlayerEnt = playerEnt;
+            }
             world.del<LootSpread, Collider>(lootEnt);
             world.add(lootEnt,
-                Lootable(),
+                // Lootable(),
                 Trigger(collider.col),
-                InnerMovement(0.5f, 4.f),
-                InnerMovementUp()
+                // InnerMovement(0.5f, 4.f),
+                // InnerMovementUp()
+                LootAttract(128.f, newPlayerEnt)
             );
         }
 

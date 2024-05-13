@@ -1,5 +1,8 @@
 #pragma once
 
+// Attacks
+#include "Systems/Attacks/Systems-FireBall.hpp"
+
 // Breakables
 #include "Systems/Breakables/Systems-BreakableHit.hpp"
 
@@ -15,8 +18,10 @@
 #include "Systems/Commons/Systems-LootSpread.hpp"
 
 // Enemies
+#include "Systems/Enemies/Systems-Anubis.hpp"
 #include "Systems/Enemies/Systems-EnemyDropLoots.hpp"
 #include "Systems/Enemies/Systems-EnemyHit.hpp"
+#include "Systems/Enemies/Systems-Insect.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 
 // Players

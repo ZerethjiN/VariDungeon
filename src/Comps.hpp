@@ -1,5 +1,8 @@
 #pragma once
 
+// Attacks
+#include "Comps/Attacks/Comps-FireBall.hpp"
+
 // Breakables
 #include "Comps/Breakables/Comps-Breakable.hpp"
 
@@ -16,8 +19,10 @@
 #include "Comps/Common/Comps-Orientation.hpp"
 
 // Enemies
+#include "Comps/Enemies/Comps-Anubis.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"
 #include "Comps/Enemies/Comps-EnemyDropLoots.hpp"
+#include "Comps/Enemies/Comps-Insect.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
 
 // Player
