@@ -41,6 +41,7 @@ void testScene(World& world) {
         )
     });
 
+    // Background:
     world.newEnt(
         TileMapCreator("Textures/TileMapDesert.png", {
             tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
@@ -60,50 +61,62 @@ void testScene(World& world) {
         )
     );
 
+    // Wall Collisions:
     world.newEnt(
         Transform(
-            glm::vec2(0, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+            glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
             glm::vec2(1, 1)
         ),
-        Collider(-16 / 2, -16 / 2, 160, 16)
+        Collider(-16 / 2, -32 / 2, 160, 32)
     );
 
     world.newEnt(
         Transform(
-            glm::vec2(0, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+            glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
             glm::vec2(1, 1)
         ),
-        Collider(-16 / 2, -16 / 2, 16, 128)
+        Collider(-32 / 2, -16 / 2, 32, 128)
     );
 
     world.newEnt(
         Transform(
-            glm::vec2(16 * 9, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+            glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
             glm::vec2(1, 1)
         ),
-        Collider(-16 / 2, -16 / 2, 16, 128)
+        Collider(-32 / 2, -16 / 2, 32, 128)
     );
 
     world.newEnt(
         Transform(
-            glm::vec2(0, 16 * 7) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+            glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
             glm::vec2(1, 1)
         ),
-        Collider(-16 / 2, -16 / 2, 160, 16)
+        Collider(-16 / 2, -32 / 2, 160, 32)
     );
 
+    // Decors:
+    instantiateMiniTorch(world, glm::vec2(-32, -64), 0);
+    instantiateMiniTorch(world, glm::vec2(16, -64), 0);
+    instantiateMiniTorch(world, glm::vec2(-32, 48), 180);
+    instantiateMiniTorch(world, glm::vec2(16, 48), 180);
+    instantiateMiniTorch(world, glm::vec2(-80, -32), 270);
+    instantiateMiniTorch(world, glm::vec2(-80, 16), 270);
+    instantiateMiniTorch(world, glm::vec2(64, -32), 90);
+    instantiateMiniTorch(world, glm::vec2(64, 16), 90);
+
+    // Enemies:
     instantiateSlime(world, glm::vec2(0, 0));
     instantiateSlime(world, glm::vec2(0, 0));
     instantiateSlime(world, glm::vec2(0, 0));
     instantiateSlime(world, glm::vec2(0, 0));
 
-    instantiateJar(world, glm::vec2(-48, -48));
+    // Breakables:
+    instantiateRock(world, glm::vec2(-48, -48));
     instantiateJar(world, glm::vec2(-64, -48));
-    instantiateJar(world, glm::vec2(-64, -32));
-
+    instantiateRock(world, glm::vec2(-64, -32));
     instantiateJar(world, glm::vec2(48, 32));
 }

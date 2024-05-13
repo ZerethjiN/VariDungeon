@@ -22,13 +22,13 @@ void enemyHitSys(World& world) {
 
                     if (life.isDead()) {
                         world.add(enemyEnt,
-                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 384.f),
-                            CombatParticleGenerator(0.15f, 4, 2)
+                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 256.f),
+                            CombatParticleGenerator(0.15f, 3, 2)
                         );
                     } else {
                         world.add(enemyEnt,
-                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 192.f),
-                            CombatParticleGenerator(0.15f, 3, 2)
+                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 128.f),
+                            CombatParticleGenerator(0.15f, 2, 2)
                         );
                     }
                     instantiateSwordImpact(world, othTransform.getPosition(), zindex);
@@ -68,6 +68,8 @@ void enemyHitSys(World& world) {
                 } else {
                     appliedCameraShake(world, 2.0f, 64.f, 2);
                 }
+
+                break;
             }
         }
     }

@@ -6,11 +6,27 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
+void breakableNoHitSys(World& world) {
+    auto breakables = world.view<Animation>(with<Breakable>, without<InvincibleFrame>);
+
+    for (auto [_, animation]: breakables) {
+        animation.play("NoHit");
+    }
+}
+
+void breakableOnHitSys(World& world) {
+    auto breakables = world.view<Animation>(with<Breakable, InvincibleFrame>);
+
+    for (auto [_, animation]: breakables) {
+        animation.play("Hit");
+    }
+}
+
 void breakableHitSys(World& world) {
     auto breakables = world.view<Transform, Life, const OnCollisionEnter, const Transform>(with<Breakable>, without<InvincibleFrame>);
 
     for (auto [breakableEnt, transform, life, collisions, breakableTransform]: breakables) {
-        for (const auto& othEnt: collisions) {
+        for (auto othEnt: collisions) {
             if (world.has<PlayerWeapon>(othEnt)) {
                 // Damage:
                 life -= 1;
@@ -34,6 +50,8 @@ void breakableHitSys(World& world) {
                 } else {
                     appliedCameraShake(world, 2.0f, 64.f, 2);
                 }
+
+                break;
             }
         }
     }

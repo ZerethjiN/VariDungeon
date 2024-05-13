@@ -49,8 +49,22 @@ public:
         hashMapUpdated = true;
     }
 
+    void setPositionGlobal(const glm::vec2& newPosition) noexcept {
+        position = newPosition;
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
     void setPosition(float x, float y) noexcept {
         diffPosition += glm::vec2(x, y) - position;
+        position = glm::vec2(x, y);
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
+    void setPositionGlobal(float x, float y) noexcept {
         position = glm::vec2(x, y);
         needUpdatePosition = true;
         isDirty = true;
@@ -65,8 +79,22 @@ public:
         hashMapUpdated = true;
     }
 
+    void moveGlobal(const glm::vec2& newOffset) noexcept {
+        position += newOffset;
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
     void moveX(float x) noexcept {
         diffPosition += glm::vec2(x, 0);
+        position.x += x;
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
+    void moveXGlobal(float x) noexcept {
         position.x += x;
         needUpdatePosition = true;
         isDirty = true;
@@ -81,8 +109,22 @@ public:
         hashMapUpdated = true;
     }
 
+    void moveYGlobal(float y) noexcept {
+        position.y += y;
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
     void move(float x, float y) noexcept {
         diffPosition += glm::vec2(x, y);
+        position += glm::vec2(x, y);
+        needUpdatePosition = true;
+        isDirty = true;
+        hashMapUpdated = true;
+    }
+
+    void moveGlobal(float x, float y) noexcept {
         position += glm::vec2(x, y);
         needUpdatePosition = true;
         isDirty = true;

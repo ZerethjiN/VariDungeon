@@ -2,6 +2,10 @@
 
 // Breakables
 #include "Prefabs/Breakables/Prefabs-Jar.hpp"
+#include "Prefabs/Breakables/Prefabs-Rock.hpp"
+
+// Decors
+#include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
 
 // Enemies
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"

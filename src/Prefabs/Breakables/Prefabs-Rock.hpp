@@ -5,12 +5,12 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateJar(World& world, const glm::vec2& position) {
+Ent instantiateRock(World& world, const glm::vec2& position) {
     return world.newEnt(
         Breakable(),
-        Life(1),
-        SpriteCreator(jarUV),
-        Animation(jarAnim, "NoHit"),
+        Life(2),
+        SpriteCreator(rockUV),
+        Animation(rockAnim, "NoHit"),
         Transform(
             position,
             0,

@@ -7,12 +7,12 @@
 #include <Images.hpp>
 
 void innerMovementDownSys(World& world) {
-    auto objs = world.view<InnerMovement, Velocity>(with<InnerMovementDown>);
+    auto objs = world.view<InnerMovement, Transform>(with<InnerMovementDown>);
 
     auto [time] = world.getRes<const Time>();
 
-    for (auto [ent, innerMovement, velocity]: objs) {
-        velocity.vel.y += innerMovement.getSpeed() * time.fixedDelta();
+    for (auto [ent, innerMovement, transform]: objs) {
+        transform.moveYGlobal(innerMovement.getSpeed() * time.fixedDelta());
 
         if (innerMovement.canChangeDirection(time.fixedDelta())) {
             world.del<InnerMovementDown>(ent);
@@ -22,12 +22,12 @@ void innerMovementDownSys(World& world) {
 }
 
 void innerMovementUpSys(World& world) {
-    auto objs = world.view<InnerMovement, Velocity>(with<InnerMovementUp>);
+    auto objs = world.view<InnerMovement, Transform>(with<InnerMovementUp>);
 
     auto [time] = world.getRes<const Time>();
 
-    for (auto [ent, innerMovement, velocity]: objs) {
-        velocity.vel.y -= innerMovement.getSpeed() * time.fixedDelta();
+    for (auto [ent, innerMovement, transform]: objs) {
+        transform.moveYGlobal(-innerMovement.getSpeed() * time.fixedDelta());
 
         if (innerMovement.canChangeDirection(time.fixedDelta())) {
             world.del<InnerMovementUp>(ent);

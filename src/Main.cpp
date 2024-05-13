@@ -46,7 +46,7 @@ int main() {
             .addMainFixedSys(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 playerLootSys, playerLootAttractSys,
-                breakableHitSys,
+                breakableHitSys, breakableNoHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
