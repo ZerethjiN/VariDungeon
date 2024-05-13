@@ -18,6 +18,9 @@
 #include "Comps/Common/Comps-LootSpread.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
 
+// Decors
+#include "Comps/Decors/Comps-Wall.hpp"
+
 // Enemies
 #include "Comps/Enemies/Comps-Anubis.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"

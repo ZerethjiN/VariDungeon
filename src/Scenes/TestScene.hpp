@@ -63,6 +63,7 @@ void testScene(World& world) {
 
     // Wall Collisions:
     world.newEnt(
+        Wall(),
         Transform(
             glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
@@ -72,6 +73,7 @@ void testScene(World& world) {
     );
 
     world.newEnt(
+        Wall(),
         Transform(
             glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
@@ -81,6 +83,7 @@ void testScene(World& world) {
     );
 
     world.newEnt(
+        Wall(),
         Transform(
             glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
@@ -90,6 +93,7 @@ void testScene(World& world) {
     );
 
     world.newEnt(
+        Wall(),
         Transform(
             glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
             0,
@@ -116,7 +120,7 @@ void testScene(World& world) {
 
     // Breakables:
     instantiateRock(world, glm::vec2(-48, -48));
-    instantiateJar(world, glm::vec2(-64, -48));
-    instantiateRock(world, glm::vec2(-64, -32));
+    instantiateRock(world, glm::vec2(-64, -48));
+    instantiateJar(world, glm::vec2(-64, -32));
     instantiateJar(world, glm::vec2(48, 32));
 }

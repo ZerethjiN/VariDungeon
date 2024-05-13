@@ -4,7 +4,8 @@
 
 class DeathParticleGenerator {
 public:
-    DeathParticleGenerator(float newDuration, int newNbParticles):
+    DeathParticleGenerator(bool newNeedDestroy, float newDuration, int newNbParticles):
+        needDestroy(newNeedDestroy),
         duration(newDuration),
         curTime(0),
         spawnParticleTime(newDuration / newNbParticles),
@@ -26,11 +27,17 @@ public:
         return false;
     }
 
+    bool getNeedDestroy() const {
+        return needDestroy;
+    }
+
     int getCurNbParticle() const {
         return curNbParticle;
     }
 
 private:
+    const bool needDestroy;
+
     const float duration;
     float curTime;
 

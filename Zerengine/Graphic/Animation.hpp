@@ -16,54 +16,100 @@ public:
         curTimer(newAnimations.anims.at(newAnim).at(curFrame).first),
         curAnimName(newAnim),
         isUnscaled(newIsUnscaled),
+        oneShotAnimationStop(false),
+        reverseMode(false),
         speed(1) {
     }
 
     void update(float delta, Sprite& sprt) {
-        auto curAnimIt = animationAsset.anims.find(curAnimName);
-        if (curAnimIt == animationAsset.anims.end()) {
-            printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
-            return;
-        }
-
-        curTimer += delta * speed;
-
-        auto& animPair = curAnimIt->second.at(curFrame);
-
-        if (curTimer >= animPair.first) {
-            curTimer -= animPair.first;
-            if (curAnimIt->second.size() > curFrame + 1) {
-                curFrame++;
-            } else {
-                curFrame = 0;
+        if (!oneShotAnimationStop) {
+            auto curAnimIt = animationAsset.anims.find(curAnimName);
+            if (curAnimIt == animationAsset.anims.end()) {
+                printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
+                return;
             }
-            const auto& newImageData = curAnimIt->second.at(curFrame).second;
-            sprt.setTextureRect(newImageData);
-            // sprt.sprite.setOrigin(newImageData.spriteRect.z * newImageData.origin.x, newImageData.spriteRect.w * newImageData.origin.y);
+
+            curTimer += delta * speed;
+
+            auto& animPair = curAnimIt->second.at(curFrame);
+
+            if (curTimer >= animPair.first) {
+                curTimer -= animPair.first;
+                if (reverseMode) {
+                    if (curFrame > 0) {
+                        curFrame--;
+                    } else {
+                        curFrame = 0;
+                        reverseMode = false;
+                    }
+                } else {
+                    if (curAnimIt->second.size() > curFrame + 1) {
+                        curFrame++;
+                    } else {
+                        if (curAnimIt->second.getAnimationType() == AnimationType::ONE_SHOT) {
+                            oneShotAnimationStop = true;
+                        } else if (curAnimIt->second.getAnimationType() == AnimationType::BOOMERANG) {
+                            reverseMode = true;
+                            if (curFrame > 0) {
+                                curFrame--;
+                            } else {
+                                curFrame = 0;
+                            }
+                        } else {
+                            curFrame = 0;
+                        }
+                    }
+                }
+                const auto& newImageData = curAnimIt->second.at(curFrame).second;
+                sprt.setTextureRect(newImageData);
+                // sprt.sprite.setOrigin(newImageData.spriteRect.z * newImageData.origin.x, newImageData.spriteRect.w * newImageData.origin.y);
+            }
         }
     }
 
     void update(float delta, UI& ui) {
-        auto curAnimIt = animationAsset.anims.find(curAnimName);
-        if (curAnimIt == animationAsset.anims.end()) {
-            printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
-            return;
-        }
-
-        curTimer += delta * speed;
-
-        auto& animPair = curAnimIt->second.at(curFrame);
-
-        if (curTimer >= animPair.first) {
-            curTimer -= animPair.first;
-            if (curAnimIt->second.size() > curFrame + 1) {
-                curFrame++;
-            } else {
-                curFrame = 0;
+        if (!oneShotAnimationStop) {
+            auto curAnimIt = animationAsset.anims.find(curAnimName);
+            if (curAnimIt == animationAsset.anims.end()) {
+                printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
+                return;
             }
-            const auto& newImageData = curAnimIt->second.at(curFrame).second;
-            ui.setTextureRect(newImageData);
-            // sprt.sprite.setOrigin(newImageData.spriteRect.z * newImageData.origin.x, newImageData.spriteRect.w * newImageData.origin.y);
+
+            curTimer += delta * speed;
+
+            auto& animPair = curAnimIt->second.at(curFrame);
+
+            if (curTimer >= animPair.first) {
+                curTimer -= animPair.first;
+                if (reverseMode) {
+                    if (curFrame > 0) {
+                        curFrame--;
+                    } else {
+                        curFrame = 0;
+                        reverseMode = false;
+                    }
+                } else {
+                    if (curAnimIt->second.size() > curFrame + 1) {
+                        curFrame++;
+                    } else {
+                        if (curAnimIt->second.getAnimationType() == AnimationType::ONE_SHOT) {
+                            oneShotAnimationStop = true;
+                        } else if (curAnimIt->second.getAnimationType() == AnimationType::BOOMERANG) {
+                            reverseMode = true;
+                            if (curFrame > 0) {
+                                curFrame--;
+                            } else {
+                                curFrame = 0;
+                            }
+                        } else {
+                            curFrame = 0;
+                        }
+                    }
+                }
+                const auto& newImageData = curAnimIt->second.at(curFrame).second;
+                ui.setTextureRect(newImageData);
+                // sprt.sprite.setOrigin(newImageData.spriteRect.z * newImageData.origin.x, newImageData.spriteRect.w * newImageData.origin.y);
+            }
         }
     }
 
@@ -73,6 +119,8 @@ public:
                 curAnimName = newAnim;
                 curFrame = newAnimIt->second.size() - 1;
                 curTimer = newAnimIt->second.at(curFrame).first;
+                oneShotAnimationStop = false;
+                reverseMode = false;
             } else {
                 printf("L'animation %s n'existe pas\n", newAnim.c_str());
             }
@@ -89,6 +137,8 @@ private:
     float curTimer;
     std::string curAnimName;
     AnimType isUnscaled;
+    bool oneShotAnimationStop;
+    bool reverseMode;
 
 public:
     float speed;

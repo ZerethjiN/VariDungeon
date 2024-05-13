@@ -189,12 +189,17 @@ public:
 
 class ZIndex {
 public:
-    ZIndex(int newlayer):
+    constexpr ZIndex(int newlayer) noexcept:
         layer(newlayer) {
     }
 
-    operator int() const {
+    [[nodiscard]] constexpr operator int() const noexcept {
         return layer;
+    }
+
+    constexpr ZIndex& operator=(int newValue) noexcept {
+        layer = newValue;
+        return *this;
     }
 
 public:

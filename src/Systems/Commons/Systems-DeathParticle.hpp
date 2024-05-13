@@ -13,7 +13,11 @@ void deathParticleSys(World& world) {
 
     for (auto [generatorEnt, generator, transform, zindex]: generators) {
         if (generator.canStop(time.fixedDelta())) {
-            world.destroy(generatorEnt);
+            if (generator.getNeedDestroy()) {
+                world.destroy(generatorEnt);
+            } else {
+                world.del<DeathParticleGenerator>(generatorEnt);
+            }
         }
 
         if (generator.canSpawnParticle(time.fixedDelta())) {

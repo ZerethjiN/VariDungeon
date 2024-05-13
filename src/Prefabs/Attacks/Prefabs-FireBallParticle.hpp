@@ -17,6 +17,7 @@ Ent instantiateFireBallParticle(World& world, const glm::vec2& position, const g
         ),
         LifeTime(1.5f),
         Velocity(),
-        Speed(speed)
+        Speed(speed),
+        Trigger(-12 / 2, -12 / 2, 12, 12)
     );
 }

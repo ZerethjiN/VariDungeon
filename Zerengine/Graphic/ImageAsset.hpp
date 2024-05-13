@@ -34,16 +34,56 @@ public:
     const std::vector<ImageData> assets;
 };
 
+enum AnimationType: uint8_t {
+    LOOP,
+    BOOMERANG,
+    ONE_SHOT
+};
+
+class AnimationData final {
+public:
+    AnimationData(const std::initializer_list<std::pair<float, ImageData>>& newAnimations, AnimationType newType = AnimationType::LOOP) noexcept:
+        animations(newAnimations),
+        type(newType) {
+        float newTotalDuration = 0;
+        for (const auto& pair: newAnimations) {
+            newTotalDuration += pair.first;
+        }
+        totalDuration = newTotalDuration;
+    }
+
+    [[nodiscard]] constexpr std::size_t size() const noexcept {
+        return animations.size();
+    }
+
+    [[nodiscard]] constexpr const std::pair<float, ImageData>& at(size_t index) const noexcept {
+        return animations.at(index);
+    }
+
+    [[nodiscard]] constexpr AnimationType getAnimationType() const noexcept {
+        return type;
+    }
+
+    [[nodiscard]] constexpr float getTotalDuration() const noexcept {
+        return totalDuration;
+    }
+
+private:
+    const std::vector<std::pair<float, ImageData>> animations;
+    const AnimationType type;
+    float totalDuration;
+};
+
 class AnimationAsset final {
 public:
-    [[nodiscard]] AnimationAsset(const std::initializer_list<std::unordered_map<std::string, const std::vector<std::pair<float, ImageData>>>::value_type>& newAnims) noexcept:
+    [[nodiscard]] AnimationAsset(const std::initializer_list<std::unordered_map<std::string, const AnimationData>::value_type>& newAnims) noexcept:
         anims(newAnims) {
     }
 
-    [[nodiscard]] constexpr const std::vector<std::pair<float, ImageData>>& operator [](const std::string& name) const noexcept {
+    [[nodiscard]] constexpr const AnimationData& operator [](const std::string& name) const noexcept {
         return anims.at(name);
     }
 
 public:
-    const std::unordered_map<std::string, const std::vector<std::pair<float, ImageData>>> anims;
+    const std::unordered_map<std::string, const AnimationData> anims;
 };

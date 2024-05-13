@@ -58,7 +58,7 @@ void enemyHitSys(World& world) {
                     appliedCameraShake(world, 2.0f, 128.f, 2);
 
                     world.add(enemyEnt,
-                        DeathParticleGenerator(0.2, 2),
+                        DeathParticleGenerator(true, 0.2, 2),
                         EnemyDropLoots(
                             {LootType::LOOT_TYPE_XP, LootType::LOOT_TYPE_XP, LootType::LOOT_TYPE_XP},
                             0.2,

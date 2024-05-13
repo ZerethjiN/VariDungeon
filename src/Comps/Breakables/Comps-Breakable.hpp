@@ -4,9 +4,10 @@
 
 class Breakable {
 public:
-    Breakable(const std::string& newNoHitAnimName, const std::string& newOnHitAnimName):
+    Breakable(const std::string& newNoHitAnimName, const std::string& newOnHitAnimName, const std::string& newDestroyedAnimName):
         noHitAnimName(newNoHitAnimName),
-        onHitAnimName(newOnHitAnimName) {
+        onHitAnimName(newOnHitAnimName),
+        destroyedAnimName(newDestroyedAnimName) {
     }
 
     const std::string& getNoHitAnimName() const {
@@ -17,9 +18,14 @@ public:
         return onHitAnimName;
     }
 
+    const std::string& getDestroyedAnimName() const {
+        return destroyedAnimName;
+    }
+
 private:
     const std::string noHitAnimName;
     const std::string onHitAnimName;
+    const std::string destroyedAnimName;
 };
 
 class OnBreakableHit {
