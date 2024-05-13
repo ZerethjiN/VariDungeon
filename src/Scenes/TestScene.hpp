@@ -22,7 +22,7 @@ void testScene(World& world) {
 
     auto cameraOrigin = world.newEnt(
         Transform(
-            glm::vec2(0, 0),
+            glm::vec2(-8, 0),
             0,
             glm::vec2(1, 1)
         )
@@ -32,7 +32,7 @@ void testScene(World& world) {
         // Camera
         world.newEnt(
             Transform(
-                glm::vec2(0, 0),
+                glm::vec2(-8, 0),
                 0,
                 glm::vec2(1, 1)
             ),
@@ -46,11 +46,11 @@ void testScene(World& world) {
         TileMapCreator("Textures/TileMapDesert.png", {
             tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
             tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[ 11],
-            tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4], tileMapDesertUV[ 11],
-            tileMapDesertUV[ 13], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 11],
-            tileMapDesertUV[ 13], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[ 11],
-            tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 11],
-            tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+            tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+            tileMapDesertUV[ 13], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+            tileMapDesertUV[ 13], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[ 11],
+            tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+            tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[ 11],
             tileMapDesertUV[ 16], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 17],
         }, glm::uvec2(10, 8), glm::uvec2(16, 16)),
         ZIndex(0),
@@ -112,6 +112,8 @@ void testScene(World& world) {
     instantiateMiniTorch(world, glm::vec2(64, -32), 90);
     instantiateMiniTorch(world, glm::vec2(64, 16), 90);
 
+    instantiatePylon(world, glm::vec2(48, -40));
+
     // Enemies:
     instantiateSlime(world, glm::vec2(0, 0));
     instantiateSlime(world, glm::vec2(0, 0));
@@ -123,4 +125,5 @@ void testScene(World& world) {
     instantiateRock(world, glm::vec2(-64, -48));
     instantiateJar(world, glm::vec2(-64, -32));
     instantiateJar(world, glm::vec2(48, 32));
+    instantiateWoodenBox(world, glm::vec2(32, -48));
 }

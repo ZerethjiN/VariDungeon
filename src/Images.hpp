@@ -9,9 +9,11 @@
 // Breakables
 #include "Images/Breakables/Images-Jar.hpp"
 #include "Images/Breakables/Images-Rock.hpp"
+#include "Images/Breakables/Images-WoodenBox.hpp"
 
 // Decors
 #include "Images/Decors/Images-MiniTorch.hpp"
+#include "Images/Decors/Images-Pylon.hpp"
 
 // Enemies
 #include "Images/Enemies/Images-Anubis.hpp"

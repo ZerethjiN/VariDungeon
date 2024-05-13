@@ -6,9 +6,11 @@
 // Breakables
 #include "Prefabs/Breakables/Prefabs-Jar.hpp"
 #include "Prefabs/Breakables/Prefabs-Rock.hpp"
+#include "Prefabs/Breakables/Prefabs-WoodenBox.hpp"
 
 // Decors
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
+#include "Prefabs/Decors/Prefabs-Pylon.hpp"
 
 // Enemies
 #include "Prefabs/Enemies/Prefabs-Anubis.hpp"

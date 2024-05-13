@@ -12,6 +12,13 @@ void cameraSys(World& world) {
     auto [inGameView] = world.getRes<InGameView>();
 
     for (auto [_, trans]: cameras) {
+        const auto& windowSize = vulkanEngine.window.getSize();
+
+        if (160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)) > 160.f) {
+            inGameView.setSize(160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)), 144.f);
+        } else {
+            inGameView.setSize(160.f, 144.f * (static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x)));
+        }
         inGameView.setCenter(trans.getPosition());
     }
 }

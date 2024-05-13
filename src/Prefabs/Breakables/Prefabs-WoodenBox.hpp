@@ -5,12 +5,12 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateRock(World& world, const glm::vec2& position) {
+Ent instantiateWoodenBox(World& world, const glm::vec2& position) {
     return world.newEnt(
         Breakable("NoHit", "Hit", "Destroyed"),
         Life(1),
-        SpriteCreator(rockUV),
-        Animation(rockAnim, "NoHit"),
+        SpriteCreator(woodenBoxUV),
+        Animation(woodenBoxAnim, "NoHit"),
         Transform(
             position,
             0,

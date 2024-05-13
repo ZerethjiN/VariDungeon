@@ -37,8 +37,8 @@ int main() {
             .addRes<FontManager>()
             .addRes<SpatialHashMap>()
             .addRes<LayerBasedCollisions>()
-            .addRes<InGameView>(glm::vec4(0, 0, 800 / 4, 600 / 4))
-            .addRes<UIView>(glm::vec4(0, 0, 800 / 4, 600 / 4))
+            .addRes<InGameView>(glm::vec4(0, 0, 160, 144))
+            .addRes<UIView>(glm::vec4(0, 0, 160, 144))
             .addStartSys(startSys)
             .addMainFixedSys(
                 pollEventsSys
