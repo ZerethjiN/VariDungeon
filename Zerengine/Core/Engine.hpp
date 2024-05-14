@@ -191,7 +191,7 @@ private:
     }
 
     [[nodiscard]] constexpr auto&& get(this auto&& self, const Ent ent) noexcept {
-        return self.comps.at(ent);
+        return std::move(self).comps.at(ent);
     }
 
     constexpr void copy(const Ent ent, const CompPool& oth) noexcept {

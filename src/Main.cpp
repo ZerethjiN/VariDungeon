@@ -51,6 +51,7 @@ int main() {
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 slimeMoveSys, insectMoveSys, insectAttackSys, anubisMoveSys, anubisAttackSys,
+                batMoveSys, batAttackSys,
                 fireBallAttackSys, fireBallHitSys
             )
             .addMainFixedSys(

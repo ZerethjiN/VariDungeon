@@ -23,6 +23,7 @@
 
 // Enemies
 #include "Comps/Enemies/Comps-Anubis.hpp"
+#include "Comps/Enemies/Comps-Bat.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"
 #include "Comps/Enemies/Comps-EnemyDropLoots.hpp"
 #include "Comps/Enemies/Comps-Insect.hpp"

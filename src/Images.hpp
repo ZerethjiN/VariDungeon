@@ -1,6 +1,7 @@
 #pragma once
 
 // Attacks
+#include "Images/Attacks/Images-BatAttackParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
 
 // Backgrounds
@@ -17,7 +18,9 @@
 
 // Enemies
 #include "Images/Enemies/Images-Anubis.hpp"
+#include "Images/Enemies/Images-Bat.hpp"
 #include "Images/Enemies/Images-Insect.hpp"
+#include "Images/Enemies/Images-Mummy.hpp"
 #include "Images/Enemies/Images-Slime.hpp"
 
 // Particles
