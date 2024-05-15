@@ -13,6 +13,7 @@
 #include "Images/Breakables/Images-WoodenBox.hpp"
 
 // Decors
+#include "Images/Decors/Images-Door.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
 #include "Images/Decors/Images-Pylon.hpp"
 

@@ -11,6 +11,7 @@
 #include "Systems/Commons/Systems-CombatParticleGenerator.hpp"
 #include "Systems/Commons/Systems-DamageText.hpp"
 #include "Systems/Commons/Systems-DeathParticle.hpp"
+#include "Systems/Commons/Systems-Door.hpp"
 #include "Systems/Commons/Systems-DustParticle.hpp"
 #include "Systems/Commons/Systems-InnerMovement.hpp"
 #include "Systems/Commons/Systems-InvincibleFrames.hpp"

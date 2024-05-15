@@ -15,7 +15,7 @@ void cameraSys(World& world) {
         const auto& windowSize = vulkanEngine.window.getSize();
 
         if (160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)) > 160.f) {
-            inGameView.setSize(static_cast<int>(160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y))), 144);
+            inGameView.setSize(static_cast<int>(160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y))), 144.f);
         } else {
             inGameView.setSize(160.f, static_cast<int>(144.f * (static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x))));
         }

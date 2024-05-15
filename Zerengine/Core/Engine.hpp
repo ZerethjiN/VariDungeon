@@ -1627,12 +1627,22 @@ public:
     void setActive(const Ent ent) noexcept {
         if (has<IsInactive>(ent)) {
             del<IsInactive>(ent);
+            if (auto childrenOpt = getChildren(ent)) {
+                for (auto childEnt: childrenOpt.value().get()) {
+                    setActive(childEnt);
+                }
+            }
         }
     }
 
     void setInactive(const Ent ent) noexcept {
         if (!has<IsInactive>(ent)) {
             add(ent, IsInactive());
+            if (auto childrenOpt = getChildren(ent)) {
+                for (auto childEnt: childrenOpt.value().get()) {
+                    setInactive(childEnt);
+                }
+            }
         }
     }
 

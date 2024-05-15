@@ -50,6 +50,7 @@ int main() {
                 enemyHitSys, enemyDropLootsSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
+                doorTriggerSys, openDoorSys, doorCameraMovementSys,
                 slimeMoveSys, insectMoveSys, insectAttackSys, anubisMoveSys, anubisAttackSys,
                 batMoveSys, batAttackSys,
                 fireBallAttackSys, fireBallHitSys

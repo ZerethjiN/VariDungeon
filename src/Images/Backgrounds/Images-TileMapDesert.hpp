@@ -23,4 +23,13 @@ static const ImageAsset tileMapDesertUV("Textures/TileMapDesert.png", {
     {{ 16,  32, 16, 16}, {0.5f, 0.5f}}, // 15: Cobble Wall Corner North East
     {{  0,  48, 16, 16}, {0.5f, 0.5f}}, // 16: Cobble Wall Corner South West
     {{ 16,  48, 16, 16}, {0.5f, 0.5f}}, // 17: Cobble Wall Corner South East
+
+    {{  0,  64, 16, 16}, {0.5f, 0.5f}}, // 18: Door Open Up Left
+    {{ 16,  64, 16, 16}, {0.5f, 0.5f}}, // 19: Door Open Up Right
+    {{  0,  80, 16, 16}, {0.5f, 0.5f}}, // 20: Door Open Down Left
+    {{ 16,  80, 16, 16}, {0.5f, 0.5f}}, // 21: Door Open Down Right
+    {{ 32,  64, 16, 16}, {0.5f, 0.5f}}, // 22: Door Open Left Up
+    {{ 32,  80, 16, 16}, {0.5f, 0.5f}}, // 23: Door Open Left Down
+    {{ 48,  64, 16, 16}, {0.5f, 0.5f}}, // 24: Door Open Right Up
+    {{ 48,  80, 16, 16}, {0.5f, 0.5f}}, // 25: Door Open Right Down
 });
