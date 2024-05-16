@@ -46,7 +46,7 @@ void breakableHitSys(World& world) {
                     world.add(breakableEnt,
                         DustParticleGenerator(false, 0.2, 2),
                         EnemyDropLoots(
-                            {LootType::LOOT_TYPE_XP, LootType::LOOT_TYPE_XP},
+                            {LootType::LOOT_TYPE_COIN, LootType::LOOT_TYPE_COIN},
                             0.2,
                             1
                         )

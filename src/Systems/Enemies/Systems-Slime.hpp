@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void slimeMoveSys(World& world) {
-    auto slimes = world.view<Velocity, Animation, Orientation, Slime, const Speed>();
+    auto slimes = world.view<Velocity, Animation, Orientation, Slime, const Speed>(without<Unmoveable>);
 
     auto [time] = world.getRes<const Time>();
 

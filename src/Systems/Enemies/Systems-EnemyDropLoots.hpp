@@ -27,6 +27,13 @@ void enemyDropLootsSys(World& world) {
                         );
                         break;
                     default:
+                        instantiateCoinParticle(
+                            world,
+                            transform.getPosition(),
+                            0.25f,
+                            glm::normalize(rotateAround(glm::vec2(1, 1), glm::vec2(1, 1), rndSpreadDirection)),
+                            32.f
+                        );
                         break;
                 }
             }

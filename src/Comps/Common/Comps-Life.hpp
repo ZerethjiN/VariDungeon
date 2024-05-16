@@ -17,12 +17,24 @@ public:
         return *this;
     }
 
+    Life& operator +=(float damage) {
+        curNbLife += damage;
+        if (curNbLife > nbLife) {
+            curNbLife = nbLife;
+        }
+        return *this;
+    }
+
     bool isDead() const {
         return curNbLife <= 0;
     }
 
     float getCurNbLife() const {
         return curNbLife;
+    }
+
+    float getNbLife() const {
+        return nbLife;
     }
 
 private:

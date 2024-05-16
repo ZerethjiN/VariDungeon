@@ -93,7 +93,7 @@ void barbarianStopDashSys(World& world) {
 }
 
 void barbarianMovementSys(World& world) {
-    auto players = world.view<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>);
+    auto players = world.view<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>, without<Unmoveable>);
 
     auto [time] = world.getRes<const Time>();
 

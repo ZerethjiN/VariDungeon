@@ -3,7 +3,8 @@
 #include <Zerengine.hpp>
 
 enum LootType: size_t {
-    LOOT_TYPE_XP
+    LOOT_TYPE_XP,
+    LOOT_TYPE_COIN
 };
 
 class EnemyDropLoots {

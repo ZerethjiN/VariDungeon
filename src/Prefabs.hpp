@@ -20,6 +20,13 @@
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
 
+//  GroundItems:
+#include "Prefabs/GroundItems/Prefabs-CoinParticle.hpp"
+#include "Prefabs/GroundItems/Prefabs-XpParticle.hpp"
+
+// HUD:
+#include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
+
 // Particles
 #include "Prefabs/Particles/Prefabs-CombatParticle.hpp"
 #include "Prefabs/Particles/Prefabs-DeathParticle.hpp"
@@ -29,7 +36,6 @@
 #include "Prefabs/Particles/Prefabs-ItemFeedbackParticle.hpp"
 #include "Prefabs/Particles/Prefabs-PopHitParticle.hpp"
 #include "Prefabs/Particles/Prefabs-SwordImpact.hpp"
-#include "Prefabs/Particles/Prefabs-XpParticle.hpp"
 
 // Player
 #include "Prefabs/Player/Prefabs-Barbarian.hpp"

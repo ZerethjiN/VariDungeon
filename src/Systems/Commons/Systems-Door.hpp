@@ -32,6 +32,10 @@ void doorCameraMovementSys(World& world) {
                 cameraTransform.setPosition(nextTransform.getPosition() + glm::vec2(-8, 0));
                 world.del<ChunkCameraMovement>(cameraEnt);
                 world.setInactive(chunkCameraMovement.getOldRoomEnt());
+
+                for (auto [playerEnt]: world.view(with<Player, Unmoveable>)) {
+                    world.del<Unmoveable>(playerEnt);
+                }
             } else {
                 cameraTransform.move(glm::normalize(nextTransform.getPosition() + glm::vec2(-8, 0) - cameraTransform.getPosition()) * chunkCameraMovement.getCameraSpeed() * time.fixedDelta());
             }
@@ -90,6 +94,8 @@ void doorTriggerSys(World& world) {
                             break;
                     };
                 }
+
+                world.add(othEnt, Unmoveable());
 
                 if (curRoomEnt != 0 && nextRoomEnt != 0) {
                     world.setActive(nextRoomEnt);

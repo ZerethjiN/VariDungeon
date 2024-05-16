@@ -64,6 +64,49 @@ void playerLootAttractSys(World& world) {
                     )
                 });
 
+                // If XP
+                if (auto optXp = world.get<const XpGroundItem>(lootEnt)) {
+                    auto [xpGroundItem] = optXp.value();
+
+                    if (auto optPlayerXp = world.get<PlayerXp>(targetEnt)) {
+                        auto [playerXp] = optPlayerXp.value();
+
+                        playerXp.addXp(xpGroundItem.getAmount());
+                        playerXp.isLevelUp();
+
+                        for (auto [_, xpTextUI]: world.view<TextUI>(with<PlayerXpText>)) {
+                            xpTextUI.setString("XP " + std::to_string(static_cast<int>(playerXp.getCurXp())) + "/" + std::to_string(static_cast<int>(playerXp.getNbXpForNextLvl())));
+                        }
+
+                        auto xpRatio = playerXp.getCurXp() / playerXp.getNbXpForNextLvl();
+
+                        for (auto [_, xpInnerBarUI, xpInnerBar]: world.view<UI, const PlayerXpBarInner>()) {
+                            xpInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(xpRatio * xpInnerBar.getMaxLength()), 8));
+                        }
+                    }
+                }
+
+                // If Life
+                if (auto optLife = world.get<const LifeGroundItem>(lootEnt)) {
+                    auto [lifeGroundItem] = optLife.value();
+
+                    if (auto optPlayerLife = world.get<Life>(targetEnt)) {
+                        auto [playerLife] = optPlayerLife.value();
+
+                        playerLife += lifeGroundItem.getAmount();
+
+                        for (auto [_, lifeTextUI]: world.view<TextUI>(with<PlayerLifeText>)) {
+                            lifeTextUI.setString("HP " + std::to_string(static_cast<int>(playerLife.getNbLife())) + "/" + std::to_string(static_cast<int>(playerLife.getCurNbLife())));
+                        }
+
+                        auto lifeRatio = playerLife.getCurNbLife() / playerLife.getNbLife();
+
+                        for (auto [_, lifeInnerBarUI, lifeInnerBar]: world.view<UI, const PlayerLifeBarInner>()) {
+                            lifeInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>((1 - lifeRatio) * lifeInnerBar.getMaxLength()), 8));
+                        }
+                    }
+                }
+
                 // Destroy:
                 world.destroy(lootEnt);
             }

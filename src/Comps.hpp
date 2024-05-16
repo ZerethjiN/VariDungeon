@@ -19,6 +19,7 @@
 #include "Comps/Common/Comps-Life.hpp"
 #include "Comps/Common/Comps-LootSpread.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
+#include "Comps/Common/Comps-Unmoveable.hpp"
 
 // Decors
 #include "Comps/Decors/Comps-Wall.hpp"
@@ -31,6 +32,13 @@
 #include "Comps/Enemies/Comps-Insect.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
 
+// GroundItems:
+#include "Comps/GroundItems/Comps-CoinGroundItem.hpp"
+#include "Comps/GroundItems/Comps-LifeGroundItem.hpp"
+#include "Comps/GroundItems/Comps-XpGroundItem.hpp"
+
 // Player
 #include "Comps/Player/Comps-Player.hpp"
 #include "Comps/Player/Comps-Barbarian.hpp"
+#include "Comps/Player/Comps-PlayerLife.hpp"
+#include "Comps/Player/Comps-PlayerXp.hpp"

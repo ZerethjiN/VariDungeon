@@ -5,10 +5,11 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateXpParticle(World& world, const glm::vec2& position, float spreadDuration, const glm::vec2& spreadDirection, float spreadSpeed) {
+Ent instantiateCoinParticle(World& world, const glm::vec2& position, float spreadDuration, const glm::vec2& spreadDirection, float spreadSpeed) {
     auto xpEnt = world.newEnt(
-        SpriteCreator(xpParticleUV),
-        Animation(xpParticleAnim, "Default"),
+        CoinGroundItem(1.f),
+        SpriteCreator(coinParticleUV),
+        Animation(coinParticleAnim, "Default"),
         Transform(
             position,
             0,

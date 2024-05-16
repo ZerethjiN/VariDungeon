@@ -107,6 +107,209 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
     return true;
 }
 
+void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+    std::vector<Ent> subEnts;
+    
+    // Wall Collisions:
+    if (isDoorOpenUp) {
+        subEnts.append_range(std::initializer_list<Ent>{
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 64, 32)
+            ),
+            world.newEnt(
+                DoorTrigger(chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
+                IsDoorLock(),
+                SpriteCreator(doorUV, 0),
+                Transform(
+                    position - glm::vec2(8, (16 * 7 / 2) + 8),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(-9),
+                Collider(-32 / 2, -16 / 2, 32, 16)
+            ),
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 64, 32)
+            ),
+            instantiateMiniTorch(world, position + glm::vec2(-32, -64), 0),
+            instantiateMiniTorch(world, position + glm::vec2(16, -64), 0)
+        });
+    } else {
+        subEnts.emplace_back(
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 160, 32)
+            )
+        );
+    }
+
+    if (isDoorOpenLeft) {
+        subEnts.append_range(std::initializer_list<Ent>{
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 48)
+            ),
+            world.newEnt(
+                DoorTrigger(chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
+                IsDoorLock(),
+                SpriteCreator(doorUV, 0),
+                Transform(
+                    position - glm::vec2((16 * 9 / 2) + 8, 8),
+                    270,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 16)
+            ),
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(-9),
+                Collider(-32 / 2, -16 / 2, 32, 48)
+            ),
+            instantiateMiniTorch(world, position + glm::vec2(-80, -32), 270),
+            instantiateMiniTorch(world, position + glm::vec2(-80, 16), 270)
+        });
+    } else {
+        subEnts.emplace_back(
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 128)
+            )
+        );
+    }
+
+    if (isDoorOpenRight) {
+        subEnts.append_range(std::initializer_list<Ent>{
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 48)
+            ),
+            world.newEnt(
+                DoorTrigger(chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
+                IsDoorLock(),
+                SpriteCreator(doorUV, 0),
+                Transform(
+                    position + glm::vec2((16 * 9 / 2) - 8, -8),
+                    90,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(-9),
+                Collider(-32 / 2, -16 / 2, 32, 16)
+            ),
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 48)
+            ),
+            instantiateMiniTorch(world, position + glm::vec2(64, -32), 90),
+            instantiateMiniTorch(world, position + glm::vec2(64, 16), 90)
+        });
+    } else {
+        subEnts.emplace_back(
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-32 / 2, -16 / 2, 32, 128)
+            )
+        );
+    }
+
+    if (isDoorOpenDown) {
+        subEnts.append_range(std::initializer_list<Ent>{
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 64, 32)
+            ),
+            world.newEnt(
+                DoorTrigger(chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
+                IsDoorLock(),
+                SpriteCreator(doorUV, 0),
+                Transform(
+                    position + glm::vec2(-8, (16 * 7 / 2) - 8),
+                    180,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(-9),
+                Collider(-32 / 2, -16 / 2, 32, 16)
+            ),
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 64, 32)
+            ),
+            instantiateMiniTorch(world, position + glm::vec2(-32, 48), 180),
+            instantiateMiniTorch(world, position + glm::vec2(16, 48), 180)
+        });
+    } else {
+        subEnts.emplace_back(
+            world.newEnt(
+                Wall(),
+                Transform(
+                    position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                Collider(-16 / 2, -32 / 2, 160, 32)
+            )
+        );
+    }
+
+    world.appendChildren(chunkHolderEnt, subEnts);
+}
+
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
     // Purge Old Table:
     auto chunkTables = world.view<const ChunkTable>();
@@ -144,6 +347,8 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
             if (cellMat[curRoomIdx].isPrimary) {
                 auto newChunkEnt = instantiateDesertRoom1(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -190,6 +395,8 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 }
             } else {
                 auto newChunkEnt = instantiateDesertRoom1(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,

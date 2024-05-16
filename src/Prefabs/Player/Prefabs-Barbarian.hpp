@@ -9,6 +9,8 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
     auto playerEnt = world.newEnt(
         Player(),
         Barbarian(),
+        PlayerXp(25),
+        Life(5),
         SpriteCreator(barbareUV),
         Animation(barbareAnim, "MoveDown"),
         Transform(

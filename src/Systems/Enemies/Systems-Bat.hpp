@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void batMoveSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsBatMove, Orientation, const Speed, const Bat, const Transform, const ZIndex>();
+    auto enemies = world.view<Velocity, Animation, IsBatMove, Orientation, const Speed, const Bat, const Transform, const ZIndex>(without<Unmoveable>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.getRes<const Time>();

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void anubisMoveSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform, const ZIndex>();
+    auto enemies = world.view<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform, const ZIndex>(without<Unmoveable>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.getRes<const Time>();

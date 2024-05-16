@@ -311,6 +311,8 @@ void renderSys(World& world) {
 
             spriteBatchPipeline.draw();
             textBatchPipeline.draw();
+            uiBatchPipeline.draw();
+            textUiBatchPipeline.draw();
         vkCmdEndRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]);
     }
 

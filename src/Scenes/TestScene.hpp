@@ -21,4 +21,6 @@ void testScene(World& world) {
     );
 
     generateDungeon(world, glm::vec2(0, 0));
+
+    instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 }

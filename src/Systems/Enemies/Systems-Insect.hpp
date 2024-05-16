@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void insectMoveSys(World& world) {
-    auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform, const ZIndex>();
+    auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform, const ZIndex>(without<Unmoveable>);
 
     auto [time] = world.getRes<const Time>();
 
