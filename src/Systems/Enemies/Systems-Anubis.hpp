@@ -10,7 +10,7 @@ void anubisMoveSys(World& world) {
     auto enemies = world.view<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform, const ZIndex>(without<Unmoveable>);
     auto players = world.view<const Transform>(with<Player>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, velocity, animation, isAnubisMove, orientation, speed, anubis, enemyTransform, zindex]: enemies) {
         if (isAnubisMove.canSwitchState(time.fixedDelta())) {
@@ -89,7 +89,7 @@ void anubisMoveSys(World& world) {
 void anubisAttackSys(World& world) {
     auto enemies = world.view<Animation, IsAnubisAttack, Orientation, const Anubis, const Transform>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, animation, isAnubisAttack, orientation, anubis, enemyTransform]: enemies) {
         if (isAnubisAttack.canSwitchState(time.fixedDelta())) {

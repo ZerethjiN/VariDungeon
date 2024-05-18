@@ -13,8 +13,8 @@
 #include <FrameBuffers.hpp>
 
 void renderSys(World& world) {
-    auto [pipelineManager, frameBufferManager] = world.getRes<PipelineManager, FrameBufferManager>();
-    auto [inGameView, uiView] = world.getRes<InGameView, UIView>();
+    auto [pipelineManager, frameBufferManager] = world.resource<PipelineManager, FrameBufferManager>();
+    auto [inGameView, uiView] = world.resource<InGameView, UIView>();
 
     auto tileMapsNoIndexes = world.view<const TileMap, Transform>(without<ZIndex>);
     auto tileMapsIndexes = world.view<const TileMap, Transform, const ZIndex>();

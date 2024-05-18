@@ -10,7 +10,7 @@ void batMoveSys(World& world) {
     auto enemies = world.view<Velocity, Animation, IsBatMove, Orientation, const Speed, const Bat, const Transform, const ZIndex>(without<Unmoveable>);
     auto players = world.view<const Transform>(with<Player>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, velocity, animation, isBatMove, orientation, speed, bat, enemyTransform, zindex]: enemies) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
@@ -107,7 +107,7 @@ void batMoveSys(World& world) {
 void batAttackSys(World& world) {
     auto enemies = world.view<Animation, IsBatAttack, Orientation, const Bat, const Transform>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {

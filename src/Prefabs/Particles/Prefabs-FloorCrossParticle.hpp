@@ -15,6 +15,6 @@ Ent instantiateFloorCrossParticle(World& world, const glm::vec2& position, int b
             glm::vec2(1, 1)
         ),
         ZIndex(baseZIndex - 1),
-        LifeTime(1.0f)
+        LifeTime(0.75f)
     );
 }

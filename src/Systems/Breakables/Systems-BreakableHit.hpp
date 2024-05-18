@@ -9,7 +9,7 @@
 void breakableOnHitSys(World& world) {
     auto breakables = world.view<Animation, OnBreakableHit, const Breakable>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [breakableEnt, animation, onBreakableHit, breakable]: breakables) {
         if (onBreakableHit.canStop(time.fixedDelta())) {

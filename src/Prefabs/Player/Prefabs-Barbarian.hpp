@@ -11,6 +11,8 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         Barbarian(),
         PlayerXp(25),
         Life(5),
+        PlayerCoin(),
+        PlayerDamage(1),
         SpriteCreator(barbareUV),
         Animation(barbareAnim, "MoveDown"),
         Transform(

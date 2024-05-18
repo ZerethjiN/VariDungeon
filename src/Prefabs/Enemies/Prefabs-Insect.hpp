@@ -15,6 +15,8 @@ Ent instantiateInsect(World& world, const glm::vec2& position) {
             /*AttackSpeedCoeff:*/ 2.f
         ),
         IsInsectMove(1.5f, 0.5f),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(insectUV),
         Animation(insectAnim, "MoveDown"),
         Transform(

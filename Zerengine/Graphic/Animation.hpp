@@ -150,7 +150,7 @@ void animationSys(World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [_, anim, sprt]: world.view<Animation, Sprite>()) {
         if (anim.isUnscaled)

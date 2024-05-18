@@ -150,19 +150,11 @@ public:
 };
 
 void tileMapCreatorSys(World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
-    auto [texManager] = world.getRes<TextureManager>();
+    auto [texManager] = world.resource<TextureManager>();
     for (auto [entUI, creator]: world.view<const TileMapCreator>()) {
         world.add(entUI, TileMap(texManager.get(creator.filename), creator.tiles, creator.tileMapSize, creator.tileSize));
         world.del<TileMapCreator>(entUI);
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +162,7 @@ void tileMapCreatorSys(World& world) {
 void updateTileMap(World& world) {
     auto tilemaps = world.view<TileMap>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [_, tilemap]: tilemaps) {
         tilemap.update(time.fixedDelta());

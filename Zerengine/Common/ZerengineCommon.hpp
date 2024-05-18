@@ -296,7 +296,7 @@ private:
 };
 
 void lifeTimeSys(World& world) {
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [ent, lifeTime]: world.view<LifeTime>()) {
         if (lifeTime.isEndDuration(time.fixedDelta())) {

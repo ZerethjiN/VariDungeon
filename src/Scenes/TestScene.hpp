@@ -8,7 +8,7 @@
 
 void testScene(World& world) {
     // Purge
-    auto [textureManager, fontManager, pipelineManager, time] = world.getRes<TextureManager, FontManager, PipelineManager, Time>();
+    auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
     textureManager.clear();
     fontManager.clear();
     pipelineManager.clear();

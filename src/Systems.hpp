@@ -23,9 +23,14 @@
 #include "Systems/Enemies/Systems-Bat.hpp"
 #include "Systems/Enemies/Systems-EnemyDropLoots.hpp"
 #include "Systems/Enemies/Systems-EnemyHit.hpp"
+#include "Systems/Enemies/Systems-Gasterolcan.hpp"
 #include "Systems/Enemies/Systems-Insect.hpp"
+#include "Systems/Enemies/Systems-LavaSlime.hpp"
+#include "Systems/Enemies/Systems-Mummy.hpp"
+#include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
+#include "Systems/Players/Systems-PlayerHit.hpp"
 #include "Systems/Players/Systems-PlayerLoot.hpp"

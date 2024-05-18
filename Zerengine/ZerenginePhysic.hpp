@@ -378,7 +378,7 @@ void collisionSys(World& world) {
         collision.othCols.clear();
     }
 
-    auto [layerBasedCollisions, spatialHashMap] = world.getRes<const LayerBasedCollisions, SpatialHashMap>();
+    auto [layerBasedCollisions, spatialHashMap] = world.resource<const LayerBasedCollisions, SpatialHashMap>();
 
     for (auto [othEnt, othTrig, othTrans]: world.view<const Trigger, Transform>()) {
         if (othTrans.hashMapUpdated) {
@@ -842,7 +842,7 @@ void purgeCollision(World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif
-    auto [spatialHashMap] = world.getRes<SpatialHashMap>();
+    auto [spatialHashMap] = world.resource<SpatialHashMap>();
 
     for (const auto othEnt: world.getDestroyedEnts()) {
         spatialHashMap.erase(othEnt);

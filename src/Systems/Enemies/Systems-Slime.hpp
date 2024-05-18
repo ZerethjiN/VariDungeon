@@ -9,7 +9,7 @@
 void slimeMoveSys(World& world) {
     auto slimes = world.view<Velocity, Animation, Orientation, Slime, const Speed>(without<Unmoveable>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [slimeEnt, velocity, animation, orientation, slime, speed]: slimes) {
         if (slime.canChangeDirection(time.fixedDelta())) {

@@ -27,7 +27,7 @@ class CameraShakeRight {};
 void cameraShakeRightSys(World& world) noexcept {
     auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeRight>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
         transform.moveX(camShake.speed * time.fixedDelta());
@@ -49,7 +49,7 @@ void cameraShakeRightSys(World& world) noexcept {
 
 void cameraShakeLeftSys(World& world) noexcept {
     auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeLeft>);
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
         transform.moveX(-camShake.speed * time.fixedDelta());

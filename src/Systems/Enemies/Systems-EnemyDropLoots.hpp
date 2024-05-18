@@ -10,7 +10,7 @@ void enemyDropLootsSys(World& world) {
     auto loots = world.view<EnemyDropLoots, const Transform>();
     auto players = world.view(with<Player>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [_, loot, transform]: loots) {
         if (loot.canSubDrop(time.fixedDelta())) {

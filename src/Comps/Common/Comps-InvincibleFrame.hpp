@@ -25,3 +25,5 @@ private:
 
     glm::vec2 scale;
 };
+
+class Unhittable {};

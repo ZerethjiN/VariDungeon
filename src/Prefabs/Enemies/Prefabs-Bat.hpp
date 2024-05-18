@@ -10,9 +10,11 @@ Ent instantiateBat(World& world, const glm::vec2& position) {
         Enemy(),
         Bat(
             /*MoveDuration:*/ 1.0f,
-            /*AttackDuration:*/ 1.0f
+            /*AttackDuration:*/ 0.75f
         ),
         IsBatMove(1.0f),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(batUV),
         Animation(batAnim, "MoveDown"),
         Transform(

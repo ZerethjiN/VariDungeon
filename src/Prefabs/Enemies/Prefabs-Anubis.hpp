@@ -8,8 +8,10 @@
 Ent instantiateAnubis(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
-        Anubis(1.5f, 1.0f),
+        Anubis(1.5f, 0.75f),
         IsAnubisMove(1.5f),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(anubisUV),
         Animation(anubisAnim, "MoveDown"),
         Transform(

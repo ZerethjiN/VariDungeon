@@ -2,6 +2,24 @@
 
 #include <Zerengine.hpp>
 
+class Damage {
+public:
+    Damage(float newDamage):
+        damage(newDamage) {
+    }
+
+    operator float() const {
+        return damage;
+    }
+
+    float getDamage() const {
+        return damage;
+    }
+
+private:
+    const float damage;
+};
+
 class DamageText {
 public:
     DamageText(const glm::vec2& newDirection, float newDuration, float newMaxScale, float newSpeed):

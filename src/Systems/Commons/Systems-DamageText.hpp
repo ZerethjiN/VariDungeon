@@ -9,7 +9,7 @@
 void damageTextSys(World& world) {
     auto texts = world.view<Velocity, Transform, DamageText>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [textEnt, velocity, transform, text]: texts) {
         velocity.vel += text.direction * text.speed * time.fixedDelta();

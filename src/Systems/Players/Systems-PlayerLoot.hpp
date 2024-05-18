@@ -28,7 +28,7 @@ void playerLootSys(World& world) {
 void playerLootAttractSys(World& world) {
     auto loots = world.view<Velocity, const Transform, const LootAttract>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [lootEnt, velocity, lootTransform, lootAttract]: loots) {
         Ent targetEnt = lootAttract.getTargetEnt();
@@ -103,6 +103,21 @@ void playerLootAttractSys(World& world) {
 
                         for (auto [_, lifeInnerBarUI, lifeInnerBar]: world.view<UI, const PlayerLifeBarInner>()) {
                             lifeInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>((1 - lifeRatio) * lifeInnerBar.getMaxLength()), 8));
+                        }
+                    }
+                }
+
+                // If Coin
+                if (auto optCoin = world.get<const CoinGroundItem>(lootEnt)) {
+                    auto [coinGroundItem] = optCoin.value();
+
+                    if (auto optPlayerCoin = world.get<PlayerCoin>(targetEnt)) {
+                        auto [playerCoin] = optPlayerCoin.value();
+
+                        playerCoin += coinGroundItem.getAmount();
+
+                        for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
+                            coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
                         }
                     }
                 }

@@ -8,6 +8,8 @@
 Ent instantiateFireBallParticle(World& world, const glm::vec2& position, const glm::vec2& direction, float speed) {
     return world.newEnt(
         FireBall(direction),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(fireBallParticleUV),
         Animation(fireBallParticleAnim, "Default"),
         Transform(

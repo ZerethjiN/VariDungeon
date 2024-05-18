@@ -9,6 +9,8 @@ Ent instantiateSlime(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
         Slime(0.5f),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(slimeUV),
         Animation(slimeAnim, "MoveDown"),
         Transform(

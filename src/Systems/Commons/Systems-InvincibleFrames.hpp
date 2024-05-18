@@ -9,7 +9,7 @@
 void invincibleFramesSys(World& world) {
     auto invincibles = world.view<InvincibleFrame, Transform>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [invincibleEnt, invincible, transform]: invincibles) {
         if (invincible.canStop(time.fixedDelta())) {

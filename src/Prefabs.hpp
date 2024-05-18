@@ -2,6 +2,7 @@
 
 // Attacks
 #include "Prefabs/Attacks/Prefabs-BatAttackParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
 
 // Breakables
@@ -16,8 +17,11 @@
 // Enemies
 #include "Prefabs/Enemies/Prefabs-Anubis.hpp"
 #include "Prefabs/Enemies/Prefabs-Bat.hpp"
+#include "Prefabs/Enemies/Prefabs-Gasterolcan.hpp"
 #include "Prefabs/Enemies/Prefabs-Insect.hpp"
+#include "Prefabs/Enemies/Prefabs-LavaSlime.hpp"
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
+#include "Prefabs/Enemies/Prefabs-Roboboule.hpp"
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
 
 //  GroundItems:

@@ -10,7 +10,7 @@ void lootSpreadSys(World& world) {
     auto loots = world.view<Velocity, LootSpread, const Collider>();
     auto players = world.view(with<Player>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [lootEnt, velocity, lootSpread, collider]: loots) {
         if (lootSpread.canStopSpreading(time.fixedDelta())) {

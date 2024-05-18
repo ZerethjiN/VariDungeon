@@ -9,7 +9,7 @@
 void cameraSys(World& world) {
     auto cameras = world.view<const Transform>(with<CurCamera>);
 
-    auto [inGameView, uiView] = world.getRes<InGameView, UIView>();
+    auto [inGameView, uiView] = world.resource<InGameView, UIView>();
 
     for (auto [_, trans]: cameras) {
         const auto& windowSize = vulkanEngine.window.getSize();

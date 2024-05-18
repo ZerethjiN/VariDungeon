@@ -7,9 +7,9 @@
 #include <Images.hpp>
 
 void barbarianStartDashSys(World& world) {
-    auto players = world.view<const Transform, const Orientation>(with<Player, Barbarian>, without<IsBarbarianDash>);
+    auto players = world.view<const Transform, const Orientation, const PlayerDamage>(with<Player, Barbarian>, without<IsBarbarianDash>);
 
-    for (auto [playerEnt, transform, orientation]: players) {
+    for (auto [playerEnt, transform, orientation, playerDamage]: players) {
         if (vulkanEngine.window.isKeyDown(B_BUTTON)) {
             glm::vec2 newDirection(0, 0);
 
@@ -18,6 +18,7 @@ void barbarianStartDashSys(World& world) {
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(8, 0),
                             0,
@@ -33,6 +34,7 @@ void barbarianStartDashSys(World& world) {
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(-8, 0),
                             0,
@@ -48,6 +50,7 @@ void barbarianStartDashSys(World& world) {
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(0, 8),
                             0,
@@ -63,6 +66,7 @@ void barbarianStartDashSys(World& world) {
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(0, -8),
                             0,
@@ -76,6 +80,10 @@ void barbarianStartDashSys(World& world) {
             }
 
             world.add(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f));
+
+            if (!world.has<Unhittable>(playerEnt)) {
+                world.add(playerEnt, Unhittable());
+            }
         }
     }
 }
@@ -83,11 +91,14 @@ void barbarianStartDashSys(World& world) {
 void barbarianStopDashSys(World& world) {
     auto players = world.view<IsBarbarianDash>(with<Player, Barbarian>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [playerEnt, isBarbarianDash]: players) {
         if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(B_BUTTON)) {
             world.del<IsBarbarianDash>(playerEnt);
+            if (world.has<Unhittable>(playerEnt)) {
+                world.del<Unhittable>(playerEnt);
+            }
         }
     }
 }
@@ -95,7 +106,7 @@ void barbarianStopDashSys(World& world) {
 void barbarianMovementSys(World& world) {
     auto players = world.view<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>, without<Unmoveable>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [playerEnt, velocity, animation, orientation, speed]: players) {
         glm::vec2 newVelocity(0, 0);
@@ -122,49 +133,93 @@ void barbarianMovementSys(World& world) {
         if (newVelocity.x > 0) {
             if (!world.has<IsBarbarianAttack>(playerEnt)) {
                 if (world.has<IsBarbarianDash>(playerEnt)) {
-                    animation.play("DashRight");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitDashRight");
+                    } else {
+                        animation.play("DashRight");
+                    }
                 } else {
-                    animation.play("MoveRight");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitMoveRight");
+                    } else {
+                        animation.play("MoveRight");
+                    }
                 }
             }
             orientation = Orientation::EAST;
         } else if (newVelocity.x < 0) {
             if (!world.has<IsBarbarianAttack>(playerEnt)) {
                 if (world.has<IsBarbarianDash>(playerEnt)) {
-                    animation.play("DashLeft");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitDashLeft");
+                    } else {
+                        animation.play("DashLeft");
+                    }
                 } else {
-                    animation.play("MoveLeft");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitMoveLeft");
+                    } else {
+                        animation.play("MoveLeft");
+                    }
                 }
             }
             orientation = Orientation::WEST;
         } else if (newVelocity.y > 0) {
             if (!world.has<IsBarbarianAttack>(playerEnt)) {
                 if (world.has<IsBarbarianDash>(playerEnt)) {
-                    animation.play("DashDown");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitDashDown");
+                    } else {
+                        animation.play("DashDown");
+                    }
                 } else {
-                    animation.play("MoveDown");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitMoveDown");
+                    } else {
+                        animation.play("MoveDown");
+                    }
                 }
             }
             orientation = Orientation::SOUTH;
         } else if (newVelocity.y < 0) {
             if (!world.has<IsBarbarianAttack>(playerEnt)) {
                 if (world.has<IsBarbarianDash>(playerEnt)) {
-                    animation.play("DashUp");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitDashUp");
+                    } else {
+                        animation.play("DashUp");
+                    }
                 } else {
-                    animation.play("MoveUp");
+                    if (world.has<InvincibleFrame>(playerEnt)) {
+                        animation.play("HitMoveUp");
+                    } else {
+                        animation.play("MoveUp");
+                    }
                 }
             }
             orientation = Orientation::NORTH;
         } else {
             if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (orientation.x > 0) {
-                    animation.play("IdleRight");
-                } else if (orientation.x < 0) {
-                    animation.play("IdleLeft");
-                } else if (orientation.y > 0) {
-                    animation.play("IdleDown");
-                } else if (orientation.y < 0) {
-                    animation.play("IdleUp");
+                if (world.has<InvincibleFrame>(playerEnt)) {
+                    if (orientation.x > 0) {
+                        animation.play("HitIdleRight");
+                    } else if (orientation.x < 0) {
+                        animation.play("HitIdleLeft");
+                    } else if (orientation.y > 0) {
+                        animation.play("HitIdleDown");
+                    } else if (orientation.y < 0) {
+                        animation.play("HitIdleUp");
+                    }
+                } else {
+                    if (orientation.x > 0) {
+                        animation.play("IdleRight");
+                    } else if (orientation.x < 0) {
+                        animation.play("IdleLeft");
+                    } else if (orientation.y > 0) {
+                        animation.play("IdleDown");
+                    } else if (orientation.y < 0) {
+                        animation.play("IdleUp");
+                    }
                 }
             }
         }
@@ -172,15 +227,20 @@ void barbarianMovementSys(World& world) {
 }
 
 void barbarianStartAttackSys(World& world) {
-    auto players = world.view<Animation, const Orientation, const Transform>(with<Player, Barbarian>, without<IsBarbarianAttack>);
+    auto players = world.view<Animation, const Orientation, const Transform, const PlayerDamage>(with<Player, Barbarian>, without<IsBarbarianAttack>);
 
-    for (auto [playerEnt, animation, orientation, transform]: players) {
+    for (auto [playerEnt, animation, orientation, transform, playerDamage]: players) {
         if (vulkanEngine.window.isKeyDown(A_BUTTON)) {
             if (orientation.x > 0) {
-                animation.play("AttackRight");
+                if (world.has<InvincibleFrame>(playerEnt)) {
+                    animation.play("HitAttackRight");
+                } else {
+                    animation.play("AttackRight");
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(8, 0),
                             0,
@@ -192,10 +252,15 @@ void barbarianStartAttackSys(World& world) {
                     )
                 });
             } else if (orientation.x < 0) {
-                animation.play("AttackLeft");
+                if (world.has<InvincibleFrame>(playerEnt)) {
+                    animation.play("HitAttackLeft");
+                } else {
+                    animation.play("AttackLeft");
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(-8, 0),
                             0,
@@ -207,10 +272,15 @@ void barbarianStartAttackSys(World& world) {
                     )
                 });
             } else if (orientation.y > 0) {
-                animation.play("AttackDown");
+                if (world.has<InvincibleFrame>(playerEnt)) {
+                    animation.play("HitAttackDown");
+                } else {
+                    animation.play("AttackDown");
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(0, 8),
                             0,
@@ -222,10 +292,15 @@ void barbarianStartAttackSys(World& world) {
                     )
                 });
             } else if (orientation.y < 0) {
-                animation.play("AttackUp");
+                if (world.has<InvincibleFrame>(playerEnt)) {
+                    animation.play("HitAttackUp");
+                } else {
+                    animation.play("AttackUp");
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
+                        Damage(playerDamage),
                         Transform(
                             transform.getPosition() + glm::vec2(0, -8),
                             0,
@@ -245,7 +320,7 @@ void barbarianStartAttackSys(World& world) {
 void barbarianStopAttackSys(World& world) {
     auto players = world.view<IsBarbarianAttack>(with<Player, Barbarian>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [playerEnt, isBarbarianAttack]: players) {
         if (isBarbarianAttack.canStopAttack(time.fixedDelta())) {

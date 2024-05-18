@@ -22,7 +22,7 @@ void openDoorSys(World& world) {
 void doorCameraMovementSys(World& world) {
     auto cameras = world.view<Transform, const ChunkCameraMovement>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [cameraEnt, cameraTransform, chunkCameraMovement]: cameras) {
         if (auto opt = world.get<const Transform>(chunkCameraMovement.getNextRoomEnt())) {

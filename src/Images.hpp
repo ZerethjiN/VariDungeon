@@ -20,8 +20,11 @@
 // Enemies:
 #include "Images/Enemies/Images-Anubis.hpp"
 #include "Images/Enemies/Images-Bat.hpp"
+#include "Images/Enemies/Images-Gasterolcan.hpp"
 #include "Images/Enemies/Images-Insect.hpp"
+#include "Images/Enemies/Images-LavaSlime.hpp"
 #include "Images/Enemies/Images-Mummy.hpp"
+#include "Images/Enemies/Images-Roboboule.hpp"
 #include "Images/Enemies/Images-Slime.hpp"
 
 // GroundItems:
@@ -38,6 +41,7 @@
 #include "Images/Particles/Images-DeathParticle.hpp"
 #include "Images/Particles/Images-DustParticle.hpp"
 #include "Images/Particles/Images-ExclamationParticle.hpp"
+#include "Images/Particles/Images-ExplosionParticle.hpp"
 #include "Images/Particles/Images-FloorCrossParticle.hpp"
 #include "Images/Particles/Images-ItemFeedbackParticle.hpp"
 #include "Images/Particles/Images-PopHitParticle.hpp"

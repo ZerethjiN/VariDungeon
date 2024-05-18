@@ -29,7 +29,11 @@
 #include "Comps/Enemies/Comps-Bat.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"
 #include "Comps/Enemies/Comps-EnemyDropLoots.hpp"
+#include "Comps/Enemies/Comps-Gasterolcan.hpp"
 #include "Comps/Enemies/Comps-Insect.hpp"
+#include "Comps/Enemies/Comps-LavaSlime.hpp"
+#include "Comps/Enemies/Comps-Mummy.hpp"
+#include "Comps/Enemies/Comps-Roboboule.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
 
 // GroundItems:
@@ -38,7 +42,8 @@
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"
 
 // Player
-#include "Comps/Player/Comps-Player.hpp"
 #include "Comps/Player/Comps-Barbarian.hpp"
+#include "Comps/Player/Comps-Player.hpp"
+#include "Comps/Player/Comps-PlayerCoin.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"

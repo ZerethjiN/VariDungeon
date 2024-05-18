@@ -7,13 +7,17 @@
 #include <Images.hpp>
 
 void enemyHitSys(World& world) {
-    auto enemies = world.view<Transform, Life, const OnCollisionEnter, const Transform, const ZIndex>(with<Enemy>, without<InvincibleFrame>);
+    auto enemies = world.view<Transform, Life, const OnCollisionEnter, const ZIndex>(with<Enemy>, without<Unhittable, InvincibleFrame>);
 
-    for (auto [enemyEnt, transform, life, collisions, enemyTransform, zindex]: enemies) {
-        for (const auto& othEnt: collisions) {
-            if (world.has<PlayerWeapon>(othEnt)) {
+    for (auto [enemyEnt, enemyTransform, life, collisions, zindex]: enemies) {
+        for (auto othEnt: collisions) {
+            if (world.has<PlayerWeapon, Damage>(othEnt)) {
                 // Damage:
-                life -= 1;
+                if (auto opt = world.get<const Damage>(othEnt)) {
+                    auto [damage] = opt.value();
+
+                    life -= damage;
+                }
 
                 // Visual Effect:
                 world.add(enemyEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
@@ -51,7 +55,7 @@ void enemyHitSys(World& world) {
                         )
                     });
                 }
-                transform.scale(-0.2f, -0.2f);
+                enemyTransform.scale(-0.2f, -0.2f);
 
                 // IsDead:
                 if (life.isDead()) {

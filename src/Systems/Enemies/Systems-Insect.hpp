@@ -9,7 +9,7 @@
 void insectMoveSys(World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform, const ZIndex>(without<Unmoveable>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [insectEnt, velocity, animation, isInsectMove, orientation, speed, insect, transform, zindex]: insects) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
@@ -66,7 +66,7 @@ void insectAttackSys(World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform, const Insect>();
     auto players = world.view<const Transform>(with<Player>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [insectEnt, velocity, animation, isInsectAttack, orientation, speed, insectTransform, insect]: insects) {
         if (isInsectAttack.canSwitchState(time.fixedDelta())) {

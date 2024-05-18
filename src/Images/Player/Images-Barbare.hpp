@@ -35,12 +35,45 @@ static const ImageAsset barbareUV("Textures/Barbare.png", {
 
     // Dashs
     {{ 32,  32, 16, 32}, {0.50f, 0.25f}}, // 20: Barbare Dash Down
-
     {{ 48,  32, 32, 16}, {0.25f, 0.50f}}, // 21: Barbare Dash Right
-    
     {{ 48,  48, 32, 16}, {0.75f, 0.50f}}, // 22: Barbare Dash Left
-
     {{ 80,  32, 16, 32}, {0.50f, 0.75f}}, // 23: Barbare Dash Up
+
+    // Hit Movements
+    {{  0,  64, 16, 16}, {0.5f, 0.5f}}, // 24: Barbare Hit Move Down A
+    {{ 16,  64, 16, 16}, {0.5f, 0.5f}}, // 25: Barbare Hit Move Down B
+
+    {{  0,  80, 16, 16}, {0.5f, 0.5f}}, // 26: Barbare Hit Move Right A
+    {{ 16,  80, 16, 16}, {0.5f, 0.5f}}, // 27: Barbare Hit Move Right B
+
+    {{  0,  96, 16, 16}, {0.5f, 0.5f}}, // 28: Barbare Hit Move Left A
+    {{ 16,  96, 16, 16}, {0.5f, 0.5f}}, // 29: Barbare Hit Move Left B
+
+    {{  0, 112, 16, 16}, {0.5f, 0.5f}}, // 30: Barbare Hit Move Up A
+    {{ 16, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Barbare Hit Move Up B
+
+    // Hit Attacks
+    {{160,  64, 32, 16}, {0.75f, 0.50f}}, // 32: Barbare Hit Attack Down A
+    {{ 96,  96, 32, 32}, {0.75f, 0.25f}}, // 33: Barbare Hit Attack Down B
+    {{ 32,  64, 16, 32}, {0.50f, 0.25f}}, // 34: Barbare Hit Attack Down C
+
+    {{192,  64, 16, 32}, {0.50f, 0.75f}}, // 35: Barbare Hit Attack Right A
+    {{128,  96, 32, 32}, {0.25f, 0.75f}}, // 36: Barbare Hit Attack Right B
+    {{ 48,  64, 32, 16}, {0.25f, 0.50f}}, // 37: Barbare Hit Attack Right C
+
+    {{208,  64, 16, 32}, {0.50f, 0.75f}}, // 38: Barbare Hit Attack Left A
+    {{ 96,  64, 32, 32}, {0.75f, 0.75f}}, // 39: Barbare Hit Attack Left B
+    {{ 48,  80, 32, 16}, {0.75f, 0.50f}}, // 40: Barbare Hit Attack Left C
+
+    {{160,  80, 32, 16}, {0.25f, 0.50f}}, // 41: Barbare Hit Attack Up A
+    {{128,  64, 32, 32}, {0.25f, 0.75f}}, // 42: Barbare Hit Attack Up B
+    {{ 80,  64, 16, 32}, {0.50f, 0.75f}}, // 43: Barbare Hit Attack Up C
+
+    // Hit Dashs
+    {{ 32,  96, 16, 32}, {0.50f, 0.25f}}, // 44: Barbare Hit Dash Down
+    {{ 48,  96, 32, 16}, {0.25f, 0.50f}}, // 45: Barbare Hit Dash Right
+    {{ 48, 112, 32, 16}, {0.75f, 0.50f}}, // 46: Barbare Hit Dash Left
+    {{ 80,  96, 16, 32}, {0.50f, 0.75f}}, // 47: Barbare Hit Dash Up
 });
 
 static const AnimationAsset barbareAnim({
@@ -110,5 +143,77 @@ static const AnimationAsset barbareAnim({
     }},
     {"DashUp", {
         {1.00f, barbareUV[23]},
+    }},
+
+
+
+
+
+    // Hit Idles
+    {"HitIdleDown", {
+        {1.00f, barbareUV[24]},
+    }},
+    {"HitIdleRight", {
+        {1.00f, barbareUV[26]},
+    }},
+    {"HitIdleLeft", {
+        {1.00f, barbareUV[28]},
+    }},
+    {"HitIdleUp", {
+        {1.00f, barbareUV[30]},
+    }},
+
+    // Hit Movements
+    {"HitMoveDown", {
+        {0.20f, barbareUV[24]},
+        {0.20f, barbareUV[25]},
+    }},
+    {"HitMoveRight", {
+        {0.20f, barbareUV[26]},
+        {0.20f, barbareUV[27]},
+    }},
+    {"HitMoveLeft", {
+        {0.20f, barbareUV[28]},
+        {0.20f, barbareUV[29]},
+    }},
+    {"HitMoveUp", {
+        {0.20f, barbareUV[30]},
+        {0.20f, barbareUV[31]},
+    }},
+
+    // Hit Attacks
+    {"HitAttackDown", {
+        {0.05f, barbareUV[32]},
+        {0.10f, barbareUV[33]},
+        {0.05f, barbareUV[34]},
+    }},
+    {"HitAttackRight", {
+        {0.05f, barbareUV[35]},
+        {0.10f, barbareUV[36]},
+        {0.05f, barbareUV[37]},
+    }},
+    {"HitAttackLeft", {
+        {0.05f, barbareUV[38]},
+        {0.10f, barbareUV[39]},
+        {0.05f, barbareUV[40]},
+    }},
+    {"HitAttackUp", {
+        {0.05f, barbareUV[41]},
+        {0.10f, barbareUV[42]},
+        {0.05f, barbareUV[43]},
+    }},
+
+    // Hit Dashs
+    {"HitDashDown", {
+        {1.00f, barbareUV[44]},
+    }},
+    {"HitDashRight", {
+        {1.00f, barbareUV[45]},
+    }},
+    {"HitDashLeft", {
+        {1.00f, barbareUV[46]},
+    }},
+    {"HitDashUp", {
+        {1.00f, barbareUV[47]},
     }},
 });

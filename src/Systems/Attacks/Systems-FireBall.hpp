@@ -24,7 +24,7 @@ void fireBallHitSys(World& world) {
 void fireBallAttackSys(World& world) {
     auto fireballs = world.view<Velocity, const FireBall, const Speed>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [_, velocity, fireball, speed]: fireballs) {
         velocity += fireball.getDirection() * speed.speed* time.fixedDelta();

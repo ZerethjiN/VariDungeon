@@ -9,7 +9,7 @@
 void deathParticleSys(World& world) {
     auto generators = world.view<DeathParticleGenerator, const Transform, const ZIndex>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [generatorEnt, generator, transform, zindex]: generators) {
         if (generator.canStop(time.fixedDelta())) {

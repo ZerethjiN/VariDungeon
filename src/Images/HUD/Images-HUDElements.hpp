@@ -9,4 +9,6 @@ static const ImageAsset HUDElementsUV("Textures/HUDElements.png", {
     {{  0,   0,  8, 8}, {0.0f, 0.0f}}, //  2: Life Icon
     {{  8,   0,  8, 8}, {0.0f, 0.0f}}, //  3: Shield Icon
     {{ 24,   0,  8, 8}, {0.0f, 0.0f}}, //  4: Xp Icon
+
+    {{ 80,   0, 16, 16}, {0.0f, 0.0f}}, // 5: Coin Icon
 });

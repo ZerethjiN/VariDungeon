@@ -45,14 +45,22 @@ int main() {
             )
             .addMainFixedSys(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
-                playerLootSys, playerLootAttractSys,
+                playerLootSys, playerLootAttractSys, playerHitSys,
                 breakableHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 doorTriggerSys, openDoorSys, doorCameraMovementSys,
-                slimeMoveSys, insectMoveSys, insectAttackSys, anubisMoveSys, anubisAttackSys,
+                // Enemies scripts
+                slimeMoveSys,
+                insectMoveSys, insectAttackSys,
+                anubisMoveSys, anubisAttackSys,
                 batMoveSys, batAttackSys,
+                mummyMoveSys, mummyPreAttackSys, mummyAttackSys,
+                gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys,
+                lavaSlimeMoveSys, lavaSlimeAttackSys,
+                robobouleMoveSys, roboboulePreAttackSys,
+
                 fireBallAttackSys, fireBallHitSys
             )
             .addMainFixedSys(

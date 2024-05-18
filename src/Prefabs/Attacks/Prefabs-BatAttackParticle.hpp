@@ -7,6 +7,8 @@
 
 Ent instantiateBatAttackParticle(World& world, const glm::vec2& position, float rotation) {
     return world.newEnt(
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(batAttackParticleUV),
         Transform(
             position,

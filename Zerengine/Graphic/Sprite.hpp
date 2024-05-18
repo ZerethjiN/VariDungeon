@@ -237,19 +237,11 @@ public:
 };
 
 void spriteCreatorSys(World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
-    auto [texManager] = world.getRes<TextureManager>();
+    auto [texManager] = world.resource<TextureManager>();
     for (auto [entSprite, creator]: world.view<const SpriteCreator>()) {
         world.add(entSprite, Sprite(texManager.get(creator.filename), creator.rect, creator.origin, creator.color));
         world.del<SpriteCreator>(entSprite);
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +276,7 @@ void uiCreatorSys(World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif
-    auto [texManager] = world.getRes<TextureManager>();
+    auto [texManager] = world.resource<TextureManager>();
     for (auto [entUI, creator]: world.view<const UICreator>()) {
         world.add(entUI, UI(texManager.get(creator.filename), creator.rect, creator.origin, creator.anchor, creator.color));
         world.del<UICreator>(entUI);

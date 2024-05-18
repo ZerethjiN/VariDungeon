@@ -9,7 +9,7 @@
 void knockbackSys(World& world) {
     auto knockbacks = world.view<Knockback, Velocity>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [knockbackEnt, knockback, velocity]: knockbacks) {
         velocity += knockback.getDirection() * knockback.getSpeed() * time.fixedDelta();

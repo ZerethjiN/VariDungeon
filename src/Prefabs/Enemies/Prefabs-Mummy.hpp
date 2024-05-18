@@ -8,8 +8,10 @@
 Ent instantiateMummy(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
-        // Anubis(1.5f, 1.0f),
-        // IsAnubisMove(1.5f),
+        Mummy(1.0f, 0.75f, 0.5f),
+        IsMummyMove(1.0f),
+        EnemyWeapon(),
+        Damage(1),
         SpriteCreator(mummyUV),
         Animation(mummyAnim, "MoveDown"),
         Transform(
@@ -20,7 +22,7 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
         ZIndex(0),
         Life(3),
         Velocity(),
-        Speed(16),
+        Speed(32),
         Orientation(Orientation::SOUTH),
         Collider(-12 / 2, -12 / 2, 12, 12)
     );

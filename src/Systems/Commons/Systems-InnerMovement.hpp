@@ -9,7 +9,7 @@
 void innerMovementDownSys(World& world) {
     auto objs = world.view<InnerMovement, Transform>(with<InnerMovementDown>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [ent, innerMovement, transform]: objs) {
         transform.moveYGlobal(innerMovement.getSpeed() * time.fixedDelta());
@@ -24,7 +24,7 @@ void innerMovementDownSys(World& world) {
 void innerMovementUpSys(World& world) {
     auto objs = world.view<InnerMovement, Transform>(with<InnerMovementUp>);
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [ent, innerMovement, transform]: objs) {
         transform.moveYGlobal(-innerMovement.getSpeed() * time.fixedDelta());

@@ -166,7 +166,7 @@ public:
 void generatorParticleMovement(World& world) {
     auto particles = world.view<Velocity, const GeneratorParticle>();
 
-    auto [time] = world.getRes<const Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [_, velocity, particle]: particles) {
         velocity = particle.direction * particle.speed * time.fixedDelta();

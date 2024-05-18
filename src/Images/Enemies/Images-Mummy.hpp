@@ -87,16 +87,16 @@ static const AnimationAsset mummyAnim({
 
     // Attack
     {"AttackDown", {{
-        {1.00f, anubisUV[12]},
+        {1.00f, mummyUV[12]},
     }, AnimationType::ONE_SHOT}},
     {"AttackRight", {{
-        {0.20f, anubisUV[13]},
+        {0.20f, mummyUV[13]},
     }, AnimationType::ONE_SHOT}},
     {"AttackLeft", {{
-        {0.20f, anubisUV[14]},
+        {0.20f, mummyUV[14]},
     }, AnimationType::ONE_SHOT}},
     {"AttackUp", {{
-        {0.20f, anubisUV[15]},
+        {0.20f, mummyUV[15]},
     }, AnimationType::ONE_SHOT}},
 
     // Hit Movements
@@ -137,15 +137,15 @@ static const AnimationAsset mummyAnim({
 
     // Hit Attack
     {"HitAttackDown", {{
-        {1.00f, anubisUV[28]},
+        {1.00f, mummyUV[28]},
     }, AnimationType::ONE_SHOT}},
     {"HitAttackRight", {{
-        {0.20f, anubisUV[29]},
+        {0.20f, mummyUV[29]},
     }, AnimationType::ONE_SHOT}},
     {"HitAttackLeft", {{
-        {0.20f, anubisUV[30]},
+        {0.20f, mummyUV[30]},
     }, AnimationType::ONE_SHOT}},
     {"HitAttackUp", {{
-        {0.20f, anubisUV[31]},
+        {0.20f, mummyUV[31]},
     }, AnimationType::ONE_SHOT}},
 });
