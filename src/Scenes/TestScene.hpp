@@ -14,7 +14,7 @@ void testScene(World& world) {
     pipelineManager.clear();
 
     // Reset Time
-    time.setTimeScale(1.0f);
+    time.setTimeScale(0.0f);
 
     world.newEnt(
         AmbientLight(glm::vec4(255, 255, 255, 255))
@@ -23,4 +23,6 @@ void testScene(World& world) {
     generateDungeon(world, glm::vec2(0, 0));
 
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
+
+    instantiateMenuBonusUI(world, glm::vec2(-72, -64), 3);
 }

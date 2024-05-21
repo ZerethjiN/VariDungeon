@@ -35,6 +35,7 @@
 #include "Images/HUD/Images-BottomBar.hpp"
 #include "Images/HUD/Images-HUDElements.hpp"
 #include "Images/HUD/Images-InventoryBar.hpp"
+#include "Images/HUD/Images-MenuBonusHUD.hpp"
 
 // Particles:
 #include "Images/Particles/Images-CombatParticle.hpp"

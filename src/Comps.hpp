@@ -41,6 +41,9 @@
 #include "Comps/GroundItems/Comps-LifeGroundItem.hpp"
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"
 
+// HUD:
+#include "Comps/HUD/Comps-MenuBonus.hpp"
+
 // Player
 #include "Comps/Player/Comps-Barbarian.hpp"
 #include "Comps/Player/Comps-Player.hpp"

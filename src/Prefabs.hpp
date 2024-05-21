@@ -30,6 +30,7 @@
 
 // HUD:
 #include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
+#include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
 
 // Particles
 #include "Prefabs/Particles/Prefabs-CombatParticle.hpp"

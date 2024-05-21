@@ -386,8 +386,8 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                     }
                     for (auto [curCameraEnt]: world.view(with<CurCamera>)) {
                         if (auto opt = world.getParent(curCameraEnt)) {
-                            if (auto transformOpt = world.get<Transform>(opt.value())) {
-                                auto [parentTransform] = transformOpt.value();
+                            if (auto optTransform = world.get<Transform>(opt.value())) {
+                                auto [parentTransform] = optTransform.value();
                                 parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128));
                             }
                         }

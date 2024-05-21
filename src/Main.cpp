@@ -61,7 +61,10 @@ int main() {
                 lavaSlimeMoveSys, lavaSlimeAttackSys,
                 robobouleMoveSys, roboboulePreAttackSys,
 
-                fireBallAttackSys, fireBallHitSys
+                fireBallAttackSys, fireBallHitSys,
+
+                // HUD
+                menuBonusSelectorSys
             )
             .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,

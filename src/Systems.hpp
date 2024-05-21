@@ -30,6 +30,9 @@
 #include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 
+// HUD:
+#include "Systems/HUD/Systems-MenuBonusSelector.hpp"
+
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
 #include "Systems/Players/Systems-PlayerHit.hpp"
