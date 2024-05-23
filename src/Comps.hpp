@@ -1,7 +1,12 @@
 #pragma once
 
 // Attacks
+#include "Comps/Attacks/Comps-Dagger.hpp"
 #include "Comps/Attacks/Comps-FireBall.hpp"
+#include "Comps/Attacks/Comps-Shuriken.hpp"
+
+// Bonuses
+#include "Comps/Bonuses/Comps-Bonus.hpp"
 
 // Breakables
 #include "Comps/Breakables/Comps-Breakable.hpp"
@@ -47,6 +52,7 @@
 // Player
 #include "Comps/Player/Comps-Barbarian.hpp"
 #include "Comps/Player/Comps-Player.hpp"
+#include "Comps/Player/Comps-PlayerBonuses.hpp"
 #include "Comps/Player/Comps-PlayerCoin.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"

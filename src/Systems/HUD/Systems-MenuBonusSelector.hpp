@@ -19,6 +19,17 @@ void menuBonusSelectorSys(World& world) {
                 selectorTransform.moveY(-32.f);
             }
         } else if (vulkanEngine.window.isKeyDown(VALIDATE)) {
+            for (auto [_, bonusRow]: world.view<const BonusRow>()) {
+                if (bonusRow.getId() == selector.getCurElement()) {
+                    for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
+                        playerBonuses.addBonus(bonusRow.getType());
+                    }
+                    if (bonusRow.hasCallback()) {
+                        bonusRow(world);
+                    }
+                    break;
+                }
+            }
             for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
                 world.destroy(menuBonusEnt);
             }

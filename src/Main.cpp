@@ -48,9 +48,11 @@ int main() {
                 playerLootSys, playerLootAttractSys, playerHitSys,
                 breakableHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
+                shurikenRotationSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 doorTriggerSys, openDoorSys, doorCameraMovementSys,
+                playerDaggerSys, daggerMovementSys,
                 // Enemies scripts
                 slimeMoveSys,
                 insectMoveSys, insectAttackSys,

@@ -2,8 +2,10 @@
 
 // Attacks
 #include "Prefabs/Attacks/Prefabs-BatAttackParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-DaggerParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
 
 // Breakables
 #include "Prefabs/Breakables/Prefabs-Jar.hpp"

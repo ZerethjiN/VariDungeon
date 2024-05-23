@@ -2,7 +2,9 @@
 
 // Attacks:
 #include "Images/Attacks/Images-BatAttackParticle.hpp"
+#include "Images/Attacks/Images-DaggerParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
+#include "Images/Attacks/Images-ShurikenParticle.hpp"
 
 // Backgrounds:
 #include "Images/Backgrounds/Images-TileMapDesert.hpp"
@@ -36,6 +38,7 @@
 #include "Images/HUD/Images-HUDElements.hpp"
 #include "Images/HUD/Images-InventoryBar.hpp"
 #include "Images/HUD/Images-MenuBonusHUD.hpp"
+#include "Images/HUD/Images-MenuBonusIcons.hpp"
 
 // Particles:
 #include "Images/Particles/Images-CombatParticle.hpp"

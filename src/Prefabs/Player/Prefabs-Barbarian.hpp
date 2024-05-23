@@ -13,6 +13,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         Life(5),
         PlayerCoin(),
         PlayerDamage(1),
+        PlayerBonuses(),
         SpriteCreator(barbareUV),
         Animation(barbareAnim, "MoveDown"),
         Transform(

@@ -1,7 +1,9 @@
 #pragma once
 
 // Attacks
+#include "Systems/Attacks/Systems-Dagger.hpp"
 #include "Systems/Attacks/Systems-FireBall.hpp"
+#include "Systems/Attacks/Systems-Shuriken.hpp"
 
 // Breakables
 #include "Systems/Breakables/Systems-BreakableHit.hpp"

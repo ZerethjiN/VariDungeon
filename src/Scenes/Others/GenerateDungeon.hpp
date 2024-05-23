@@ -310,6 +310,12 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
     world.appendChildren(chunkHolderEnt, subEnts);
 }
 
+static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabRoomDeserts = {
+    instantiateDesertRoom1,
+    instantiateDesertRoom2,
+    instantiateDesertRoom3
+};
+
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
     // Purge Old Table:
     auto chunkTables = world.view<const ChunkTable>();
@@ -346,7 +352,9 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
             }
 
             if (cellMat[curRoomIdx].isPrimary) {
-                auto newChunkEnt = instantiateDesertRoom1(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                auto newRoomPrefab = prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
+
+                auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
@@ -394,7 +402,9 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                     }
                 }
             } else {
-                auto newChunkEnt = instantiateDesertRoom1(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                auto newRoomPrefab = prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
+
+                auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 

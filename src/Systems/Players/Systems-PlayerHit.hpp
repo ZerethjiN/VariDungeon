@@ -32,7 +32,7 @@ void playerHitSys(World& world) {
                     );
                 }
 
-                // refresh Life Bar:
+                // Refresh Life Bar:
                 for (auto [_, lifeTextUI]: world.view<TextUI>(with<PlayerLifeText>)) {
                     lifeTextUI.setString("HP " + std::to_string(static_cast<int>(life.getCurNbLife())) + "/" + std::to_string(static_cast<int>(life.getNbLife())));
                 }
