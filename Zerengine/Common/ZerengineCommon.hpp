@@ -305,6 +305,38 @@ void lifeTimeSys(World& world) {
     }
 }
 
+class UnscaledLifeTime {
+public:
+    UnscaledLifeTime(float newDuration):
+        duration(newDuration),
+        curTime(0) {
+    }
+
+    bool isEndDuration(float delta) {
+        curTime += delta;
+        return curTime >= duration;
+    }
+
+    void changeDuration(float newDuration) {
+        duration = newDuration;
+        curTime = 0;
+    }
+
+private:
+    float duration;
+    float curTime;
+};
+
+void unscaledLifeTimeSys(World& world) {
+    auto [time] = world.resource<const Time>();
+
+    for (auto [ent, lifeTime]: world.view<UnscaledLifeTime>()) {
+        if (lifeTime.isEndDuration(time.unscaledFixedDelta())) {
+            world.destroy(ent);
+        }
+    }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 class Speed {

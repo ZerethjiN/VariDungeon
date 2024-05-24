@@ -2,6 +2,37 @@
 
 #include <Zerengine.hpp>
 
+class LevelUpPreMenu {
+public:
+    LevelUpPreMenu(float newDuration, int newNbStars):
+        duration(newDuration),
+        curTime(0),
+        starSpawnDuration(newDuration / newNbStars),
+        starSpawnCurTime(0) {
+    }
+
+    bool canSpawnMenu(float delta) {
+        curTime += delta;
+        return curTime >= duration;
+    }
+
+    bool canSpawnStar(float delta) {
+        starSpawnCurTime += delta;
+        if (starSpawnCurTime >= starSpawnDuration) {
+            starSpawnCurTime -= starSpawnDuration;
+            return true;
+        }
+        return false;
+    }
+
+private:
+    const float duration;
+    float curTime;
+
+    const float starSpawnDuration;
+    float starSpawnCurTime;
+};
+
 class MenuBonus {};
 
 class MenuBonusReverseTranslation {

@@ -6,6 +6,58 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
+void levelUpPreMenuSys(World& world) {
+    auto preMenus = world.view<LevelUpPreMenu>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [preMenuEnt, preMenu]: preMenus) {
+        if (preMenu.canSpawnStar(time.unscaledFixedDelta())) {
+            world.newEnt(
+                UICreator(fireworkUV, UIAnchor::CENTER_CENTER),
+                Animation(fireworkAnim, "Default", AnimType::UNSCALED),
+                Transform(
+                    glm::vec2((rand() % 8 - 4) * 16, (rand() % 6 - 3) * 16),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(9),
+                UnscaledLifeTime(fireworkAnim["Default"].getTotalDuration())
+            );
+        }
+        
+        if (preMenu.canSpawnMenu(time.unscaledFixedDelta())) {
+            world.destroy(preMenuEnt);
+
+            std::unordered_map<std::size_t, BonusData> lastBonuses;
+            for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                for (const auto& bonus: bonusVec) {
+                    if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
+                        lastBonuses.emplace(bonus.type, bonus);
+                    }
+                }
+            }
+
+            std::unordered_set<std::size_t> bonusesIdx;
+            for (int i = 0; i < (lastBonuses.size() < 3 ? lastBonuses.size() : 3); i++) {
+                std::size_t newBonusIdx;
+                bool alreadyLevelMax;
+                do {
+                    alreadyLevelMax = false;
+                    newBonusIdx = rand() % bonusVec.size();
+                    alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
+                    for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                        alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
+                    }
+                } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
+                bonusesIdx.emplace(newBonusIdx);
+            }
+
+            instantiateMenuBonusUI(world, glm::vec2(-72, -64), bonusesIdx);
+        }
+    }
+}
+
 void menuBonusTranslationSys(World& world) {
     auto menus = world.view<Transform, const MenuBonusTranslation>();
 

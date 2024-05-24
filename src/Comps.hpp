@@ -44,6 +44,7 @@
 #include "Comps/Enemies/Comps-Slime.hpp"
 
 // GroundItems:
+#include "Comps/GroundItems/Comps-BonusSphere.hpp"
 #include "Comps/GroundItems/Comps-CoinGroundItem.hpp"
 #include "Comps/GroundItems/Comps-LifeGroundItem.hpp"
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"

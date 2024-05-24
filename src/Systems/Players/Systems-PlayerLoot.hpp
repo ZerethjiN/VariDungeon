@@ -28,7 +28,7 @@ void playerLootSys(World& world) {
 void playerLootAttractSys(World& world) {
     auto loots = world.view<Velocity, const Transform, const LootAttract>();
 
-    auto [time] = world.resource<const Time>();
+    auto [time] = world.resource<Time>();
 
     for (auto [lootEnt, velocity, lootTransform, lootAttract]: loots) {
         Ent targetEnt = lootAttract.getTargetEnt();
@@ -72,7 +72,21 @@ void playerLootAttractSys(World& world) {
                         auto [playerXp] = optPlayerXp.value();
 
                         playerXp.addXp(xpGroundItem.getAmount());
-                        playerXp.isLevelUp();
+                        if (playerXp.isLevelUp()) {
+                            time.setTimeScale(0.0f);
+
+                            world.newEnt(
+                                LevelUpPreMenu(levelUpAnim["Default"].getTotalDuration(), 8),
+                                UICreator(levelUpUV, UIAnchor::CENTER_CENTER),
+                                Animation(levelUpAnim, "Default", AnimType::UNSCALED),
+                                Transform(
+                                    glm::vec2(0, 0),
+                                    0,
+                                    glm::vec2(1, 1)
+                                ),
+                                ZIndex(10)
+                            );
+                        }
 
                         for (auto [_, xpTextUI]: world.view<TextUI>(with<PlayerXpText>)) {
                             xpTextUI.setString("XP " + std::to_string(static_cast<int>(playerXp.getCurXp())) + "/" + std::to_string(static_cast<int>(playerXp.getNbXpForNextLvl())));

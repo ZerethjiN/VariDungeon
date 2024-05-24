@@ -34,6 +34,9 @@
 #include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 
+// GroundItems:
+#include "Systems/GroundItems/Systems-BonusSphere.hpp"
+
 // HUD:
 #include "Systems/HUD/Systems-InventoryBar.hpp"
 #include "Systems/HUD/Systems-MenuBonus.hpp"

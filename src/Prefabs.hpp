@@ -28,6 +28,7 @@
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
 
 //  GroundItems:
+#include "Prefabs/GroundItems/Prefabs-BonusSphere.hpp"
 #include "Prefabs/GroundItems/Prefabs-CoinParticle.hpp"
 #include "Prefabs/GroundItems/Prefabs-XpParticle.hpp"
 

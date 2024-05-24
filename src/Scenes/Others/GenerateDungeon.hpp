@@ -401,6 +401,19 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                         }
                     }
                 }
+            } else if (cellMat[curRoomIdx].isBonusRoom) {
+                auto newRoomPrefab = instantiateDesertBonusRoom;
+
+                auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                newTables.emplace_back(
+                    curRoomIdx,
+                    newChunkEnt
+                );
+
+                world.setInactive(newChunkEnt);
             } else {
                 auto newRoomPrefab = prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
 

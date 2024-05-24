@@ -66,13 +66,16 @@ int main() {
 
                 fireBallAttackSys, fireBallHitSys,
 
+                // GroundItems:
+                getBonusSphereSys,
+
                 // HUD
-                menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
+                levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
             )
             .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,
-                lifeTimeSys,
+                lifeTimeSys, unscaledLifeTimeSys,
                 cameraShakeRightSys, cameraShakeLeftSys,
                 updatePositionSys, updateVelocitySys, collisionSys
             )

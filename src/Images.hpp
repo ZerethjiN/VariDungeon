@@ -31,13 +31,16 @@
 #include "Images/Enemies/Images-Slime.hpp"
 
 // GroundItems:
+#include "Images/GroundItems/Images-BonusSphere.hpp"
 #include "Images/GroundItems/Images-CoinParticle.hpp"
 #include "Images/GroundItems/Images-XpParticle.hpp"
 
 // HUD:
 #include "Images/HUD/Images-BottomBar.hpp"
+#include "Images/HUD/Images-Firework.hpp"
 #include "Images/HUD/Images-HUDElements.hpp"
 #include "Images/HUD/Images-InventoryBar.hpp"
+#include "Images/HUD/Images-LevelUp.hpp"
 #include "Images/HUD/Images-MenuBonusHUD.hpp"
 #include "Images/HUD/Images-MenuBonusIcons.hpp"
 
