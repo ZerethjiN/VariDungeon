@@ -35,7 +35,8 @@
 #include "Systems/Enemies/Systems-Slime.hpp"
 
 // HUD:
-#include "Systems/HUD/Systems-MenuBonusSelector.hpp"
+#include "Systems/HUD/Systems-InventoryBar.hpp"
+#include "Systems/HUD/Systems-MenuBonus.hpp"
 
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"

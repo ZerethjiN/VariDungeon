@@ -67,7 +67,8 @@ int main() {
                 fireBallAttackSys, fireBallHitSys,
 
                 // HUD
-                menuBonusSelectorSys
+                menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
+                menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
             )
             .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,

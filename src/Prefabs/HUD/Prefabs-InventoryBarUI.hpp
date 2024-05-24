@@ -61,9 +61,10 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
 
         // Xp Icon
         world.newEnt(
+            XpIconInventoryBar(),
             UICreator(HUDElementsUV, 4, UIAnchor::BOTTOM_CENTER),
             Transform(
-                position + glm::vec2(0, 8),
+                position + glm::vec2(+4, 8 + 4),
                 0,
                 glm::vec2(1, 1)
             ),
@@ -127,16 +128,17 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
             PlayerCoinText(),
             TextUICreator("0", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::BOTTOM_CENTER, glm::vec2(24, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
             Transform(
-                position + glm::vec2(120, 0),
+                position + glm::vec2(120, 2),
                 0,
                 glm::vec2(1, 1)
             )
         ),
         // Coin Icon
         world.newEnt(
+            CoinIconInventoryBar(),
             UICreator(HUDElementsUV, 5, UIAnchor::BOTTOM_CENTER),
             Transform(
-                position + glm::vec2(144, 0),
+                position + glm::vec2(144 + 8, +8),
                 0,
                 glm::vec2(1, 1)
             ),

@@ -1,0 +1,198 @@
+#pragma once
+
+#include <Zerengine.hpp>
+#include <Res.hpp>
+#include <Comps.hpp>
+#include <Prefabs.hpp>
+#include <Images.hpp>
+
+void menuBonusTranslationSys(World& world) {
+    auto menus = world.view<Transform, const MenuBonusTranslation>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [menuEnt, transform, menuBonusTranslation]: menus) {
+        if (glm::distance(transform.getPosition(), menuBonusTranslation.getFinalPosition()) <= 4.f) {
+            transform.setPositionGlobal(menuBonusTranslation.getFinalPosition());
+
+            const auto& bonusesIdx = menuBonusTranslation.getBonusesIdx();
+
+            world.del<MenuBonusTranslation>(menuEnt);
+
+            world.appendChildren(menuEnt, {
+                world.newEnt(
+                    MenuBonusSelector(bonusesIdx.size()),
+                    UICreator(menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
+                    Animation(menuBonusHUDAnim, "MediumSelector", AnimType::UNSCALED),
+                    Transform(
+                        menuBonusTranslation.getFinalPosition() + glm::vec2(8, 8),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(1)
+                )
+            });
+
+            // Ajout des bonus:
+            int i = 0;
+            for (auto bonusIdx: bonusesIdx) {
+                std::size_t bonusLevel = 0;
+                for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                    bonusLevel = playerBonuses.getBonusLevel(bonusVec[bonusIdx].type);
+                }
+
+                if (bonusVec[bonusIdx].descriptionCallbackPerLevel.empty()) {
+                    continue;
+                }
+
+                world.appendChildren(menuEnt, {
+                    world.newEnt(
+                        BonusRow(i, bonusVec[bonusIdx].type, bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback),
+                        UICreator(menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
+                        Transform(
+                            menuBonusTranslation.getFinalPosition() + glm::vec2(16 + 16, 8 + i * 32 + 16),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        ZIndex(1)
+                    ),
+                    world.newEnt(
+                        TextUICreator(bonusVec[bonusIdx].name, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
+                        Transform(
+                            menuBonusTranslation.getFinalPosition() + glm::vec2(48, 12 + i * 32),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        ZIndex(1)
+                    )
+                });
+                i++;
+            }
+        } else {
+            transform.move(glm::normalize(menuBonusTranslation.getFinalPosition() - transform.getPosition()) * menuBonusTranslation.getTranslationSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void menuBonusReverseTranslationSys(World& world) {
+    auto menus = world.view<Transform, const MenuBonusReverseTranslation>();
+
+    auto [time] = world.resource<Time>();
+
+    for (auto [menuEnt, transform, menuBonusTranslation]: menus) {
+        if (glm::distance(transform.getPosition(), menuBonusTranslation.getFinalPosition()) <= 4.f) {
+            transform.setPositionGlobal(menuBonusTranslation.getFinalPosition());
+
+            world.destroy(menuEnt);
+            time.setTimeScale(1.0f);
+        } else {
+            transform.move(glm::normalize(menuBonusTranslation.getFinalPosition() - transform.getPosition()) * menuBonusTranslation.getTranslationSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void menuBonusSelectorSys(World& world) {
+    auto selectors = world.view<MenuBonusSelector, const Transform>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
+
+    for (auto [selectorEnt, selector, selectorTransform]: selectors) {
+        if (vulkanEngine.window.isKeyDown(MOVE_DOWN)) {
+            if (selector.nextElement()) {
+                world.add(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
+                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                    transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
+                    world.del<MenuBonusCurSelectedRow>(bonusRowEnt);
+                }
+                for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
+                    if (bonusRow.getId() == selector.getCurElement()) {
+                        world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
+                        break;
+                    }
+                }
+            }
+        } else if (vulkanEngine.window.isKeyDown(MOVE_UP)) {
+            if (selector.previousElement()) {
+                world.add(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
+                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                    transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
+                    world.del<MenuBonusCurSelectedRow>(bonusRowEnt);
+                }
+                for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
+                    if (bonusRow.getId() == selector.getCurElement()) {
+                        world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
+                        break;
+                    }
+                }
+            }
+        } else if (vulkanEngine.window.isKeyDown(VALIDATE)) {
+            for (auto [_, bonusRow]: world.view<const BonusRow>()) {
+                if (bonusRow.getId() == selector.getCurElement()) {
+                    for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
+                        playerBonuses.addBonus(bonusRow.getType());
+                    }
+                    if (bonusRow.hasCallback()) {
+                        bonusRow(world);
+                    }
+                    break;
+                }
+            }
+            world.del<MenuBonusSelector>(selectorEnt);
+            for (auto [menuBonusEnt, menuBonusTransform]: world.view<const Transform>(with<MenuBonus>)) {
+                world.add(menuBonusEnt, MenuBonusReverseTranslation(menuBonusTransform.getPosition() + glm::vec2(0, 144), 512.f));
+            }
+        }
+    }
+}
+
+void menuBonusSelectorMoveDownSys(World& world) {
+    auto selectors = world.view<Transform, const MenuBonusSelectorMoveDown>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [selectorEnt, transform, menuBonusSelectorMoveDown]: selectors) {
+        if (glm::distance(transform.getPosition(), menuBonusSelectorMoveDown.getDestination()) <= 4.f) {
+            transform.setPosition(menuBonusSelectorMoveDown.getDestination());
+            world.del<MenuBonusSelectorMoveDown>(selectorEnt);
+        } else {
+            transform.moveY(menuBonusSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void menuBonusSelectorMoveUpSys(World& world) {
+    auto selectors = world.view<Transform, const MenuBonusSelectorMoveUp>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [selectorEnt, transform, menuBonusSelectorMoveUp]: selectors) {
+        if (glm::distance(transform.getPosition(), menuBonusSelectorMoveUp.getDestination()) <= 4.f) {
+            transform.setPosition(menuBonusSelectorMoveUp.getDestination());
+            world.del<MenuBonusSelectorMoveUp>(selectorEnt);
+        } else {
+            transform.moveY(-menuBonusSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void MenuBonusCurSelectedRowScaleSys(World& world) {
+    auto bonusRows = world.view<Transform, MenuBonusCurSelectedRow>(with<BonusRow>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [_, transform, selectedRow]: bonusRows) {
+        auto scale = selectedRow.getScaleSpeed() * time.unscaledFixedDelta();
+
+        if (selectedRow.getIsIncrease()) {
+            if (transform.getScale().x >= selectedRow.getMaxScale()) {
+                selectedRow.changeState();
+            } else {
+                transform.scale(scale, scale);
+            }
+        } else {
+            if (transform.getScale().x <= selectedRow.getMinScale()) {
+                selectedRow.changeState();
+            } else {
+                transform.scale(-scale, -scale);
+            }
+        }
+    }
+}

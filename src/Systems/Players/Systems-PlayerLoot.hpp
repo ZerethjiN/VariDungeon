@@ -83,6 +83,13 @@ void playerLootAttractSys(World& world) {
                         for (auto [_, xpInnerBarUI, xpInnerBar]: world.view<UI, const PlayerXpBarInner>()) {
                             xpInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(xpRatio * xpInnerBar.getMaxLength()), 8));
                         }
+
+                        for (auto [xpIconEnt, xpIconTransform]: world.view<Transform>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
+                            if (!world.has<ShrinkIcon>(xpIconEnt)) {
+                                xpIconTransform.scale(-0.2f, -0.2f);
+                                world.add(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                            }
+                        }
                     }
                 }
 
@@ -118,6 +125,13 @@ void playerLootAttractSys(World& world) {
 
                         for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
                             coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
+                        }
+
+                        for (auto [coinIconEnt, coinIconTransform]: world.view<Transform>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
+                            if (!world.has<ShrinkIcon>(coinIconEnt)) {
+                                coinIconTransform.scale(-0.2f, -0.2f);
+                                world.add(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                            }
                         }
                     }
                 }

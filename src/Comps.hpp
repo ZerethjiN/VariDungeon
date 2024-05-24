@@ -49,6 +49,7 @@
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"
 
 // HUD:
+#include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 
 // Player
