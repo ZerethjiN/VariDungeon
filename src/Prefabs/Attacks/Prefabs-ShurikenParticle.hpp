@@ -7,6 +7,7 @@
 
 Ent instantiateShurikenParticle(World& world, const glm::vec2& position, float rotationSpeed) {
     return world.newEnt(
+        Unerasable(),
         Shuriken(rotationSpeed),
         PlayerWeapon(),
         Damage(1),

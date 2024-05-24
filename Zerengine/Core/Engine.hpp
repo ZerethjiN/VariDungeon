@@ -1646,6 +1646,10 @@ public:
         }
     }
 
+    [[nodiscard]] constexpr std::size_t getTotalEntities() const noexcept {
+        return reg.entArch.size();
+    }
+
     void loadScene(void(*newScene)(World&)) noexcept {
         lateUpgrade.loadScene(newScene);
     }

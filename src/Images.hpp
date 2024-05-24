@@ -19,6 +19,7 @@
 #include "Images/Decors/Images-Door.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
 #include "Images/Decors/Images-Pylon.hpp"
+#include "Images/Decors/Images-Warp.hpp"
 
 // Enemies:
 #include "Images/Enemies/Images-Anubis.hpp"

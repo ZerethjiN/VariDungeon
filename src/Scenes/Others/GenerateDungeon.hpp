@@ -317,6 +317,8 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
+    std::cout << "Total Ent: " << world.getTotalEntities() << std::endl;
+
     // Purge Old Table:
     auto chunkTables = world.view<const ChunkTable>();
     for (auto [chunkTableEnt, chunkTable]: chunkTables) {
@@ -325,6 +327,8 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
         }
         world.destroy(chunkTableEnt);
     }
+
+    std::cout << "Total Ent: " << world.getTotalEntities() << std::endl;
 
     // Create New Table:
     std::vector<std::pair<const std::size_t, Ent>> newTables;
@@ -403,6 +407,19 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 }
             } else if (cellMat[curRoomIdx].isBonusRoom) {
                 auto newRoomPrefab = instantiateDesertBonusRoom;
+
+                auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                newTables.emplace_back(
+                    curRoomIdx,
+                    newChunkEnt
+                );
+
+                world.setInactive(newChunkEnt);
+            } else if (cellMat[curRoomIdx].isFinal) {
+                auto newRoomPrefab = instantiateDesertBossRoom1;
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 

@@ -16,6 +16,7 @@
 // Decors
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
 #include "Prefabs/Decors/Prefabs-Pylon.hpp"
+#include "Prefabs/Decors/Prefabs-Warp.hpp"
 
 // Enemies
 #include "Prefabs/Enemies/Prefabs-Anubis.hpp"

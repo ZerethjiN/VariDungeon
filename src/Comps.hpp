@@ -25,10 +25,12 @@
 #include "Comps/Common/Comps-Life.hpp"
 #include "Comps/Common/Comps-LootSpread.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
+#include "Comps/Common/Comps-Unerasable.hpp"
 #include "Comps/Common/Comps-Unmoveable.hpp"
 
 // Decors
 #include "Comps/Decors/Comps-Wall.hpp"
+#include "Comps/Decors/Comps-Warp.hpp"
 
 // Enemies
 #include "Comps/Enemies/Comps-Anubis.hpp"
