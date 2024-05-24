@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void mummyMoveSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMummyMove, Orientation, const Speed, const Mummy, const Transform, const ZIndex>(without<Unmoveable>);
+    auto enemies = world.view<Velocity, Animation, IsMummyMove, Orientation, const Speed, const Mummy, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();
@@ -85,7 +85,7 @@ void mummyMoveSys(World& world) {
 }
 
 void mummyPreAttackSys(World& world) {
-    auto enemies = world.view<Animation, IsMummyPreAttack, Orientation, const Mummy, const Transform>();
+    auto enemies = world.view<Animation, IsMummyPreAttack, Orientation, const Mummy, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -177,7 +177,7 @@ void mummyPreAttackSys(World& world) {
 }
 
 void mummyAttackSys(World& world) {
-    auto enemies = world.view<Animation, IsMummyAttack, Orientation, const Mummy, const Transform>();
+    auto enemies = world.view<Animation, IsMummyAttack, Orientation, const Mummy, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

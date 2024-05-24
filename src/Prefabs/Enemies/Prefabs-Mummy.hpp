@@ -8,6 +8,7 @@
 Ent instantiateMummy(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
+        EnemyPreSpawn(0.5f, 2),
         Mummy(1.0f, 0.75f, 0.5f),
         IsMummyMove(1.0f),
         EnemyWeapon(),

@@ -24,14 +24,19 @@ void enemyHitSys(World& world) {
                 if (auto opt = world.get<const Transform>(othEnt)) {
                     auto [othTransform] = opt.value();
 
+                    float knockbackStrength = 128.f;
+                    for (auto [_, playerKnockbackStrength]: world.view<const PlayerKnockbackStrength>()) {
+                        knockbackStrength = playerKnockbackStrength.getKnockbackStrength();
+                    }
+
                     if (life.isDead()) {
                         world.add(enemyEnt,
-                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 256.f),
+                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 2),
                             CombatParticleGenerator(0.15f, 3, 2)
                         );
                     } else {
                         world.add(enemyEnt,
-                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), 128.f),
+                            Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength),
                             CombatParticleGenerator(0.15f, 2, 2)
                         );
                     }

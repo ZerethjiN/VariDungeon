@@ -8,6 +8,7 @@
 Ent instantiateRoboboule(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
+        EnemyPreSpawn(0.5f, 2),
         Roboboule(0.75f, 32.f),
         IsRobobouleMove(),
         EnemyWeapon(),

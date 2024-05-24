@@ -227,9 +227,9 @@ void barbarianMovementSys(World& world) {
 }
 
 void barbarianStartAttackSys(World& world) {
-    auto players = world.view<Animation, const Orientation, const Transform, const PlayerDamage>(with<Player, Barbarian>, without<IsBarbarianAttack>);
+    auto players = world.view<Animation, const Orientation, const Transform, const PlayerDamage, const PlayerAttackCooldown>(with<Player, Barbarian>, without<IsBarbarianAttack>);
 
-    for (auto [playerEnt, animation, orientation, transform, playerDamage]: players) {
+    for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
         if (vulkanEngine.window.isKeyDown(A_BUTTON)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(playerEnt)) {
@@ -243,6 +243,9 @@ void barbarianStartAttackSys(World& world) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(1, 0), 90, 256.f);
                     }
+                }
+                if (!world.has<PlayerAttackWeight>(playerEnt)) {
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(1, 0), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
@@ -271,6 +274,9 @@ void barbarianStartAttackSys(World& world) {
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(-1, 0), 270, 256.f);
                     }
                 }
+                if (!world.has<PlayerAttackWeight>(playerEnt)) {
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(-1, 0), 16.f, 0.075f));
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -297,6 +303,9 @@ void barbarianStartAttackSys(World& world) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, 1), 180, 256.f);
                     }
+                }
+                if (!world.has<PlayerAttackWeight>(playerEnt)) {
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, 1), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
@@ -325,6 +334,9 @@ void barbarianStartAttackSys(World& world) {
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, -1), 0, 256.f);
                     }
                 }
+                if (!world.has<PlayerAttackWeight>(playerEnt)) {
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, -1), 16.f, 0.075f));
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -340,7 +352,7 @@ void barbarianStartAttackSys(World& world) {
                     )
                 });
             }
-            world.add(playerEnt, IsBarbarianAttack(0.2f));
+            world.add(playerEnt, IsBarbarianAttack(playerAttackCooldown.getAttackCooldown()));
         }
     }
 }

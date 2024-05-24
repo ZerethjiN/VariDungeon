@@ -8,6 +8,7 @@
 Ent instantiateInsect(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
+        EnemyPreSpawn(0.5f, 2),
         Insect(
             /*MoveDuration:*/ 1.5f,
             /*DirectionCooldown:*/ 0.5f,

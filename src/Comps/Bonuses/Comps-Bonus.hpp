@@ -52,6 +52,9 @@ void strengthBonusCallbackLvl1(World& world);
 void shurikenBonusCallbackLvl1(World& world);
 void laserBonusCallbackLvl1(World& world);
 void speedBonusCallbackLvl1(World& world);
+void healthBonusCallbackLvl1(World& world);
+void attackSpeedBonusCallbackLvl1(World& world);
+void knockbackBonusCallbackLvl1(World& world);
 
 static const std::vector<const BonusData> bonusVec {
     BonusData(BONUS_STRENGTH, 9, "Strength", {{"", strengthBonusCallbackLvl1}}),
@@ -59,6 +62,9 @@ static const std::vector<const BonusData> bonusVec {
     BonusData(BONUS_SHURIKEN, 12, "Shuriken", {{"", shurikenBonusCallbackLvl1}}),
     BonusData(BONUS_LASER, 11, "Laser", {{"", laserBonusCallbackLvl1}}),
     BonusData(BONUS_SPEED, 7, "Speed", {{"", speedBonusCallbackLvl1}}),
+    BonusData(BONUS_HEALTH, 5, "Health", {{"", healthBonusCallbackLvl1}}),
+    BonusData(BONUS_ATTACK_SPEED, 2, "Attack Speed", {{"", attackSpeedBonusCallbackLvl1}}),
+    BonusData(BONUS_KNOCKBACK, 1, "Knockback", {{"", knockbackBonusCallbackLvl1}}),
 };
 
 class BonusRow {

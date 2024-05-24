@@ -32,12 +32,10 @@ void testScene(World& world) {
         bool alreadyLevelMax = false;
         do {
             newBonusIdx = rand() % bonusVec.size();
-            alreadyLevelMax = bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
-            // for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
-            //     std::cout << "Ok" << std::endl;
-            //     alreadyLevelMax = (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
-            //     std::cout << "Aie" << std::endl;
-            // }
+            alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
+            for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
+            }
         } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
         bonusesIdx.emplace(newBonusIdx);
     }

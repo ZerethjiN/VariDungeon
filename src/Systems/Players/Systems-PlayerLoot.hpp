@@ -102,7 +102,7 @@ void playerLootAttractSys(World& world) {
                         auto lifeRatio = playerLife.getCurNbLife() / playerLife.getNbLife();
 
                         for (auto [_, lifeInnerBarUI, lifeInnerBar]: world.view<UI, const PlayerLifeBarInner>()) {
-                            lifeInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>((1 - lifeRatio) * lifeInnerBar.getMaxLength()), 8));
+                            lifeInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(lifeRatio * lifeInnerBar.getMaxLength()), 8));
                         }
                     }
                 }

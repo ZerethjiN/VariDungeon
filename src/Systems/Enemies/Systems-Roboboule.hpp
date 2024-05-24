@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void robobouleMoveSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Roboboule, const Transform, const ZIndex>(with<IsRobobouleMove>, without<Unmoveable>);
+    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Roboboule, const Transform, const ZIndex>(with<IsRobobouleMove>, without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();
@@ -74,7 +74,7 @@ void robobouleMoveSys(World& world) {
 }
 
 void roboboulePreAttackSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRoboboulePreAttack, Orientation, const Speed, const Roboboule, const Transform>();
+    auto enemies = world.view<Velocity, Animation, IsRoboboulePreAttack, Orientation, const Speed, const Roboboule, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();

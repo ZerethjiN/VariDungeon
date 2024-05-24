@@ -17,6 +17,7 @@ public:
         curAnimName(newAnim),
         isUnscaled(newIsUnscaled),
         oneShotAnimationStop(false),
+        oneShotFirst(newAnimations.anims.at(newAnim).getAnimationType() == AnimationType::ONE_SHOT),
         reverseMode(false),
         speed(1) {
     }
@@ -31,7 +32,7 @@ public:
 
             curTimer += delta * speed;
 
-            auto& animPair = curAnimIt->second.at(curFrame);
+            const auto& animPair = curAnimIt->second.at(curFrame);
 
             if (curTimer >= animPair.first) {
                 curTimer -= animPair.first;
@@ -47,7 +48,12 @@ public:
                         curFrame++;
                     } else {
                         if (curAnimIt->second.getAnimationType() == AnimationType::ONE_SHOT) {
-                            oneShotAnimationStop = true;
+                            if (oneShotFirst) {
+                                oneShotFirst = false;
+                                curFrame = 0;
+                            } else {
+                                oneShotAnimationStop = true;
+                            }
                         } else if (curAnimIt->second.getAnimationType() == AnimationType::BOOMERANG) {
                             reverseMode = true;
                             if (curFrame > 0) {
@@ -77,7 +83,7 @@ public:
 
             curTimer += delta * speed;
 
-            auto& animPair = curAnimIt->second.at(curFrame);
+            const auto& animPair = curAnimIt->second.at(curFrame);
 
             if (curTimer >= animPair.first) {
                 curTimer -= animPair.first;
@@ -93,7 +99,12 @@ public:
                         curFrame++;
                     } else {
                         if (curAnimIt->second.getAnimationType() == AnimationType::ONE_SHOT) {
-                            oneShotAnimationStop = true;
+                            if (oneShotFirst) {
+                                oneShotFirst = false;
+                                curFrame = 0;
+                            } else {
+                                oneShotAnimationStop = true;
+                            }
                         } else if (curAnimIt->second.getAnimationType() == AnimationType::BOOMERANG) {
                             reverseMode = true;
                             if (curFrame > 0) {
@@ -121,6 +132,9 @@ public:
                 curTimer = newAnimIt->second.at(curFrame).first;
                 oneShotAnimationStop = false;
                 reverseMode = false;
+                if (newAnimIt->second.getAnimationType() == AnimationType::ONE_SHOT) {
+                    oneShotFirst = true;
+                }
             } else {
                 printf("L'animation %s n'existe pas\n", newAnim.c_str());
             }
@@ -138,6 +152,7 @@ private:
     std::string curAnimName;
     AnimType isUnscaled;
     bool oneShotAnimationStop;
+    bool oneShotFirst;
     bool reverseMode;
 
 public:

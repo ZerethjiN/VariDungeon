@@ -110,26 +110,30 @@ static const AnimationAsset barbareAnim({
     }},
 
     // Attacks
-    {"AttackDown", {
-        {0.05f, barbareUV[8]},
+    {"AttackDown", {{
+        {0.025f, barbareUV[8]},
         {0.10f, barbareUV[9]},
-        {0.05f, barbareUV[10]},
-    }},
-    {"AttackRight", {
-        {0.05f, barbareUV[11]},
+        {0.025f, barbareUV[10]},
+        {1.00f, barbareUV[0]},
+    }, AnimationType::ONE_SHOT}},
+    {"AttackRight", {{
+        {0.025f, barbareUV[11]},
         {0.10f, barbareUV[12]},
-        {0.05f, barbareUV[13]},
-    }},
-    {"AttackLeft", {
-        {0.05f, barbareUV[14]},
+        {0.025f, barbareUV[13]},
+        {1.00f, barbareUV[2]},
+    }, AnimationType::ONE_SHOT}},
+    {"AttackLeft", {{
+        {0.025f, barbareUV[14]},
         {0.10f, barbareUV[15]},
-        {0.05f, barbareUV[16]},
-    }},
-    {"AttackUp", {
-        {0.05f, barbareUV[17]},
+        {0.025f, barbareUV[16]},
+        {1.00f, barbareUV[4]},
+    }, AnimationType::ONE_SHOT}},
+    {"AttackUp", {{
+        {0.025f, barbareUV[17]},
         {0.10f, barbareUV[18]},
-        {0.05f, barbareUV[19]},
-    }},
+        {0.025f, barbareUV[19]},
+        {1.00f, barbareUV[6]},
+    }, AnimationType::ONE_SHOT}},
 
     // Dashs
     {"DashDown", {
@@ -182,26 +186,30 @@ static const AnimationAsset barbareAnim({
     }},
 
     // Hit Attacks
-    {"HitAttackDown", {
-        {0.05f, barbareUV[32]},
+    {"HitAttackDown", {{
+        {0.025f, barbareUV[32]},
         {0.10f, barbareUV[33]},
-        {0.05f, barbareUV[34]},
-    }},
-    {"HitAttackRight", {
-        {0.05f, barbareUV[35]},
+        {0.025f, barbareUV[34]},
+        {1.00f, barbareUV[24]},
+    }, AnimationType::ONE_SHOT}},
+    {"HitAttackRight", {{
+        {0.025f, barbareUV[35]},
         {0.10f, barbareUV[36]},
-        {0.05f, barbareUV[37]},
-    }},
-    {"HitAttackLeft", {
-        {0.05f, barbareUV[38]},
+        {0.025f, barbareUV[37]},
+        {1.00f, barbareUV[26]},
+    }, AnimationType::ONE_SHOT}},
+    {"HitAttackLeft", {{
+        {0.025f, barbareUV[38]},
         {0.10f, barbareUV[39]},
-        {0.05f, barbareUV[40]},
-    }},
-    {"HitAttackUp", {
-        {0.05f, barbareUV[41]},
+        {0.025f, barbareUV[40]},
+        {1.00f, barbareUV[28]},
+    }, AnimationType::ONE_SHOT}},
+    {"HitAttackUp", {{
+        {0.025f, barbareUV[41]},
         {0.10f, barbareUV[42]},
-        {0.05f, barbareUV[43]},
-    }},
+        {0.025f, barbareUV[43]},
+        {1.00f, barbareUV[30]},
+    }, AnimationType::ONE_SHOT}},
 
     // Hit Dashs
     {"HitDashDown", {

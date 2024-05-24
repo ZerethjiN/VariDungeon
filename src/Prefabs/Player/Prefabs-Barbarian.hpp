@@ -14,6 +14,8 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         PlayerCoin(),
         PlayerDamage(1),
         PlayerBonuses(),
+        PlayerAttackCooldown(0.25f),
+        PlayerKnockbackStrength(128.f),
         SpriteCreator(barbareUV),
         Animation(barbareAnim, "MoveDown"),
         Transform(

@@ -35,6 +35,7 @@
 #include "Comps/Enemies/Comps-Bat.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"
 #include "Comps/Enemies/Comps-EnemyDropLoots.hpp"
+#include "Comps/Enemies/Comps-EnemyPreSpawn.hpp"
 #include "Comps/Enemies/Comps-Gasterolcan.hpp"
 #include "Comps/Enemies/Comps-Insect.hpp"
 #include "Comps/Enemies/Comps-LavaSlime.hpp"

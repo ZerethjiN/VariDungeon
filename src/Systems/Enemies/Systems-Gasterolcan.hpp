@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void gasterolcanMoveSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform, const ZIndex>(without<Unmoveable>);
+    auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();
@@ -62,7 +62,7 @@ void gasterolcanMoveSys(World& world) {
 }
 
 void gasterolcanPreAttackSys(World& world) {
-    auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform>();
+    auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -106,7 +106,7 @@ void gasterolcanPreAttackSys(World& world) {
 }
 
 void gasterolcanAttackSys(World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform>();
+    auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();

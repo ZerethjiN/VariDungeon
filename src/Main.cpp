@@ -51,9 +51,10 @@ int main() {
                 shurikenRotationSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
-                doorTriggerSys, openDoorSys, doorCameraMovementSys,
+                doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
                 playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
                 // Enemies scripts
+                enemyPreSpawnSys,
                 slimeMoveSys,
                 insectMoveSys, insectAttackSys,
                 anubisMoveSys, anubisAttackSys,

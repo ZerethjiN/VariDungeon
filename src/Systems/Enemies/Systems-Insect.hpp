@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void insectMoveSys(World& world) {
-    auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform, const ZIndex>(without<Unmoveable>);
+    auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -63,7 +63,7 @@ void insectMoveSys(World& world) {
 }
 
 void insectAttackSys(World& world) {
-    auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform, const Insect>();
+    auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform, const Insect>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
     auto [time] = world.resource<const Time>();

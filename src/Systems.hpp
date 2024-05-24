@@ -26,6 +26,7 @@
 #include "Systems/Enemies/Systems-Bat.hpp"
 #include "Systems/Enemies/Systems-EnemyDropLoots.hpp"
 #include "Systems/Enemies/Systems-EnemyHit.hpp"
+#include "Systems/Enemies/Systems-EnemyPreSpawn.hpp"
 #include "Systems/Enemies/Systems-Gasterolcan.hpp"
 #include "Systems/Enemies/Systems-Insect.hpp"
 #include "Systems/Enemies/Systems-LavaSlime.hpp"
@@ -38,6 +39,7 @@
 
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
+#include "Systems/Players/Systems-PlayerAttackWeight.hpp"
 #include "Systems/Players/Systems-PlayerHit.hpp"
 #include "Systems/Players/Systems-PlayerLaser.hpp"
 #include "Systems/Players/Systems-PlayerLoot.hpp"

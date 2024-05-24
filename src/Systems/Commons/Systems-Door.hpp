@@ -65,7 +65,7 @@ void doorTriggerSys(World& world) {
                     if (auto optParent = world.getParent(cameraEnt)) {
                         auto cameraParentEnt = optParent.value();
                         if (curRoomEnt != 0 && nextRoomEnt != 0) {
-                            world.add(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 256.f));
+                            world.add(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
                         }
                         // if (auto optCameraParent = world.get<Transform>(cameraParentEnt)) {
                         //     auto [cameraParentTransform] = optCameraParent.value();

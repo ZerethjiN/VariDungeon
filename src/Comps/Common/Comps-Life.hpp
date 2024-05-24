@@ -25,6 +25,11 @@ public:
         return *this;
     }
 
+    void increaseMaxLife(float newAmount) {
+        curNbLife += newAmount;
+        nbLife += newAmount;
+    }
+
     bool isDead() const {
         return curNbLife <= 0;
     }
