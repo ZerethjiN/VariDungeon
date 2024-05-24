@@ -4,6 +4,7 @@
 #include "Images/Attacks/Images-BatAttackParticle.hpp"
 #include "Images/Attacks/Images-DaggerParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
+#include "Images/Attacks/Images-LaserParticle.hpp"
 #include "Images/Attacks/Images-ShurikenParticle.hpp"
 
 // Backgrounds:

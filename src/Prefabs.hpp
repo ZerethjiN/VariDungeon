@@ -5,6 +5,7 @@
 #include "Prefabs/Attacks/Prefabs-DaggerParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-LaserParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
 
 // Breakables

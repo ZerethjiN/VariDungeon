@@ -237,6 +237,13 @@ void barbarianStartAttackSys(World& world) {
                 } else {
                     animation.play("AttackRight");
                 }
+                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                    auto [playerLaser] = optLaser.value();
+                    if (playerLaser.canShot()) {
+                        playerLaser.resetCurTime();
+                        instantiateLaserParticle(world, transform.getPosition(), glm::vec2(1, 0), 90, 256.f);
+                    }
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -256,6 +263,13 @@ void barbarianStartAttackSys(World& world) {
                     animation.play("HitAttackLeft");
                 } else {
                     animation.play("AttackLeft");
+                }
+                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                    auto [playerLaser] = optLaser.value();
+                    if (playerLaser.canShot()) {
+                        playerLaser.resetCurTime();
+                        instantiateLaserParticle(world, transform.getPosition(), glm::vec2(-1, 0), 270, 256.f);
+                    }
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
@@ -277,6 +291,13 @@ void barbarianStartAttackSys(World& world) {
                 } else {
                     animation.play("AttackDown");
                 }
+                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                    auto [playerLaser] = optLaser.value();
+                    if (playerLaser.canShot()) {
+                        playerLaser.resetCurTime();
+                        instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, 1), 180, 256.f);
+                    }
+                }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -296,6 +317,13 @@ void barbarianStartAttackSys(World& world) {
                     animation.play("HitAttackUp");
                 } else {
                     animation.play("AttackUp");
+                }
+                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                    auto [playerLaser] = optLaser.value();
+                    if (playerLaser.canShot()) {
+                        playerLaser.resetCurTime();
+                        instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, -1), 0, 256.f);
+                    }
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(

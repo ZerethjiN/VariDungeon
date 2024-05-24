@@ -3,6 +3,7 @@
 // Attacks
 #include "Comps/Attacks/Comps-Dagger.hpp"
 #include "Comps/Attacks/Comps-FireBall.hpp"
+#include "Comps/Attacks/Comps-Laser.hpp"
 #include "Comps/Attacks/Comps-Shuriken.hpp"
 
 // Bonuses

@@ -9,7 +9,7 @@ enum BonusType: std::size_t {
     BONUS_COMBO_DOUBLE_XP,
     BONUS_COMBO_FRAGMENTATION_BOMB,
     BONUS_HEALTH,
-    BONUS_SHIELD,
+    // BONUS_SHIELD,
     BONUS_SPEED,
     BONUS_GOLD,
     BONUS_STRENGTH,
@@ -50,12 +50,15 @@ public:
 void daggerBonusCallbackLvl1(World& world);
 void strengthBonusCallbackLvl1(World& world);
 void shurikenBonusCallbackLvl1(World& world);
+void laserBonusCallbackLvl1(World& world);
+void speedBonusCallbackLvl1(World& world);
 
 static const std::vector<const BonusData> bonusVec {
     BonusData(BONUS_STRENGTH, 9, "Strength", {{"", strengthBonusCallbackLvl1}}),
     BonusData(BONUS_DAGGER, 10, "Dagger", {{"", daggerBonusCallbackLvl1}}),
     BonusData(BONUS_SHURIKEN, 12, "Shuriken", {{"", shurikenBonusCallbackLvl1}}),
-    BonusData(BONUS_LASER, 11, "Laser", {}),
+    BonusData(BONUS_LASER, 11, "Laser", {{"", laserBonusCallbackLvl1}}),
+    BonusData(BONUS_SPEED, 7, "Speed", {{"", speedBonusCallbackLvl1}}),
 };
 
 class BonusRow {

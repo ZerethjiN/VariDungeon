@@ -3,6 +3,7 @@
 // Attacks
 #include "Systems/Attacks/Systems-Dagger.hpp"
 #include "Systems/Attacks/Systems-FireBall.hpp"
+#include "Systems/Attacks/Systems-Laser.hpp"
 #include "Systems/Attacks/Systems-Shuriken.hpp"
 
 // Breakables
@@ -38,4 +39,5 @@
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
 #include "Systems/Players/Systems-PlayerHit.hpp"
+#include "Systems/Players/Systems-PlayerLaser.hpp"
 #include "Systems/Players/Systems-PlayerLoot.hpp"
