@@ -33,6 +33,9 @@
 #include "Comps/Decors/Comps-Warp.hpp"
 
 // Enemies
+// Bosses:
+#include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
+
 #include "Comps/Enemies/Comps-Anubis.hpp"
 #include "Comps/Enemies/Comps-Bat.hpp"
 #include "Comps/Enemies/Comps-Enemy.hpp"
@@ -52,6 +55,7 @@
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"
 
 // HUD:
+#include "Comps/HUD/Comps-BossHealthBar.hpp"
 #include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 
@@ -62,3 +66,6 @@
 #include "Comps/Player/Comps-PlayerCoin.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"
+
+// Traps:
+#include "Comps/Traps/Comps-Spike.hpp"

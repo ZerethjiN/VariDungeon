@@ -3,4 +3,5 @@
 #include <Zerengine.hpp>
 
 class Enemy {};
+class Boss {};
 class EnemyWeapon {};

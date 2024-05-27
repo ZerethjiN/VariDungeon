@@ -45,9 +45,10 @@ void playerHitSys(World& world) {
 
                 // IsDead:
                 if (life.isDead()) {
+                    world.destroy(playerEnt);
                     world.loadScene(testScene);
                 } else {
-                    appliedCameraShake(world, 2.0f, 64.f, 2);
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
                 }
 
                 break;

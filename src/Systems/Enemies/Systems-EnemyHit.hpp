@@ -64,7 +64,7 @@ void enemyHitSys(World& world) {
 
                 // IsDead:
                 if (life.isDead()) {
-                    appliedCameraShake(world, 2.0f, 128.f, 2);
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
 
                     world.add(enemyEnt,
                         DeathParticleGenerator(true, 0.2, 2),
@@ -74,8 +74,26 @@ void enemyHitSys(World& world) {
                             2
                         )
                     );
+
+                    if (world.has<Boss>(enemyEnt)) {
+                        for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
+                            world.destroy(bossHealthBarEnt);
+                        }
+                    }
                 } else {
-                    appliedCameraShake(world, 2.0f, 64.f, 2);
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
+
+                    if (world.has<Boss>(enemyEnt)) {
+                        for (auto [_, lifeTextUI]: world.view<TextUI>(with<BossHealthBarText>)) {
+                            lifeTextUI.setString("HP " + std::to_string(static_cast<int>(life.getCurNbLife())) + "/" + std::to_string(static_cast<int>(life.getNbLife())));
+                        }
+
+                        auto lifeRatio = life.getCurNbLife() / life.getNbLife();
+
+                        for (auto [_, ui, bossHealthBarInner]: world.view<UI, const BossHealthBarInner>()) {
+                            ui.setTextureRect(glm::vec4(0, 36, static_cast<unsigned int>(lifeRatio * bossHealthBarInner.getMaxPixelSize()), 8));
+                        }
+                    }
                 }
 
                 break;

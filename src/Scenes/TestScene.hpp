@@ -9,21 +9,25 @@
 
 void testScene(World& world) {
     // Purge
-    auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
-    textureManager.clear();
-    fontManager.clear();
-    pipelineManager.clear();
+    // auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
+    // textureManager.clear();
+    // fontManager.clear();
+    // pipelineManager.clear();
+
+    auto [spatialHashMap] = world.resource<SpatialHashMap>();
+    spatialHashMap.clear();
 
     // Reset Time
+    auto [time] = world.resource<Time>();
     time.setTimeScale(1.0f);
 
-    world.newEnt(
+    auto ambientLightEnt = world.newEnt(
         AmbientLight(glm::vec4(255, 255, 255, 255))
     );
 
     generateDungeon(world, glm::vec2(0, 0));
 
-    instantiateInventoryBarUI(world, glm::vec2(-80, -16));
+    auto inventoryBarUIEnt = instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
     // Alimentation des Bonus:
     // std::unordered_map<std::size_t, BonusData> lastBonuses;

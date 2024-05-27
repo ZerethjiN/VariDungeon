@@ -30,7 +30,6 @@ void cameraShakeRightSys(World& world) noexcept {
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        transform.moveX(camShake.speed * time.fixedDelta());
         if (auto opt = world.get<const Transform>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x >= originTransform.getPosition().x + camShake.distance) {
@@ -42,6 +41,8 @@ void cameraShakeRightSys(World& world) noexcept {
                     world.del<CameraShakeRight>(entCam);
                     world.add(entCam, CameraShakeLeft());
                 }
+            } else {
+                transform.moveX(camShake.speed * time.fixedDelta());
             }
         }
     }
@@ -52,7 +53,6 @@ void cameraShakeLeftSys(World& world) noexcept {
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        transform.moveX(-camShake.speed * time.fixedDelta());
         if (auto opt = world.get<const Transform>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x <= originTransform.getPosition().x - camShake.distance) {
@@ -64,6 +64,8 @@ void cameraShakeLeftSys(World& world) noexcept {
                     world.del<CameraShakeLeft>(entCam);
                     world.add(entCam, CameraShakeRight());
                 }
+            } else {
+                transform.moveX(-camShake.speed * time.fixedDelta());
             }
         }
     }

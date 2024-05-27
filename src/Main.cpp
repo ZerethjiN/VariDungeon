@@ -4,6 +4,7 @@
 #include <any>
 #include <concepts>
 #include <unordered_set>
+#include <variant>
 
 #include <Zerengine.hpp>
 #include <Res.hpp>
@@ -64,11 +65,15 @@ int main() {
                 gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys,
                 lavaSlimeMoveSys, lavaSlimeAttackSys,
                 robobouleMoveSys, roboboulePreAttackSys,
+                megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
 
                 fireBallAttackSys, fireBallHitSys,
 
                 // GroundItems:
                 getBonusSphereSys,
+
+                // Traps:
+                spikeDownSys, spikeUpSys,
 
                 // HUD
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
@@ -77,10 +82,11 @@ int main() {
             .addMainFixedSys(
                 // particleSystems, generatorParticleMovement,
                 lifeTimeSys, unscaledLifeTimeSys,
-                cameraShakeRightSys, cameraShakeLeftSys,
-                updatePositionSys, updateVelocitySys, collisionSys
+                cameraShakeRightSys, cameraShakeLeftSys
             )
             .addLateFixedSys(
+                updatePositionSys,
+                updateVelocitySys, collisionSys,
                 spriteCreatorSys,
                 uiCreatorSys,
                 textCreatorSys,

@@ -349,7 +349,7 @@ void updateVelocitySys(World& world) {
 void updatePositionSys(World& world) {
     for (auto [ent, trans]: world.view<Transform>()) {
         if (trans.needUpdatePosition) {
-            // trans.moveVelocity(trans.diffPosition);
+            trans.moveVelocity(trans.diffPosition);
             updateVelocityRec(world, ent, trans.diffPosition);
             trans.diffPosition = glm::vec2(0, 0);
             trans.needUpdatePosition = false;

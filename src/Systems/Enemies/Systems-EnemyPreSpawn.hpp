@@ -11,9 +11,15 @@ void enemyPreSpawnSys(World& world) {
 
     auto [time] = world.resource<const Time>();
 
+    bool noHealthBar = true;
+
     for (auto [enemyEnt, enemyPreSpawn, transform, zindex]: enemies) {
         if (enemyPreSpawn.canRemovePreSpawn(time.fixedDelta())) {
             world.del<EnemyPreSpawn>(enemyEnt);
+            if (noHealthBar && world.has<Boss>(enemyEnt) && world.view(with<BossHealthBar>).empty()) {
+                instantiateBossHealthBarUI(world, glm::vec2(0, 0));
+                noHealthBar = false;
+            }
         }
 
         if (enemyPreSpawn.canSpawnParticle(time.fixedDelta())) {

@@ -107,9 +107,9 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
     return true;
 }
 
-void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     std::vector<Ent> subEnts;
-    
+
     // Wall Collisions:
     if (isDoorOpenUp) {
         subEnts.append_range(std::initializer_list<Ent>{
@@ -143,8 +143,14 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
             ),
-            instantiateMiniTorch(world, position + glm::vec2(-32, -64), 0),
-            instantiateMiniTorch(world, position + glm::vec2(16, -64), 0)
+            (cellMat[chunkIdx - width].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(-32, -64), 0) :
+                instantiateMiniTorch(world, position + glm::vec2(-32, -64), 0)
+            ),
+            (cellMat[chunkIdx - width].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(16, -64), 0) :
+                instantiateMiniTorch(world, position + glm::vec2(16, -64), 0)
+            )
         });
     } else {
         subEnts.emplace_back(
@@ -192,8 +198,14 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ZIndex(-9),
                 Collider(-32 / 2, -16 / 2, 32, 48)
             ),
-            instantiateMiniTorch(world, position + glm::vec2(-80, -32), 270),
-            instantiateMiniTorch(world, position + glm::vec2(-80, 16), 270)
+            (cellMat[chunkIdx - 1].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(-80, -32), 270) :
+                instantiateMiniTorch(world, position + glm::vec2(-80, -32), 270)
+            ),
+            (cellMat[chunkIdx - 1].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(-80, 16), 270) :
+                instantiateMiniTorch(world, position + glm::vec2(-80, 16), 270)
+            )
         });
     } else {
         subEnts.emplace_back(
@@ -241,8 +253,14 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 Collider(-32 / 2, -16 / 2, 32, 48)
             ),
-            instantiateMiniTorch(world, position + glm::vec2(64, -32), 90),
-            instantiateMiniTorch(world, position + glm::vec2(64, 16), 90)
+            (cellMat[chunkIdx + 1].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(64, -32), 90) :
+                instantiateMiniTorch(world, position + glm::vec2(64, -32), 90)
+            ),
+            (cellMat[chunkIdx + 1].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(64, 16), 90) :
+                instantiateMiniTorch(world, position + glm::vec2(64, 16), 90)
+            )
         });
     } else {
         subEnts.emplace_back(
@@ -290,8 +308,14 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
             ),
-            instantiateMiniTorch(world, position + glm::vec2(-32, 48), 180),
-            instantiateMiniTorch(world, position + glm::vec2(16, 48), 180)
+            (cellMat[chunkIdx + width].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(-32, 48), 180) :
+                instantiateMiniTorch(world, position + glm::vec2(-32, 48), 180)
+            ),
+            (cellMat[chunkIdx + width].isFinal ?
+                instantiateSkullBossRoom(world, position + glm::vec2(16, 48), 180) :
+                instantiateMiniTorch(world, position + glm::vec2(16, 48), 180)
+            )
         });
     } else {
         subEnts.emplace_back(
@@ -314,6 +338,10 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
     instantiateDesertRoom1,
     instantiateDesertRoom2,
     instantiateDesertRoom3
+};
+
+static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabBossRoomDeserts = {
+    instantiateDesertBossRoom1
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
@@ -360,7 +388,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -370,8 +398,23 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 auto players = world.view<Transform>(with<Player>);
 
                 if (players.empty()) {
-                    auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
+                    std::cout << "CONNARD" << std::endl;
 
+                    auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
+                    world.addDontDestroyOnLoad(playerEnt);
+                } else {
+                    for (auto [_, playerTransform]: players) {
+                        std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
+                        // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
+                        playerTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
+                        std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
+                        // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
+                    }
+                }
+
+                auto cameras = world.view(with<CurCamera>);
+
+                if (cameras.empty()) {
                     auto cameraOrigin = world.newEnt(
                         Transform(
                             glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
@@ -379,6 +422,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                             glm::vec2(1, 1)
                         )
                     );
+                    world.addDontDestroyOnLoad(cameraOrigin);
 
                     world.appendChildren(cameraOrigin, {
                         // Camera
@@ -393,15 +437,24 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                         )
                     });
                 } else {
-                    for (auto [_, playerTransform]: players) {
-                        playerTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
-                    }
-                    for (auto [curCameraEnt]: world.view(with<CurCamera>)) {
+                    for (auto [curCameraEnt]: cameras) {
                         if (auto opt = world.getParent(curCameraEnt)) {
                             if (auto optTransform = world.get<Transform>(opt.value())) {
                                 auto [parentTransform] = optTransform.value();
-                                parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128));
+                                parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0));
                             }
+                        }
+                    }
+
+                    for (auto [cameraEnt]: world.view(with<CameraShake>)) {
+                        if (world.has<CameraShake>(cameraEnt)) {
+                            world.del<CameraShake>(cameraEnt);
+                        }
+                        if (world.has<CameraShakeLeft>(cameraEnt)) {
+                            world.del<CameraShakeLeft>(cameraEnt);
+                        }
+                        if (world.has<CameraShakeRight>(cameraEnt)) {
+                            world.del<CameraShakeRight>(cameraEnt);
                         }
                     }
                 }
@@ -410,7 +463,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -419,11 +472,11 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 world.setInactive(newChunkEnt);
             } else if (cellMat[curRoomIdx].isFinal) {
-                auto newRoomPrefab = instantiateDesertBossRoom1;
+                auto newRoomPrefab = prefabBossRoomDeserts[rand() % prefabBossRoomDeserts.size()];
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -436,7 +489,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,

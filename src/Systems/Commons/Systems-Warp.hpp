@@ -12,7 +12,7 @@ void warpSys(World& world) {
     for (auto [_, collisions]: warps) {
         for (auto othEnt: collisions) {
             if (world.has<Player>(othEnt)) {
-                generateDungeon(world, glm::vec2(0, 0));
+                world.loadScene(testScene);
             }
         }
     }

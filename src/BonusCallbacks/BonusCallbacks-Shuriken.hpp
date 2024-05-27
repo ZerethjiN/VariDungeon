@@ -11,8 +11,8 @@ void shurikenBonusCallbackLvl1(World& world) {
 
     for (auto [playerEnt, transform]: players) {
         world.appendChildren(playerEnt, {
-            instantiateShurikenParticle(world, transform.getPosition() + glm::vec2(-16, 0), 64.f),
-            instantiateShurikenParticle(world, transform.getPosition() + glm::vec2(+16, 0), 64.f),
+            instantiateShurikenParticle(world, transform.getPosition() + glm::vec2(-16, 0), 64.f, glm::vec2(-16, 0)),
+            instantiateShurikenParticle(world, transform.getPosition() + glm::vec2(+16, 0), 64.f, glm::vec2(16, 0)),
         });
     }
 }

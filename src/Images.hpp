@@ -19,9 +19,13 @@
 #include "Images/Decors/Images-Door.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
 #include "Images/Decors/Images-Pylon.hpp"
+#include "Images/Decors/Images-SkullBossRoom.hpp"
 #include "Images/Decors/Images-Warp.hpp"
 
 // Enemies:
+// Boss:
+#include "Images/Enemies/Bosses/Images-MegaSlime.hpp"
+
 #include "Images/Enemies/Images-Anubis.hpp"
 #include "Images/Enemies/Images-Bat.hpp"
 #include "Images/Enemies/Images-Gasterolcan.hpp"
@@ -37,6 +41,7 @@
 #include "Images/GroundItems/Images-XpParticle.hpp"
 
 // HUD:
+#include "Images/HUD/Images-BossHealthBar.hpp"
 #include "Images/HUD/Images-BottomBar.hpp"
 #include "Images/HUD/Images-Firework.hpp"
 #include "Images/HUD/Images-HUDElements.hpp"
@@ -59,3 +64,6 @@
 
 // Player:
 #include "Images/Player/Images-Barbare.hpp"
+
+// Traps:
+#include "Images/Traps/Images-Spike.hpp"

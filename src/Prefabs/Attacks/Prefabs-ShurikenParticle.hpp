@@ -5,10 +5,10 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
-Ent instantiateShurikenParticle(World& world, const glm::vec2& position, float rotationSpeed) {
+Ent instantiateShurikenParticle(World& world, const glm::vec2& position, float rotationSpeed, const glm::vec2& offset) {
     return world.newEnt(
         Unerasable(),
-        Shuriken(rotationSpeed),
+        Shuriken(rotationSpeed, offset),
         PlayerWeapon(),
         Damage(1),
         SpriteCreator(shurikenParticleUV),

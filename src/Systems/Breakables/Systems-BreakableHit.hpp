@@ -37,7 +37,7 @@ void breakableHitSys(World& world) {
 
                 // IsDead:
                 if (life.isDead()) {
-                    appliedCameraShake(world, 2.0f, 128.f, 2);
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
 
                     world.del<Breakable, Life, Collider>(breakableEnt);
                     zindex = -3;
@@ -52,7 +52,7 @@ void breakableHitSys(World& world) {
                         )
                     );
                 } else {
-                    appliedCameraShake(world, 2.0f, 64.f, 2);
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
 
                     world.add(breakableEnt, OnBreakableHit(0.25f));
                 }

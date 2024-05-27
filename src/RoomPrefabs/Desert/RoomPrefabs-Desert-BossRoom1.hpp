@@ -90,17 +90,18 @@ Ent instantiateDesertBossRoom1(World& world, const glm::vec2& position, std::siz
         ),
 
         // Decors:
-        instantiatePylon(world, position + glm::vec2(48, -40)),
 
         // Enemies:
-        instantiateWarp(world, position + glm::vec2(-8, -8)),
+        // instantiateWarp(world, position + glm::vec2(-8, -8)),
+        instantiateMegaSlime(world, position + glm::vec2(-16, -16)),
 
         // Breakables:
-        instantiateRock(world, position + glm::vec2(-48, -48)),
-        instantiateRock(world, position + glm::vec2(-64, -48)),
-        instantiateJar(world, position + glm::vec2(-64, -32)),
-        instantiateJar(world, position + glm::vec2(48, 32)),
-        instantiateWoodenBox(world, position + glm::vec2(32, -48))
+
+        // Traps:
+        // instantiateSpike(world, position + glm::vec2(-32, -16)),
+        // instantiateSpike(world, position + glm::vec2(-32, 0)),
+        // instantiateSpike(world, position + glm::vec2(16, -16)),
+        // instantiateSpike(world, position + glm::vec2(16, 0)),
     });
 
     return chunkHolderEnt;

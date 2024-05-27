@@ -16,9 +16,13 @@
 // Decors
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
 #include "Prefabs/Decors/Prefabs-Pylon.hpp"
+#include "Prefabs/Decors/Prefabs-SkullBossRoom.hpp"
 #include "Prefabs/Decors/Prefabs-Warp.hpp"
 
 // Enemies
+// Bosses:
+#include "Prefabs/Enemies/Bosses/Prefabs-MegaSlime.hpp"
+
 #include "Prefabs/Enemies/Prefabs-Anubis.hpp"
 #include "Prefabs/Enemies/Prefabs-Bat.hpp"
 #include "Prefabs/Enemies/Prefabs-Gasterolcan.hpp"
@@ -34,6 +38,7 @@
 #include "Prefabs/GroundItems/Prefabs-XpParticle.hpp"
 
 // HUD:
+#include "Prefabs/HUD/Prefabs-BossHealthBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
 
@@ -49,3 +54,6 @@
 
 // Player
 #include "Prefabs/Player/Prefabs-Barbarian.hpp"
+
+// Traps:
+#include "Prefabs/Traps/Prefabs-Spike.hpp"
