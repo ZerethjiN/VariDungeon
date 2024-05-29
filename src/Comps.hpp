@@ -4,6 +4,7 @@
 #include "Comps/Attacks/Comps-Dagger.hpp"
 #include "Comps/Attacks/Comps-FireBall.hpp"
 #include "Comps/Attacks/Comps-Laser.hpp"
+#include "Comps/Attacks/Comps-ShadowMark.hpp"
 #include "Comps/Attacks/Comps-Shuriken.hpp"
 
 // Bonuses
@@ -46,7 +47,9 @@
 #include "Comps/Enemies/Comps-LavaSlime.hpp"
 #include "Comps/Enemies/Comps-Mummy.hpp"
 #include "Comps/Enemies/Comps-Roboboule.hpp"
+#include "Comps/Enemies/Comps-RockInsect.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
+#include "Comps/Enemies/Comps-Spectre.hpp"
 
 // GroundItems:
 #include "Comps/GroundItems/Comps-BonusSphere.hpp"

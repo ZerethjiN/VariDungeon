@@ -6,6 +6,8 @@
 #include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-LaserParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-MegaLaserParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-ShadowMarkParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
 
 // Breakables
@@ -30,7 +32,9 @@
 #include "Prefabs/Enemies/Prefabs-LavaSlime.hpp"
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
 #include "Prefabs/Enemies/Prefabs-Roboboule.hpp"
+#include "Prefabs/Enemies/Prefabs-RockInsect.hpp"
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
+#include "Prefabs/Enemies/Prefabs-Spectre.hpp"
 
 //  GroundItems:
 #include "Prefabs/GroundItems/Prefabs-BonusSphere.hpp"

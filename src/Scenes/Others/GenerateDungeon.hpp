@@ -384,7 +384,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
             }
 
             if (cellMat[curRoomIdx].isPrimary) {
-                auto newRoomPrefab = prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
+                auto newRoomPrefab = instantiateDesertTestRoom;//prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 

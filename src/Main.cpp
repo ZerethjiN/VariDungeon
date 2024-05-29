@@ -55,7 +55,10 @@ int main() {
                 doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
                 playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
                 warpSys,
-                // Enemies scripts
+                // Attacks:
+                shadowMarkPreExplosionSys, shadowMarkExplosionSys,
+
+                // Enemies:
                 enemyPreSpawnSys,
                 slimeMoveSys,
                 insectMoveSys, insectAttackSys,
@@ -65,6 +68,8 @@ int main() {
                 gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys,
                 lavaSlimeMoveSys, lavaSlimeAttackSys,
                 robobouleMoveSys, roboboulePreAttackSys,
+                spectreMoveSys, spectreVanishSys, spectreCastSys,
+                rockInsectMoveSys, rockInsectPreCastSys, rockInsectCastSys,
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
 
                 fireBallAttackSys, fireBallHitSys,

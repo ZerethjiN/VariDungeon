@@ -4,6 +4,7 @@
 #include "Systems/Attacks/Systems-Dagger.hpp"
 #include "Systems/Attacks/Systems-FireBall.hpp"
 #include "Systems/Attacks/Systems-Laser.hpp"
+#include "Systems/Attacks/Systems-ShadowMark.hpp"
 #include "Systems/Attacks/Systems-Shuriken.hpp"
 
 // Breakables
@@ -36,7 +37,9 @@
 #include "Systems/Enemies/Systems-LavaSlime.hpp"
 #include "Systems/Enemies/Systems-Mummy.hpp"
 #include "Systems/Enemies/Systems-Roboboule.hpp"
+#include "Systems/Enemies/Systems-RockInsect.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
+#include "Systems/Enemies/Systems-Spectre.hpp"
 
 // GroundItems:
 #include "Systems/GroundItems/Systems-BonusSphere.hpp"

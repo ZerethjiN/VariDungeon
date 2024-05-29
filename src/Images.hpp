@@ -5,6 +5,8 @@
 #include "Images/Attacks/Images-DaggerParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
 #include "Images/Attacks/Images-LaserParticle.hpp"
+#include "Images/Attacks/Images-MegaLaserParticle.hpp"
+#include "Images/Attacks/Images-ShadowMarkParticle.hpp"
 #include "Images/Attacks/Images-ShurikenParticle.hpp"
 
 // Backgrounds:
@@ -33,7 +35,9 @@
 #include "Images/Enemies/Images-LavaSlime.hpp"
 #include "Images/Enemies/Images-Mummy.hpp"
 #include "Images/Enemies/Images-Roboboule.hpp"
+#include "Images/Enemies/Images-RockInsect.hpp"
 #include "Images/Enemies/Images-Slime.hpp"
+#include "Images/Enemies/Images-Spectre.hpp"
 
 // GroundItems:
 #include "Images/GroundItems/Images-BonusSphere.hpp"
