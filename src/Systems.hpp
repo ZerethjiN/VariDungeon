@@ -35,11 +35,13 @@
 #include "Systems/Enemies/Systems-Gasterolcan.hpp"
 #include "Systems/Enemies/Systems-Insect.hpp"
 #include "Systems/Enemies/Systems-LavaSlime.hpp"
+#include "Systems/Enemies/Systems-MiniRock.hpp"
 #include "Systems/Enemies/Systems-Mummy.hpp"
 #include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-RockInsect.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 #include "Systems/Enemies/Systems-Spectre.hpp"
+#include "Systems/Enemies/Systems-VoidSlime.hpp"
 
 // GroundItems:
 #include "Systems/GroundItems/Systems-BonusSphere.hpp"

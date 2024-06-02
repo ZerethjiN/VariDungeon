@@ -45,11 +45,13 @@
 #include "Comps/Enemies/Comps-Gasterolcan.hpp"
 #include "Comps/Enemies/Comps-Insect.hpp"
 #include "Comps/Enemies/Comps-LavaSlime.hpp"
+#include "Comps/Enemies/Comps-MiniRock.hpp"
 #include "Comps/Enemies/Comps-Mummy.hpp"
 #include "Comps/Enemies/Comps-Roboboule.hpp"
 #include "Comps/Enemies/Comps-RockInsect.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
 #include "Comps/Enemies/Comps-Spectre.hpp"
+#include "Comps/Enemies/Comps-VoidSlime.hpp"
 
 // GroundItems:
 #include "Comps/GroundItems/Comps-BonusSphere.hpp"

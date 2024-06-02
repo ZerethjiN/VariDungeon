@@ -1,6 +1,7 @@
 #pragma once
 
 // Attacks
+#include "Prefabs/Attacks/Prefabs-AttractParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-BatAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-DaggerParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
@@ -30,11 +31,13 @@
 #include "Prefabs/Enemies/Prefabs-Gasterolcan.hpp"
 #include "Prefabs/Enemies/Prefabs-Insect.hpp"
 #include "Prefabs/Enemies/Prefabs-LavaSlime.hpp"
+#include "Prefabs/Enemies/Prefabs-MiniRock.hpp"
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
 #include "Prefabs/Enemies/Prefabs-Roboboule.hpp"
 #include "Prefabs/Enemies/Prefabs-RockInsect.hpp"
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
 #include "Prefabs/Enemies/Prefabs-Spectre.hpp"
+#include "Prefabs/Enemies/Prefabs-VoidSlime.hpp"
 
 //  GroundItems:
 #include "Prefabs/GroundItems/Prefabs-BonusSphere.hpp"

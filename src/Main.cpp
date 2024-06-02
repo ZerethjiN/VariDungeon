@@ -71,6 +71,8 @@ int main() {
                 spectreMoveSys, spectreVanishSys, spectreCastSys,
                 rockInsectMoveSys, rockInsectPreCastSys, rockInsectCastSys,
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
+                voidSlimeMoveSys, voidSlimeAttractSys,
+                miniRockSpawnerSys, miniRockMoveSys,
 
                 fireBallAttackSys, fireBallHitSys,
 

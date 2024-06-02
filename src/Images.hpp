@@ -1,6 +1,7 @@
 #pragma once
 
 // Attacks:
+#include "Images/Attacks/Images-AttractParticle.hpp"
 #include "Images/Attacks/Images-BatAttackParticle.hpp"
 #include "Images/Attacks/Images-DaggerParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
@@ -33,11 +34,13 @@
 #include "Images/Enemies/Images-Gasterolcan.hpp"
 #include "Images/Enemies/Images-Insect.hpp"
 #include "Images/Enemies/Images-LavaSlime.hpp"
+#include "Images/Enemies/Images-MiniRock.hpp"
 #include "Images/Enemies/Images-Mummy.hpp"
 #include "Images/Enemies/Images-Roboboule.hpp"
 #include "Images/Enemies/Images-RockInsect.hpp"
 #include "Images/Enemies/Images-Slime.hpp"
 #include "Images/Enemies/Images-Spectre.hpp"
+#include "Images/Enemies/Images-VoidSlime.hpp"
 
 // GroundItems:
 #include "Images/GroundItems/Images-BonusSphere.hpp"
