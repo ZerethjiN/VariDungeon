@@ -104,9 +104,12 @@ Ent instantiateDesertTestRoom(World& world, const glm::vec2& position, std::size
         // instantiateSpectre(world, position + glm::vec2(0, 0)),
         // instantiateRockInsect(world, position + glm::vec2(0, 0)),
         // instantiateVoidSlime(world, position + glm::vec2(0, 0)),
-        instantiateMiniRockSpawner(world, position + glm::vec2(0, 0)),
+        // instantiateMiniRockSpawner(world, position + glm::vec2(0, 0)),
 
         // instantiateMegaSlime(world, position + glm::vec2(-16, -16)),
+
+        // Traps:
+        instantiateVoidSphere(world, position + glm::vec2(0, 0)),
 
         // Breakables:
         instantiateRock(world, position + glm::vec2(-48, -48)),

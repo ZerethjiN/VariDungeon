@@ -74,3 +74,4 @@
 
 // Traps:
 #include "Comps/Traps/Comps-Spike.hpp"
+#include "Comps/Traps/Comps-VoidSphere.hpp"

@@ -64,3 +64,4 @@
 
 // Traps:
 #include "Prefabs/Traps/Prefabs-Spike.hpp"
+#include "Prefabs/Traps/Prefabs-VoidSphere.hpp"

@@ -235,7 +235,7 @@ private:
 
     Archetype(ArchetypeCreateWith, Archetype& oldArch, const Ent ent, const std::any& a) noexcept:
         ents({ent}),
-        pools(oldArch.size() + 1) {
+        pools(oldArch.pools.size() + 1) {
         for (const auto& pair: oldArch.pools) {
             pools.emplace(
                 std::piecewise_construct,
@@ -249,7 +249,7 @@ private:
 
     Archetype(ArchetypeCreateWithout, Archetype& oldArch, const Ent ent, const Type type) noexcept:
         ents({ent}),
-        pools(oldArch.size() - 1) {
+        pools(oldArch.pools.size() - 1) {
         for (const auto& pair: oldArch.pools) {
             if (pair.first != type) {
                 pools.emplace(
@@ -815,16 +815,16 @@ private:
         }
     }
 
-    void filterArchsByType(const Type type, std::unordered_set<Archetype*>& archs) noexcept {
+    void filterArchsByType(const Type type, std::unordered_set<Archetype*>& compatibleArchs) noexcept {
         std::unordered_set<Archetype*> newArchs;
         if (auto archsByTypeIt = archsByType.find(type); archsByTypeIt != archsByType.end()) {
             for (auto* arch: archsByTypeIt->second) {
-                if (archs.contains(arch)) {
+                if (compatibleArchs.contains(arch)) {
                     newArchs.emplace(arch);
                 }
             }
         }
-        archs = newArchs;
+        compatibleArchs = newArchs;
     }
 
 private:

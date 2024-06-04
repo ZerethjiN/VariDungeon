@@ -59,3 +59,4 @@
 
 // Traps
 #include "Systems/Traps/Systems-Spike.hpp"
+#include "Systems/Traps/Systems-VoidSphere.hpp"

@@ -74,3 +74,4 @@
 
 // Traps:
 #include "Images/Traps/Images-Spike.hpp"
+#include "Images/Traps/Images-VoidSphere.hpp"

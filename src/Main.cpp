@@ -81,6 +81,7 @@ int main() {
 
                 // Traps:
                 spikeDownSys, spikeUpSys,
+                voidSphereOffSys, voidSphereOnSys,
 
                 // HUD
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
