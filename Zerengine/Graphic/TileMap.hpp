@@ -149,7 +149,7 @@ public:
     const glm::uvec2 tileSize;
 };
 
-void tileMapCreatorSys(World& world) {
+void tileMapCreatorSys(LateFixedSystem, World& world) {
     auto [texManager] = world.resource<TextureManager>();
     for (auto [entUI, creator]: world.view<const TileMapCreator>()) {
         world.add(entUI, TileMap(texManager.get(creator.filename), creator.tiles, creator.tileMapSize, creator.tileSize));
@@ -159,7 +159,7 @@ void tileMapCreatorSys(World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void updateTileMap(World& world) {
+void updateTileMapSys(LateFixedSystem, World& world) {
     auto tilemaps = world.view<TileMap>();
 
     auto [time] = world.resource<const Time>();

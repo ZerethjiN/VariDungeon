@@ -12,7 +12,7 @@
 #include <Pipelines.hpp>
 #include <FrameBuffers.hpp>
 
-void renderSys(World& world) {
+void renderSys(LateSystem, World& world) {
     auto [pipelineManager, frameBufferManager] = world.resource<PipelineManager, FrameBufferManager>();
     auto [inGameView, uiView] = world.resource<InGameView, UIView>();
 

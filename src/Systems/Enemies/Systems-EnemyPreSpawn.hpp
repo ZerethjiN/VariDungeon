@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void enemyPreSpawnSys(World& world) {
+void enemyPreSpawnSys(MainFixedSystem, World& world) {
     auto enemies = world.view<EnemyPreSpawn, const Transform, const ZIndex>();
 
     auto [time] = world.resource<const Time>();

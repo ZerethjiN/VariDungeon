@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void barbarianStartDashSys(World& world) {
+void barbarianStartDashSys(MainFixedSystem, World& world) {
     auto players = world.view<const Transform, const Orientation, const PlayerDamage>(with<Player, Barbarian>, without<IsBarbarianDash>);
 
     for (auto [playerEnt, transform, orientation, playerDamage]: players) {
@@ -88,7 +88,7 @@ void barbarianStartDashSys(World& world) {
     }
 }
 
-void barbarianStopDashSys(World& world) {
+void barbarianStopDashSys(MainFixedSystem, World& world) {
     auto players = world.view<IsBarbarianDash>(with<Player, Barbarian>);
 
     auto [time] = world.resource<const Time>();
@@ -103,7 +103,7 @@ void barbarianStopDashSys(World& world) {
     }
 }
 
-void barbarianMovementSys(World& world) {
+void barbarianMovementSys(MainFixedSystem, World& world) {
     auto players = world.view<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>, without<Unmoveable>);
 
     auto [time] = world.resource<const Time>();
@@ -226,7 +226,7 @@ void barbarianMovementSys(World& world) {
     }
 }
 
-void barbarianStartAttackSys(World& world) {
+void barbarianStartAttackSys(MainFixedSystem, World& world) {
     auto players = world.view<Animation, const Orientation, const Transform, const PlayerDamage, const PlayerAttackCooldown>(with<Player, Barbarian>, without<IsBarbarianAttack>);
 
     for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
@@ -357,7 +357,7 @@ void barbarianStartAttackSys(World& world) {
     }
 }
 
-void barbarianStopAttackSys(World& world) {
+void barbarianStopAttackSys(MainFixedSystem, World& world) {
     auto players = world.view<IsBarbarianAttack>(with<Player, Barbarian>);
 
     auto [time] = world.resource<const Time>();

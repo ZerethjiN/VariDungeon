@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void lootSpreadSys(World& world) {
+void lootSpreadSys(MainFixedSystem, World& world) {
     auto loots = world.view<Velocity, LootSpread, const Collider>();
     auto players = world.view(with<Player>);
 

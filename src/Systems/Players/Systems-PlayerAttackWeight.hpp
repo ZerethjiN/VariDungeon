@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void playerAttackWeightSys(World& world) {
+void playerAttackWeightSys(MainFixedSystem, World& world) {
     auto players = world.view<PlayerAttackWeight, Velocity>();
 
     auto [time] = world.resource<const Time>();

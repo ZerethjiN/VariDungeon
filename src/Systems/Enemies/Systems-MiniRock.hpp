@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void miniRockSpawnerSys(World& world) {
+void miniRockSpawnerSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, MiniRockSpawner, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
@@ -26,7 +26,7 @@ void miniRockSpawnerSys(World& world) {
     }
 }
 
-void miniRockMoveSys(World& world) {
+void miniRockMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Transform, const ZIndex>(with<MiniRock>, without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 

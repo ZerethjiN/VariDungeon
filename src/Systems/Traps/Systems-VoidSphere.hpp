@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void voidSphereOffSys(World& world) {
+void voidSphereOffSys(MainFixedSystem, World& world) {
     auto spheres = world.view<IsVoidSphereOff, Animation, const VoidSphere, const ZIndex, const Transform>();
 
     auto [time] = world.resource<const Time>();
@@ -27,7 +27,7 @@ void voidSphereOffSys(World& world) {
     }
 }
 
-void voidSphereOnSys(World& world) {
+void voidSphereOnSys(MainFixedSystem, World& world) {
     auto spheres = world.view<IsVoidSphereOn, Animation, const VoidSphere, const Transform>();
     auto players = world.view<Velocity, const Transform>(with<Player>);
 

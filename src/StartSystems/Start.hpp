@@ -4,7 +4,7 @@
 #include <Res.hpp>
 #include <Scenes.hpp>
 
-void startSys(World& world) {
+void startSys(StartSystem, World& world) {
     vulkanEngine.window.buttonNameBinds = {
         {MOVE_UP, {GLFW_KEY_W, GLFW_KEY_UP}},
         {MOVE_DOWN, {GLFW_KEY_S, GLFW_KEY_DOWN}},

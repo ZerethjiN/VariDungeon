@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void damageTextSys(World& world) {
+void damageTextSys(MainFixedSystem, World& world) {
     auto texts = world.view<Velocity, Transform, DamageText>();
 
     auto [time] = world.resource<const Time>();

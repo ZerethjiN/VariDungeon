@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void breakableOnHitSys(World& world) {
+void breakableOnHitSys(MainFixedSystem, World& world) {
     auto breakables = world.view<Animation, OnBreakableHit, const Breakable>();
 
     auto [time] = world.resource<const Time>();
@@ -19,7 +19,7 @@ void breakableOnHitSys(World& world) {
     }
 }
 
-void breakableHitSys(World& world) {
+void breakableHitSys(MainFixedSystem, World& world) {
     auto breakables = world.view<Transform, Life, Animation, ZIndex, const OnCollisionEnter, const Transform, const Breakable>(without<OnBreakableHit, InvincibleFrame>);
 
     for (auto [breakableEnt, transform, life, animation, zindex, collisions, breakableTransform, breakable]: breakables) {

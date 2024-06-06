@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void gasterolcanMoveSys(World& world) {
+void gasterolcanMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -61,7 +61,7 @@ void gasterolcanMoveSys(World& world) {
     }
 }
 
-void gasterolcanPreAttackSys(World& world) {
+void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
@@ -105,7 +105,7 @@ void gasterolcanPreAttackSys(World& world) {
     }
 }
 
-void gasterolcanAttackSys(World& world) {
+void gasterolcanAttackSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 

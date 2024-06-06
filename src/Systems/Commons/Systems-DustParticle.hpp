@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void dustParticleSys(World& world) {
+void dustParticleSys(MainFixedSystem, World& world) {
     auto generators = world.view<DustParticleGenerator, const Transform, const ZIndex>();
 
     auto [time] = world.resource<const Time>();

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void shadowMarkPreExplosionSys(World& world) {
+void shadowMarkPreExplosionSys(MainFixedSystem, World& world) {
     auto marks = world.view<Animation, IsShadowMarkPreExplosion, const ShadowMark>();
 
     auto [time] = world.resource<const Time>();
@@ -23,7 +23,7 @@ void shadowMarkPreExplosionSys(World& world) {
     }
 }
 
-void shadowMarkExplosionSys(World& world) {
+void shadowMarkExplosionSys(MainFixedSystem, World& world) {
     auto marks = world.view<IsShadowMarkExplosion>();
 
     auto [time] = world.resource<const Time>();

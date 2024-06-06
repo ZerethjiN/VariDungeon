@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void fireBallHitSys(World& world) {
+void fireBallHitSys(MainFixedSystem, World& world) {
     auto fireballs = world.view<const OnCollisionEnter, const Transform>(with<FireBall>);
 
     for (auto [fireballEnt, collisions, transform]: fireballs) {
@@ -21,7 +21,7 @@ void fireBallHitSys(World& world) {
     }
 }
 
-void fireBallAttackSys(World& world) {
+void fireBallAttackSys(MainFixedSystem, World& world) {
     auto fireballs = world.view<Velocity, const FireBall, const Speed>();
 
     auto [time] = world.resource<const Time>();

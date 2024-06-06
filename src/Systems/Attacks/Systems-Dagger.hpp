@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void playerDaggerSys(World& world) {
+void playerDaggerSys(MainFixedSystem, World& world) {
     auto players = world.view<PlayerDagger, const Transform>();
 
     auto [time] = world.resource<const Time>();
@@ -21,7 +21,7 @@ void playerDaggerSys(World& world) {
     }
 }
 
-void daggerMovementSys(World& world) {
+void daggerMovementSys(MainFixedSystem, World& world) {
     auto daggers = world.view<Velocity, const Speed, const Dagger>();
 
     auto [time] = world.resource<const Time>();

@@ -36,6 +36,7 @@
 // Enemies
 // Bosses:
 #include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
+#include "Comps/Enemies/Bosses/Comps-RockBoss.hpp"
 
 #include "Comps/Enemies/Comps-Anubis.hpp"
 #include "Comps/Enemies/Comps-Bat.hpp"

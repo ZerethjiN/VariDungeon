@@ -24,7 +24,7 @@ public:
 class CameraShakeLeft {};
 class CameraShakeRight {};
 
-void cameraShakeRightSys(World& world) noexcept {
+void cameraShakeRightSys(MainFixedSystem, World& world) noexcept {
     auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeRight>);
 
     auto [time] = world.resource<const Time>();
@@ -48,7 +48,7 @@ void cameraShakeRightSys(World& world) noexcept {
     }
 }
 
-void cameraShakeLeftSys(World& world) noexcept {
+void cameraShakeLeftSys(MainFixedSystem, World& world) noexcept {
     auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeLeft>);
     auto [time] = world.resource<const Time>();
 

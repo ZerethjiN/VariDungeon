@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void inventoryBarShrinkSys(World& world) {
+void inventoryBarShrinkSys(MainFixedSystem, World& world) {
     auto icons = world.view<ShrinkIcon, Transform>();
 
     auto [time] = world.resource<const Time>();

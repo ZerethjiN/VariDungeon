@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void slimeMoveSys(World& world) {
+void slimeMoveSys(MainFixedSystem, World& world) {
     auto slimes = world.view<Velocity, Animation, Orientation, Slime, const Speed>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();

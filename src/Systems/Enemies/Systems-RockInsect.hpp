@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void rockInsectMoveSys(World& world) {
+void rockInsectMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsRockInsectMove, Orientation, const Speed, const RockInsect, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -86,7 +86,7 @@ void rockInsectMoveSys(World& world) {
     }
 }
 
-void rockInsectPreCastSys(World& world) {
+void rockInsectPreCastSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsRockInsectPreCast, Orientation, const RockInsect, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
@@ -152,7 +152,7 @@ void rockInsectPreCastSys(World& world) {
     }
 }
 
-void rockInsectCastSys(World& world) {
+void rockInsectCastSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsRockInsectCast, Orientation, const RockInsect, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();

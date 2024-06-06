@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void combatParticleGeneratorSys(World& world) {
+void combatParticleGeneratorSys(MainFixedSystem, World& world) {
     auto generators = world.view<CombatParticleGenerator, const Transform, const ZIndex>();
 
     auto [time] = world.resource<const Time>();

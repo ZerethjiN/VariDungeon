@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void spikeDownSys(World& world) {
+void spikeDownSys(MainFixedSystem, World& world) {
     auto spikes = world.view<IsSpikeDown, Sprite, const Spike>();
 
     auto [time] = world.resource<const Time>();
@@ -23,7 +23,7 @@ void spikeDownSys(World& world) {
     }
 }
 
-void spikeUpSys(World& world) {
+void spikeUpSys(MainFixedSystem, World& world) {
     auto spikes = world.view<IsSpikeUp, Sprite, const Spike>();
 
     auto [time] = world.resource<const Time>();

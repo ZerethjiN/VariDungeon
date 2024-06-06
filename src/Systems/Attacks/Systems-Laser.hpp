@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void laserMovementSys(World& world) {
+void laserMovementSys(MainFixedSystem, World& world) {
     auto lasers = world.view<Velocity, const Speed, const Laser>();
 
     auto [time] = world.resource<const Time>();
@@ -16,7 +16,7 @@ void laserMovementSys(World& world) {
     }
 }
 
-void laserHitSys(World& world) {
+void laserHitSys(MainFixedSystem, World& world) {
     auto lasers = world.view<const OnCollisionEnter, const Transform>(with<Laser>);
 
     for (auto [laserEnt, collisions, transform]: lasers) {

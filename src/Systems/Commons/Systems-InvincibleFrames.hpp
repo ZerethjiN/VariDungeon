@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void invincibleFramesSys(World& world) {
+void invincibleFramesSys(MainFixedSystem, World& world) {
     auto invincibles = world.view<InvincibleFrame, Transform>();
 
     auto [time] = world.resource<const Time>();

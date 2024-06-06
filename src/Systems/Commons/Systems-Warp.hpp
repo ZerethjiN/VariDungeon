@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void warpSys(World& world) {
+void warpSys(MainFixedSystem, World& world) {
     auto warps = world.view<const OnCollisionEnter>(with<Warp>);
 
     for (auto [_, collisions]: warps) {

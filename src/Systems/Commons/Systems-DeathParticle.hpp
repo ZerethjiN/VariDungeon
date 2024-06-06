@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void deathParticleSys(World& world) {
+void deathParticleSys(MainFixedSystem, World& world) {
     auto generators = world.view<DeathParticleGenerator, const Transform, const ZIndex>();
 
     auto [time] = world.resource<const Time>();

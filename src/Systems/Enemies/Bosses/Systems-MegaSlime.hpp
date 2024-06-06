@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void megaSlimeMoveSys(World& world) {
+void megaSlimeMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsMegaSlimeMove, Orientation, MegaSlime, const Speed, const Transform, const Life>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -111,7 +111,7 @@ void megaSlimeMoveSys(World& world) {
     }
 }
 
-void megaSlimeFireballSys(World& world) {
+void megaSlimeFireballSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsMegaSlimeFireball, Orientation, const MegaSlime, const Transform, const Life, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -223,7 +223,7 @@ void megaSlimeFireballSys(World& world) {
     }
 }
 
-void megaSlimeBounceSys(World& world) {
+void megaSlimeBounceSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsMegaSlimeBounce, Orientation, const MegaSlime, const Transform, const Life>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -349,7 +349,7 @@ void megaSlimeBounceSys(World& world) {
     }
 }
 
-void megaSlimeSpawnSys(World& world) {
+void megaSlimeSpawnSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsMegaSlimeSpawn, Orientation, const MegaSlime, const Speed, const Transform, const Life>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 

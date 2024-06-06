@@ -14,10 +14,10 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 class Transform {
-friend void collisionSys(World&);
+friend void collisionSys(LateFixedSystem, World&);
 friend void updateVelocityRec(World&, Ent, const glm::vec2&);
-friend void updateVelocitySys(World&);
-friend void updatePositionSys(World&);
+friend void updateVelocitySys(LateFixedSystem, World&);
+friend void updatePositionSys(LateFixedSystem, World&);
 public:
     Transform() noexcept:
         position(0, 0),
@@ -302,7 +302,7 @@ private:
     float curTime;
 };
 
-void lifeTimeSys(World& world) {
+void lifeTimeSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [ent, lifeTime]: world.view<LifeTime>()) {
@@ -334,7 +334,7 @@ private:
     float curTime;
 };
 
-void unscaledLifeTimeSys(World& world) {
+void unscaledLifeTimeSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [ent, lifeTime]: world.view<UnscaledLifeTime>()) {

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void openDoorSys(World& world) {
+void openDoorSys(MainFixedSystem, World& world) {
     auto enemies = world.view(with<Enemy>);
 
     if (enemies.empty()) {
@@ -19,7 +19,7 @@ void openDoorSys(World& world) {
     }
 }
 
-void doorCameraMovementSys(World& world) {
+void doorCameraMovementSys(MainFixedSystem, World& world) {
     auto cameras = world.view<Transform, const ChunkCameraMovement>();
 
     auto [time] = world.resource<const Time>();
@@ -45,7 +45,7 @@ void doorCameraMovementSys(World& world) {
     }
 }
 
-void doorTriggerSys(World& world) {
+void doorTriggerSys(MainFixedSystem, World& world) {
     auto doors = world.view<const OnCollisionEnter, const DoorTrigger>(without<IsDoorLock>);
 
     for (auto [_, collisions, doorTrigger]: doors) {

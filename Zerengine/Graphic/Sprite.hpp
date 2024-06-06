@@ -236,7 +236,7 @@ public:
     glm::vec4 color;
 };
 
-void spriteCreatorSys(World& world) {
+void spriteCreatorSys(LateFixedSystem, World& world) {
     auto [texManager] = world.resource<TextureManager>();
     for (auto [entSprite, creator]: world.view<const SpriteCreator>()) {
         world.add(entSprite, Sprite(texManager.get(creator.filename), creator.rect, creator.origin, creator.color));
@@ -272,7 +272,7 @@ public:
     glm::vec4 color;
 };
 
-void uiCreatorSys(World& world) {
+void uiCreatorSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif

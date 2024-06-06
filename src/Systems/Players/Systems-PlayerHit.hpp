@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void playerHitSys(World& world) {
+void playerHitSys(MainFixedSystem, World& world) {
     auto players = world.view<Transform, Life, const OnCollisionEnter>(with<Player>, without<Unhittable, InvincibleFrame>);
 
     for (auto [playerEnt, playerTransform, life, collisions]: players) {

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void shurikenRotationSys(World& world) {
+void shurikenRotationSys(MainFixedSystem, World& world) {
     auto shurikens = world.view<Transform, const Shuriken>();
 
     auto [time] = world.resource<const Time>();

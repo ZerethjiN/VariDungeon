@@ -45,8 +45,8 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////
 
 class OnCollisionEnter {
-friend void collisionSys(World&);
-friend void purgeCollision(World&);
+friend void collisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
     OnCollisionEnter() noexcept:
         othCols(),
@@ -73,8 +73,8 @@ private:
 };
 
 class OnCollisionStay {
-friend void collisionSys(World&);
-friend void purgeCollision(World&);
+friend void collisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
     OnCollisionStay() noexcept:
         othCols(),
@@ -101,8 +101,8 @@ private:
 };
 
 class OnCollisionExit {
-friend void collisionSys(World&);
-friend void purgeCollision(World&);
+friend void collisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
     OnCollisionExit() noexcept:
         othCols(),
@@ -334,7 +334,7 @@ void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
     }
 }
 
-void updateVelocitySys(World& world) {
+void updateVelocitySys(LateFixedSystem, World& world) {
     for (auto [ent, velocity, trans]: world.view<Velocity, Transform>()) {
         if (velocity.vel != glm::vec2(0, 0)) {
             trans.moveVelocity(velocity.vel);
@@ -346,7 +346,7 @@ void updateVelocitySys(World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void updatePositionSys(World& world) {
+void updatePositionSys(LateFixedSystem, World& world) {
     for (auto [ent, trans]: world.view<Transform>()) {
         if (trans.needUpdatePosition) {
             trans.moveVelocity(trans.diffPosition);
@@ -359,7 +359,7 @@ void updatePositionSys(World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void collisionSys(World& world) {
+void collisionSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif
@@ -838,7 +838,7 @@ void collisionSys(World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void purgeCollision(World& world) {
+void purgeCollisionSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif

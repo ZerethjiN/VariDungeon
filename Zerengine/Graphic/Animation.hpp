@@ -8,7 +8,7 @@ enum AnimType: bool {
 };
 
 class Animation {
-friend void animationSys(World& world);
+friend void animationSys(LateFixedSystem, World& world);
 public:
     Animation(const AnimationAsset& newAnimations, const std::string& newAnim, AnimType newIsUnscaled = AnimType::SCALED) noexcept:
         animationAsset(newAnimations),
@@ -161,7 +161,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void animationSys(World& world) {
+void animationSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif

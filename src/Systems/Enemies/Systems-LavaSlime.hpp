@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void lavaSlimeMoveSys(World& world) {
+void lavaSlimeMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsLavaSlimeMove, Orientation, const Speed, const LavaSlime, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -73,7 +73,7 @@ void lavaSlimeMoveSys(World& world) {
     }
 }
 
-void lavaSlimeAttackSys(World& world) {
+void lavaSlimeAttackSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsLavaSlimePreAttack, Orientation, const LavaSlime, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();

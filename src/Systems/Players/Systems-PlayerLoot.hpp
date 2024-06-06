@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void playerLootSys(World& world) {
+void playerLootSys(MainFixedSystem, World& world) {
     auto players = world.view<const OnCollisionStay>(with<PlayerAttractor>);
 
     for (auto [playerEnt, collisions]: players) {
@@ -25,7 +25,7 @@ void playerLootSys(World& world) {
     }
 }
 
-void playerLootAttractSys(World& world) {
+void playerLootAttractSys(MainFixedSystem, World& world) {
     auto loots = world.view<Velocity, const Transform, const LootAttract>();
 
     auto [time] = world.resource<Time>();

@@ -18,7 +18,7 @@
 #include <Render.hpp>
 #include <StartSystems.hpp>
 
-void pollEventsSys(World& world) {
+void pollEventsSys(MainFixedSystem, World& world) {
     vulkanEngine.window.pollEvents();
 
     if (!vulkanEngine.window.isOpen()) {
@@ -70,9 +70,12 @@ int main() {
                 robobouleMoveSys, roboboulePreAttackSys,
                 spectreMoveSys, spectreVanishSys, spectreCastSys,
                 rockInsectMoveSys, rockInsectPreCastSys, rockInsectCastSys,
-                megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
                 voidSlimeMoveSys, voidSlimeAttractSys,
                 miniRockSpawnerSys, miniRockMoveSys,
+
+                // Bosses:
+                megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
+                rockBossRollSys, rockBossStunSys,
 
                 fireBallAttackSys, fireBallHitSys,
 
@@ -101,10 +104,10 @@ int main() {
                 textUICreatorSys,
                 tileMapCreatorSys,
                 animationSys,
-                updateTileMap,
+                updateTileMapSys,
                 // onClickButtonsSys,
                 // onHoverButtonsSys,
-                purgeCollision
+                purgeCollisionSys
             )
             .addLateSys(renderSys)
             .run();

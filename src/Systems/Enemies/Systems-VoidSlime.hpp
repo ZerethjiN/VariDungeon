@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void voidSlimeMoveSys(World& world) {
+void voidSlimeMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsVoidSlimeMove, Orientation, const Speed, const VoidSlime, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -65,7 +65,7 @@ void voidSlimeMoveSys(World& world) {
     }
 }
 
-void voidSlimeAttractSys(World& world) {
+void voidSlimeAttractSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsVoidSlimeAttract, Orientation, const VoidSlime, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<Velocity, const Transform>(with<Player>);
 

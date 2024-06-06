@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void knockbackSys(World& world) {
+void knockbackSys(MainFixedSystem, World& world) {
     auto knockbacks = world.view<Knockback, Velocity>();
 
     auto [time] = world.resource<const Time>();

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void spectreMoveSys(World& world) {
+void spectreMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreMove, Orientation, const Speed, const Spectre, const Transform>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -87,7 +87,7 @@ void spectreMoveSys(World& world) {
     }
 }
 
-void spectreVanishSys(World& world) {
+void spectreVanishSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreVanish, Orientation, const Spectre, const Speed, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -127,7 +127,7 @@ void spectreVanishSys(World& world) {
     }
 }
 
-void spectreCastSys(World& world) {
+void spectreCastSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreCast, Orientation, const Speed, const Spectre, const Transform>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 

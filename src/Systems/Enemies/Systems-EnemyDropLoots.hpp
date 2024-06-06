@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void enemyDropLootsSys(World& world) {
+void enemyDropLootsSys(MainFixedSystem, World& world) {
     auto loots = world.view<EnemyDropLoots, const Transform>();
     auto players = world.view(with<Player>);
 

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void anubisMoveSys(World& world) {
+void anubisMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -86,7 +86,7 @@ void anubisMoveSys(World& world) {
     }
 }
 
-void anubisAttackSys(World& world) {
+void anubisAttackSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsAnubisAttack, Orientation, const Anubis, const Transform>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();

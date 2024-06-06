@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void robobouleMoveSys(World& world) {
+void robobouleMoveSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Roboboule, const Transform, const ZIndex>(with<IsRobobouleMove>, without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 
@@ -73,7 +73,7 @@ void robobouleMoveSys(World& world) {
     }
 }
 
-void roboboulePreAttackSys(World& world) {
+void roboboulePreAttackSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsRoboboulePreAttack, Orientation, const Speed, const Roboboule, const Transform>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform>(with<Player>);
 

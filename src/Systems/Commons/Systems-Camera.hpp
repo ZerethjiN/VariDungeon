@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void cameraSys(World& world) {
+void cameraSys(MainFixedSystem, World& world) {
     auto cameras = world.view<const Transform>(with<CurCamera>);
 
     auto [inGameView, uiView] = world.resource<InGameView, UIView>();

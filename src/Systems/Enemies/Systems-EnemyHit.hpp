@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void enemyHitSys(World& world) {
+void enemyHitSys(MainFixedSystem, World& world) {
     auto enemies = world.view<Transform, Life, const OnCollisionEnter, const ZIndex>(with<Enemy>, without<Unhittable, InvincibleFrame>);
 
     for (auto [enemyEnt, enemyTransform, life, collisions, zindex]: enemies) {

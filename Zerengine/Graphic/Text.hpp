@@ -697,7 +697,7 @@ public:
     TextAlignementType alignement;
 };
 
-void textUICreatorSys(World& world) {
+void textUICreatorSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif
@@ -737,7 +737,7 @@ public:
     TextAlignementType alignement;
 };
 
-void textCreatorSys(World& world) {
+void textCreatorSys(LateFixedSystem, World& world) {
 #ifdef ZER_DEBUG_INTEGRITY
     try {
 #endif

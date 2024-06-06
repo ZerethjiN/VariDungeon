@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void playerLaserSys(World& world) {
+void playerLaserSys(MainFixedSystem, World& world) {
     auto players = world.view<PlayerLaser>();
 
     auto [time] = world.resource<const Time>();

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void levelUpPreMenuSys(World& world) {
+void levelUpPreMenuSys(MainFixedSystem, World& world) {
     auto preMenus = world.view<LevelUpPreMenu>();
 
     auto [time] = world.resource<const Time>();
@@ -58,7 +58,7 @@ void levelUpPreMenuSys(World& world) {
     }
 }
 
-void menuBonusTranslationSys(World& world) {
+void menuBonusTranslationSys(MainFixedSystem, World& world) {
     auto menus = world.view<Transform, const MenuBonusTranslation>();
 
     auto [time] = world.resource<const Time>();
@@ -126,7 +126,7 @@ void menuBonusTranslationSys(World& world) {
     }
 }
 
-void menuBonusReverseTranslationSys(World& world) {
+void menuBonusReverseTranslationSys(MainFixedSystem, World& world) {
     auto menus = world.view<Transform, const MenuBonusReverseTranslation>();
 
     auto [time] = world.resource<Time>();
@@ -143,7 +143,7 @@ void menuBonusReverseTranslationSys(World& world) {
     }
 }
 
-void menuBonusSelectorSys(World& world) {
+void menuBonusSelectorSys(MainFixedSystem, World& world) {
     auto selectors = world.view<MenuBonusSelector, const Transform>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
@@ -195,7 +195,7 @@ void menuBonusSelectorSys(World& world) {
     }
 }
 
-void menuBonusSelectorMoveDownSys(World& world) {
+void menuBonusSelectorMoveDownSys(MainFixedSystem, World& world) {
     auto selectors = world.view<Transform, const MenuBonusSelectorMoveDown>();
 
     auto [time] = world.resource<const Time>();
@@ -210,7 +210,7 @@ void menuBonusSelectorMoveDownSys(World& world) {
     }
 }
 
-void menuBonusSelectorMoveUpSys(World& world) {
+void menuBonusSelectorMoveUpSys(MainFixedSystem, World& world) {
     auto selectors = world.view<Transform, const MenuBonusSelectorMoveUp>();
 
     auto [time] = world.resource<const Time>();
@@ -225,7 +225,7 @@ void menuBonusSelectorMoveUpSys(World& world) {
     }
 }
 
-void MenuBonusCurSelectedRowScaleSys(World& world) {
+void MenuBonusCurSelectedRowScaleSys(MainFixedSystem, World& world) {
     auto bonusRows = world.view<Transform, MenuBonusCurSelectedRow>(with<BonusRow>);
 
     auto [time] = world.resource<const Time>();

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void getBonusSphereSys(World& world) {
+void getBonusSphereSys(MainFixedSystem, World& world) {
     auto spheres = world.view<const OnCollisionEnter>(with<BonusSphere>);
 
     for (auto [sphereEnt, collisions]: spheres) {
