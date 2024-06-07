@@ -72,6 +72,7 @@ int main() {
                 rockInsectMoveSys, rockInsectPreCastSys, rockInsectCastSys,
                 voidSlimeMoveSys, voidSlimeAttractSys,
                 miniRockSpawnerSys, miniRockMoveSys,
+                scorpionMoveSys, scorpionAttackSys,
 
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
@@ -85,6 +86,7 @@ int main() {
                 // Traps:
                 spikeDownSys, spikeUpSys,
                 voidSphereOffSys, voidSphereOnSys,
+                torchIdleSys, torchCastSys,
 
                 // HUD
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,

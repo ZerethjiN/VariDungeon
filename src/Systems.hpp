@@ -40,6 +40,7 @@
 #include "Systems/Enemies/Systems-Mummy.hpp"
 #include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-RockInsect.hpp"
+#include "Systems/Enemies/Systems-Scorpion.hpp"
 #include "Systems/Enemies/Systems-Slime.hpp"
 #include "Systems/Enemies/Systems-Spectre.hpp"
 #include "Systems/Enemies/Systems-VoidSlime.hpp"
@@ -60,4 +61,5 @@
 
 // Traps
 #include "Systems/Traps/Systems-Spike.hpp"
+#include "Systems/Traps/Systems-Torch.hpp"
 #include "Systems/Traps/Systems-VoidSphere.hpp"

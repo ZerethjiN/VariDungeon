@@ -50,6 +50,7 @@
 #include "Comps/Enemies/Comps-Mummy.hpp"
 #include "Comps/Enemies/Comps-Roboboule.hpp"
 #include "Comps/Enemies/Comps-RockInsect.hpp"
+#include "Comps/Enemies/Comps-Scorpion.hpp"
 #include "Comps/Enemies/Comps-Slime.hpp"
 #include "Comps/Enemies/Comps-Spectre.hpp"
 #include "Comps/Enemies/Comps-VoidSlime.hpp"
@@ -75,4 +76,5 @@
 
 // Traps:
 #include "Comps/Traps/Comps-Spike.hpp"
+#include "Comps/Traps/Comps-Torch.hpp"
 #include "Comps/Traps/Comps-VoidSphere.hpp"

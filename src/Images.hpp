@@ -39,6 +39,7 @@
 #include "Images/Enemies/Images-Mummy.hpp"
 #include "Images/Enemies/Images-Roboboule.hpp"
 #include "Images/Enemies/Images-RockInsect.hpp"
+#include "Images/Enemies/Images-Scorpion.hpp"
 #include "Images/Enemies/Images-Slime.hpp"
 #include "Images/Enemies/Images-Spectre.hpp"
 #include "Images/Enemies/Images-VoidSlime.hpp"
@@ -75,4 +76,5 @@
 
 // Traps:
 #include "Images/Traps/Images-Spike.hpp"
+#include "Images/Traps/Images-Torch.hpp"
 #include "Images/Traps/Images-VoidSphere.hpp"

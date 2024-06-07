@@ -36,6 +36,7 @@
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
 #include "Prefabs/Enemies/Prefabs-Roboboule.hpp"
 #include "Prefabs/Enemies/Prefabs-RockInsect.hpp"
+#include "Prefabs/Enemies/Prefabs-Scorpion.hpp"
 #include "Prefabs/Enemies/Prefabs-Slime.hpp"
 #include "Prefabs/Enemies/Prefabs-Spectre.hpp"
 #include "Prefabs/Enemies/Prefabs-VoidSlime.hpp"
@@ -65,4 +66,5 @@
 
 // Traps:
 #include "Prefabs/Traps/Prefabs-Spike.hpp"
+#include "Prefabs/Traps/Prefabs-Torch.hpp"
 #include "Prefabs/Traps/Prefabs-VoidSphere.hpp"
