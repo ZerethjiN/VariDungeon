@@ -14,7 +14,7 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isLavaSlimeMove, orientation, speed, lavaSlime, enemyTransform, zindex]: enemies) {
         if (isLavaSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.del<IsLavaSlimeMove>(enemyEnt);
+            world.remove<IsLavaSlimeMove>(enemyEnt);
             world.add(enemyEnt, IsLavaSlimePreAttack(lavaSlime.getPreAttackDuration()));
 
             world.appendChildren(enemyEnt, {
@@ -80,7 +80,7 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isLavaSlimePreAttack, orientation, lavaSlime, enemyTransform]: enemies) {
         if (isLavaSlimePreAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsLavaSlimePreAttack>(enemyEnt);
+            world.remove<IsLavaSlimePreAttack>(enemyEnt);
             world.add(enemyEnt, IsLavaSlimeMove(lavaSlime.getMoveDuration()));
 
             world.appendChildren(enemyEnt, {

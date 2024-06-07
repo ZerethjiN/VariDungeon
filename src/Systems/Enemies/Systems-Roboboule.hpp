@@ -18,7 +18,7 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) < roboboule.getPreAttackRadius()) {
-                world.del<IsRobobouleMove>(enemyEnt);
+                world.remove<IsRobobouleMove>(enemyEnt);
                 world.add(enemyEnt, IsRoboboulePreAttack(roboboule.getPreAttackDuration()));
 
                 // world.appendChildren(enemyEnt, {
@@ -90,7 +90,7 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) >= roboboule.getPreAttackRadius()) {
-                world.del<IsRoboboulePreAttack>(enemyEnt);
+                world.remove<IsRoboboulePreAttack>(enemyEnt);
                 world.add(enemyEnt, IsRobobouleMove());
                 continue;
             }

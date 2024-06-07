@@ -448,13 +448,13 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                     for (auto [cameraEnt]: world.view(with<CameraShake>)) {
                         if (world.has<CameraShake>(cameraEnt)) {
-                            world.del<CameraShake>(cameraEnt);
+                            world.remove<CameraShake>(cameraEnt);
                         }
                         if (world.has<CameraShakeLeft>(cameraEnt)) {
-                            world.del<CameraShakeLeft>(cameraEnt);
+                            world.remove<CameraShakeLeft>(cameraEnt);
                         }
                         if (world.has<CameraShakeRight>(cameraEnt)) {
-                            world.del<CameraShakeRight>(cameraEnt);
+                            world.remove<CameraShakeRight>(cameraEnt);
                         }
                     }
                 }

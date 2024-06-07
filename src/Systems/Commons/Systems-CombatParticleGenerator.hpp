@@ -13,7 +13,7 @@ void combatParticleGeneratorSys(MainFixedSystem, World& world) {
 
     for (auto [generatorEnt, generator, transform, zindex]: generators) {
         if (generator.canStop(time.fixedDelta())) {
-            world.del<CombatParticleGenerator>(generatorEnt);
+            world.remove<CombatParticleGenerator>(generatorEnt);
         }
 
         if (generator.canSpawnRepulseParticle(time.fixedDelta())) {

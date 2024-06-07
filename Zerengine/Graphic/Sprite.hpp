@@ -240,7 +240,7 @@ void spriteCreatorSys(LateFixedSystem, World& world) {
     auto [texManager] = world.resource<TextureManager>();
     for (auto [entSprite, creator]: world.view<const SpriteCreator>()) {
         world.add(entSprite, Sprite(texManager.get(creator.filename), creator.rect, creator.origin, creator.color));
-        world.del<SpriteCreator>(entSprite);
+        world.remove<SpriteCreator>(entSprite);
     }
 }
 
@@ -279,7 +279,7 @@ void uiCreatorSys(LateFixedSystem, World& world) {
     auto [texManager] = world.resource<TextureManager>();
     for (auto [entUI, creator]: world.view<const UICreator>()) {
         world.add(entUI, UI(texManager.get(creator.filename), creator.rect, creator.origin, creator.anchor, creator.color));
-        world.del<UICreator>(entUI);
+        world.remove<UICreator>(entUI);
     }
 #ifdef ZER_DEBUG_INTEGRITY
     } catch(const std::exception& except) {

@@ -32,19 +32,19 @@ int main() {
         ZerEngine()
             .useMultithreading(false)
             .setFixedTimeStep(0.02f)
-            .addRes<PipelineManager>()
-            .addRes<FrameBufferManager>()
-            .addRes<TextureManager>()
-            .addRes<FontManager>()
-            .addRes<SpatialHashMap>()
-            .addRes<LayerBasedCollisions>()
-            .addRes<InGameView>(glm::vec4(0, 0, 160, 144))
-            .addRes<UIView>(glm::vec4(0, 0, 160, 144))
-            .addStartSys(startSys)
-            .addMainFixedSys(
+            .addResource<PipelineManager>()
+            .addResource<FrameBufferManager>()
+            .addResource<TextureManager>()
+            .addResource<FontManager>()
+            .addResource<SpatialHashMap>()
+            .addResource<LayerBasedCollisions>()
+            .addResource<InGameView>(glm::vec4(0, 0, 160, 144))
+            .addResource<UIView>(glm::vec4(0, 0, 160, 144))
+            .addStartSystems(startSys)
+            .addMainFixedSystems(
                 pollEventsSys
             )
-            .addMainFixedSys(
+            .addMainFixedSystems(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 playerLootSys, playerLootAttractSys, playerHitSys,
                 breakableHitSys, breakableOnHitSys,
@@ -90,12 +90,12 @@ int main() {
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
             )
-            .addMainFixedSys(
+            .addMainFixedSystems(
                 // particleSystems, generatorParticleMovement,
                 lifeTimeSys, unscaledLifeTimeSys,
                 cameraShakeRightSys, cameraShakeLeftSys
             )
-            .addLateFixedSys(
+            .addLateFixedSystems(
                 updatePositionSys,
                 updateVelocitySys, collisionSys,
                 spriteCreatorSys,
@@ -109,7 +109,7 @@ int main() {
                 // onHoverButtonsSys,
                 purgeCollisionSys
             )
-            .addLateSys(renderSys)
+            .addLateSystems(renderSys)
             .run();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

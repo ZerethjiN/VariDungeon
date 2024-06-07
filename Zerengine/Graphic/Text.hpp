@@ -704,7 +704,7 @@ void textUICreatorSys(LateFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [entUI, creator]: world.view<const TextUICreator>()) {
         world.add(entUI, TextUI(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.anchor, creator.textBoxSize, creator.alignement, creator.color));
-        world.del<TextUICreator>(entUI);
+        world.remove<TextUICreator>(entUI);
     }
 #ifdef ZER_DEBUG_INTEGRITY
     } catch(const std::exception& except) {
@@ -744,7 +744,7 @@ void textCreatorSys(LateFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [ent, creator]: world.view<const TextCreator>()) {
         world.add(ent, Text(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.textBoxSize, creator.alignement, creator.color));
-        world.del<TextCreator>(ent);
+        world.remove<TextCreator>(ent);
     }
 #ifdef ZER_DEBUG_INTEGRITY
     } catch(const std::exception& except) {

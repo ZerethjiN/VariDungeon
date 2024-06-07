@@ -18,7 +18,7 @@ void rockBossRollSys(MainFixedSystem, World& world) {
             bool isHit = false;
             for (auto othEnt: collisions) {
                 if (world.has<Collider>(othEnt)) {
-                    world.del<IsRockBossRoll, Unhittable>(enemyEnt);
+                    world.remove<IsRockBossRoll, Unhittable>(enemyEnt);
                     world.add(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
@@ -72,7 +72,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isRockBossStun, rockBoss, orientation]: enemies) {
         if (isRockBossStun.canSwitchState(time.fixedDelta())) {
-            world.del<IsRockBossStun>(enemyEnt);
+            world.remove<IsRockBossStun>(enemyEnt);
             world.add(enemyEnt, IsRockBossRoll(), Unhittable());
             continue;
         }

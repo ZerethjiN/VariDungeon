@@ -15,7 +15,7 @@ void knockbackSys(MainFixedSystem, World& world) {
         velocity += knockback.getDirection() * knockback.getSpeed() * time.fixedDelta();
 
         if (knockback.canStopKnockback(time.fixedDelta())) {
-            world.del<Knockback>(knockbackEnt);
+            world.remove<Knockback>(knockbackEnt);
         }
     }
 }

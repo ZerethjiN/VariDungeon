@@ -14,7 +14,7 @@ void breakableOnHitSys(MainFixedSystem, World& world) {
     for (auto [breakableEnt, animation, onBreakableHit, breakable]: breakables) {
         if (onBreakableHit.canStop(time.fixedDelta())) {
             animation.play(breakable.getNoHitAnimName());
-            world.del<OnBreakableHit>(breakableEnt);
+            world.remove<OnBreakableHit>(breakableEnt);
         }
     }
 }
@@ -39,7 +39,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                 if (life.isDead()) {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
 
-                    world.del<Breakable, Life, Collider>(breakableEnt);
+                    world.remove<Breakable, Life, Collider>(breakableEnt);
                     zindex = -3;
                     animation.play(breakable.getDestroyedAnimName());
 

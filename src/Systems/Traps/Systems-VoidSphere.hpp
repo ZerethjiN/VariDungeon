@@ -14,9 +14,9 @@ void voidSphereOffSys(MainFixedSystem, World& world) {
     for (auto [sphereEnt, isVoidSphereOff, animation, voidSphere, zindex, transform]: spheres) {
         if (isVoidSphereOff.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.del<VoidSphere>(sphereEnt);
+                world.remove<VoidSphere>(sphereEnt);
             } else {
-                world.del<IsVoidSphereOff>(sphereEnt);
+                world.remove<IsVoidSphereOff>(sphereEnt);
                 world.add(sphereEnt, IsVoidSphereOn(voidSphere.voidSphereOnDuration));
                 world.appendChildren(sphereEnt, {
                     instantiateAttractParticle(world, transform.getPosition(), zindex + 1, voidSphere.voidSphereOnDuration)
@@ -36,9 +36,9 @@ void voidSphereOnSys(MainFixedSystem, World& world) {
     for (auto [sphereEnt, isVoidSphereOn, animation, voidSphere, enemyTransform]: spheres) {
         if (isVoidSphereOn.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.del<VoidSphere>(sphereEnt);
+                world.remove<VoidSphere>(sphereEnt);
             } else {
-                world.del<IsVoidSphereOn>(sphereEnt);
+                world.remove<IsVoidSphereOn>(sphereEnt);
                 world.add(sphereEnt, IsVoidSphereOff(voidSphere.voidSphereOffDuration));
             }
             animation.play("Off");

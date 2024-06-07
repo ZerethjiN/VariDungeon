@@ -153,7 +153,7 @@ void tileMapCreatorSys(LateFixedSystem, World& world) {
     auto [texManager] = world.resource<TextureManager>();
     for (auto [entUI, creator]: world.view<const TileMapCreator>()) {
         world.add(entUI, TileMap(texManager.get(creator.filename), creator.tiles, creator.tileMapSize, creator.tileSize));
-        world.del<TileMapCreator>(entUI);
+        world.remove<TileMapCreator>(entUI);
     }
 }
 

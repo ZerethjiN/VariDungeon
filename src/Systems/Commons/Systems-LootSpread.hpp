@@ -18,7 +18,7 @@ void lootSpreadSys(MainFixedSystem, World& world) {
             for (auto [playerEnt]: players) {
                 newPlayerEnt = playerEnt;
             }
-            world.del<LootSpread, Collider>(lootEnt);
+            world.remove<LootSpread, Collider>(lootEnt);
             world.add(lootEnt,
                 // Lootable(),
                 Trigger(collider.col),

@@ -12,7 +12,7 @@ void playerLootSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, collisions]: players) {
         for (auto othEnt: collisions) {
             if (world.has<Lootable>(othEnt)) {
-                world.del<Lootable>(othEnt);
+                world.remove<Lootable>(othEnt);
                 world.add(othEnt,
                     LootAttract(128.f, playerEnt)
                 );

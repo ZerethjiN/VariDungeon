@@ -14,7 +14,7 @@ void inventoryBarShrinkSys(MainFixedSystem, World& world) {
     for (auto [iconEnt, shrinkIcon, transform]: icons) {
         if (shrinkIcon.canUnshrink(time.fixedDelta())) {
             transform.scale(-shrinkIcon.getShrink());
-            world.del<ShrinkIcon>(iconEnt);
+            world.remove<ShrinkIcon>(iconEnt);
         }
     }
 }

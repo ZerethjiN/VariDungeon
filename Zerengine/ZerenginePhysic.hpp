@@ -814,19 +814,19 @@ void collisionSys(LateFixedSystem, World& world) {
     // Purge Empty Collisions
     for (auto [entCollision, collision]: world.view<OnCollisionEnter>()) {
         if (collision.othCols.empty()) {
-            world.del<OnCollisionEnter>(entCollision);
+            world.remove<OnCollisionEnter>(entCollision);
         }
     }
 
     for (auto [entCollision, collision]: world.view<OnCollisionStay>()) {
         if (collision.othCols.empty()) {
-            world.del<OnCollisionStay>(entCollision);
+            world.remove<OnCollisionStay>(entCollision);
         }
     }
 
     for (auto [entCollision, collision]: world.view<OnCollisionExit>()) {
         if (collision.othCols.empty()) {
-            world.del<OnCollisionExit>(entCollision);
+            world.remove<OnCollisionExit>(entCollision);
         }
     }
 #ifdef ZER_DEBUG_INTEGRITY

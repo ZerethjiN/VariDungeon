@@ -69,7 +69,7 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
 
             const auto& bonusesIdx = menuBonusTranslation.getBonusesIdx();
 
-            world.del<MenuBonusTranslation>(menuEnt);
+            world.remove<MenuBonusTranslation>(menuEnt);
 
             world.appendChildren(menuEnt, {
                 world.newEnt(
@@ -152,7 +152,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                 world.add(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
                 for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-                    world.del<MenuBonusCurSelectedRow>(bonusRowEnt);
+                    world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.getId() == selector.getCurElement()) {
@@ -166,7 +166,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                 world.add(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
                 for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-                    world.del<MenuBonusCurSelectedRow>(bonusRowEnt);
+                    world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.getId() == selector.getCurElement()) {
@@ -187,7 +187,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                     break;
                 }
             }
-            world.del<MenuBonusSelector>(selectorEnt);
+            world.remove<MenuBonusSelector>(selectorEnt);
             for (auto [menuBonusEnt, menuBonusTransform]: world.view<const Transform>(with<MenuBonus>)) {
                 world.add(menuBonusEnt, MenuBonusReverseTranslation(menuBonusTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
@@ -203,7 +203,7 @@ void menuBonusSelectorMoveDownSys(MainFixedSystem, World& world) {
     for (auto [selectorEnt, transform, menuBonusSelectorMoveDown]: selectors) {
         if (glm::distance(transform.getPosition(), menuBonusSelectorMoveDown.getDestination()) <= 4.f) {
             transform.setPosition(menuBonusSelectorMoveDown.getDestination());
-            world.del<MenuBonusSelectorMoveDown>(selectorEnt);
+            world.remove<MenuBonusSelectorMoveDown>(selectorEnt);
         } else {
             transform.moveY(menuBonusSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
         }
@@ -218,7 +218,7 @@ void menuBonusSelectorMoveUpSys(MainFixedSystem, World& world) {
     for (auto [selectorEnt, transform, menuBonusSelectorMoveUp]: selectors) {
         if (glm::distance(transform.getPosition(), menuBonusSelectorMoveUp.getDestination()) <= 4.f) {
             transform.setPosition(menuBonusSelectorMoveUp.getDestination());
-            world.del<MenuBonusSelectorMoveUp>(selectorEnt);
+            world.remove<MenuBonusSelectorMoveUp>(selectorEnt);
         } else {
             transform.moveY(-menuBonusSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
         }

@@ -13,7 +13,7 @@ void openDoorSys(MainFixedSystem, World& world) {
         auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger>);
 
         for (auto [doorEnt]: doors) {
-            world.del<Sprite, Collider, IsDoorLock>(doorEnt);
+            world.remove<Sprite, Collider, IsDoorLock>(doorEnt);
             world.add(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
         }
     }
@@ -30,17 +30,17 @@ void doorCameraMovementSys(MainFixedSystem, World& world) {
 
             if (glm::distance(nextTransform.getPosition() + glm::vec2(-8, 0), cameraTransform.getPosition()) < 8) {
                 cameraTransform.setPosition(nextTransform.getPosition() + glm::vec2(-8, 0));
-                world.del<ChunkCameraMovement>(cameraEnt);
+                world.remove<ChunkCameraMovement>(cameraEnt);
                 world.setInactive(chunkCameraMovement.getOldRoomEnt());
 
                 for (auto [playerEnt]: world.view(with<Player, Unmoveable>)) {
-                    world.del<Unmoveable>(playerEnt);
+                    world.remove<Unmoveable>(playerEnt);
                 }
             } else {
                 cameraTransform.move(glm::normalize(nextTransform.getPosition() + glm::vec2(-8, 0) - cameraTransform.getPosition()) * chunkCameraMovement.getCameraSpeed() * time.fixedDelta());
             }
         } else {
-            world.del<ChunkCameraMovement>(cameraEnt);
+            world.remove<ChunkCameraMovement>(cameraEnt);
         }
     }
 }

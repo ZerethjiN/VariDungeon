@@ -14,7 +14,7 @@ void invincibleFramesSys(MainFixedSystem, World& world) {
     for (auto [invincibleEnt, invincible, transform]: invincibles) {
         if (invincible.canStop(time.fixedDelta())) {
             transform.scale(-invincible.getScale());
-            world.del<InvincibleFrame>(invincibleEnt);
+            world.remove<InvincibleFrame>(invincibleEnt);
         }
     }
 }

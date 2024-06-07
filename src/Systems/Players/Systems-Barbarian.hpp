@@ -95,9 +95,9 @@ void barbarianStopDashSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianDash]: players) {
         if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(B_BUTTON)) {
-            world.del<IsBarbarianDash>(playerEnt);
+            world.remove<IsBarbarianDash>(playerEnt);
             if (world.has<Unhittable>(playerEnt)) {
-                world.del<Unhittable>(playerEnt);
+                world.remove<Unhittable>(playerEnt);
             }
         }
     }
@@ -364,7 +364,7 @@ void barbarianStopAttackSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianAttack]: players) {
         if (isBarbarianAttack.canStopAttack(time.fixedDelta())) {
-            world.del<IsBarbarianAttack>(playerEnt);
+            world.remove<IsBarbarianAttack>(playerEnt);
         }
     }
 }

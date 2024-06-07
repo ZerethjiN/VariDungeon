@@ -15,7 +15,7 @@ void innerMovementDownSys(MainFixedSystem, World& world) {
         transform.moveYGlobal(innerMovement.getSpeed() * time.fixedDelta());
 
         if (innerMovement.canChangeDirection(time.fixedDelta())) {
-            world.del<InnerMovementDown>(ent);
+            world.remove<InnerMovementDown>(ent);
             world.add(ent, InnerMovementUp());
         }
     }
@@ -30,7 +30,7 @@ void innerMovementUpSys(MainFixedSystem, World& world) {
         transform.moveYGlobal(-innerMovement.getSpeed() * time.fixedDelta());
 
         if (innerMovement.canChangeDirection(time.fixedDelta())) {
-            world.del<InnerMovementUp>(ent);
+            world.remove<InnerMovementUp>(ent);
             world.add(ent, InnerMovementDown());
         }
     }

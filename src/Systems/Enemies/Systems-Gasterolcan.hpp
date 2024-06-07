@@ -14,7 +14,7 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGasterolcanMove, orientation, speed, gasterolcan, enemyTransform, zindex]: enemies) {
         if (isGasterolcanMove.canSwitchState(time.fixedDelta())) {
-            world.del<IsGasterolcanMove>(enemyEnt);
+            world.remove<IsGasterolcanMove>(enemyEnt);
             world.add(enemyEnt, IsGasterolcanPreAttack(gasterolcan.getPreAttackDuration()));
             continue;
         }
@@ -68,7 +68,7 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isGasterolcanPreAttack, orientation, gasterolcan, enemyTransform]: enemies) {
         if (isGasterolcanPreAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsGasterolcanPreAttack>(enemyEnt);
+            world.remove<IsGasterolcanPreAttack>(enemyEnt);
             world.add(enemyEnt, IsGasterolcanAttack(gasterolcan.getAttackDuration()));
             continue;
         }
@@ -113,7 +113,7 @@ void gasterolcanAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGasterolcanAttack, orientation, speed, gasterolcan, enemyTransform]: enemies) {
         if (isGasterolcanAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsGasterolcanAttack>(enemyEnt);
+            world.remove<IsGasterolcanAttack>(enemyEnt);
             world.add(enemyEnt, IsGasterolcanMove(gasterolcan.getMoveDuration()));
             continue;
         }

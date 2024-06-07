@@ -14,7 +14,7 @@ void mummyMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMummyMove, orientation, speed, mummy, enemyTransform, zindex]: enemies) {
         if (isMummyMove.canSwitchState(time.fixedDelta())) {
-            world.del<IsMummyMove>(enemyEnt);
+            world.remove<IsMummyMove>(enemyEnt);
             world.add(enemyEnt, IsMummyPreAttack(mummy.getPreAttackDuration()));
 
             if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -91,7 +91,7 @@ void mummyPreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyPreAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyPreAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsMummyPreAttack>(enemyEnt);
+            world.remove<IsMummyPreAttack>(enemyEnt);
             world.add(enemyEnt, IsMummyAttack(mummy.getAttackDuration()));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
@@ -183,7 +183,7 @@ void mummyAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsMummyAttack>(enemyEnt);
+            world.remove<IsMummyAttack>(enemyEnt);
             world.add(enemyEnt, IsMummyMove(mummy.getMoveDuration()));
         }
 

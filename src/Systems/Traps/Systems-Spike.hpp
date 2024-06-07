@@ -13,7 +13,7 @@ void spikeDownSys(MainFixedSystem, World& world) {
 
     for (auto [spikeEnt, isSpikeDown, sprite, spike]: spikes) {
         if (isSpikeDown.canSwitchState(time.fixedDelta())) {
-            world.del<IsSpikeDown>(spikeEnt);
+            world.remove<IsSpikeDown>(spikeEnt);
             world.add(spikeEnt, IsSpikeUp(spike.spikeUpDuration));
             sprite.setTextureRect(spikeUV[1]);
             if (!world.has<Trigger>(spikeEnt)) {
@@ -30,11 +30,11 @@ void spikeUpSys(MainFixedSystem, World& world) {
 
     for (auto [spikeEnt, isSpikeUp, sprite, spike]: spikes) {
         if (isSpikeUp.canSwitchState(time.fixedDelta())) {
-            world.del<IsSpikeUp>(spikeEnt);
+            world.remove<IsSpikeUp>(spikeEnt);
             sprite.setTextureRect(spikeUV[0]);
             world.add(spikeEnt, IsSpikeDown(spike.spikeDownDuration));
             if (world.has<Trigger>(spikeEnt)) {
-                world.del<Trigger>(spikeEnt);
+                world.remove<Trigger>(spikeEnt);
             }
         }
     }

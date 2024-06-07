@@ -13,7 +13,7 @@ void insectMoveSys(MainFixedSystem, World& world) {
 
     for (auto [insectEnt, velocity, animation, isInsectMove, orientation, speed, insect, transform, zindex]: insects) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
-            world.del<IsInsectMove>(insectEnt);
+            world.remove<IsInsectMove>(insectEnt);
             world.add(insectEnt, IsInsectAttack(insect.getAttackDuration()));
             world.appendChildren(insectEnt, {
                 instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex)
@@ -70,7 +70,7 @@ void insectAttackSys(MainFixedSystem, World& world) {
 
     for (auto [insectEnt, velocity, animation, isInsectAttack, orientation, speed, insectTransform, insect]: insects) {
         if (isInsectAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsInsectAttack>(insectEnt);
+            world.remove<IsInsectAttack>(insectEnt);
             world.add(insectEnt, IsInsectMove(insect.getMoveDuration(), insect.getDirectionCooldown()));
         }
 

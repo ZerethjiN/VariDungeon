@@ -14,7 +14,7 @@ void batMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isBatMove, orientation, speed, bat, enemyTransform, zindex]: enemies) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
-            world.del<IsBatMove>(enemyEnt);
+            world.remove<IsBatMove>(enemyEnt);
             world.add(enemyEnt, IsBatAttack(bat.getAttackDuration()));
 
             if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -111,7 +111,7 @@ void batAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
-            world.del<IsBatAttack>(enemyEnt);
+            world.remove<IsBatAttack>(enemyEnt);
             world.add(enemyEnt, IsBatMove(bat.getMoveDuration()));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
