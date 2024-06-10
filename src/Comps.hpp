@@ -71,10 +71,12 @@
 #include "Comps/Player/Comps-Player.hpp"
 #include "Comps/Player/Comps-PlayerBonuses.hpp"
 #include "Comps/Player/Comps-PlayerCoin.hpp"
+#include "Comps/Player/Comps-PlayerFrenzy.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"
 
 // Traps:
 #include "Comps/Traps/Comps-Spike.hpp"
 #include "Comps/Traps/Comps-Torch.hpp"
+#include "Comps/Traps/Comps-Turret.hpp"
 #include "Comps/Traps/Comps-VoidSphere.hpp"

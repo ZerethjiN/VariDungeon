@@ -9,7 +9,7 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
-        Mummy(1.0f, 0.75f, 0.5f),
+        Mummy(1.0f, 0.75f, 0.5f, 32.f),
         IsMummyMove(1.0f),
         EnemyWeapon(),
         Damage(1),
@@ -21,7 +21,7 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         ZIndex(0),
-        Life(3),
+        Life(2),
         Velocity(),
         Speed(32),
         Orientation(Orientation::SOUTH),

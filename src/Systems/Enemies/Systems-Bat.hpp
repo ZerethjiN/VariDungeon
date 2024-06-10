@@ -14,52 +14,55 @@ void batMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isBatMove, orientation, speed, bat, enemyTransform, zindex]: enemies) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsBatMove>(enemyEnt);
-            world.add(enemyEnt, IsBatAttack(bat.getAttackDuration()));
+            for (auto [_, playerTransform]: players) {
+                if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= bat.attackRadius) {
+                    world.remove<IsBatMove>(enemyEnt);
+                    world.add(enemyEnt, IsBatAttack(bat.attackDuration));
 
-            if (fabs(orientation.x) > fabs(orientation.y)) {
-                if (orientation.x > 0) {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, +16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0,   0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, -16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1, +16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1,   0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1, -16), zindex)
-                    });
-                } else {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, +16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0,   0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, -16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1, +16), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1,   0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1, -16), zindex)
-                    });
-                }
-            } else {
-                if (orientation.y > 0) {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 1), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 1), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16 * 1), zindex)
-                    });
-                } else {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16 * 0), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 1), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 1), zindex),
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16 * 1), zindex)
-                    });
+                    if (fabs(orientation.x) > fabs(orientation.y)) {
+                        if (orientation.x > 0) {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, +16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0,   0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, -16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1, +16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1,   0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1, -16), zindex)
+                            });
+                        } else {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, +16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0,   0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, -16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1, +16), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1,   0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1, -16), zindex)
+                            });
+                        }
+                    } else {
+                        if (orientation.y > 0) {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 1), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 1), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16 * 1), zindex)
+                            });
+                        } else {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16 * 0), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 1), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 1), zindex),
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16 * 1), zindex)
+                            });
+                        }
+                    }
+                    continue;
                 }
             }
-
-            continue;
         }
 
         glm::vec2 newdirection;
@@ -112,7 +115,7 @@ void batAttackSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsBatAttack>(enemyEnt);
-            world.add(enemyEnt, IsBatMove(bat.getMoveDuration()));
+            world.add(enemyEnt, IsBatMove(bat.moveDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.appendChildren(enemyEnt, {

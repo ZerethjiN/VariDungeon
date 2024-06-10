@@ -20,10 +20,10 @@ Ent instantiateDesertRoom1(World& world, const glm::vec2& position, std::size_t 
     std::vector<TileMapTileInfo> backgroundTiles {
         tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
         tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 30], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 30], tileMapDesertUV[  2], tileMapDesertUV[  4], tileMapDesertUV[ 11],
         tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4],
         tileMapDesertUV[  4], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4],
-        tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[ 30], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 30], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 11],
         tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[ 11],
         tileMapDesertUV[ 16], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 17],
     };
@@ -89,25 +89,21 @@ Ent instantiateDesertRoom1(World& world, const glm::vec2& position, std::size_t 
             )
         ),
 
-        // Decors:
-        instantiatePylon(world, position + glm::vec2(48, -40)),
-
         // Enemies:
-        // instantiateSlime(world, position + glm::vec2(0, 0)),
-        // instantiateBat(world, position + glm::vec2(0, 0)),
-        // instantiateMummy(world, position + glm::vec2(0, 0)),
-        // instantiateInsect(world, position + glm::vec2(0, 0)),
-        // instantiateAnubis(world, position + glm::vec2(0, 0)),
-        // instantiateGasterolcan(world, position + glm::vec2(0, 0)),
-        // instantiateLavaSlime(world, position + glm::vec2(0, 0)),
-        instantiateRoboboule(world, position + glm::vec2(0, 0)),
+        instantiateSlime(world, position + glm::vec2(-48, -48)),
+        instantiateSlime(world, position + glm::vec2(-48, 32)),
+        instantiateSlime(world, position + glm::vec2(32, -48)),
+        instantiateSlime(world, position + glm::vec2(32, 32)),
 
-        // Breakables:
-        instantiateRock(world, position + glm::vec2(-48, -48)),
-        instantiateRock(world, position + glm::vec2(-64, -48)),
-        instantiateJar(world, position + glm::vec2(-64, -32)),
-        instantiateJar(world, position + glm::vec2(48, 32)),
-        instantiateWoodenBox(world, position + glm::vec2(32, -48))
+        // Traps:
+        instantiateSpike(world, position + glm::vec2(-16, -16)),
+        instantiateSpike(world, position + glm::vec2(-16, 0)),
+        instantiateSpike(world, position + glm::vec2(0, -16)),
+        instantiateSpike(world, position + glm::vec2(0, 0)),
+        instantiateTorch(world, position + glm::vec2(-64, -48)),
+        instantiateTorch(world, position + glm::vec2(-64, 32)),
+        instantiateTorch(world, position + glm::vec2(48, -48)),
+        instantiateTorch(world, position + glm::vec2(48, 32)),
     });
 
     return chunkHolderEnt;

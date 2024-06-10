@@ -98,10 +98,10 @@ void spectreVanishSys(MainFixedSystem, World& world) {
             world.remove<IsSpectreVanish>(enemyEnt);
             world.add(enemyEnt, IsSpectreMove(spectre.moveDuration));
             world.add(enemyEnt, Collider(-12 / 2, -12 / 2, 12, 12));
-            instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, -1), 32.f);
-            instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, +1), 32.f);
-            instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, -1), 32.f);
-            instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, +1), 32.f);
+            // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, -1), 32.f);
+            // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, +1), 32.f);
+            // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, -1), 32.f);
+            // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, +1), 32.f);
             continue;
         }
 

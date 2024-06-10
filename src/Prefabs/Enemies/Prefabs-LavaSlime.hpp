@@ -21,7 +21,7 @@ Ent instantiateLavaSlime(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         ZIndex(0),
-        Life(4),
+        Life(2),
         Velocity(),
         Speed(32),
         Orientation(Orientation::SOUTH),

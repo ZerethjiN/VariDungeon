@@ -25,7 +25,7 @@ Ent instantiateRockInsect(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         ZIndex(0),
-        Life(5),
+        Life(3),
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),

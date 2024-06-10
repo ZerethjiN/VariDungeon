@@ -18,6 +18,8 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
         ZIndex(-1),
         InnerMovement(1, 2),
         InnerMovementUp(),
+        Lootable(),
+        Velocity(),
         Trigger(-8 / 2, -8 / 2, 8, 8)
     );
 

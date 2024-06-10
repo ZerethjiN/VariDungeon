@@ -44,3 +44,13 @@ private:
     const float duration;
     float curTime;
 };
+
+class OnBreakableBreak {
+public:
+    OnBreakableBreak(void(*const newOnBreak)(World&, Ent)):
+        onBreak(newOnBreak) {
+    }
+
+public:
+    void(*const onBreak)(World&, Ent);
+};

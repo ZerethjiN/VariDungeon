@@ -96,7 +96,7 @@ Ent instantiateDesertTestRoom(World& world, const glm::vec2& position, std::size
         // instantiateSlime(world, position + glm::vec2(0, 0)),
         // instantiateBat(world, position + glm::vec2(0, 0)),
         // instantiateMummy(world, position + glm::vec2(0, 0)),
-        instantiateInsect(world, position + glm::vec2(0, 0)),
+        // instantiateInsect(world, position + glm::vec2(0, 0)),
         // instantiateAnubis(world, position + glm::vec2(0, 0)),
         // instantiateGasterolcan(world, position + glm::vec2(0, 0)),
         // instantiateLavaSlime(world, position + glm::vec2(0, 0)),
@@ -105,7 +105,7 @@ Ent instantiateDesertTestRoom(World& world, const glm::vec2& position, std::size
         // instantiateRockInsect(world, position + glm::vec2(0, 0)),
         // instantiateVoidSlime(world, position + glm::vec2(0, 0)),
         // instantiateMiniRockSpawner(world, position + glm::vec2(0, 0)),
-        // instantiateScorpion(world, position + glm::vec2(0, 0)),
+        instantiateScorpion(world, position + glm::vec2(0, 0)),
 
         // Bosses:
         // instantiateMegaSlime(world, position + glm::vec2(-16, -16)),

@@ -11,7 +11,8 @@ Ent instantiateBat(World& world, const glm::vec2& position) {
         EnemyPreSpawn(0.5f, 2),
         Bat(
             /*MoveDuration:*/ 1.0f,
-            /*AttackDuration:*/ 0.75f
+            /*AttackDuration:*/ 0.75f,
+            /*AttackRadius:*/ 32.f
         ),
         IsBatMove(1.0f),
         EnemyWeapon(),
@@ -24,7 +25,7 @@ Ent instantiateBat(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         ZIndex(0),
-        Life(3),
+        Life(2),
         Velocity(),
         Speed(32),
         Orientation(Orientation::SOUTH),

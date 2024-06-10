@@ -77,9 +77,23 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         )
                     );
 
+                    for (auto [playerEnt, playerAttackSpeed, playerSpeed]: world.view<PlayerAttackCooldown, Speed>(with<Player>)) {
+                        if (auto opt = world.get<PlayerFrenzy>(playerEnt)) {
+                            auto [playerFrenzy] = opt.value();
+                            playerFrenzy.reset();
+                        } else {
+                            playerAttackSpeed *= 1.25f;
+                            playerSpeed.speed *= 1.5f;
+                            world.add(playerEnt, PlayerFrenzy(0.5f, 1.25f, 1.5f));
+                        }
+                    }
+
                     if (world.has<Boss>(enemyEnt)) {
                         for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
                             world.destroy(bossHealthBarEnt);
+                        }
+                        for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                            instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }
                     }
                 } else {

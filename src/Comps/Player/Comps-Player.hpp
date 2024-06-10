@@ -12,6 +12,16 @@ public:
         attackCooldown(newAttackCooldown) {
     }
 
+    PlayerAttackCooldown& operator*=(float newAmount) {
+        attackCooldown *= newAmount;
+        return *this;
+    }
+
+    PlayerAttackCooldown& operator/=(float newAmount) {
+        attackCooldown /= newAmount;
+        return *this;
+    }
+
     void reduceCooldown(float newAmount) {
         attackCooldown -= newAmount;
     }

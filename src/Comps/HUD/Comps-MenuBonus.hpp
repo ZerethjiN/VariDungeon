@@ -2,6 +2,23 @@
 
 #include <Zerengine.hpp>
 
+class LevelUpKnockback {
+public:
+    LevelUpKnockback(float newDuration):
+        duration(newDuration),
+        curTime(0) {
+    }
+
+    bool canSpawnPreMenu(float delta) {
+        curTime += delta;
+        return curTime >= duration;
+    }
+
+private:
+    const float duration;
+    float curTime;
+};
+
 class LevelUpPreMenu {
 public:
     LevelUpPreMenu(float newDuration, int newNbStars):

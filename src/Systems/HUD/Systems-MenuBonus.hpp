@@ -6,6 +6,34 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
+void levelUpKnockbackSys(MainFixedSystem, World& world) {
+    auto preMenus = world.view<LevelUpKnockback, Transform>();
+
+    auto [time] = world.resource<Time>();
+
+    for (auto [preMenuEnt, preMenuKnockback, transform]: preMenus) {
+        if (preMenuKnockback.canSpawnPreMenu(time.fixedDelta())) {
+            time.setTimeScale(0.0f);
+
+            world.destroy(preMenuEnt);
+
+            world.newEnt(
+                LevelUpPreMenu(levelUpAnim["Default"].getTotalDuration(), 8),
+                UICreator(levelUpUV, UIAnchor::CENTER_CENTER),
+                Animation(levelUpAnim, "Default", AnimType::UNSCALED),
+                Transform(
+                    glm::vec2(0, 0),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(10)
+            );
+        }
+
+        transform.scale(glm::vec2(32, 32) * time.fixedDelta());
+    }
+}
+
 void levelUpPreMenuSys(MainFixedSystem, World& world) {
     auto preMenus = world.view<LevelUpPreMenu>();
 

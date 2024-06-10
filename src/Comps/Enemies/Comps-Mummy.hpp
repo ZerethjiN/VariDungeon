@@ -4,28 +4,18 @@
 
 class Mummy {
 public:
-    Mummy(float newMoveDuration, float newPreAttackDuration, float newAttackDuration):
+    Mummy(float newMoveDuration, float newPreAttackDuration, float newAttackDuration, float newAttackRadius):
         moveDuration(newMoveDuration),
         preAttackDuration(newPreAttackDuration),
-        attackDuration(newAttackDuration) {
+        attackDuration(newAttackDuration),
+        attackRadius(newAttackRadius) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getPreAttackDuration() const {
-        return preAttackDuration;
-    }
-
-    float getAttackDuration() const {
-        return attackDuration;
-    }
-
-private:
+public:
     const float moveDuration;
     const float preAttackDuration;
     const float attackDuration;
+    const float attackRadius;
 };
 
 class IsMummyMove {

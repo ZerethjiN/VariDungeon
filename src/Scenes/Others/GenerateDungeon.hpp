@@ -337,7 +337,23 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
 static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabRoomDeserts = {
     instantiateDesertRoom1,
     instantiateDesertRoom2,
-    instantiateDesertRoom3
+    instantiateDesertRoom3,
+    instantiateDesertRoom4,
+    instantiateDesertRoom5,
+    instantiateDesertRoom6,
+    instantiateDesertRoom7,
+    instantiateDesertRoom8,
+    instantiateDesertRoom9,
+    instantiateDesertRoom10,
+    instantiateDesertRoom11,
+    instantiateDesertRoom12,
+    instantiateDesertRoom13,
+    instantiateDesertRoom14,
+    instantiateDesertRoom15,
+    instantiateDesertRoom16,
+    instantiateDesertRoom17,
+    instantiateDesertRoom18,
+    instantiateDesertRoom19,
 };
 
 static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabBossRoomDeserts = {
@@ -384,7 +400,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
             }
 
             if (cellMat[curRoomIdx].isPrimary) {
-                auto newRoomPrefab = instantiateDesertTestRoom;//prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
+                auto newRoomPrefab = instantiateDesertBegininggRoom; //instantiateDesertTestRoom;
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
@@ -398,9 +414,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 auto players = world.view<Transform>(with<Player>);
 
                 if (players.empty()) {
-                    std::cout << "CONNARD" << std::endl;
-
-                    auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
+                    auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
                     world.addDontDestroyOnLoad(playerEnt);
                 } else {
                     for (auto [_, playerTransform]: players) {
@@ -441,7 +455,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                         if (auto opt = world.getParent(curCameraEnt)) {
                             if (auto optTransform = world.get<Transform>(opt.value())) {
                                 auto [parentTransform] = optTransform.value();
-                                parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0));
+                                parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
                             }
                         }
                     }

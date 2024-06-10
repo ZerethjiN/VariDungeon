@@ -11,7 +11,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         Player(),
         Barbarian(),
         PlayerXp(25),
-        Life(5),
+        Life(8),
         PlayerCoin(),
         PlayerDamage(1),
         PlayerBonuses(),
@@ -40,7 +40,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
                 glm::vec2(1, 1)
             ),
             Velocity(),
-            Trigger(-64 / 2, -64 / 2, 64, 64)
+            Trigger(-48 / 2, -48 / 2, 48, 48)
         )
     });
 

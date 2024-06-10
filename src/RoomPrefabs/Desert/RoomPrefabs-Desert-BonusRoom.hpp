@@ -21,8 +21,8 @@ Ent instantiateDesertBonusRoom(World& world, const glm::vec2& position, std::siz
         tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
         tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[ 11],
         tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4], tileMapDesertUV[ 11],
-        tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4],
-        tileMapDesertUV[  4], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4],
+        tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[ 26], tileMapDesertUV[ 27], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  4],
+        tileMapDesertUV[  4], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[ 28], tileMapDesertUV[ 29], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  4],
         tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 11],
         tileMapDesertUV[ 13], tileMapDesertUV[  4], tileMapDesertUV[  2], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  4], tileMapDesertUV[ 11],
         tileMapDesertUV[ 16], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[  4], tileMapDesertUV[  4], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 17],
@@ -90,17 +90,19 @@ Ent instantiateDesertBonusRoom(World& world, const glm::vec2& position, std::siz
         ),
 
         // Decors:
+        instantiatePylon(world, position + glm::vec2(-64, -40)),
         instantiatePylon(world, position + glm::vec2(48, -40)),
+        instantiatePylon(world, position + glm::vec2(-64, 24)),
+        instantiatePylon(world, position + glm::vec2(48, 24)),
 
         // BonusSphere:
         instantiateBonusSphere(world, position),
 
         // Breakables:
-        instantiateRock(world, position + glm::vec2(-48, -48)),
-        instantiateRock(world, position + glm::vec2(-64, -48)),
-        instantiateJar(world, position + glm::vec2(-64, -32)),
-        instantiateJar(world, position + glm::vec2(48, 32)),
-        instantiateWoodenBox(world, position + glm::vec2(32, -48))
+        instantiateJar(world, position + glm::vec2(-48, -48)),
+        instantiateJar(world, position + glm::vec2(32, -48)),
+        instantiateJar(world, position + glm::vec2(-48, 32)),
+        instantiateJar(world, position + glm::vec2(32, 32)),
     });
 
     return chunkHolderEnt;

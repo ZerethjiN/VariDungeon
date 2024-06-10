@@ -32,4 +32,11 @@ static const ImageAsset tileMapDesertUV("Textures/TileMapDesert.png", {
     {{ 32,  80, 16, 16}, {0.5f, 0.5f}}, // 23: Door Open Left Down
     {{ 48,  64, 16, 16}, {0.5f, 0.5f}}, // 24: Door Open Right Up
     {{ 48,  80, 16, 16}, {0.5f, 0.5f}}, // 25: Door Open Right Down
+
+    {{ 64,  64, 16, 16}, {0.5f, 0.5f}}, // 26: Quadragramme North West
+    {{ 80,  64, 16, 16}, {0.5f, 0.5f}}, // 27: Quadragramme North East
+    {{ 64,  80, 16, 16}, {0.5f, 0.5f}}, // 28: Quadragramme South West
+    {{ 80,  80, 16, 16}, {0.5f, 0.5f}}, // 29: Quadragramme South East
+
+    {{160,   0, 16, 16}, {0.5f, 0.5f}}, // 30: Super Complexe Floor
 });

@@ -55,6 +55,7 @@
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
 #include "Systems/Players/Systems-PlayerAttackWeight.hpp"
+#include "Systems/Players/Systems-PlayerFrenzy.hpp"
 #include "Systems/Players/Systems-PlayerHit.hpp"
 #include "Systems/Players/Systems-PlayerLaser.hpp"
 #include "Systems/Players/Systems-PlayerLoot.hpp"
@@ -62,4 +63,5 @@
 // Traps
 #include "Systems/Traps/Systems-Spike.hpp"
 #include "Systems/Traps/Systems-Torch.hpp"
+#include "Systems/Traps/Systems-Turret.hpp"
 #include "Systems/Traps/Systems-VoidSphere.hpp"

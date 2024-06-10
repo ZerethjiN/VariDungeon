@@ -7,7 +7,7 @@
 
 Ent instantiateVoidSphere(World& world, const glm::vec2& position) {
     return world.newEnt(
-        VoidSphere(1.5f, 1.5f, 48.f),
+        VoidSphere(1.5f, 1.5f, 32.f),
         IsVoidSphereOff(1.5f),
         SpriteCreator(voidSphereUV),
         Animation(voidSphereAnim, "Off"),

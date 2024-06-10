@@ -14,32 +14,36 @@ void mummyMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMummyMove, orientation, speed, mummy, enemyTransform, zindex]: enemies) {
         if (isMummyMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMummyMove>(enemyEnt);
-            world.add(enemyEnt, IsMummyPreAttack(mummy.getPreAttackDuration()));
+            for (auto [_, playerTransform]: players) {
+                if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= mummy.attackRadius) {
+                    world.remove<IsMummyMove>(enemyEnt);
+                    world.add(enemyEnt, IsMummyPreAttack(mummy.preAttackDuration));
 
-            if (fabs(orientation.x) > fabs(orientation.y)) {
-                if (orientation.x > 0) {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16, 0), zindex)
-                    });
-                } else {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 0), zindex)
-                    });
-                }
-            } else {
-                if (orientation.y > 0) {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16), zindex)
-                    });
-                } else {
-                    world.appendChildren(enemyEnt, {
-                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16), zindex)
-                    });
+                    if (fabs(orientation.x) > fabs(orientation.y)) {
+                        if (orientation.x > 0) {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16, 0), zindex)
+                            });
+                        } else {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 0), zindex)
+                            });
+                        }
+                    } else {
+                        if (orientation.y > 0) {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16), zindex)
+                            });
+                        } else {
+                            world.appendChildren(enemyEnt, {
+                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16), zindex)
+                            });
+                        }
+                    }
+
+                    continue;
                 }
             }
-
-            continue;
         }
 
         glm::vec2 newdirection;
@@ -92,7 +96,7 @@ void mummyPreAttackSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, animation, isMummyPreAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyPreAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsMummyPreAttack>(enemyEnt);
-            world.add(enemyEnt, IsMummyAttack(mummy.getAttackDuration()));
+            world.add(enemyEnt, IsMummyAttack(mummy.attackDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.newEnt(
@@ -184,7 +188,7 @@ void mummyAttackSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, animation, isMummyAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsMummyAttack>(enemyEnt);
-            world.add(enemyEnt, IsMummyMove(mummy.getMoveDuration()));
+            world.add(enemyEnt, IsMummyMove(mummy.moveDuration));
         }
 
         if (fabs(orientation.x) > fabs(orientation.y)) {

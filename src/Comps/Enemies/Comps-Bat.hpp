@@ -4,22 +4,16 @@
 
 class Bat {
 public:
-    Bat(float newMoveDuration, float newAttackDuration):
+    Bat(float newMoveDuration, float newAttackDuration, float newAttackRadius):
         moveDuration(newMoveDuration),
-        attackDuration(newAttackDuration) {
+        attackDuration(newAttackDuration),
+        attackRadius(newAttackRadius) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getAttackDuration() const {
-        return attackDuration;
-    }
-
-private:
+public:
     const float moveDuration;
     const float attackDuration;
+    const float attackRadius;
 };
 
 class IsBatMove {

@@ -9,7 +9,7 @@ Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
-        MiniRockSpawner(1.5f, 2),
+        MiniRockSpawner(4.0f, 2),
         SpriteCreator(miniRockUV),
         Animation(miniRockAnim, "Spawner"),
         Transform(
@@ -19,7 +19,7 @@ Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
         ),
         ZIndex(0),
         Life(2),
-        Collider(-12 / 2, -12 / 2, 12, 12)
+        Collider(-8 / 2, -8 / 2, 8, 8)
     );
 }
 
@@ -42,6 +42,6 @@ Ent instantiateMiniRock(World& world, const glm::vec2& position) {
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),
-        Collider(-12 / 2, -12 / 2, 12, 12)
+        Collider(-8 / 2, -8 / 2, 8, 8)
     );
 }

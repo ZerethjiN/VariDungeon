@@ -14,15 +14,22 @@
 #include "Images/Backgrounds/Images-TileMapDesert.hpp"
 
 // Breakables:
+#include "Images/Breakables/Images-Crystal.hpp"
 #include "Images/Breakables/Images-Jar.hpp"
 #include "Images/Breakables/Images-Rock.hpp"
 #include "Images/Breakables/Images-WoodenBox.hpp"
 
 // Decors:
+#include "Images/Decors/Images-Candlestick.hpp"
 #include "Images/Decors/Images-Door.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
+#include "Images/Decors/Images-Obelisk.hpp"
+#include "Images/Decors/Images-Pillar.hpp"
 #include "Images/Decors/Images-Pylon.hpp"
+#include "Images/Decors/Images-Sand.hpp"
+#include "Images/Decors/Images-SarcophageDecor.hpp"
 #include "Images/Decors/Images-SkullBossRoom.hpp"
+#include "Images/Decors/Images-Sphere.hpp"
 #include "Images/Decors/Images-Warp.hpp"
 
 // Enemies:
@@ -67,6 +74,7 @@
 #include "Images/Particles/Images-ExplosionParticle.hpp"
 #include "Images/Particles/Images-FloorCrossParticle.hpp"
 #include "Images/Particles/Images-ItemFeedbackParticle.hpp"
+#include "Images/Particles/Images-LevelUpShockWaveParticle.hpp"
 #include "Images/Particles/Images-PopHitParticle.hpp"
 #include "Images/Particles/Images-Shadow.hpp"
 #include "Images/Particles/Images-SwordImpact.hpp"
@@ -76,5 +84,7 @@
 
 // Traps:
 #include "Images/Traps/Images-Spike.hpp"
+#include "Images/Traps/Images-TNTBarel.hpp"
 #include "Images/Traps/Images-Torch.hpp"
+#include "Images/Traps/Images-Turret.hpp"
 #include "Images/Traps/Images-VoidSphere.hpp"

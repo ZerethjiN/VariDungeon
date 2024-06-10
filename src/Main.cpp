@@ -46,7 +46,7 @@ int main() {
             )
             .addMainFixedSystems(
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
-                playerLootSys, playerLootAttractSys, playerHitSys,
+                playerLootSys, playerLootAttractSys, playerHitSys, playerFrenzySys,
                 breakableHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
                 shurikenRotationSys,
@@ -87,8 +87,10 @@ int main() {
                 spikeDownSys, spikeUpSys,
                 voidSphereOffSys, voidSphereOnSys,
                 torchIdleSys, torchCastSys,
+                turretCardinalSys, turretDiagonalSys,
 
                 // HUD
+                levelUpKnockbackSys,
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
             )

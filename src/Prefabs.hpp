@@ -4,7 +4,7 @@
 #include "Prefabs/Attacks/Prefabs-AttractParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-BatAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-DaggerParticle.hpp"
-#include "Prefabs/Attacks/Prefabs-EnemyExplosionAttackParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-ExplosionAttackParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-LaserParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-MegaLaserParticle.hpp"
@@ -12,14 +12,21 @@
 #include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
 
 // Breakables
+#include "Prefabs/Breakables/Prefabs-Crystal.hpp"
 #include "Prefabs/Breakables/Prefabs-Jar.hpp"
 #include "Prefabs/Breakables/Prefabs-Rock.hpp"
 #include "Prefabs/Breakables/Prefabs-WoodenBox.hpp"
 
 // Decors
+#include "Prefabs/Decors/Prefabs-Candlestick.hpp"
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
+#include "Prefabs/Decors/Prefabs-Obelisk.hpp"
+#include "Prefabs/Decors/Prefabs-Pillar.hpp"
 #include "Prefabs/Decors/Prefabs-Pylon.hpp"
+#include "Prefabs/Decors/Prefabs-Sand.hpp"
+#include "Prefabs/Decors/Prefabs-Sarcophage.hpp"
 #include "Prefabs/Decors/Prefabs-SkullBossRoom.hpp"
+#include "Prefabs/Decors/Prefabs-Sphere.hpp"
 #include "Prefabs/Decors/Prefabs-Warp.hpp"
 
 // Enemies
@@ -66,5 +73,7 @@
 
 // Traps:
 #include "Prefabs/Traps/Prefabs-Spike.hpp"
+#include "Prefabs/Traps/Prefabs-TNTBarel.hpp"
 #include "Prefabs/Traps/Prefabs-Torch.hpp"
+#include "Prefabs/Traps/Prefabs-Turret.hpp"
 #include "Prefabs/Traps/Prefabs-VoidSphere.hpp"

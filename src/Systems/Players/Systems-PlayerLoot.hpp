@@ -28,7 +28,7 @@ void playerLootSys(MainFixedSystem, World& world) {
 void playerLootAttractSys(MainFixedSystem, World& world) {
     auto loots = world.view<Velocity, const Transform, const LootAttract>();
 
-    auto [time] = world.resource<Time>();
+    auto [time] = world.resource<const Time>();
 
     for (auto [lootEnt, velocity, lootTransform, lootAttract]: loots) {
         Ent targetEnt = lootAttract.getTargetEnt();
@@ -73,19 +73,22 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
 
                         playerXp.addXp(xpGroundItem.getAmount());
                         if (playerXp.isLevelUp()) {
-                            time.setTimeScale(0.0f);
-
-                            world.newEnt(
-                                LevelUpPreMenu(levelUpAnim["Default"].getTotalDuration(), 8),
-                                UICreator(levelUpUV, UIAnchor::CENTER_CENTER),
-                                Animation(levelUpAnim, "Default", AnimType::UNSCALED),
-                                Transform(
-                                    glm::vec2(0, 0),
-                                    0,
-                                    glm::vec2(1, 1)
-                                ),
-                                ZIndex(10)
-                            );
+                            world.appendChildren(targetEnt, {
+                                world.newEnt(
+                                    PlayerWeapon(),
+                                    Damage(1),
+                                    LevelUpKnockback(0.25f),
+                                    SpriteCreator(levelUpShockwaveUV),
+                                    Transform(
+                                        othTransform.getPosition(),
+                                        0,
+                                        glm::vec2(1, 1)
+                                    ),
+                                    ZIndex(99),
+                                    Velocity(),
+                                    Trigger(-160 / 2, -144 / 2, 160, 144)
+                                )
+                            });
                         }
 
                         for (auto [_, xpTextUI]: world.view<TextUI>(with<PlayerXpText>)) {
