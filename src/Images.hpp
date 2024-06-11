@@ -5,6 +5,7 @@
 #include "Images/Attacks/Images-BatAttackParticle.hpp"
 #include "Images/Attacks/Images-DaggerParticle.hpp"
 #include "Images/Attacks/Images-FireBallParticle.hpp"
+#include "Images/Attacks/Images-GroundCrystalAttack.hpp"
 #include "Images/Attacks/Images-LaserParticle.hpp"
 #include "Images/Attacks/Images-MegaLaserParticle.hpp"
 #include "Images/Attacks/Images-ShadowMarkParticle.hpp"

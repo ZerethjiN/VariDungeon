@@ -7,6 +7,7 @@
 #include <variant>
 
 #include <Zerengine.hpp>
+#include <Interfaces.hpp>
 #include <Res.hpp>
 #include <Comps.hpp>
 #include <Images.hpp>
@@ -57,6 +58,7 @@ int main() {
                 warpSys,
                 // Attacks:
                 shadowMarkPreExplosionSys, shadowMarkExplosionSys,
+                groundCrystalAttackCrossSys,
 
                 // Enemies:
                 enemyPreSpawnSys,
@@ -76,7 +78,7 @@ int main() {
 
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
-                rockBossRollSys, rockBossStunSys,
+                rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys,
 
                 fireBallAttackSys, fireBallHitSys,
 

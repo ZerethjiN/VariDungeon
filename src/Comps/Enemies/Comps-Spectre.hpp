@@ -16,53 +16,14 @@ public:
     const float castDuration;
 };
 
-class IsSpectreMove {
-public:
-    IsSpectreMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct IsSpectreMove: public IIsStateDuration {
+    IsSpectreMove(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class IsSpectreVanish {
-public:
-    IsSpectreVanish(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct IsSpectreVanish: public IIsStateDuration {
+    IsSpectreVanish(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class IsSpectreCast {
-public:
-    IsSpectreCast(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct IsSpectreCast: public IIsStateDuration {
+    IsSpectreCast(float newDuration): IIsStateDuration(newDuration) {}
 };

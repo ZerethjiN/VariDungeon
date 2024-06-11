@@ -30,7 +30,7 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
         ZIndex(0),
         Life(15),
         Velocity(),
-        Speed(8),
+        Speed(16),
         Orientation(Orientation::SOUTH),
         Collider(-24 / 2, -24 / 2, 24, 24)
     );

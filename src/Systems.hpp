@@ -3,6 +3,7 @@
 // Attacks
 #include "Systems/Attacks/Systems-Dagger.hpp"
 #include "Systems/Attacks/Systems-FireBall.hpp"
+#include "Systems/Attacks/Systems-GroundCrystalAttack.hpp"
 #include "Systems/Attacks/Systems-Laser.hpp"
 #include "Systems/Attacks/Systems-ShadowMark.hpp"
 #include "Systems/Attacks/Systems-Shuriken.hpp"

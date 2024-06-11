@@ -90,16 +90,23 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         ),
 
         // Decors:
-        instantiatePylon(world, position + glm::vec2(48, -40)),
-        instantiatePylon(world, position + glm::vec2(48, 24)),
-        instantiatePylon(world, position + glm::vec2(-64, -40)),
-        instantiatePylon(world, position + glm::vec2(-64, 24)),
+        // instantiatePylon(world, position + glm::vec2(48, -40)),
+        // instantiatePylon(world, position + glm::vec2(48, 24)),
+        // instantiatePylon(world, position + glm::vec2(-64, -40)),
+        // instantiatePylon(world, position + glm::vec2(-64, 24)),
+
+        // Tests:
+        instantiateRockBoss(world, position + glm::vec2(-16, -16)),
+        instantiateSpike(world, position + glm::vec2(-32, -16)),
+        instantiateSpike(world, position + glm::vec2(-32, 0)),
+        instantiateSpike(world, position + glm::vec2(16, -16)),
+        instantiateSpike(world, position + glm::vec2(16, 0)),
 
         // Breakables:
-        instantiateJar(world, position + glm::vec2(32, -48)),
-        instantiateJar(world, position + glm::vec2(32, 32)),
-        instantiateJar(world, position + glm::vec2(-48, -48)),
-        instantiateJar(world, position + glm::vec2(-48, 32)),
+        // instantiateJar(world, position + glm::vec2(32, -48)),
+        // instantiateJar(world, position + glm::vec2(32, 32)),
+        // instantiateJar(world, position + glm::vec2(-48, -48)),
+        // instantiateJar(world, position + glm::vec2(-48, 32)),
     });
 
     return chunkHolderEnt;
