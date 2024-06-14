@@ -38,7 +38,7 @@ Ent instantiateMegaSlime(World& world, const glm::vec2& position) {
         ZIndex(0),
         Life(30),
         Velocity(),
-        Speed(16),
+        Speed(12),
         Orientation(Orientation::SOUTH),
         Collider(-24 / 2, -24 / 2, 24, 24)
     );

@@ -245,20 +245,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(1, 0), 16.f, 0.075f));
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(8, 0),
+                            transform.getPosition() + glm::vec2(16, 0),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -32 / 2, 32, 32)
+                        Trigger(-32 / 2, -40 / 2, 32, 40)
                     )
                 });
             } else if (orientation.x < 0) {
@@ -275,20 +275,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(-1, 0), 16.f, 0.075f));
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(-8, 0),
+                            transform.getPosition() + glm::vec2(-16, 0),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -32 / 2, 32, 32)
+                        Trigger(-32 / 2, -40 / 2, 32, 40)
                     )
                 });
             } else if (orientation.y > 0) {
@@ -305,20 +305,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, 1), 16.f, 0.075f));
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(0, 8),
+                            transform.getPosition() + glm::vec2(0, 16),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -32 / 2, 32, 32)
+                        Trigger(-40 / 2, -32 / 2, 40, 32)
                     )
                 });
             } else if (orientation.y < 0) {
@@ -335,20 +335,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, -1), 16.f, 0.075f));
+                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(0, -8),
+                            transform.getPosition() + glm::vec2(0, -16),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -32 / 2, 32, 32)
+                        Trigger(-40 / 2, -32 / 2, 40, 32)
                     )
                 });
             }

@@ -96,7 +96,7 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         // instantiatePylon(world, position + glm::vec2(-64, 24)),
 
         // Tests:
-        instantiateRockBoss(world, position + glm::vec2(-16, -16)),
+        // instantiateRockBoss(world, position + glm::vec2(-16, -16)),
         instantiateSpike(world, position + glm::vec2(-32, -16)),
         instantiateSpike(world, position + glm::vec2(-32, 0)),
         instantiateSpike(world, position + glm::vec2(16, -16)),

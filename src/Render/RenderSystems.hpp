@@ -29,11 +29,13 @@ void renderSys(LateSystem, World& world) {
     auto textUIIndexes = world.view<TextUI, Transform, const ZIndex>();
 
     auto& mainFrameBuffer = frameBufferManager.get<MainFrameBuffer>(vulkanEngine);
+    auto& offscreenFrameBuffer = frameBufferManager.get<OffscreenFrameBuffer>(vulkanEngine);
 
-    auto& spriteBatchPipeline = pipelineManager.get<SpriteBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
-    auto& textBatchPipeline = pipelineManager.get<TextBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
+    auto& spriteBatchPipeline = pipelineManager.get<SpriteBatchPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
+    auto& textBatchPipeline = pipelineManager.get<TextBatchPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
     auto& uiBatchPipeline = pipelineManager.get<UIBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
     auto& textUiBatchPipeline = pipelineManager.get<TextUIBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
+    auto& aberationPipeline = pipelineManager.get<AberationPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
 
 //// Preparation des donnees: //////////////////////////////////////////////////////////////////////////////////
 
@@ -264,6 +266,25 @@ void renderSys(LateSystem, World& world) {
         textUiBatchPipeline.addView(uiView.getModel());
     textUiBatchPipeline.end();
 
+    //// preparation de l'aberation ////
+    float aberationOffset = 0;
+    for (auto [_, aberation]: world.view<const CameraAberation>()) {
+        aberationOffset = aberation.distance;
+    }
+
+    glm::vec2 cameraPos(0, 0);
+    for (auto [_, transform]: world.view<const Transform>(with<Camera, CurCamera>)) {
+        cameraPos = transform.getPosition();
+    }
+
+    aberationPipeline.addView(inGameView.getModel(), cameraPos);
+
+    aberationPipeline.updateFragmentPushConstant(
+        glm::ivec2(vulkanEngine.swapChainExtent.width, vulkanEngine.swapChainExtent.height),
+        aberationOffset
+    );
+    aberationPipeline.updateTexture(offscreenFrameBuffer.sampler, offscreenFrameBuffer.offscreenImageViews[vulkanEngine.imageIndex]);
+
 //// Debut Draw: //////////////////////////////////////////////////////////////////////////////////
 
     VkCommandBufferBeginInfo beginInfo {
@@ -295,8 +316,8 @@ void renderSys(LateSystem, World& world) {
         VkRenderPassBeginInfo renderPassInfo {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
             .pNext = nullptr,
-            .renderPass = mainFrameBuffer.renderPass,
-            .framebuffer = mainFrameBuffer.frameBuffers[vulkanEngine.imageIndex],
+            .renderPass = offscreenFrameBuffer.offscreenRenderPass,
+            .framebuffer = offscreenFrameBuffer.offscreenFrameBuffers[vulkanEngine.imageIndex],
             .renderArea {
                 .offset = {0, 0},
                 .extent = vulkanEngine.swapChainExtent
@@ -311,6 +332,28 @@ void renderSys(LateSystem, World& world) {
 
             spriteBatchPipeline.draw();
             textBatchPipeline.draw();
+        vkCmdEndRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]);
+    }
+
+    {
+        VkRenderPassBeginInfo renderPassInfo {
+            .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+            .pNext = nullptr,
+            .renderPass = mainFrameBuffer.renderPass,
+            .framebuffer = mainFrameBuffer.frameBuffers[vulkanEngine.imageIndex],
+            .renderArea {
+                .offset = {0, 0},
+                .extent = vulkanEngine.swapChainExtent
+            },
+            .clearValueCount = 1,
+            .pClearValues = &clearColor
+        };
+
+        vkCmdBeginRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdSetViewport(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], 0, 1, &viewport);
+            vkCmdSetScissor(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], 0, 1, &scissor);
+
+            aberationPipeline.draw();
             uiBatchPipeline.draw();
             textUiBatchPipeline.draw();
         vkCmdEndRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]);

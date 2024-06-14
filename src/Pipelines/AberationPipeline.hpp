@@ -30,31 +30,11 @@ private:
     struct FragmentPushConstant {
         glm::ivec2 screenSize;
         float aberationOffset;
-        int nbShockwaves;
     };
 
     struct VertexPushConstant {
         glm::mat4 proj;
         glm::vec2 cameraPos;
-    };
-
-    struct SSBOShockwave {
-    public:
-        SSBOShockwave(const glm::vec2& newPos, float newRadius, float newAmplitude, float newRefraction):
-            pos(newPos),
-            radius(newRadius),
-            amplitude(newAmplitude),
-            refraction(newRefraction) {
-        }
-
-    public:
-        glm::vec2 pos;
-        float radius;
-        float amplitude;
-        float refraction;
-        float padding1;
-        float padding2;
-        float padding3;
     };
 
 public:
@@ -63,15 +43,14 @@ public:
             {
                 .stageFlags = VK_SHADER_STAGE_VERTEX_BIT,
                 .offset = 0,
-                .size = sizeof(vertexPushConstant)
+                .size = sizeof(VertexPushConstant)
             },
             {
                 .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-                .offset = sizeof(vertexPushConstant),
+                .offset = sizeof(VertexPushConstant),
                 .size = sizeof(FragmentPushConstant)
             }
-        }),
-        lastFragmentStorageBufferSizes{0} {
+        }) {
         createDescriptorSetLayout(
             // Bindings
             {
@@ -83,18 +62,9 @@ public:
                     .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
                     .pImmutableSamplers = nullptr
                 },
-                // Shockwaves
-                VkDescriptorSetLayoutBinding {
-                    .binding = 1,
-                    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                    .descriptorCount = 1,
-                    .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-                    .pImmutableSamplers = nullptr
-                },
             },
             // Flags
             {
-                VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT | VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT,
                 VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT | VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT
             },
             // Set Index
@@ -114,32 +84,7 @@ public:
         createDescriptorSet(0);
     }
 
-    ~AberationPipeline() {
-        vkDeviceWaitIdle(engine.device);
-
-        for (std::uint32_t i = 0; i < VulkanEngine::MAX_FRAMES_IN_FLIGHT; i++) {
-            if (lastFragmentStorageBufferSizes[i] > 0) {
-                vkDestroyBuffer(engine.device, fragmentStorageBuffers[i], nullptr);
-                vkFreeMemory(engine.device, fragmentStorageBuffersMemory[i], nullptr);
-            }
-        }
-    }
-
 public:
-    void beginShockwave(std::size_t newNbShockwaves) {
-        shockwaves[engine.getCurFrame()].clear();
-        shockwaves[engine.getCurFrame()].reserve(newNbShockwaves);
-    }
-
-    void addShockwave(const Shockwave& shockwave, const Transform& transform) {
-        shockwaves[engine.getCurFrame()].emplace_back(
-            transform.getPosition(),
-            shockwave.radius,
-            shockwave.amplitude,
-            shockwave.refraction
-        );
-    }
-
     void addView(const glm::mat4& view, const glm::vec2& cameraPos) {
         vertexPushConstant[engine.getCurFrame()] = {
             .proj = view,
@@ -150,8 +95,7 @@ public:
     void updateFragmentPushConstant(const glm::ivec2& screenSize, float aberationOffset) {
         fragmentPushConstant[engine.getCurFrame()] = {
             .screenSize = screenSize,
-            .aberationOffset = aberationOffset,
-            .nbShockwaves = static_cast<int>(shockwaves[engine.getCurFrame()].size())
+            .aberationOffset = aberationOffset
         };
     }
 
@@ -160,25 +104,6 @@ public:
             newSampler,
             newImageView
         };
-    }
-
-    void end() {
-        if (shockwaves[engine.getCurFrame()].size() > lastFragmentStorageBufferSizes[engine.getCurFrame()]) {
-            if (lastFragmentStorageBufferSizes[engine.getCurFrame()] > 0) {
-                vkDestroyBuffer(engine.device, fragmentStorageBuffers[engine.getCurFrame()], nullptr);
-                vkFreeMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()], nullptr);
-            }
-
-            VkDeviceSize bufferSize = shockwaves[engine.getCurFrame()].size() * sizeof(SSBOShockwave);
-
-            createBuffer(engine.physicalDevice, engine.device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, fragmentStorageBuffers[vulkanEngine.getCurFrame()], fragmentStorageBuffersMemory[vulkanEngine.getCurFrame()]);
-
-            vkMapMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()], 0, bufferSize, 0, &fragmentStorageBuffersMapped[vulkanEngine.getCurFrame()]);
-        
-            lastFragmentStorageBufferSizes[engine.getCurFrame()] = shockwaves[engine.getCurFrame()].size();
-        }
-
-        memcpy(fragmentStorageBuffersMapped[engine.getCurFrame()], shockwaves[engine.getCurFrame()].data(), shockwaves[engine.getCurFrame()].size() * sizeof(SSBOShockwave));
     }
 
     void draw() {
@@ -191,12 +116,6 @@ public:
 
 private:
     void updateDescriptorSets() {
-        VkDescriptorBufferInfo storageInfoFragment {
-            .buffer = fragmentStorageBuffers[engine.getCurFrame()],
-            .offset = 0,
-            .range = sizeof(SSBOShockwave) * shockwaves[engine.getCurFrame()].size()
-        };
-
         VkDescriptorImageInfo imageInfo {
             .sampler = std::get<0>(textures[engine.getCurFrame()]),
             .imageView = std::get<1>(textures[engine.getCurFrame()]),
@@ -204,23 +123,6 @@ private:
         };
 
         std::vector<VkWriteDescriptorSet> descriptorWrites;
-        
-        if (shockwaves[engine.getCurFrame()].size() > 0) {
-            descriptorWrites.emplace_back(
-                VkWriteDescriptorSet {
-                    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
-                    .pNext = nullptr,
-                    .dstSet = descriptorSets[0][engine.getCurFrame()],
-                    .dstBinding = 1,
-                    .dstArrayElement = 0,
-                    .descriptorCount = 1,
-                    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                    .pImageInfo = nullptr,
-                    .pBufferInfo = &storageInfoFragment,
-                    .pTexelBufferView = nullptr
-                }
-            );
-        }
 
         descriptorWrites.emplace_back(
             VkWriteDescriptorSet {
@@ -249,11 +151,4 @@ public:
     std::array<std::tuple<VkSampler, VkImageView>, VulkanEngine::MAX_FRAMES_IN_FLIGHT> textures;
     std::array<FragmentPushConstant, VulkanEngine::MAX_FRAMES_IN_FLIGHT> fragmentPushConstant;
     std::array<VertexPushConstant, VulkanEngine::MAX_FRAMES_IN_FLIGHT> vertexPushConstant;
-
-    std::array<std::size_t, VulkanEngine::MAX_FRAMES_IN_FLIGHT> lastFragmentStorageBufferSizes;
-    std::array<VkBuffer, VulkanEngine::MAX_FRAMES_IN_FLIGHT> fragmentStorageBuffers;
-    std::array<VkDeviceMemory, VulkanEngine::MAX_FRAMES_IN_FLIGHT> fragmentStorageBuffersMemory;
-    std::array<void*, VulkanEngine::MAX_FRAMES_IN_FLIGHT> fragmentStorageBuffersMapped;
-
-    std::array<std::vector<SSBOShockwave>, VulkanEngine::MAX_FRAMES_IN_FLIGHT> shockwaves;
 };

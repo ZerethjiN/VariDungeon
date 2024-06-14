@@ -27,7 +27,7 @@ Ent instantiateBat(World& world, const glm::vec2& position) {
         ZIndex(0),
         Life(2),
         Velocity(),
-        Speed(32),
+        Speed(24),
         Orientation(Orientation::SOUTH),
         Collider(-12 / 2, -12 / 2, 12, 12)
     );

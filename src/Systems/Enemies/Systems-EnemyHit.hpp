@@ -67,6 +67,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                 // IsDead:
                 if (life.isDead()) {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
+                    appliedCurCameraAberation(world, 2, 0.1);
 
                     world.add(enemyEnt,
                         DeathParticleGenerator(true, 0.2, 2),

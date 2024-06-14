@@ -38,6 +38,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                 // IsDead:
                 if (life.isDead()) {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
+                    appliedCurCameraAberation(world, 1, 0.1);
 
                     if (auto onBreakOpt = world.get<const OnBreakableBreak>(breakableEnt)) {
                         auto [onBreakableBreak] = onBreakOpt.value();

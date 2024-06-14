@@ -15,6 +15,7 @@
 #include "Comps/Breakables/Comps-Breakable.hpp"
 
 // Common
+#include "Comps/Common/Comps-CameraAberation.hpp"
 #include "Comps/Common/Comps-Chunk.hpp"
 #include "Comps/Common/Comps-CombatParticleGenerator.hpp"
 #include "Comps/Common/Comps-Damage.hpp"
