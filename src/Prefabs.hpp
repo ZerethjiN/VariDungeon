@@ -66,6 +66,7 @@
 #include "Prefabs/Particles/Prefabs-ExclamationParticle.hpp"
 #include "Prefabs/Particles/Prefabs-FloorCrossParticle.hpp"
 #include "Prefabs/Particles/Prefabs-ItemFeedbackParticle.hpp"
+#include "Prefabs/Particles/Prefabs-ParticleEffect.hpp"
 #include "Prefabs/Particles/Prefabs-PopHitParticle.hpp"
 #include "Prefabs/Particles/Prefabs-SwordImpact.hpp"
 

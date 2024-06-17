@@ -76,6 +76,7 @@
 #include "Images/Particles/Images-FloorCrossParticle.hpp"
 #include "Images/Particles/Images-ItemFeedbackParticle.hpp"
 #include "Images/Particles/Images-LevelUpShockWaveParticle.hpp"
+#include "Images/Particles/Images-ParticleEffect.hpp"
 #include "Images/Particles/Images-PopHitParticle.hpp"
 #include "Images/Particles/Images-Shadow.hpp"
 #include "Images/Particles/Images-SwordImpact.hpp"

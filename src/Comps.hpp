@@ -29,6 +29,7 @@
 #include "Comps/Common/Comps-Loots.hpp"
 #include "Comps/Common/Comps-LootSpread.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
+#include "Comps/Common/Comps-ParticleGenerator.hpp"
 #include "Comps/Common/Comps-Unerasable.hpp"
 #include "Comps/Common/Comps-Unmoveable.hpp"
 

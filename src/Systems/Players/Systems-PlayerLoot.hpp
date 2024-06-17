@@ -89,6 +89,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                                     Trigger(-160 / 2, -144 / 2, 160, 144)
                                 )
                             });
+                            appliedCurCameraAberation(world, 8, 0.2);
                         }
 
                         for (auto [_, xpTextUI]: world.view<TextUI>(with<PlayerXpText>)) {

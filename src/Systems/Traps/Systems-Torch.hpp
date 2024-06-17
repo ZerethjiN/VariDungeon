@@ -14,7 +14,7 @@ void torchIdleSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTorchIdle, animation, orientation, transform, torch, zindex]: traps) {
         if (isTorchIdle.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove<Torch>(trapEnt);
+                world.remove<Torch, ParticleGenerator>(trapEnt);
                 animation.play("Off");
             } else {
                 world.remove<IsTorchIdle>(trapEnt);
@@ -63,7 +63,7 @@ void torchCastSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTorchCast, animation, transform, orientation, torch]: traps) {
         if (isTorchCast.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove<Torch>(trapEnt);
+                world.remove<Torch, ParticleGenerator>(trapEnt);
                 animation.play("Off");
             } else {
                 world.remove<IsTorchCast>(trapEnt);

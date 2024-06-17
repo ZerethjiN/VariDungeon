@@ -98,10 +98,10 @@ Ent instantiateDesertBossRoom1(World& world, const glm::vec2& position, std::siz
         // Breakables:
 
         // Traps:
-        // instantiateSpike(world, position + glm::vec2(-32, -16)),
-        // instantiateSpike(world, position + glm::vec2(-32, 0)),
-        // instantiateSpike(world, position + glm::vec2(16, -16)),
-        // instantiateSpike(world, position + glm::vec2(16, 0)),
+        instantiateSpike(world, position + glm::vec2(-32, -16)),
+        instantiateSpike(world, position + glm::vec2(-32, 0)),
+        instantiateSpike(world, position + glm::vec2(16, -16)),
+        instantiateSpike(world, position + glm::vec2(16, 0)),
     });
 
     return chunkHolderEnt;
