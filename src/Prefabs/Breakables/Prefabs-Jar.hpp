@@ -16,6 +16,7 @@ Ent instantiateJar(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
+        Loots({{LOOT_TYPE_COIN, 2, 3}}),
         ZIndex(0),
         Collider(-12 / 2, -12 / 2, 12, 12)
     );

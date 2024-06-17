@@ -4,6 +4,8 @@
 
 class CoinIconInventoryBar {};
 class XpIconInventoryBar {};
+class ButtonAIconInventoryBar {};
+class ButtonBIconInventoryBar {};
 
 class ShrinkIcon {
 public:

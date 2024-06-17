@@ -2,14 +2,17 @@
 
 #include <Zerengine.hpp>
 
-enum LootType: size_t {
-    LOOT_TYPE_XP,
-    LOOT_TYPE_COIN
-};
-
 class EnemyDropLoots {
 public:
     EnemyDropLoots(const std::initializer_list<size_t>& newLoots, float newTotalDuration, int newNbDropPerSubDrop):
+        loots(newLoots),
+        subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
+        curSubDropDuration(0),
+        nbDropPerSubDrop(newNbDropPerSubDrop),
+        curNbDropPerSubDrop(0) {
+    }
+
+    EnemyDropLoots(const std::vector<size_t>& newLoots, float newTotalDuration, int newNbDropPerSubDrop):
         loots(newLoots),
         subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
         curSubDropDuration(0),

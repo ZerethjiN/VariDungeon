@@ -11,6 +11,13 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, transform, orientation, playerDamage]: players) {
         if (vulkanEngine.window.isKeyDown(B_BUTTON)) {
+            for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
+                if (!world.has<ShrinkIcon>(buttonBIconEnt)) {
+                    buttonBIconTransform.scale(-0.1f, -0.1f);
+                    world.add(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
+                }
+            }
+
             glm::vec2 newDirection(0, 0);
 
             if (orientation.x > 0) {
@@ -231,6 +238,13 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
         if (vulkanEngine.window.isKeyDown(A_BUTTON)) {
+            for (auto [buttonAIconEnt, buttonAIconTransform]: world.view<Transform>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
+                if (!world.has<ShrinkIcon>(buttonAIconEnt)) {
+                    buttonAIconTransform.scale(-0.1f, -0.1f);
+                    world.add(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
+                }
+            }
+
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(playerEnt)) {
                     animation.play("HitAttackRight");
@@ -252,13 +266,13 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(16, 0),
+                            transform.getPosition() + glm::vec2(8, 0),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -40 / 2, 32, 40)
+                        Trigger(-40 / 2, -40 / 2, 40, 40)
                     )
                 });
             } else if (orientation.x < 0) {
@@ -282,13 +296,13 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(-16, 0),
+                            transform.getPosition() + glm::vec2(-8, 0),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-32 / 2, -40 / 2, 32, 40)
+                        Trigger(-40 / 2, -40 / 2, 40, 40)
                     )
                 });
             } else if (orientation.y > 0) {
@@ -312,13 +326,13 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(0, 16),
+                            transform.getPosition() + glm::vec2(0, 8),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-40 / 2, -32 / 2, 40, 32)
+                        Trigger(-40 / 2, -40 / 2, 40, 40)
                     )
                 });
             } else if (orientation.y < 0) {
@@ -342,13 +356,13 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform(
-                            transform.getPosition() + glm::vec2(0, -16),
+                            transform.getPosition() + glm::vec2(0, -8),
                             0,
                             glm::vec2(1, 1)
                         ),
                         Velocity(),
                         LifeTime(0.2f),
-                        Trigger(-40 / 2, -32 / 2, 40, 32)
+                        Trigger(-40 / 2, -40 / 2, 40, 40)
                     )
                 });
             }

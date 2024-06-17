@@ -20,9 +20,9 @@ void breakableOnHitSys(MainFixedSystem, World& world) {
 }
 
 void breakableHitSys(MainFixedSystem, World& world) {
-    auto breakables = world.view<Transform, Life, Animation, ZIndex, const OnCollisionEnter, const Transform, const Breakable>(without<OnBreakableHit, InvincibleFrame>);
+    auto breakables = world.view<Transform, Life, Animation, ZIndex, const OnCollisionEnter, const Transform, const Breakable, const Loots>(without<OnBreakableHit, InvincibleFrame>);
 
-    for (auto [breakableEnt, transform, life, animation, zindex, collisions, breakableTransform, breakable]: breakables) {
+    for (auto [breakableEnt, transform, life, animation, zindex, collisions, breakableTransform, breakable, loots]: breakables) {
         for (auto othEnt: collisions) {
             if (world.has<PlayerWeapon>(othEnt)) {
                 // Damage:
@@ -38,7 +38,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                 // IsDead:
                 if (life.isDead()) {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
-                    appliedCurCameraAberation(world, 1, 0.1);
+                    appliedCurCameraAberation(world, 2, 0.1);
 
                     if (auto onBreakOpt = world.get<const OnBreakableBreak>(breakableEnt)) {
                         auto [onBreakableBreak] = onBreakOpt.value();
@@ -50,13 +50,17 @@ void breakableHitSys(MainFixedSystem, World& world) {
                     zindex = -3;
                     animation.play(breakable.getDestroyedAnimName());
 
+                    std::vector<std::size_t> newLoots;
+                    for (const auto& loot: loots) {
+                        auto newNbLoots = (rand() % loot.minLootDrop) + (loot.maxLootDrop - loot.minLootDrop) + 1;
+                        for (std::size_t i = 0; i < newNbLoots; i++) {
+                            newLoots.emplace_back(loot.lootType);
+                        }
+                    }
+
                     world.add(breakableEnt,
                         DustParticleGenerator(false, 0.2, 2),
-                        EnemyDropLoots(
-                            {LootType::LOOT_TYPE_COIN, LootType::LOOT_TYPE_COIN},
-                            0.2,
-                            1
-                        )
+                        EnemyDropLoots(newLoots, 0.2, 1)
                     );
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);

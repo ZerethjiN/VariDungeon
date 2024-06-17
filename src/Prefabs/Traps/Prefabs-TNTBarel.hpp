@@ -24,6 +24,7 @@ Ent instantiateTNTBarel(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
+        Loots(),
         ZIndex(0),
         Collider(-12 / 2, -12 / 2, 12, 12)
     );

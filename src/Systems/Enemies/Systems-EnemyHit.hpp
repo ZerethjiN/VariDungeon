@@ -7,9 +7,9 @@
 #include <Images.hpp>
 
 void enemyHitSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Transform, Life, const OnCollisionEnter, const ZIndex>(with<Enemy>, without<Unhittable, InvincibleFrame>);
+    auto enemies = world.view<Transform, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<Unhittable, InvincibleFrame>);
 
-    for (auto [enemyEnt, enemyTransform, life, collisions, zindex]: enemies) {
+    for (auto [enemyEnt, enemyTransform, life, collisions, zindex, loots]: enemies) {
         for (auto othEnt: collisions) {
             if (world.has<PlayerWeapon, Damage>(othEnt)) {
                 // Damage:
@@ -66,17 +66,15 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                 // IsDead:
                 if (life.isDead()) {
-                    appliedCameraShake(world, 0.5f, 128.f, 2);
-                    appliedCurCameraAberation(world, 2, 0.1);
+                    appliedCurCameraAberation(world, 4, 0.1);
 
-                    world.add(enemyEnt,
-                        DeathParticleGenerator(true, 0.2, 2),
-                        EnemyDropLoots(
-                            {LootType::LOOT_TYPE_XP, LootType::LOOT_TYPE_XP, LootType::LOOT_TYPE_XP},
-                            0.2,
-                            2
-                        )
-                    );
+                    std::vector<std::size_t> newLoots;
+                    for (const auto& loot: loots) {
+                        auto newNbLoots = (rand() % loot.minLootDrop) + (loot.maxLootDrop - loot.minLootDrop) + 1;
+                        for (std::size_t i = 0; i < newNbLoots; i++) {
+                            newLoots.emplace_back(loot.lootType);
+                        }
+                    }
 
                     for (auto [playerEnt, playerAttackSpeed, playerSpeed]: world.view<PlayerAttackCooldown, Speed>(with<Player>)) {
                         if (auto opt = world.get<PlayerFrenzy>(playerEnt)) {
@@ -96,6 +94,17 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
                             instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }
+                        world.add(enemyEnt,
+                            DeathParticleGenerator(true, 0.4, 4),
+                            EnemyDropLoots(newLoots, 0.4, 1)
+                        );
+                        appliedCameraShake(world, 0.5f, 128.f, 4);
+                    } else {
+                        world.add(enemyEnt,
+                            DeathParticleGenerator(true, 0.2, 2),
+                            EnemyDropLoots(newLoots, 0.2, 1)
+                        );
+                        appliedCameraShake(world, 0.5f, 128.f, 2);
                     }
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);

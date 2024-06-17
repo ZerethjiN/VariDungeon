@@ -23,6 +23,7 @@ Ent instantiateScorpion(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
+        Loots({{LOOT_TYPE_XP, 2, 3}}),
         ZIndex(0),
         Life(3),
         Velocity(),

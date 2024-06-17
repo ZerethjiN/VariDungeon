@@ -49,7 +49,7 @@ void playerHitSys(MainFixedSystem, World& world) {
                     world.loadScene(testScene);
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
-                    appliedCurCameraAberation(world, 2, 0.1);
+                    appliedCurCameraAberation(world, 4, 0.1);
                 }
 
                 break;

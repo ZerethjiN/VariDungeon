@@ -359,12 +359,12 @@ void megaSlimeSpawnSys(MainFixedSystem, World& world) {
         if (isMegaSlimeSpawn.canSwitchState(time.fixedDelta())) {
             world.remove<IsMegaSlimeSpawn>(enemyEnt);
             world.add(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
-            instantiateSlime(world, transform.getPosition() + glm::vec2(8, 0));
+            instantiateSlimeSlimeBoss(world, transform.getPosition() + glm::vec2(8, 0));
             continue;
         }
 
         if (isMegaSlimeSpawn.canSpawn(time.fixedDelta())) {
-            instantiateSlime(world, transform.getPosition() + glm::vec2(8, 0));
+            instantiateSlimeSlimeBoss(world, transform.getPosition() + glm::vec2(8, 0));
         }
 
         glm::vec2 newdirection;

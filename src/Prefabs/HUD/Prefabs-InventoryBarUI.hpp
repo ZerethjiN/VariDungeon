@@ -103,6 +103,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
         ),
 
         // Bottom Bar Spell A
+        // Frame
         world.newEnt(
             UICreator(bottomBarUV, 0, UIAnchor::BOTTOM_CENTER),
             Transform(
@@ -112,11 +113,34 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
             ),
             ZIndex(1)
         ),
-        // Bottom Bar Spell B
+        // Icon
         world.newEnt(
+            ButtonAIconInventoryBar(),
             UICreator(bottomBarUV, 1, UIAnchor::BOTTOM_CENTER),
             Transform(
+                position + glm::vec2(82 + 8, +8),
+                0,
+                glm::vec2(1, 1)
+            ),
+            ZIndex(1)
+        ),
+        // Bottom Bar Spell B
+        // Frame
+        world.newEnt(
+            UICreator(bottomBarUV, 0, UIAnchor::BOTTOM_CENTER),
+            Transform(
                 position + glm::vec2(104, 0),
+                0,
+                glm::vec2(1, 1)
+            ),
+            ZIndex(1)
+        ),
+        // Icon
+        world.newEnt(
+            ButtonBIconInventoryBar(),
+            UICreator(bottomBarUV, 2, UIAnchor::BOTTOM_CENTER),
+            Transform(
+                position + glm::vec2(106 + 8, +8),
                 0,
                 glm::vec2(1, 1)
             ),

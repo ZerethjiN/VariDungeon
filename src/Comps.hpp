@@ -26,6 +26,7 @@
 #include "Comps/Common/Comps-InvincibleFrame.hpp"
 #include "Comps/Common/Comps-Knockback.hpp"
 #include "Comps/Common/Comps-Life.hpp"
+#include "Comps/Common/Comps-Loots.hpp"
 #include "Comps/Common/Comps-LootSpread.hpp"
 #include "Comps/Common/Comps-Orientation.hpp"
 #include "Comps/Common/Comps-Unerasable.hpp"
