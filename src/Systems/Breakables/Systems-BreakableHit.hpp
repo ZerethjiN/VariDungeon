@@ -51,7 +51,9 @@ void breakableHitSys(MainFixedSystem, World& world) {
                     animation.play(breakable.getDestroyedAnimName());
 
                     std::vector<std::size_t> newLoots;
-                    for (const auto& loot: loots) {
+                    if (!loots.empty()) {
+                        auto rndLootType = rand() % loots.size();
+                        const auto& loot = loots[rndLootType];
                         auto newNbLoots = (rand() % loot.minLootDrop) + (loot.maxLootDrop - loot.minLootDrop) + 1;
                         for (std::size_t i = 0; i < newNbLoots; i++) {
                             newLoots.emplace_back(loot.lootType);

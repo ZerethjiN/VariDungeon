@@ -1,6 +1,7 @@
 #pragma once
 
 // Attacks
+#include "Comps/Attacks/Comps-Bomb.hpp"
 #include "Comps/Attacks/Comps-Dagger.hpp"
 #include "Comps/Attacks/Comps-FireBall.hpp"
 #include "Comps/Attacks/Comps-GroundCrystalAttack.hpp"

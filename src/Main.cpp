@@ -55,10 +55,11 @@ int main() {
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
                 playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
-                warpSys, particleGeneratorSys,
+                warpSys, particleGeneratorSys, bombSpreadSys,
                 // Attacks:
                 shadowMarkPreExplosionSys, shadowMarkExplosionSys,
                 groundCrystalAttackCrossSys,
+                playerBombSys, playerBombExplosionSys,
 
                 // Enemies:
                 enemyPreSpawnSys,

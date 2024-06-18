@@ -69,7 +69,10 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     appliedCurCameraAberation(world, 4, 0.1);
 
                     std::vector<std::size_t> newLoots;
-                    for (const auto& loot: loots) {
+
+                    auto rndLootType = rand() % loots.size();
+                    if (!loots.empty()) {
+                        const auto& loot = loots[rndLootType];
                         auto newNbLoots = (rand() % loot.minLootDrop) + (loot.maxLootDrop - loot.minLootDrop) + 1;
                         for (std::size_t i = 0; i < newNbLoots; i++) {
                             newLoots.emplace_back(loot.lootType);

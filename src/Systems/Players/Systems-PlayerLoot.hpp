@@ -121,7 +121,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         playerLife += lifeGroundItem.getAmount();
 
                         for (auto [_, lifeTextUI]: world.view<TextUI>(with<PlayerLifeText>)) {
-                            lifeTextUI.setString("HP " + std::to_string(static_cast<int>(playerLife.getNbLife())) + "/" + std::to_string(static_cast<int>(playerLife.getCurNbLife())));
+                            lifeTextUI.setString("HP " + std::to_string(static_cast<int>(playerLife.getCurNbLife())) + "/" + std::to_string(static_cast<int>(playerLife.getNbLife())));
                         }
 
                         auto lifeRatio = playerLife.getCurNbLife() / playerLife.getNbLife();

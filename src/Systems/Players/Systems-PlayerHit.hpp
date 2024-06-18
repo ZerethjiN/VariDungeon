@@ -20,7 +20,7 @@ void playerHitSys(MainFixedSystem, World& world) {
                 }
 
                 // Visual Effect:
-                world.add(playerEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
+                world.add(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
                 playerTransform.scale(-0.2f, -0.2f);
 
                 if (auto opt = world.get<const Transform>(othEnt)) {

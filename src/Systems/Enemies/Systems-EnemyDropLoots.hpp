@@ -26,6 +26,15 @@ void enemyDropLootsSys(MainFixedSystem, World& world) {
                             32.f
                         );
                         break;
+                    case LootType::LOOT_TYPE_HEART:
+                        instantiateHeartParticle(
+                            world,
+                            transform.getPosition(),
+                            0.25f,
+                            glm::normalize(rotateAround(glm::vec2(1, 1), glm::vec2(1, 1), rndSpreadDirection)),
+                            32.f
+                        );
+                        break;
                     default:
                         instantiateCoinParticle(
                             world,

@@ -9,6 +9,7 @@
 #include "Prefabs/Attacks/Prefabs-GroundCrystalAttack.hpp"
 #include "Prefabs/Attacks/Prefabs-LaserParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-MegaLaserParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-PlayerBombParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShadowMarkParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
 
@@ -52,6 +53,7 @@
 //  GroundItems:
 #include "Prefabs/GroundItems/Prefabs-BonusSphere.hpp"
 #include "Prefabs/GroundItems/Prefabs-CoinParticle.hpp"
+#include "Prefabs/GroundItems/Prefabs-HeartParticle.hpp"
 #include "Prefabs/GroundItems/Prefabs-XpParticle.hpp"
 
 // HUD:

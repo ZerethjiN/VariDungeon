@@ -4,7 +4,8 @@
 
 enum LootType: size_t {
     LOOT_TYPE_XP,
-    LOOT_TYPE_COIN
+    LOOT_TYPE_COIN,
+    LOOT_TYPE_HEART
 };
 
 struct LootTuple final {
@@ -27,6 +28,18 @@ public:
         return loots.end();
     }
 
+    [[nodiscard]] constexpr const LootTuple& operator [](std::size_t index) const noexcept {
+        return loots[index];
+    }
+
+    [[nodiscard]] constexpr std::size_t size() const noexcept {
+        return loots.size();
+    }
+
+    [[nodiscard]] constexpr bool empty() const noexcept {
+        return loots.empty();
+    }
+
 private:
-    const std::vector<LootTuple> loots; // Loot Tuple: LootType, Min, Max
+    const std::vector<LootTuple> loots;
 };

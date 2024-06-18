@@ -1,6 +1,7 @@
 #pragma once
 
 // Attacks
+#include "Systems/Attacks/Systems-Bomb.hpp"
 #include "Systems/Attacks/Systems-Dagger.hpp"
 #include "Systems/Attacks/Systems-FireBall.hpp"
 #include "Systems/Attacks/Systems-GroundCrystalAttack.hpp"
