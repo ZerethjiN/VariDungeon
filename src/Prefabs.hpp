@@ -43,6 +43,7 @@
 #include "Prefabs/Enemies/Prefabs-LavaSlime.hpp"
 #include "Prefabs/Enemies/Prefabs-MiniRock.hpp"
 #include "Prefabs/Enemies/Prefabs-Mummy.hpp"
+#include "Prefabs/Enemies/Prefabs-MummyLvl2.hpp"
 #include "Prefabs/Enemies/Prefabs-Roboboule.hpp"
 #include "Prefabs/Enemies/Prefabs-RockInsect.hpp"
 #include "Prefabs/Enemies/Prefabs-Scorpion.hpp"

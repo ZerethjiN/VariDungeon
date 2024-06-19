@@ -420,7 +420,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                     for (auto [_, playerTransform]: players) {
                         std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
                         // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
-                        playerTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-48, 0));
+                        playerTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
                         std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
                         // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
                     }

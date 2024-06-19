@@ -12,10 +12,19 @@ void playerBombSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [_, playerBomb, playerTransform, zindex]: players) {
-        if (playerBomb.canSpawnBomb(time.fixedDelta())) {
-            float rndSpreadDirection = std::rand() % 360;
-            auto newDirection = glm::normalize(rotateAround(glm::vec2(1, 1), glm::vec2(1, 1), rndSpreadDirection));
-            instantiatePlayerBombParticle(world, playerTransform.getPosition() + (newDirection * glm::vec2(8, 8)), zindex, newDirection);
+        if (playerBomb.canSpawnBomb(time.fixedDelta()) && !world.view(with<Enemy>).empty()) {
+            glm::vec2 minDistance(std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+            float distance = std::numeric_limits<float>::max();
+
+            for (auto [_, enemyTransform]: world.view<const Transform>(with<Enemy>)) {
+                if (glm::distance(enemyTransform.getPosition(), glm::vec2(std::numeric_limits<float>::max(), std::numeric_limits<float>::max())) < distance) {
+                    minDistance = enemyTransform.getPosition();
+                    distance = glm::distance(enemyTransform.getPosition(), glm::vec2(std::numeric_limits<float>::max(), std::numeric_limits<float>::max()));
+                }
+            }
+
+            auto newDirection = glm::normalize(minDistance);
+            instantiatePlayerBombParticle(world, playerTransform.getPosition() + (newDirection * 16.f), zindex, newDirection);
         }
     }
 }

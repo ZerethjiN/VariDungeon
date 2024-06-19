@@ -18,7 +18,7 @@ Ent instantiatePlayerBombParticle(World& world, const glm::vec2& position, std::
             glm::vec2(1, 1)
         ),
         ZIndex(newZIndex - 1),
-        BombSpread(0.0625f, spreadDirection, 128.f),
+        BombSpread(0.125f, spreadDirection, 64.f),
         Velocity(),
         Collider(-8 / 2, -8 / 2, 8, 8)
     );

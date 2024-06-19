@@ -2,6 +2,7 @@
 
 // BonusCallbacks:
 #include "BonusCallbacks/BonusCallbacks-AttackSpeed.hpp"
+#include "BonusCallbacks/BonusCallbacks-Bomb.hpp"
 #include "BonusCallbacks/BonusCallbacks-Dagger.hpp"
 #include "BonusCallbacks/BonusCallbacks-Health.hpp"
 #include "BonusCallbacks/BonusCallbacks-Knockback.hpp"

@@ -12,7 +12,7 @@ void playerDaggerSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [_, playerDagger, playerTransform]: players) {
-        if (playerDagger.canSpawnDagger(time.fixedDelta())) {
+        if (playerDagger.canSpawnDagger(time.fixedDelta()) && !world.view(with<Enemy>).empty()) {
             instantiateDaggerParticle(world, playerTransform.getPosition(), glm::vec2(1, -1), 0 * 90.f + 45.f, 128.f);
             instantiateDaggerParticle(world, playerTransform.getPosition(), glm::vec2(1, 1), 1 * 90.f + 45.f, 128.f);
             instantiateDaggerParticle(world, playerTransform.getPosition(), glm::vec2(-1, 1), 2 * 90.f + 45.f, 128.f);

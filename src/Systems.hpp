@@ -25,6 +25,7 @@
 #include "Systems/Commons/Systems-Knockback.hpp"
 #include "Systems/Commons/Systems-LootSpread.hpp"
 #include "Systems/Commons/Systems-ParticleGenerator.hpp"
+#include "Systems/Commons/Systems-Reroll.hpp"
 #include "Systems/Commons/Systems-Warp.hpp"
 
 // Enemies
@@ -42,6 +43,7 @@
 #include "Systems/Enemies/Systems-LavaSlime.hpp"
 #include "Systems/Enemies/Systems-MiniRock.hpp"
 #include "Systems/Enemies/Systems-Mummy.hpp"
+#include "Systems/Enemies/Systems-MummyLvl2.hpp"
 #include "Systems/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Systems-RockInsect.hpp"
 #include "Systems/Enemies/Systems-Scorpion.hpp"

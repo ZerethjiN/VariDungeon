@@ -70,8 +70,8 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                     std::vector<std::size_t> newLoots;
 
-                    auto rndLootType = rand() % loots.size();
                     if (!loots.empty()) {
+                        auto rndLootType = rand() % loots.size();
                         const auto& loot = loots[rndLootType];
                         auto newNbLoots = (rand() % loot.minLootDrop) + (loot.maxLootDrop - loot.minLootDrop) + 1;
                         for (std::size_t i = 0; i < newNbLoots; i++) {

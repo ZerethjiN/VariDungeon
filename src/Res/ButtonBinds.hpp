@@ -11,6 +11,7 @@ enum ButtonNameType: std::size_t {
     EXIT,
     B_BUTTON,
     A_BUTTON,
+    REROLL_BUTTON,
     DEBUG_COMMAND
 };
 

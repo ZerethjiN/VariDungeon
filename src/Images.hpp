@@ -46,6 +46,7 @@
 #include "Images/Enemies/Images-LavaSlime.hpp"
 #include "Images/Enemies/Images-MiniRock.hpp"
 #include "Images/Enemies/Images-Mummy.hpp"
+#include "Images/Enemies/Images-MummyLvl2.hpp"
 #include "Images/Enemies/Images-Roboboule.hpp"
 #include "Images/Enemies/Images-RockInsect.hpp"
 #include "Images/Enemies/Images-Scorpion.hpp"

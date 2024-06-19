@@ -13,7 +13,8 @@ void startSys(StartSystem, World& world) {
         {VALIDATE, {GLFW_KEY_ENTER}},
         {B_BUTTON, {GLFW_KEY_SPACE}},
         {A_BUTTON, {GLFW_KEY_ENTER}},
-        {EXIT, {GLFW_KEY_ESCAPE}}
+        {EXIT, {GLFW_KEY_ESCAPE}},
+        {REROLL_BUTTON, {GLFW_KEY_R}},
     };
 
     // vulkanEngine.window.mouseButtonNameBinds = {

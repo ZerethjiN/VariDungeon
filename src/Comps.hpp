@@ -53,6 +53,7 @@
 #include "Comps/Enemies/Comps-LavaSlime.hpp"
 #include "Comps/Enemies/Comps-MiniRock.hpp"
 #include "Comps/Enemies/Comps-Mummy.hpp"
+#include "Comps/Enemies/Comps-MummyLvl2.hpp"
 #include "Comps/Enemies/Comps-Roboboule.hpp"
 #include "Comps/Enemies/Comps-RockInsect.hpp"
 #include "Comps/Enemies/Comps-Scorpion.hpp"

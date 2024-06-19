@@ -107,6 +107,8 @@ Ent instantiateDesertTestRoom(World& world, const glm::vec2& position, std::size
         // instantiateMiniRockSpawner(world, position + glm::vec2(0, 0)),
         // instantiateScorpion(world, position + glm::vec2(0, 0)),
 
+        // instantiateMummyLvl2(world, position + glm::vec2(0, 0)),
+
         // Bosses:
         // instantiateMegaSlime(world, position + glm::vec2(-16, -16)),
         // instantiateRockBoss(world, position + glm::vec2(-16, -16)),

@@ -55,7 +55,7 @@ int main() {
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
                 playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
-                warpSys, particleGeneratorSys, bombSpreadSys,
+                warpSys, particleGeneratorSys, bombSpreadSys, rerollSys,
                 // Attacks:
                 shadowMarkPreExplosionSys, shadowMarkExplosionSys,
                 groundCrystalAttackCrossSys,
@@ -76,6 +76,8 @@ int main() {
                 voidSlimeMoveSys, voidSlimeAttractSys,
                 miniRockSpawnerSys, miniRockMoveSys,
                 scorpionMoveSys, scorpionAttackSys,
+
+                mummyLvl2MoveSys, mummyLvl2PreAttackSys, mummyLvl2AttackSys,
 
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
