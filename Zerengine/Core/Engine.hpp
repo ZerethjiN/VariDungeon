@@ -188,28 +188,28 @@ class CompPool final {
 friend class Archetype;
 friend class LiteArchetype;
 friend class LateUpgrade;
-private:
-    CompPool() noexcept = default;
+public:
+    [[nodiscard]] CompPool() noexcept = default;
 
-    CompPool(const Ent ent, const std::any& a) noexcept:
+    [[nodiscard]] CompPool(const Ent ent, const std::any& a) noexcept:
         comps({{ent, a}}) {
     }
 
 private:
-    constexpr void emplace(const Ent ent, const std::any& a) noexcept {
-        comps.emplace(ent, a);
+    constexpr auto emplace(this auto&& self, const Ent ent, const std::any& a) noexcept -> void {
+        std::move(self).comps.emplace(ent, a);
     }
 
-    [[nodiscard]] constexpr auto&& get(this auto&& self, const Ent ent) noexcept {
+    [[nodiscard]] constexpr auto get(this auto&& self, const Ent ent) noexcept -> auto&& {
         return std::move(self).comps.at(ent);
     }
 
-    constexpr void copy(const Ent ent, const CompPool& oth) noexcept {
-        comps.emplace(ent, oth.comps.at(ent));
+    constexpr auto copy(this auto&& self, const Ent ent, const CompPool& oth) noexcept -> void {
+        std::move(self).comps.emplace(ent, oth.comps.at(ent));
     }
 
-    constexpr void remove(const Ent ent) noexcept {
-        comps.erase(ent);
+    constexpr auto remove(this auto&& self, const Ent ent) noexcept -> void {
+        std::move(self).comps.erase(ent);
     }
 
 private:
@@ -237,7 +237,11 @@ private:
         ents({ent}),
         pools(anyes.size()) {
         for (const auto& pair: anyes) {
-            pools.emplace(pair.first, new CompPool(ent, pair.second));
+            pools.emplace(
+                std::piecewise_construct,
+                std::forward_as_tuple(pair.first),
+                std::forward_as_tuple(ent, pair.second)
+            );
         }
     }
 
@@ -248,10 +252,14 @@ private:
             pools.emplace(
                 std::piecewise_construct,
                 std::forward_as_tuple(pair.first),
-                std::forward_as_tuple(new CompPool(ent, pair.second->comps.at(ent)))
+                std::forward_as_tuple(ent, pair.second.comps.at(ent))
             );
         }
-        pools.emplace(a.type().hash_code(), new CompPool(ent, a));
+        pools.emplace(
+            std::piecewise_construct,
+            std::forward_as_tuple(a.type().hash_code()),
+            std::forward_as_tuple(ent, a)
+        );
         oldArch.destroy(ent);
     }
 
@@ -263,7 +271,7 @@ private:
                 pools.emplace(
                     std::piecewise_construct,
                     std::forward_as_tuple(pair.first),
-                    std::forward_as_tuple(new CompPool(ent, pair.second->comps.at(ent)))
+                    std::forward_as_tuple(ent, pair.second.comps.at(ent))
                 );
             }
         }
@@ -271,109 +279,103 @@ private:
     }
 
 private:
-    ~Archetype() noexcept {
-        for (auto& pair: pools) {
-            delete pair.second;
-        }
-    }
-
-    void newEnt(const Ent ent, const std::unordered_map<Type, std::any>& anyes) noexcept {
-        ents.emplace(ent);
+    constexpr auto newEnt(this auto&& self, const Ent ent, const std::unordered_map<Type, std::any>& anyes) noexcept -> void {
+        std::move(self).ents.emplace(ent);
         for (const auto& pair: anyes) {
-            pools.at(pair.first)->emplace(ent, pair.second);
+            std::move(self).pools.at(pair.first).emplace(ent, pair.second);
         }
     }
 
-    void add(const Ent ent, Archetype& oldArch, const std::any& a) noexcept {
-        ents.emplace(ent);
+    constexpr auto add(this auto&& self, const Ent ent, Archetype& oldArch, const std::any& a) noexcept -> void {
+        std::move(self).ents.emplace(ent);
         for (const auto& pair: oldArch.pools) {
-            pools.at(pair.first)->copy(ent, *pair.second);
+            std::move(self).pools.at(pair.first).copy(ent, pair.second);
         }
-        pools.at(a.type().hash_code())->emplace(ent, a);
+        std::move(self).pools.at(a.type().hash_code()).emplace(ent, a);
         oldArch.destroy(ent);
     }
 
-    void remove(const Ent ent, Archetype& oldArch, const Type type) noexcept {
-        ents.emplace(ent);
+    constexpr auto remove(this auto&& self, const Ent ent, Archetype& oldArch, const Type type) noexcept -> void {
+        std::move(self).ents.emplace(ent);
         for (const auto& pair: oldArch.pools) {
             if (pair.first != type) {
-                pools.at(pair.first)->copy(ent, *pair.second);
+                std::move(self).pools.at(pair.first).copy(ent, pair.second);
             }
         }
         oldArch.destroy(ent);
     }
 
-    [[nodiscard]] auto&& get(this auto&& self, const Ent ent, const Type type) noexcept {
-        return self.pools.at(type)->get(ent);
+    [[nodiscard]] constexpr auto get(this auto&& self, const Ent ent, const Type type) noexcept -> auto&& {
+        return std::move(self).pools.at(type).get(ent);
     }
 
-    [[nodiscard]] const std::vector<std::string> getTypes(const Ent ent) const noexcept {
+    [[nodiscard]] constexpr auto getTypes(this auto&& self, const Ent ent) noexcept -> const std::vector<std::string> {
         std::vector<std::string> types;
-        for (auto& pool: pools) {
-            types.emplace_back(pool.second->comps.at(ent).type().name());
+        for (auto& pool: std::move(self).pools) {
+            types.emplace_back(pool.second.comps.at(ent).type().name());
         }
         return types;
     }
 
-    void destroy(const Ent ent) noexcept {
-        ents.erase(ent);
-        for (auto& pool: pools) {
-            pool.second->remove(ent);
+    auto destroy(this auto&& self, const Ent ent) noexcept -> void {
+        std::move(self).ents.erase(ent);
+        for (auto& pool: std::move(self).pools) {
+            pool.second.remove(ent);
         }
     }
 
-    [[nodiscard]] constexpr bool empty() const noexcept {
-        return ents.empty();
+    [[nodiscard]] constexpr auto empty(this auto&& self) noexcept -> bool {
+        return std::move(self).ents.empty();
     }
 
-    [[nodiscard]] constexpr std::size_t size() const noexcept {
-        return ents.size();
+    [[nodiscard]] constexpr auto size(this auto&& self) noexcept -> std::size_t {
+        return std::move(self).ents.size();
     }
 
-    [[nodiscard]] constexpr bool contains(const Type type) const noexcept {
-        return pools.contains(type);
+    [[nodiscard]] constexpr auto contains(this auto&& self, const Type type) noexcept -> bool {
+        return std::move(self).pools.contains(type);
     }
 
 private:
     template <typename... Ts>
-    [[nodiscard]] constexpr std::tuple<const Ent, Ts&...> getTupleWithEnt(const Ent ent) noexcept {
-        return std::forward_as_tuple(ent, std::any_cast<Ts&>(get(ent, typeid(Ts).hash_code()))...);
+    [[nodiscard]] constexpr auto getTupleWithEnt(this auto&& self, const Ent ent) noexcept -> std::tuple<const Ent, Ts&...> {
+        return std::forward_as_tuple(ent, std::any_cast<Ts&>(std::move(self).get(ent, typeid(Ts).hash_code()))...);
     }
 
 private:
-    [[nodiscard]] bool isTotalyCompatibleLate(const std::unordered_map<Type, std::any>& anyes) const noexcept {
-        if (anyes.size() != pools.size()) {
+    [[nodiscard]] constexpr auto isTotalyCompatibleLate(this auto&& self, const std::unordered_map<Type, std::any>& anyes) noexcept -> bool {
+        if (anyes.size() != std::move(self).pools.size()) {
             return false;
         }
         for (const auto& pair: anyes) {
-            if (!pools.contains(pair.first)) {
+            if (!std::move(self).pools.contains(pair.first)) {
                 return false;
             }
         }
         return true;
     }
 
-    [[nodiscard]] bool isTotalyCompatibleLate(const Archetype& oldArch, const Type type) const noexcept {
-        if (oldArch.pools.size() + 1 != pools.size()) {
+    [[nodiscard]] constexpr auto isTotalyCompatibleLate(this auto&& self, const Archetype& oldArch, const Type type) noexcept -> bool {
+        if (oldArch.pools.size() + 1 != std::move(self).pools.size()) {
             return false;
         }
-        if (!pools.contains(type)) {
+        if (!std::move(self).pools.contains(type)) {
             return false;
         }
         for (const auto& pair: oldArch.pools) {
-            if (!pools.contains(pair.first)) {
+            if (!std::move(self).pools.contains(pair.first)) {
                 return false;
             }
         }
         return true;
     }
 
-    [[nodiscard]] bool isTotalyCompatibleWithoutLate(const Archetype& oldArch, const Type type) const noexcept {
-        if (oldArch.pools.size() - 1 != pools.size() || pools.contains(type)) {
+    [[nodiscard]] constexpr auto isTotalyCompatibleWithoutLate(this auto&& self, const Archetype& oldArch, const Type type) noexcept -> bool {
+        if (oldArch.pools.size() - 1 != std::move(self).pools.size() || std::move(self).pools.contains(type)) {
             return false;
         }
         for (const auto& pair: oldArch.pools) {
-            if (!pools.contains(pair.first) && pair.first != type) {
+            if (!std::move(self).pools.contains(pair.first) && pair.first != type) {
                 return false;
             }
         }
@@ -382,7 +384,7 @@ private:
 
 private:
     std::unordered_set<Ent> ents;
-    std::unordered_map<Type, CompPool*> pools;
+    std::unordered_map<Type, CompPool> pools;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1030,7 +1032,7 @@ private:
                 auto* arch = reg.entArch.at(dontDestroyEnt);
                 std::unordered_map<Type, std::any> comps;
                 for (auto& pair: arch->pools) {
-                    comps.emplace(pair.first, pair.second->comps.at(dontDestroyEnt));
+                    comps.emplace(pair.first, pair.second.comps.at(dontDestroyEnt));
                 }
                 dontDestroyes.emplace(dontDestroyEnt, comps);
                 if (auto childrenIt = reg.parentChildrens.find(dontDestroyEnt); childrenIt != reg.parentChildrens.end()) {

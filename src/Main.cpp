@@ -78,6 +78,8 @@ int main() {
                 scorpionMoveSys, scorpionAttackSys,
 
                 mummyLvl2MoveSys, mummyLvl2PreAttackSys, mummyLvl2AttackSys,
+                batLvl2MoveSys, batLvl2AttackSys,
+                slimeLvl2MoveSys, slimeLvl2JumpSys,
 
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,

@@ -1,0 +1,146 @@
+#pragma once
+
+#include <Zerengine.hpp>
+#include <Res.hpp>
+#include <Comps.hpp>
+#include <Prefabs.hpp>
+#include <Images.hpp>
+
+void batLvl2MoveSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Velocity, Animation, IsBatLvl2Move, Orientation, const Speed, const BatLvl2, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform>(with<Player>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [enemyEnt, velocity, animation, isBatMove, orientation, speed, bat, enemyTransform, zindex]: enemies) {
+        if (isBatMove.canSwitchState(time.fixedDelta())) {
+            for (auto [_, playerTransform]: players) {
+                if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= bat.attackRadius) {
+                    world.remove<IsBatLvl2Move>(enemyEnt);
+                    world.add(enemyEnt, IsBatLvl2Attack(bat.attackDuration));
+
+                    world.appendChildren(enemyEnt, {
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, +16), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0,   0), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, +16), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16,   0), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, +16), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16,   0), zindex),
+                        instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex)
+                    });
+                    continue;
+                }
+            }
+        }
+
+        glm::vec2 newdirection;
+        for (auto [_, playerTransform]: players) {
+            newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
+        }
+
+        velocity += newdirection * speed.speed * time.fixedDelta();
+        if (fabs(newdirection.x) > fabs(newdirection.y)) {
+            if (newdirection.x > 0) {
+                orientation = Orientation::EAST;
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitMoveRight");
+                } else {
+                    animation.play("MoveRight");
+                }
+            } else {
+                orientation = Orientation::WEST;
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitMoveLeft");
+                } else {
+                    animation.play("MoveLeft");
+                }
+            }
+        } else {
+            if (newdirection.y > 0) {
+                orientation = Orientation::SOUTH;
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitMoveDown");
+                } else {
+                    animation.play("MoveDown");
+                }
+            } else {
+                orientation = Orientation::NORTH;
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitMoveUp");
+                } else {
+                    animation.play("MoveUp");
+                }
+            }
+        }
+    }
+}
+
+void batLvl2AttackSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Animation, IsBatLvl2Attack, Orientation, const BatLvl2, const Transform>(without<EnemyPreSpawn>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
+        if (isBatAttack.canSwitchState(time.fixedDelta())) {
+            world.remove<IsBatLvl2Attack>(enemyEnt);
+            world.add(enemyEnt, IsBatLvl2Move(bat.moveDuration));
+            if (fabs(orientation.x) > fabs(orientation.y)) {
+                if (orientation.x > 0) {
+                    world.appendChildren(enemyEnt, {
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 90),
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 270)
+                    });
+                } else {
+                    world.appendChildren(enemyEnt, {
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 90),
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 270)
+                    });
+                }
+            } else {
+                if (orientation.y > 0) {
+                    world.appendChildren(enemyEnt, {
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 180),
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 0)
+                    });
+                } else {
+                    world.appendChildren(enemyEnt, {
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 180),
+                        instantiateBatAttackParticle(world, enemyTransform.getPosition(), 0)
+                    });
+                }
+            }
+        }
+
+        if (fabs(orientation.x) > fabs(orientation.y)) {
+            if (orientation.x > 0) {
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitAttackRight");
+                } else {
+                    animation.play("AttackRight");
+                }
+            } else {
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitAttackLeft");
+                } else {
+                    animation.play("AttackLeft");
+                }
+            }
+        } else {
+            if (orientation.y > 0) {
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitAttackDown");
+                } else {
+                    animation.play("AttackDown");
+                }
+            } else {
+                if (world.has<InvincibleFrame>(enemyEnt)) {
+                    animation.play("HitAttackUp");
+                } else {
+                    animation.play("AttackUp");
+                }
+            }
+        }
+    }
+}

@@ -102,8 +102,8 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         instantiateSpike(world, position + glm::vec2(16, -16)),
         instantiateSpike(world, position + glm::vec2(16, 0)),
 
-        instantiateMummyLvl2(world, position + glm::vec2(-48, 0)),
-        instantiateMummyLvl2(world, position + glm::vec2(32, 0)),
+        instantiateSlimeLvl2(world, position + glm::vec2(-48, 0)),
+        instantiateSlimeLvl2(world, position + glm::vec2(32, 0)),
 
         // Breakables:
         // instantiateJar(world, position + glm::vec2(32, -48)),
