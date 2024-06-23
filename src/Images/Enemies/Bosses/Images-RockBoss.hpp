@@ -42,6 +42,26 @@ static const ImageAsset rockBossUV("Textures/RockBoss.png", {
     {{ 96, 320, 32, 32}, {0.5f, 0.5f}}, // 29: Rock Boss Hit Stun Left B
     {{ 64, 352, 32, 32}, {0.5f, 0.5f}}, // 30: Rock Boss Hit Stun Up A
     {{ 96, 352, 32, 32}, {0.5f, 0.5f}}, // 31: Rock Boss Hit Stun Up B
+
+    // Move P2
+    {{  0, 384, 32, 32}, {0.5f, 0.5f}}, // 32: Rock Boss Move P2 Down A
+    {{ 32, 384, 32, 32}, {0.5f, 0.5f}}, // 33: Rock Boss Move P2 Down B
+    {{  0, 416, 32, 32}, {0.5f, 0.5f}}, // 34: Rock Boss Move P2 Right A
+    {{ 32, 416, 32, 32}, {0.5f, 0.5f}}, // 35: Rock Boss Move P2 Right B
+    {{  0, 448, 32, 32}, {0.5f, 0.5f}}, // 36: Rock Boss Move P2 Left A
+    {{ 32, 448, 32, 32}, {0.5f, 0.5f}}, // 37: Rock Boss Move P2 Left B
+    {{  0, 480, 32, 32}, {0.5f, 0.5f}}, // 38: Rock Boss Move P2 Up A
+    {{ 32, 480, 32, 32}, {0.5f, 0.5f}}, // 39: Rock Boss Move P2 Up B
+
+    // Roll P2
+    {{  0, 512, 32, 32}, {0.5f, 0.5f}}, // 40: Rock Boss Roll P2 Down A
+    {{ 32, 512, 32, 32}, {0.5f, 0.5f}}, // 41: Rock Boss Roll P2 Down B
+    {{  0, 544, 32, 32}, {0.5f, 0.5f}}, // 42: Rock Boss Roll P2 Right A
+    {{ 32, 544, 32, 32}, {0.5f, 0.5f}}, // 43: Rock Boss Roll P2 Right B
+    {{  0, 576, 32, 32}, {0.5f, 0.5f}}, // 44: Rock Boss Roll P2 Left A
+    {{ 32, 576, 32, 32}, {0.5f, 0.5f}}, // 45: Rock Boss Roll P2 Left B
+    {{  0, 608, 32, 32}, {0.5f, 0.5f}}, // 46: Rock Boss Roll P2 Up A
+    {{ 32, 608, 32, 32}, {0.5f, 0.5f}}, // 47: Rock Boss Roll P2 Up B
 });
 
 static const AnimationAsset rockBossAnim({
@@ -115,5 +135,41 @@ static const AnimationAsset rockBossAnim({
     {"HitStunUp", {
         {0.20f, rockBossUV[30]},
         {0.20f, rockBossUV[31]},
+    }},
+
+    // Move P2
+    {"MoveP2Down", {
+        {0.20f, rockBossUV[32]},
+        {0.20f, rockBossUV[33]},
+    }},
+    {"MoveP2Right", {
+        {0.20f, rockBossUV[34]},
+        {0.20f, rockBossUV[35]},
+    }},
+    {"MoveP2Left", {
+        {0.20f, rockBossUV[36]},
+        {0.20f, rockBossUV[37]},
+    }},
+    {"MoveP2Up", {
+        {0.20f, rockBossUV[38]},
+        {0.20f, rockBossUV[39]},
+    }},
+
+    // Roll P2
+    {"RollP2Down", {
+        {0.20f, rockBossUV[40]},
+        {0.20f, rockBossUV[41]},
+    }},
+    {"RollP2Right", {
+        {0.20f, rockBossUV[42]},
+        {0.20f, rockBossUV[43]},
+    }},
+    {"RollP2Left", {
+        {0.20f, rockBossUV[44]},
+        {0.20f, rockBossUV[45]},
+    }},
+    {"RollP2Up", {
+        {0.20f, rockBossUV[46]},
+        {0.20f, rockBossUV[47]},
     }},
 });

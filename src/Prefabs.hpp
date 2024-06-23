@@ -12,6 +12,7 @@
 #include "Prefabs/Attacks/Prefabs-PlayerBombParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShadowMarkParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShurikenParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-SmallCrystal.hpp"
 
 // Breakables
 #include "Prefabs/Breakables/Prefabs-Crystal.hpp"
@@ -21,6 +22,8 @@
 
 // Decors
 #include "Prefabs/Decors/Prefabs-Candlestick.hpp"
+#include "Prefabs/Decors/Prefabs-Column.hpp"
+#include "Prefabs/Decors/Prefabs-Crystal.hpp"
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
 #include "Prefabs/Decors/Prefabs-Obelisk.hpp"
 #include "Prefabs/Decors/Prefabs-Pillar.hpp"
@@ -52,6 +55,7 @@
 #include "Prefabs/Enemies/Enemies/Prefabs-VoidSlime.hpp"
 
 // Enemies Lvl2:
+#include "Prefabs/Enemies/EnemiesLvl2/Prefabs-AnubisLvl2.hpp"
 #include "Prefabs/Enemies/EnemiesLvl2/Prefabs-BatLvl2.hpp"
 #include "Prefabs/Enemies/EnemiesLvl2/Prefabs-MummyLvl2.hpp"
 #include "Prefabs/Enemies/EnemiesLvl2/Prefabs-SlimeLvl2.hpp"

@@ -11,6 +11,7 @@
 #include "Images/Attacks/Images-PlayerBombParticle.hpp"
 #include "Images/Attacks/Images-ShadowMarkParticle.hpp"
 #include "Images/Attacks/Images-ShurikenParticle.hpp"
+#include "Images/Attacks/Images-SmallCrystal.hpp"
 
 // Backgrounds:
 #include "Images/Backgrounds/Images-TileMapDesert.hpp"
@@ -23,6 +24,8 @@
 
 // Decors:
 #include "Images/Decors/Images-Candlestick.hpp"
+#include "Images/Decors/Images-Column.hpp"
+#include "Images/Decors/Images-Crystal.hpp"
 #include "Images/Decors/Images-Door.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
 #include "Images/Decors/Images-Obelisk.hpp"
@@ -55,6 +58,7 @@
 #include "Images/Enemies/Enemies/Images-VoidSlime.hpp"
 
 // Enemies Lvl2:
+#include "Images/Enemies/EnemiesLvl2/Images-AnubisLvl2.hpp"
 #include "Images/Enemies/EnemiesLvl2/Images-BatLvl2.hpp"
 #include "Images/Enemies/EnemiesLvl2/Images-MummyLvl2.hpp"
 #include "Images/Enemies/EnemiesLvl2/Images-SlimeLvl2.hpp"

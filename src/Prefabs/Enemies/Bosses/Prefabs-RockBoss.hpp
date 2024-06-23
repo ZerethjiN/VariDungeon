@@ -5,15 +5,18 @@
 #include <Images.hpp>
 #include <Res.hpp>
 
+Ent instantiateSmallCrystalParticle(World&, const glm::vec2&, float, const glm::vec2&);
+
 Ent instantiateRockBoss(World& world, const glm::vec2& position) {
-    return world.newEnt(
+    auto bossEnt = world.newEnt(
         Boss(),
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         RockBoss(
-            /*StunDuration:*/ 1.5f,
-            /*SmallCrystalDuration:*/ 4.0f,
-            /*GroundCrystalDuration:*/ 2.5f,
+            /*StunDuration:*/ 2.0f,
+            /*SmallCrystalDuration:*/ 1.5f,
+            /*GroundCrystalDuration:*/ 4.0f,
+            /*GroundCrystalDurationP2:*/ 2.5f,
             /*RollSpeedCoeff:*/ 8.0f
         ),
         IsRockBossRoll(),
@@ -29,10 +32,23 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
         ),
         Loots({{LOOT_TYPE_XP, 4, 6}}),
         ZIndex(0),
-        Life(15),
+        Life(20),
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),
         Collider(-24 / 2, -24 / 2, 24, 24)
     );
+
+    // world.appendChildren(bossEnt, {
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(-16, -16), 16.f, glm::vec2(-16, -16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(16, -16), 16.f, glm::vec2(16, -16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(-16, 16), 16.f, glm::vec2(-16, 16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(16, 16), 16.f, glm::vec2(16, 16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(0, -16), 16.f, glm::vec2(0, -16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(0, 16), 16.f, glm::vec2(0, 16)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(-16, 0), 16.f, glm::vec2(-16, 0)),
+    //     instantiateSmallCrystalParticle(world, position + glm::vec2(16, 0), 16.f, glm::vec2(16, 0)),
+    // });
+
+    return bossEnt;
 }

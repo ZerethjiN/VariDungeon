@@ -8,6 +8,7 @@
 #include "Comps/Attacks/Comps-Laser.hpp"
 #include "Comps/Attacks/Comps-ShadowMark.hpp"
 #include "Comps/Attacks/Comps-Shuriken.hpp"
+#include "Comps/Attacks/Comps-SmallCrystal.hpp"
 
 // Bonuses
 #include "Comps/Bonuses/Comps-Bonus.hpp"
@@ -62,6 +63,7 @@
 #include "Comps/Enemies/Enemies/Comps-VoidSlime.hpp"
 
 // Enemies Lvl2:
+#include "Comps/Enemies/EnemiesLvl2/Comps-AnubisLvl2.hpp"
 #include "Comps/Enemies/EnemiesLvl2/Comps-BatLvl2.hpp"
 #include "Comps/Enemies/EnemiesLvl2/Comps-MummyLvl2.hpp"
 #include "Comps/Enemies/EnemiesLvl2/Comps-SlimeLvl2.hpp"

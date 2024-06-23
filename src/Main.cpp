@@ -60,6 +60,7 @@ int main() {
                 shadowMarkPreExplosionSys, shadowMarkExplosionSys,
                 groundCrystalAttackCrossSys,
                 playerBombSys, playerBombExplosionSys,
+                smallCrystalRotationSys, smallCrystalThrowSys,
 
                 // Enemies:
                 enemyPreSpawnSys,
@@ -77,13 +78,15 @@ int main() {
                 miniRockSpawnerSys, miniRockMoveSys,
                 scorpionMoveSys, scorpionAttackSys,
 
+                // Enemies Lvl2:
                 mummyLvl2MoveSys, mummyLvl2PreAttackSys, mummyLvl2AttackSys,
                 batLvl2MoveSys, batLvl2AttackSys,
                 slimeLvl2MoveSys, slimeLvl2JumpSys,
+                anubisLvl2AttackSys, anubisLvl2VanishSys,
 
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
-                rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys,
+                rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys, rockBossGroundCrystalsP2Sys, rockBossRollP2Sys,
 
                 fireBallAttackSys, fireBallHitSys,
 

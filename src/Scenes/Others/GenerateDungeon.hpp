@@ -356,8 +356,24 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
     instantiateDesertRoom19,
 };
 
+static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabRoomDesertsLvl2 = {
+    instantiateDesertLvl2Room1,
+    instantiateDesertLvl2Room2,
+    instantiateDesertLvl2Room3,
+    instantiateDesertLvl2Room4,
+    instantiateDesertLvl2Room5,
+    instantiateDesertLvl2Room6,
+    instantiateDesertLvl2Room7,
+    instantiateDesertLvl2Room8,
+    instantiateDesertLvl2Room9,
+    instantiateDesertLvl2Room10,
+    instantiateDesertLvl2Room11,
+    instantiateDesertLvl2Room12,
+};
+
 static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabBossRoomDeserts = {
-    instantiateDesertBossRoom1
+    instantiateDesertBossRoom1,
+    instantiateDesertBossRoom2,
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
@@ -500,6 +516,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 world.setInactive(newChunkEnt);
             } else {
                 auto newRoomPrefab = prefabRoomDeserts[rand() % prefabRoomDeserts.size()];
+                // auto newRoomPrefab = prefabRoomDesertsLvl2[rand() % prefabRoomDesertsLvl2.size()];
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 

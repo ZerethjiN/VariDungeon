@@ -8,6 +8,7 @@
 #include "Systems/Attacks/Systems-Laser.hpp"
 #include "Systems/Attacks/Systems-ShadowMark.hpp"
 #include "Systems/Attacks/Systems-Shuriken.hpp"
+#include "Systems/Attacks/Systems-SmallCrystal.hpp"
 
 // Breakables
 #include "Systems/Breakables/Systems-BreakableHit.hpp"
@@ -52,6 +53,7 @@
 #include "Systems/Enemies/Enemies/Systems-VoidSlime.hpp"
 
 // Enemies Lvl2:
+#include "Systems/Enemies/EnemiesLvl2/Systems-AnubisLvl2.hpp"
 #include "Systems/Enemies/EnemiesLvl2/Systems-BatLvl2.hpp"
 #include "Systems/Enemies/EnemiesLvl2/Systems-MummyLvl2.hpp"
 #include "Systems/Enemies/EnemiesLvl2/Systems-SlimeLvl2.hpp"

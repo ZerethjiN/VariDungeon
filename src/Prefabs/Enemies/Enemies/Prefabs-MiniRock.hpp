@@ -9,7 +9,7 @@ Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
-        MiniRockSpawner(4.0f, 2),
+        MiniRockSpawner(3.0f, 1),
         SpriteCreator(miniRockUV),
         Animation(miniRockAnim, "Spawner"),
         Transform(

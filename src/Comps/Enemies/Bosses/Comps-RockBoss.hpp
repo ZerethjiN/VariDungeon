@@ -4,18 +4,31 @@
 
 class RockBoss {
 public:
-    RockBoss(float newStunDuration, float newSmallCrystalsDuration, float newGroundCrystalsCooldown, float newRollSpeedCoeff):
+    RockBoss(float newStunDuration, float newSmallCrystalsDuration, float newGroundCrystalsCooldown, float newGroundCrystalsCooldownP2, float newRollSpeedCoeff):
         stunDuration(newStunDuration),
         smallCrystalsDuration(newSmallCrystalsDuration),
+        curSmallCrystalTime(0),
         groundCrystalsCooldown(newGroundCrystalsCooldown),
+        groundCrystalsCooldownP2(newGroundCrystalsCooldownP2),
         rollSpeedCoeff(newRollSpeedCoeff),
         lastState(3) {
+    }
+    
+    bool canThrowSmallCrystal(float delta) {
+        curSmallCrystalTime += delta;
+        if (curSmallCrystalTime >= smallCrystalsDuration) {
+            curSmallCrystalTime -= smallCrystalsDuration;
+            return true;
+        }
+        return false;
     }
 
 public:
     const float stunDuration;
     const float smallCrystalsDuration;
+    float curSmallCrystalTime;
     const float groundCrystalsCooldown;
+    const float groundCrystalsCooldownP2;
 
     const float rollSpeedCoeff;
 
@@ -23,6 +36,7 @@ public:
 };
 
 class IsRockBossRoll {};
+class IsRockBossRollP2 {};
 
 class IsRockBossStun {
 public:
@@ -41,39 +55,26 @@ private:
     float curTime;
 };
 
-class IsRockBossSmallCrystals {
+class IsRockBossGroundCrystals {
 public:
-    IsRockBossSmallCrystals(float newSmallCrystalDuration, int newNbSmallCrystals):
-        smallCrystalDuration(newSmallCrystalDuration),
-        curTime(0),
-        smallCrystalCooldown(newSmallCrystalDuration / newNbSmallCrystals),
-        curSmallCrystalTime(0) {
+    IsRockBossGroundCrystals(float newGroundCrystalDuration):
+        groundCrystalDuration(newGroundCrystalDuration),
+        curTime(0) {
     }
 
     bool canSwitchState(float delta) {
         curTime += delta;
-        return curTime >= smallCrystalDuration;
-    }
-
-    bool canThrowSmallCrystal(float delta) {
-        curSmallCrystalTime += delta;
-        if (curSmallCrystalTime >= smallCrystalCooldown) {
-            curSmallCrystalTime -= smallCrystalCooldown;
-            return true;
-        }
-        return false;
+        return curTime >= groundCrystalDuration;
     }
 
 private:
-    const float smallCrystalDuration;
+    const float groundCrystalDuration;
     float curTime;
-    const float smallCrystalCooldown;
-    float curSmallCrystalTime;
 };
 
-class IsRockBossGroundCrystals {
+class IsRockBossGroundCrystalsP2 {
 public:
-    IsRockBossGroundCrystals(float newGroundCrystalDuration):
+    IsRockBossGroundCrystalsP2(float newGroundCrystalDuration):
         groundCrystalDuration(newGroundCrystalDuration),
         curTime(0) {
     }
