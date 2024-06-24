@@ -38,6 +38,7 @@
 // Bosses:
 #include "Prefabs/Enemies/Bosses/Prefabs-MegaSlime.hpp"
 #include "Prefabs/Enemies/Bosses/Prefabs-RockBoss.hpp"
+#include "Prefabs/Enemies/Bosses/Prefabs-Sarcophage.hpp"
 
 // Enemies:
 #include "Prefabs/Enemies/Enemies/Prefabs-Anubis.hpp"

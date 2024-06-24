@@ -7,7 +7,7 @@
 
 Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
     return world.newEnt(
-        SpriteCreator(sarcophageUV, 0),
+        SpriteCreator(sarcophageDecorUV, 0),
         Transform(
             position,
             0,
@@ -19,7 +19,7 @@ Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
 
 Ent instantiateSarcophageOpen(World& world, const glm::vec2& position) {
     return world.newEnt(
-        SpriteCreator(sarcophageUV, 1),
+        SpriteCreator(sarcophageDecorUV, 1),
         Transform(
             position,
             0,

@@ -98,21 +98,21 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.appendChildren(enemyEnt, {
-                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 0)
+                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 0, 0.75f, 0)
                     });
                 } else {
                     world.appendChildren(enemyEnt, {
-                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 180)
+                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 180, 0.75f, 0)
                     });
                 }
             } else {
                 if (orientation.y > 0) {
                     world.appendChildren(enemyEnt, {
-                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 90)
+                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 90, 0.75f, 0)
                     });
                 } else {
                     world.appendChildren(enemyEnt, {
-                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 270)
+                        instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 270, 0.75f, 0)
                     });
                 }
             }

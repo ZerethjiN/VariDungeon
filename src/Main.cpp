@@ -61,6 +61,7 @@ int main() {
                 groundCrystalAttackCrossSys,
                 playerBombSys, playerBombExplosionSys,
                 smallCrystalRotationSys, smallCrystalThrowSys,
+                megaLaserRotationSys,
 
                 // Enemies:
                 enemyPreSpawnSys,
@@ -87,6 +88,7 @@ int main() {
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
                 rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys, rockBossGroundCrystalsP2Sys, rockBossRollP2Sys,
+                sarcophageShadowMarkSys, sarcophagePreLaserSys, sarcophageLaserSys,
 
                 fireBallAttackSys, fireBallHitSys,
 

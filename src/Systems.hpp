@@ -6,6 +6,7 @@
 #include "Systems/Attacks/Systems-FireBall.hpp"
 #include "Systems/Attacks/Systems-GroundCrystalAttack.hpp"
 #include "Systems/Attacks/Systems-Laser.hpp"
+#include "Systems/Attacks/Systems-MegaLaser.hpp"
 #include "Systems/Attacks/Systems-ShadowMark.hpp"
 #include "Systems/Attacks/Systems-Shuriken.hpp"
 #include "Systems/Attacks/Systems-SmallCrystal.hpp"
@@ -33,6 +34,7 @@
 // Bosses:
 #include "Systems/Enemies/Bosses/Systems-MegaSlime.hpp"
 #include "Systems/Enemies/Bosses/Systems-RockBoss.hpp"
+#include "Systems/Enemies/Bosses/Systems-Sarcophage.hpp"
 
 // Enemies:
 #include "Systems/Enemies/Enemies/Systems-Anubis.hpp"

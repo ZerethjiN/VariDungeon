@@ -41,6 +41,7 @@
 // Boss:
 #include "Images/Enemies/Bosses/Images-MegaSlime.hpp"
 #include "Images/Enemies/Bosses/Images-RockBoss.hpp"
+#include "Images/Enemies/Bosses/Images-Sarcophage.hpp"
 
 // Enemies:
 #include "Images/Enemies/Enemies/Images-Anubis.hpp"

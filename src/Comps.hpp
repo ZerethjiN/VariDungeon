@@ -6,6 +6,7 @@
 #include "Comps/Attacks/Comps-FireBall.hpp"
 #include "Comps/Attacks/Comps-GroundCrystalAttack.hpp"
 #include "Comps/Attacks/Comps-Laser.hpp"
+#include "Comps/Attacks/Comps-MegaLaser.hpp"
 #include "Comps/Attacks/Comps-ShadowMark.hpp"
 #include "Comps/Attacks/Comps-Shuriken.hpp"
 #include "Comps/Attacks/Comps-SmallCrystal.hpp"
@@ -43,6 +44,7 @@
 // Bosses:
 #include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
 #include "Comps/Enemies/Bosses/Comps-RockBoss.hpp"
+#include "Comps/Enemies/Bosses/Comps-Sarcophage.hpp"
 
 // Enemies:
 #include "Comps/Enemies/Enemies/Comps-Anubis.hpp"
