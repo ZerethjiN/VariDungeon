@@ -73,3 +73,20 @@ struct IsGolemRockAttack: public IIsStateDuration {
 struct IsGolemFootAttack: public IIsStateDuration {
     IsGolemFootAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
+
+class GolemRock {
+public:
+    GolemRock(float newSpawnCooldown):
+        spawnCooldown(newSpawnCooldown),
+        curTime(0) {
+    }
+
+    bool canSpawn(float delta) {
+        curTime += delta;
+        return curTime >= spawnCooldown;
+    }
+
+private:
+    const float spawnCooldown;
+    float curTime;
+};

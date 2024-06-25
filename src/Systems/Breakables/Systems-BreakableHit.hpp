@@ -24,7 +24,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
 
     for (auto [breakableEnt, transform, life, animation, zindex, collisions, breakableTransform, breakable, loots]: breakables) {
         for (auto othEnt: collisions) {
-            if (world.has<PlayerWeapon>(othEnt)) {
+            if (world.has<PlayerWeapon>(othEnt) || world.has<EnemyWeaponForBreakables>(othEnt)) {
                 // Damage:
                 life -= 1;
 

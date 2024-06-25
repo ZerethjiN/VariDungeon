@@ -5,3 +5,4 @@
 class Enemy {};
 class Boss {};
 class EnemyWeapon {};
+class EnemyWeaponForBreakables {};

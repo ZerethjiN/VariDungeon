@@ -89,6 +89,7 @@ int main() {
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
                 rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys, rockBossGroundCrystalsP2Sys, rockBossRollP2Sys,
                 sarcophageShadowMarkSys, sarcophagePreLaserSys, sarcophageLaserSys, sarcophageObeliskSys, sarcophageShockwaveSys,
+                golemRockAttackSys, golemRockSys, golemPreFootAttackSys, golemFootAttackSys,
 
                 fireBallAttackSys, fireBallHitSys,
 

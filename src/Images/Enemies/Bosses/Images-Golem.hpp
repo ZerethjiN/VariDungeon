@@ -47,20 +47,20 @@ static const ImageAsset golemUV("Textures/Golem.png", {
 static const AnimationAsset golemAnim({
     // Movements
     {"MoveDown", {
-        {0.20f, golemUV[0]},
-        {0.20f, golemUV[1]},
+        {0.40f, golemUV[0]},
+        {0.40f, golemUV[1]},
     }},
     {"MoveRight", {
-        {0.20f, golemUV[2]},
-        {0.20f, golemUV[3]},
+        {0.40f, golemUV[2]},
+        {0.40f, golemUV[3]},
     }},
     {"MoveLeft", {
-        {0.20f, golemUV[4]},
-        {0.20f, golemUV[5]},
+        {0.40f, golemUV[4]},
+        {0.40f, golemUV[5]},
     }},
     {"MoveUp", {
-        {0.20f, golemUV[6]},
-        {0.20f, golemUV[7]},
+        {0.40f, golemUV[6]},
+        {0.40f, golemUV[7]},
     }},
 
     // Attacks
@@ -83,20 +83,20 @@ static const AnimationAsset golemAnim({
 
     // Hit Movements
     {"HitMoveDown", {
-        {0.20f, golemUV[16]},
-        {0.20f, golemUV[17]},
+        {0.40f, golemUV[16]},
+        {0.40f, golemUV[17]},
     }},
     {"HitMoveRight", {
-        {0.20f, golemUV[18]},
-        {0.20f, golemUV[19]},
+        {0.40f, golemUV[18]},
+        {0.40f, golemUV[19]},
     }},
     {"HitMoveLeft", {
-        {0.20f, golemUV[20]},
-        {0.20f, golemUV[21]},
+        {0.40f, golemUV[20]},
+        {0.40f, golemUV[21]},
     }},
     {"HitMoveUp", {
-        {0.20f, golemUV[22]},
-        {0.20f, golemUV[23]},
+        {0.40f, golemUV[22]},
+        {0.40f, golemUV[23]},
     }},
 
     // Hit Attacks

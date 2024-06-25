@@ -32,6 +32,7 @@
 
 // Enemies
 // Bosses:
+#include "Systems/Enemies/Bosses/Systems-Golem.hpp"
 #include "Systems/Enemies/Bosses/Systems-MegaSlime.hpp"
 #include "Systems/Enemies/Bosses/Systems-RockBoss.hpp"
 #include "Systems/Enemies/Bosses/Systems-Sarcophage.hpp"
