@@ -53,3 +53,6 @@ private:
 struct IsSarcophageObelisk: public IIsStateDuration {
     IsSarcophageObelisk(float newDuration): IIsStateDuration(newDuration) {}
 };
+
+class SarcophageObelisk {};
+class SarcophageShockwave {};

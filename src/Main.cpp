@@ -88,7 +88,7 @@ int main() {
                 // Bosses:
                 megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
                 rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys, rockBossGroundCrystalsP2Sys, rockBossRollP2Sys,
-                sarcophageShadowMarkSys, sarcophagePreLaserSys, sarcophageLaserSys,
+                sarcophageShadowMarkSys, sarcophagePreLaserSys, sarcophageLaserSys, sarcophageObeliskSys, sarcophageShockwaveSys,
 
                 fireBallAttackSys, fireBallHitSys,
 

@@ -42,6 +42,7 @@
 
 // Enemies
 // Bosses:
+#include "Comps/Enemies/Bosses/Comps-Golem.hpp"
 #include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
 #include "Comps/Enemies/Bosses/Comps-RockBoss.hpp"
 #include "Comps/Enemies/Bosses/Comps-Sarcophage.hpp"

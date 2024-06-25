@@ -15,7 +15,7 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
             /*LaserDuration:*/ 2.0f,
             /*ShadowMarkDuration:*/ 1.5f,
             /*NbShadowMark:*/ 3,
-            /*Obelisk:*/ 4.0f
+            /*Obelisk:*/ 3.0f
         ),
         IsSarcophageShadowMark(1.5f, 3),
         EnemyWeapon(),
@@ -34,5 +34,19 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
         Speed(24),
         Orientation(Orientation::SOUTH),
         Collider(-24 / 2, -24 / 2, 24, 24)
+    );
+}
+
+Ent instantiateSarcophageObelisk(World& world, const glm::vec2& position) {
+    return world.newEnt(
+        SarcophageObelisk(),
+        SpriteCreator(obeliskUV),
+        Animation(obeliskAnim, "Default"),
+        Transform(
+            position,
+            0,
+            glm::vec2(1, 1)
+        ),
+        Collider(-16 / 2, -32 / 2, 16, 32)
     );
 }

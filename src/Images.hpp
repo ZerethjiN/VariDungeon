@@ -39,6 +39,7 @@
 
 // Enemies:
 // Boss:
+#include "Images/Enemies/Bosses/Images-Golem.hpp"
 #include "Images/Enemies/Bosses/Images-MegaSlime.hpp"
 #include "Images/Enemies/Bosses/Images-RockBoss.hpp"
 #include "Images/Enemies/Bosses/Images-Sarcophage.hpp"

@@ -117,7 +117,14 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, velocity, animation, isSarcophageLaserAttack, orientation, sarcophage, speed, enemyTransform]: enemies) {
         if (isSarcophageLaserAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsSarcophageLaserAttack>(enemyEnt);
-            world.add(enemyEnt, IsSarcophageShadowMark(sarcophage.shadowMarkDuration, sarcophage.nbShadowMark));
+            world.add(enemyEnt, IsSarcophageObelisk(sarcophage.obeliskDuration));
+            for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                for (int i = 0; i < 2; i++) {
+                    auto rndX = rand() % 6;
+                    auto rndY = rand() % 3;
+                    instantiateSarcophageObelisk(world, roomTransform.getPosition() + glm::vec2((rndX * 16) - 48, (rndY * 32) - 40));
+                }
+            }
             continue;
         }
 
@@ -144,5 +151,61 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
                 animation.play("MoveUp");
             }
         }
+    }
+}
+
+
+void sarcophageObeliskSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Animation, IsSarcophageObelisk, const Orientation, const Sarcophage, const Speed, const Transform>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform>(with<Player>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [enemyEnt, animation, isSarcophageObelisk, orientation, sarcophage, speed, enemyTransform]: enemies) {
+        if (isSarcophageObelisk.canSwitchState(time.fixedDelta())) {
+            world.remove<IsSarcophageObelisk>(enemyEnt);
+            world.add(enemyEnt, IsSarcophageShadowMark(sarcophage.shadowMarkDuration, sarcophage.nbShadowMark));
+            for (auto [obeliskEnt]: world.view(with<SarcophageObelisk>)) {
+                world.destroy(obeliskEnt);
+            }
+            world.appendChildren(enemyEnt, {
+                world.newEnt(
+                    SarcophageShockwave(),
+                    SpriteCreator(levelUpShockwaveUV),
+                    Transform(
+                        enemyTransform.getPosition(),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    LifeTime(0.25f),
+                    ZIndex(99)
+                )
+            });
+            continue;
+        }
+
+        if (fabs(orientation.x) > fabs(orientation.y)) {
+            if (orientation.x > 0) {
+                animation.play("AttackRight");
+            } else {
+                animation.play("AttackLeft");
+            }
+        } else {
+            if (orientation.y > 0) {
+                animation.play("AttackDown");
+            } else {
+                animation.play("AttackUp");
+            }
+        }
+    }
+}
+
+void sarcophageShockwaveSys(MainFixedSystem, World& world) {
+    auto preMenus = world.view<Transform>(with<SarcophageShockwave>);
+
+    auto [time] = world.resource<Time>();
+
+    for (auto [preMenuEnt, transform]: preMenus) {
+        transform.scale(glm::vec2(32, 32) * time.fixedDelta());
     }
 }
