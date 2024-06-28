@@ -25,7 +25,7 @@ Ent instantiateEnemyExplosionAttackParticle(World& world, const glm::vec2& posit
 Ent instantiateEnemyBigExplosionAttackParticle(World& world, const glm::vec2& position) {
     return world.newEnt(
         EnemyWeapon(),
-        Damage(1),
+        Damage(2),
         SpriteCreator(explosionParticleUV),
         Animation(explosionParticleAnim, "BigExplosion"),
         Transform(

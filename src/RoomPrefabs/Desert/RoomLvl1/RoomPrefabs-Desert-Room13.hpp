@@ -96,8 +96,16 @@ Ent instantiateDesertRoom13(World& world, const glm::vec2& position, std::size_t
         instantiateMiniRockSpawner(world, position + glm::vec2(48, 32)),
 
         // Traps:
-        instantiateSpike(world, position + glm::vec2(-16, 0)),
-        instantiateSpike(world, position + glm::vec2(0, -16)),
+        instantiateTorch(world, position + glm::vec2(-16, 0)),
+        instantiateTorch(world, position + glm::vec2(0, -16)),
+
+        instantiateSpike(world, position + glm::vec2(-32, -48)),
+        instantiateSpike(world, position + glm::vec2(16, 32)),
+        instantiateSpike(world, position + glm::vec2(-64, -32)),
+        instantiateSpike(world, position + glm::vec2(48, 16)),
+
+        instantiateSpike(world, position + glm::vec2(32, -48)),
+        instantiateSpike(world, position + glm::vec2(-48, 32)),
     });
 
     return chunkHolderEnt;

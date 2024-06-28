@@ -6,7 +6,7 @@
 #include <Res.hpp>
 #include <Prefabs.hpp>
 
-Ent instantiateDesertBossRoom2(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+Ent instantiateDesertBossRoom3(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     auto chunkHolderEnt = world.newEnt(
         ChunkInfos(chunkIdx),
         Transform(
@@ -90,7 +90,7 @@ Ent instantiateDesertBossRoom2(World& world, const glm::vec2& position, std::siz
         ),
 
         // Enemies:
-        instantiateRockBoss(world, position + glm::vec2(-16, -16)),
+        instantiateGolem(world, position + glm::vec2(-16, -16)),
     });
 
     return chunkHolderEnt;

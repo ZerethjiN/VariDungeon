@@ -96,6 +96,9 @@ Ent instantiateDesertRoom6(World& world, const glm::vec2& position, std::size_t 
         // Enemies:
         instantiateSpectre(world, position + glm::vec2(-48, 16)),
         instantiateSpectre(world, position + glm::vec2(32, -32)),
+
+        instantiateGasterolcan(world, position + glm::vec2(-48, -48)),
+        instantiateGasterolcan(world, position + glm::vec2(32, 32)),
     });
 
     return chunkHolderEnt;

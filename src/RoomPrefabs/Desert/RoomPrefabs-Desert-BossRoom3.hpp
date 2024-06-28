@@ -6,7 +6,7 @@
 #include <Res.hpp>
 #include <Prefabs.hpp>
 
-Ent instantiateDesertRoom12(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+Ent instantiateDesertBossRoom2(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     auto chunkHolderEnt = world.newEnt(
         ChunkInfos(chunkIdx),
         Transform(
@@ -18,14 +18,14 @@ Ent instantiateDesertRoom12(World& world, const glm::vec2& position, std::size_t
 
     // Background Tiles:
     std::vector<TileMapTileInfo> backgroundTiles {
-        tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[  2], tileMapDesertUV[  5], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
-        tileMapDesertUV[ 13], tileMapDesertUV[  2], tileMapDesertUV[  5], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  5], tileMapDesertUV[  2], tileMapDesertUV[  5], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 13], tileMapDesertUV[  5], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  6], tileMapDesertUV[ 11],
-        tileMapDesertUV[  5], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3],
-        tileMapDesertUV[  5], tileMapDesertUV[  6], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3],
-        tileMapDesertUV[ 13], tileMapDesertUV[  5], tileMapDesertUV[  6], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 13], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  2], tileMapDesertUV[  3], tileMapDesertUV[  3], tileMapDesertUV[  2], tileMapDesertUV[  6], tileMapDesertUV[  5], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 16], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[  5], tileMapDesertUV[  3], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 17],
+        tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
+        tileMapDesertUV[ 13], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 13], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[ 11],
+        tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8],
+        tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8],
+        tileMapDesertUV[ 13], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 13], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[  7], tileMapDesertUV[  8], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 16], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[  8], tileMapDesertUV[  8], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 12], tileMapDesertUV[ 17],
     };
 
     std::vector<TileMapTileInfo> foregroundTiles {
@@ -89,23 +89,8 @@ Ent instantiateDesertRoom12(World& world, const glm::vec2& position, std::size_t
             )
         ),
 
-        // Decors:
-        instantiateObelisk(world, position + glm::vec2(-32, 24)),
-        instantiateObelisk(world, position + glm::vec2(16, -40)),
-
         // Enemies:
-        instantiateBat(world, position + glm::vec2(-16, -16)),
-        instantiateBat(world, position + glm::vec2(0, 0)),
-        instantiateRockInsect(world, position + glm::vec2(-64, -48)),
-        instantiateRockInsect(world, position + glm::vec2(48, 32)),
-
-        // Breakables:
-        instantiateRock(world, position + glm::vec2(48, -48)),
-        instantiateRock(world, position + glm::vec2(32, -48)),
-        instantiateRock(world, position + glm::vec2(48, -32)),
-
-        instantiateJar(world, position + glm::vec2(-64, 32)),
-        instantiateJar(world, position + glm::vec2(-48, 32)),
+        instantiateRockBoss(world, position + glm::vec2(-16, -16)),
     });
 
     return chunkHolderEnt;

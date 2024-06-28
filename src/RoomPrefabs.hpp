@@ -5,6 +5,7 @@
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-BonusRoom.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom1.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom2.hpp"
+#include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom3.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-TestRoom.hpp"
 
 // Desert Lvl1:
