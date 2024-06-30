@@ -8,7 +8,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-[[nodiscard]] static glm::vec2 collisionResolution(const glm::vec2 posA, const glm::vec4& colA, const glm::vec2& scaleA, const glm::vec2 posB, const glm::vec4& colB, const glm::vec2& scaleB) noexcept {
+[[maybe_unused]] [[nodiscard]] static glm::vec2 collisionResolution(const glm::vec2 posA, const glm::vec4& colA, const glm::vec2& scaleA, const glm::vec2 posB, const glm::vec4& colB, const glm::vec2& scaleB) noexcept {
     glm::vec2 posMinA = posA + (glm::vec2(colA.x, colA.y) * scaleA);
     glm::vec2 posMaxA = posA + ((glm::vec2(colA.x, colA.y) + glm::vec2(colA.z, colA.w)) * scaleA);
     glm::vec2 posMinB = posB + (glm::vec2(colB.x, colB.y) * scaleB);
@@ -60,7 +60,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-[[nodiscard]] static bool intersect(const glm::vec2& rectOrigin, const glm::vec4& rect, const glm::vec2& scaleRect, const glm::vec2& point) noexcept {
+[[maybe_unused]] [[nodiscard]] static bool intersect(const glm::vec2& rectOrigin, const glm::vec4& rect, const glm::vec2& scaleRect, const glm::vec2& point) noexcept {
     return ((point.x) < (rectOrigin.x + rect.x + rect.z) * scaleRect.x)
         && ((point.y) < (rectOrigin.y + rect.y + rect.w) * scaleRect.y)
         && ((rectOrigin.x + rect.x) * scaleRect.x < (point.x))
@@ -79,7 +79,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-[[nodiscard]] static float lookRotation(const glm::vec2& direction) noexcept {
+[[maybe_unused]] [[nodiscard]] static float lookRotation(const glm::vec2& direction) noexcept {
     return glm::degrees(glm::atan(direction.y, direction.x));
 }
 

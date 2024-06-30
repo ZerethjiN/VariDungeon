@@ -282,7 +282,7 @@ public:
             if (const auto cellX = cells.find(x); cellX != cells.end()) {
                 for (float y = min.y; y < max.y; y++) {
                     if (const auto cellXY = cellX->second.find(y); cellXY != cellX->second.end()) {
-                        othEnts.insert_range(cellXY->second);
+                        othEnts.insert(cellXY->second.begin(), cellXY->second.end());
                     }
                 }
             }
@@ -305,7 +305,7 @@ public:
             if (const auto cellX = cells.find(x); cellX != cells.end()) {
                 for (float y = min.y; y < max.y; y++) {
                     if (const auto cellXY = cellX->second.find(y); cellXY != cellX->second.end()) {
-                        othEnts.insert_range(cellXY->second);
+                        othEnts.insert(cellXY->second.begin(), cellXY->second.end());
                     }
                 }
             }

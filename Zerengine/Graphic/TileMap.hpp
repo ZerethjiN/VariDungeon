@@ -35,7 +35,7 @@ public:
 private:
     const ImageData* imageData;
     const std::vector<std::pair<float, ImageData>>* anim;
-    int curAnim;
+    std::size_t curAnim;
     float curTime;
 };
 

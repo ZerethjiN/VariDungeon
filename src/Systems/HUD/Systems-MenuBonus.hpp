@@ -67,7 +67,7 @@ void levelUpPreMenuSys(MainFixedSystem, World& world) {
             }
 
             std::unordered_set<std::size_t> bonusesIdx;
-            for (int i = 0; i < (lastBonuses.size() < 3 ? lastBonuses.size() : 3); i++) {
+            for (std::size_t i = 0; i < (lastBonuses.size() < 3 ? lastBonuses.size() : 3); i++) {
                 std::size_t newBonusIdx;
                 bool alreadyLevelMax;
                 do {

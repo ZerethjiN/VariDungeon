@@ -14,7 +14,7 @@ void enemyDropLootsSys(MainFixedSystem, World& world) {
 
     for (auto [_, loot, transform]: loots) {
         if (loot.canSubDrop(time.fixedDelta())) {
-            for (int i = loot.getCurNbDropPerSubDrop(); i < loot.getNextMaxRange(); i++) {
+            for (std::size_t i = loot.getCurNbDropPerSubDrop(); i < loot.getNextMaxRange(); i++) {
                 float rndSpreadDirection = std::rand() % 360;
                 switch (loot[i]) {
                     case LootType::LOOT_TYPE_XP:

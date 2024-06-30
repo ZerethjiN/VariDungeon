@@ -57,7 +57,7 @@ void attackSpeedBonusCallbackLvl1(World& world);
 void knockbackBonusCallbackLvl1(World& world);
 void bombBonusCallbackLvl1(World& world);
 
-static const std::vector<const BonusData> bonusVec {
+static const std::vector<BonusData> bonusVec {
     BonusData(BONUS_STRENGTH, 9, "Strength", {{"", strengthBonusCallbackLvl1}}),
     BonusData(BONUS_DAGGER, 10, "Dagger", {{"", daggerBonusCallbackLvl1}}),
     BonusData(BONUS_SHURIKEN, 12, "Shuriken", {{"", shurikenBonusCallbackLvl1}}),

@@ -15,12 +15,12 @@ public:
         text(newText),
         font(&newFont),
         size(newSize),
+        needRefreshVertices(true),
         textBoxSize(newTextBoxSize),
-        origin(newOrigin),
         color(newColor),
+        origin(newOrigin),
         alignement(newAlignement),
         anchor(newAnchor) {
-        needRefreshVertices = true;
     }
 
 public:
@@ -348,11 +348,11 @@ public:
         text(newText),
         font(&newFont),
         size(newSize),
+        needRefreshVertices(true),
         textBoxSize(newTextBoxSize),
         color(newColor),
         origin(newOrigin),
         alignement(newAlignement) {
-        needRefreshVertices = true;
     }
 
 public:

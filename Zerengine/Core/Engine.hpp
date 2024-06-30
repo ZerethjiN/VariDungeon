@@ -14,6 +14,7 @@
 #include <functional>
 #include <concepts>
 #include <optional>
+#include <cmath>
 
 using Ent = std::size_t;
 using Type = std::size_t;
@@ -443,7 +444,7 @@ private:
             return (*archsIt)->getTupleWithEnt<Ts...>((*entsIt));
         }
 
-        [[nodiscard]] ViewIterator& operator ++() noexcept {
+        ViewIterator& operator ++() noexcept {
             entsIt++;
             if (entsIt == (*archsIt)->ents.end()) {
                 archsIt++;
@@ -1524,7 +1525,9 @@ public:
 
     const std::vector<std::string> getTypes(const Ent ent) noexcept {
         auto types = reg.getTypes(ent);
-        types.append_range(lateUpgrade.getTypes(ent));
+        for (const auto& type: lateUpgrade.getTypes(ent)) {
+            types.emplace_back(type);
+        }
         return types;
     }
 
@@ -1636,7 +1639,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const With<Filters...>& filters = {}, const Without<Excludes...>& excludes = {}) noexcept {
+    [[nodiscard]] const View<Comps...> view(const With<Filters...>& = {}, const Without<Excludes...>& = {}) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(IsInactive).hash_code(), typeid(Excludes).hash_code()...}
@@ -1644,7 +1647,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const Without<Excludes...>& excludes, const With<Filters...>& filters = {}) noexcept {
+    [[nodiscard]] const View<Comps...> view(const Without<Excludes...>&, const With<Filters...>& = {}) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(IsInactive).hash_code(), typeid(Excludes).hash_code()...}
@@ -1652,7 +1655,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const With<Filters...>& filters, const Without<Excludes...>& excludes, const WithInactive&) noexcept {
+    [[nodiscard]] const View<Comps...> view(const With<Filters...>&, const Without<Excludes...>&, const WithInactive&) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(Excludes).hash_code()...}
@@ -1660,7 +1663,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const Without<Excludes...>& excludes, const With<Filters...>& filters, const WithInactive&) noexcept {
+    [[nodiscard]] const View<Comps...> view(const Without<Excludes...>&, const With<Filters...>&, const WithInactive&) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(Excludes).hash_code()...}
@@ -1668,7 +1671,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const With<Filters...>& filters, const WithInactive&, const Without<Excludes...>& excludes = {}) noexcept {
+    [[nodiscard]] const View<Comps...> view(const With<Filters...>&, const WithInactive&, const Without<Excludes...>& = {}) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(Excludes).hash_code()...}
@@ -1684,7 +1687,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const WithInactive&, const With<Filters...>& filters = {}, const Without<Excludes...>& excludes = {}) noexcept {
+    [[nodiscard]] const View<Comps...> view(const WithInactive&, const With<Filters...>& = {}, const Without<Excludes...>& = {}) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(Excludes).hash_code()...}
@@ -1692,7 +1695,7 @@ public:
     }
 
     template <typename... Comps, typename... Filters, typename... Excludes>
-    [[nodiscard]] const View<Comps...> view(const WithInactive&, const Without<Excludes...>& excludes, const With<Filters...>& filters = {}) noexcept {
+    [[nodiscard]] const View<Comps...> view(const WithInactive&, const Without<Excludes...>&, const With<Filters...>& = {}) noexcept {
         return reg.view<Comps...>(
             {typeid(Comps).hash_code()..., typeid(Filters).hash_code()...},
             {typeid(Excludes).hash_code()...}

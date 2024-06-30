@@ -21,8 +21,8 @@ class Sprite {
 public:
     Sprite(const Texture& newTexture, const glm::uvec4& newTextureRect, const glm::vec2& newOrigin, const glm::vec4& newColor = glm::vec4(255, 255, 255, 255)):
         texture(newTexture),
-        color(newColor),
         origin(newOrigin),
+        color(newColor),
         isMirror(false) {
         setTextureRect(newTextureRect);
     }

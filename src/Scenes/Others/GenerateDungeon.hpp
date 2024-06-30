@@ -112,7 +112,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
 
     // Wall Collisions:
     if (isDoorOpenUp) {
-        subEnts.append_range(std::initializer_list<Ent>{
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -121,7 +121,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 DoorTrigger(chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
                 IsDoorLock(),
@@ -133,7 +135,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 ZIndex(-9),
                 Collider(-32 / 2, -16 / 2, 32, 16)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -142,16 +146,20 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx - width].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-32, -64), 0) :
                 instantiateMiniTorch(world, position + glm::vec2(-32, -64), 0)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx - width].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(16, -64), 0) :
                 instantiateMiniTorch(world, position + glm::vec2(16, -64), 0)
             )
-        });
+        );
     } else {
         subEnts.emplace_back(
             world.newEnt(
@@ -167,7 +175,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
     }
 
     if (isDoorOpenLeft) {
-        subEnts.append_range(std::initializer_list<Ent>{
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -176,7 +184,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-32 / 2, -16 / 2, 32, 48)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 DoorTrigger(chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
                 IsDoorLock(),
@@ -187,7 +197,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-32 / 2, -16 / 2, 32, 16)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -197,16 +209,20 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 ZIndex(-9),
                 Collider(-32 / 2, -16 / 2, 32, 48)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx - 1].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-80, -32), 270) :
                 instantiateMiniTorch(world, position + glm::vec2(-80, -32), 270)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx - 1].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-80, 16), 270) :
                 instantiateMiniTorch(world, position + glm::vec2(-80, 16), 270)
             )
-        });
+        );
     } else {
         subEnts.emplace_back(
             world.newEnt(
@@ -222,7 +238,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
     }
 
     if (isDoorOpenRight) {
-        subEnts.append_range(std::initializer_list<Ent>{
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -231,7 +247,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-32 / 2, -16 / 2, 32, 48)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 DoorTrigger(chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
                 IsDoorLock(),
@@ -243,7 +261,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 ZIndex(-9),
                 Collider(-32 / 2, -16 / 2, 32, 16)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -252,16 +272,20 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-32 / 2, -16 / 2, 32, 48)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx + 1].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(64, -32), 90) :
                 instantiateMiniTorch(world, position + glm::vec2(64, -32), 90)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx + 1].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(64, 16), 90) :
                 instantiateMiniTorch(world, position + glm::vec2(64, 16), 90)
             )
-        });
+        );
     } else {
         subEnts.emplace_back(
             world.newEnt(
@@ -277,7 +301,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
     }
 
     if (isDoorOpenDown) {
-        subEnts.append_range(std::initializer_list<Ent>{
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -286,7 +310,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 DoorTrigger(chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
                 IsDoorLock(),
@@ -298,7 +324,9 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                 ),
                 ZIndex(-9),
                 Collider(-32 / 2, -16 / 2, 32, 16)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             world.newEnt(
                 Wall(),
                 Transform(
@@ -307,16 +335,20 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
                     glm::vec2(1, 1)
                 ),
                 Collider(-16 / 2, -32 / 2, 64, 32)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx + width].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-32, 48), 180) :
                 instantiateMiniTorch(world, position + glm::vec2(-32, 48), 180)
-            ),
+            )
+        );
+        subEnts.emplace_back(
             (cellMat[chunkIdx + width].isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(16, 48), 180) :
                 instantiateMiniTorch(world, position + glm::vec2(16, 48), 180)
             )
-        });
+        );
     } else {
         subEnts.emplace_back(
             world.newEnt(

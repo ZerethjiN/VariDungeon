@@ -149,7 +149,7 @@ static void endSingleTimeCommands(VkDevice& device, VkCommandPool& commandPool, 
     vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
 }
 
-static void copyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
+[[maybe_unused]] static void copyBuffer(VkDevice& device, VkCommandPool& commandPool, VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
     VkCommandBuffer commandBuffer = beginSingleTimeCommands(device, commandPool);
 
     VkBufferCopy copyRegion {
@@ -516,7 +516,7 @@ public:
             .flags = VK_FENCE_CREATE_SIGNALED_BIT
         };
 
-        for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        for (std::size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
                 vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
                 vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
@@ -526,7 +526,7 @@ public:
     }
 
     void cleanupSynObjects() {
-        for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        for (std::size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
             vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
             vkDestroyFence(device, inFlightFences[i], nullptr);
@@ -608,7 +608,7 @@ public:
 
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
         for (const auto& availablePresentMode : availablePresentModes) {
-            if (availablePresentMode == VK_PRESENT_MODE_FIFO_KHR) {
+            if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
                 return availablePresentMode;
             }
         }

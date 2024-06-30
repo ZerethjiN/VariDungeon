@@ -164,7 +164,7 @@ private:
         offscreenImageMemories.resize(imageCount);
         offscreenImageViews.resize(imageCount);
 
-        for (int i = 0; i < imageCount; i++) {
+        for (uint32_t i = 0; i < imageCount; i++) {
             VkImageCreateInfo imageInfo {
                 .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
                 .imageType = VK_IMAGE_TYPE_2D,
@@ -211,13 +211,15 @@ private:
     void createOffscreenFramebuffers() {
         offscreenFrameBuffers.resize(offscreenImageViews.size());
 
-        for (int i = 0; i < offscreenImageViews.size(); i++) {
+        for (std::size_t i = 0; i < offscreenImageViews.size(); i++) {
             VkImageView attachments[] = {
                 offscreenImageViews[i]
             };
 
             VkFramebufferCreateInfo framebufferInfo {
                 .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
+                .pNext = nullptr,
+                .flags = {},
                 .renderPass = offscreenRenderPass,
                 .attachmentCount = 1,
                 .pAttachments = attachments,
@@ -237,15 +239,21 @@ private:
     void createTextureSampler() {
         VkSamplerCreateInfo samplerInfo {
             .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = {},
             .magFilter = VK_FILTER_NEAREST,
             .minFilter = VK_FILTER_NEAREST,
             .mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST,
             .addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT,
             .addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT,
             .addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT,
+            .mipLodBias = 0.f,
             .anisotropyEnable = VK_FALSE,
+            .maxAnisotropy = 0.f,
             .compareEnable = VK_FALSE,
             .compareOp = VK_COMPARE_OP_ALWAYS,
+            .minLod = 0.f,
+            .maxLod = 0.f,
             .borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK,
             .unnormalizedCoordinates = VK_FALSE
         };

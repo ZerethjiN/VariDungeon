@@ -25,7 +25,7 @@ public:
     }
 
     ChunkTable(int newWidth, int newHeight, const std::vector<std::pair<const std::size_t, Ent>>& newList):
-        chunks(std::from_range, newList),
+        chunks(newList.begin(), newList.end()),
         width(newWidth),
         height(newHeight) {
     }

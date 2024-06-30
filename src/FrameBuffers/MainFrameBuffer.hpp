@@ -133,7 +133,7 @@ private:
         imageViews.resize(imageCount);
         vkGetSwapchainImagesKHR(engine.device, engine.swapChain, &imageCount, images.data());
 
-        for (int i = 0; i < imageCount; i++) {
+        for (uint32_t i = 0; i < imageCount; i++) {
             imageViews[i] = createImageView(engine.device, images[i], engine.swapChainImageFormat);
 
             // printf("Reset ImageView[%d]: %d, %d\n", i, vulkanEngine.swapChainExtent.width, vulkanEngine.swapChainExtent.height);
@@ -143,7 +143,7 @@ private:
     void createFramebuffers() {
         frameBuffers.resize(imageViews.size());
 
-        for (int i = 0; i < imageViews.size(); i++) {
+        for (std::size_t i = 0; i < imageViews.size(); i++) {
             VkImageView attachments[] = {
                 imageViews[i]
             };

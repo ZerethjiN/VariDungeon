@@ -4,7 +4,7 @@
 
 class EnemyDropLoots {
 public:
-    EnemyDropLoots(const std::initializer_list<size_t>& newLoots, float newTotalDuration, int newNbDropPerSubDrop):
+    EnemyDropLoots(const std::initializer_list<size_t>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
         loots(newLoots),
         subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
         curSubDropDuration(0),
@@ -12,7 +12,7 @@ public:
         curNbDropPerSubDrop(0) {
     }
 
-    EnemyDropLoots(const std::vector<size_t>& newLoots, float newTotalDuration, int newNbDropPerSubDrop):
+    EnemyDropLoots(const std::vector<size_t>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
         loots(newLoots),
         subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
         curSubDropDuration(0),
@@ -33,8 +33,8 @@ public:
         return curNbDropPerSubDrop >= loots.size();
     }
 
-    int getNextMaxRange() {
-        int max = getCurNbDropPerSubDrop() + getNbDropPerSubDrop();
+    std::size_t getNextMaxRange() {
+        std::size_t max = getCurNbDropPerSubDrop() + getNbDropPerSubDrop();
         if (max > loots.size()) {
             return loots.size();
         }
@@ -45,11 +45,11 @@ public:
         curNbDropPerSubDrop += nbDropPerSubDrop;
     }
 
-    int getNbDropPerSubDrop() const {
+    std::size_t getNbDropPerSubDrop() const {
         return nbDropPerSubDrop;
     }
 
-    int getCurNbDropPerSubDrop() const {
+    std::size_t getCurNbDropPerSubDrop() const {
         return curNbDropPerSubDrop;
     }
 
@@ -62,6 +62,6 @@ private:
     
     const float subDropDuration;
     float curSubDropDuration;
-    const int nbDropPerSubDrop;
-    int curNbDropPerSubDrop;
+    const std::size_t nbDropPerSubDrop;
+    std::size_t curNbDropPerSubDrop;
 };

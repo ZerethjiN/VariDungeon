@@ -100,7 +100,7 @@ private:
 
 class MenuBonusSelector {
 public:
-    MenuBonusSelector(int newNbElements):
+    MenuBonusSelector(std::size_t newNbElements):
         nbElements(newNbElements),
         curElement(0) {
     }
@@ -123,13 +123,13 @@ public:
         return true;
     }
 
-    int getCurElement() const {
+    std::size_t getCurElement() const {
         return curElement;
     }
 
 private:
-    const int nbElements;
-    int curElement;
+    const std::size_t nbElements;
+    std::size_t curElement;
 };
 
 class MenuBonusSelectorMoveDown {
