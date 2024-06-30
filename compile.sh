@@ -11,7 +11,7 @@ glslc -O --target-env=vulkan1.3 shaders/TextShader.frag -o shaders/TextShaderFra
 glslc -O --target-env=vulkan1.3 shaders/AberationShader.vert -o shaders/AberationShaderVert.spv
 glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/AberationShaderFrag.spv
 
-g++ -D NDEBUG -o Varidungeon.out src/Main.cpp\
+g++ -D DEBUG -o Varidungeon.out src/Main.cpp\
     -I Lib\
     -I src -I Zerengine\
     -Wall\
