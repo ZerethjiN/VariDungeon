@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Spectre {
+class Spectre final {
 public:
     Spectre(float newMoveDuration, float newVanishDuration, float newCastDuration):
         moveDuration(newMoveDuration),
@@ -16,14 +16,14 @@ public:
     const float castDuration;
 };
 
-struct IsSpectreMove: public IIsStateDuration {
+struct IsSpectreMove final: public IIsStateDuration {
     IsSpectreMove(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsSpectreVanish: public IIsStateDuration {
+struct IsSpectreVanish final: public IIsStateDuration {
     IsSpectreVanish(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsSpectreCast: public IIsStateDuration {
+struct IsSpectreCast final: public IIsStateDuration {
     IsSpectreCast(float newDuration): IIsStateDuration(newDuration) {}
 };

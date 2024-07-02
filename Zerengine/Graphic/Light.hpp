@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-class PointLight {
+class PointLight final {
 public:
     PointLight(const glm::vec4& newColor, float newRadius, float newIntensity):
         color(newColor),
@@ -16,7 +16,7 @@ public:
     float intensity;
 };
 
-class AmbientLight {
+class AmbientLight final {
 public:
     AmbientLight(const glm::vec4& newColor):
         color(newColor) {

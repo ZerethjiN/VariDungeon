@@ -4,7 +4,7 @@
 #include "ImageAsset.hpp"
 #include "TextureManager.hpp"
 
-struct SSBOVertex {
+struct SSBOVertex final {
 public:
     constexpr SSBOVertex() noexcept = default;
 
@@ -17,7 +17,7 @@ public:
     glm::vec2 texCoord;
 };
 
-class Sprite {
+class Sprite final {
 public:
     Sprite(const Texture& newTexture, const glm::uvec4& newTextureRect, const glm::vec2& newOrigin, const glm::vec4& newColor = glm::vec4(255, 255, 255, 255)):
         texture(newTexture),
@@ -123,7 +123,7 @@ enum UIAnchor: uint8_t {
     BOTTOM_RIGHT
 };
 
-class UI {
+class UI final  {
 public:
     UI(const Texture& newTexture, const glm::uvec4& newTextureRect, const glm::vec2& newOrigin, const UIAnchor newAnchor, const glm::vec4& newColor = glm::vec4(255, 255, 255, 255)):
         origin(newOrigin),
@@ -187,7 +187,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class ZIndex {
+class ZIndex final {
 public:
     constexpr ZIndex(int newlayer) noexcept:
         layer(newlayer) {
@@ -206,11 +206,11 @@ public:
     int layer;
 };
 
-class IsUnlit {};
+class IsUnlit final  {};
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class SpriteCreator {
+class SpriteCreator final {
 public:
     SpriteCreator(const ImageAsset& newImageAsset, int imageDataIndex, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
         filename(newImageAsset.filename),
@@ -246,7 +246,7 @@ void spriteCreatorSys(LateFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class UICreator {
+class UICreator final {
 public:
     UICreator(const ImageAsset& newImageAsset, int imageDataIndex, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
         filename(newImageAsset.filename),

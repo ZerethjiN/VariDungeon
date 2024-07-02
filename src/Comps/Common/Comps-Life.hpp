@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Life {
+class Life final {
 public:
     Life(float newNbLife):
         nbLife(newNbLife),

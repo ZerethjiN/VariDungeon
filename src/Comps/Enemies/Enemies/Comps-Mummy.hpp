@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Mummy {
+class Mummy final {
 public:
     Mummy(float newMoveDuration, float newPreAttackDuration, float newAttackDuration, float newAttackRadius):
         moveDuration(newMoveDuration),
@@ -18,7 +18,7 @@ public:
     const float attackRadius;
 };
 
-class IsMummyMove {
+class IsMummyMove final {
 public:
     IsMummyMove(float newDuration):
         duration(newDuration),
@@ -35,7 +35,7 @@ private:
     float curTime;
 };
 
-class IsMummyPreAttack {
+class IsMummyPreAttack final {
 public:
     IsMummyPreAttack(float newDuration):
         duration(newDuration),
@@ -52,7 +52,7 @@ private:
     float curTime;
 };
 
-class IsMummyAttack {
+class IsMummyAttack final {
 public:
     IsMummyAttack(float newDuration):
         duration(newDuration),

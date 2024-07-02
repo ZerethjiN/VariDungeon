@@ -5,7 +5,7 @@
 
 #include "View.hpp"
 
-class Window {
+class Window final {
 public:
     Window(const glm::uvec2& newSize, const std::string& newTitle):
         size(newSize),

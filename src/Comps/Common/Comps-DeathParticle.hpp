@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class DeathParticleGenerator {
+class DeathParticleGenerator final {
 public:
     DeathParticleGenerator(bool newNeedDestroy, float newDuration, int newNbParticles):
         needDestroy(newNeedDestroy),

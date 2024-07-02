@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Golem {
+class Golem final {
 public:
     Golem(float newPreLaserDuration, float newLaserDuration, float newNbLasers, float newRockDuration, int newNbRocks, float newFootDuration):
         preLaserDuration(newPreLaserDuration),
@@ -22,7 +22,7 @@ public:
     const float footDuration;
 };
 
-struct IsGolemPreLaserAttackCardinal: public IIsStateDuration {
+struct IsGolemPreLaserAttackCardinal final: public IIsStateDuration {
 public:
     IsGolemPreLaserAttackCardinal(float newDuration, int newCurLasers):
         IIsStateDuration(newDuration),
@@ -33,7 +33,7 @@ public:
     const int curLasers;
 };
 
-struct IsGolemPreLaserAttackDiagonal: public IIsStateDuration {
+struct IsGolemPreLaserAttackDiagonal final: public IIsStateDuration {
 public:
     IsGolemPreLaserAttackDiagonal(float newDuration, int newCurLasers):
         IIsStateDuration(newDuration),
@@ -44,7 +44,7 @@ public:
     const int curLasers;
 };
 
-struct IsGolemLaserAttackCardinal: public IIsStateDuration {
+struct IsGolemLaserAttackCardinal final: public IIsStateDuration {
 public:
     IsGolemLaserAttackCardinal(float newDuration, int newCurLasers):
         IIsStateDuration(newDuration),
@@ -55,7 +55,7 @@ public:
     const int curLasers;
 };
 
-struct IsGolemLaserAttackDiagonal: public IIsStateDuration {
+struct IsGolemLaserAttackDiagonal final: public IIsStateDuration {
 public:
     IsGolemLaserAttackDiagonal(float newDuration, int newCurLasers):
         IIsStateDuration(newDuration),
@@ -66,15 +66,15 @@ public:
     const int curLasers;
 };
 
-struct IsGolemRockAttack: public IIsStateDuration {
+struct IsGolemRockAttack final: public IIsStateDuration {
     IsGolemRockAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsGolemFootAttack: public IIsStateDuration {
+struct IsGolemFootAttack final: public IIsStateDuration {
     IsGolemFootAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class GolemRock {
+class GolemRock final {
 public:
     GolemRock(float newSpawnCooldown):
         spawnCooldown(newSpawnCooldown),

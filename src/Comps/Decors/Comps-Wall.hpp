@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Wall {};
+class Wall final {};

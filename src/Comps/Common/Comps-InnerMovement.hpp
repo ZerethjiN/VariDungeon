@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class InnerMovement {
+class InnerMovement final {
 public:
     InnerMovement(float newDuration, float newSpeed):
         duration(newDuration),
@@ -29,5 +29,5 @@ private:
     const float speed;
 };
 
-class InnerMovementDown {};
-class InnerMovementUp {};
+class InnerMovementDown final {};
+class InnerMovementUp final {};

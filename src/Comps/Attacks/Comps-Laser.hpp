@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Laser {
+class Laser final {
 public:
     Laser(const glm::vec2& newDirection):
         direction(newDirection) {
@@ -16,7 +16,7 @@ private:
     const glm::vec2 direction;
 };
 
-class PlayerLaser {
+class PlayerLaser final {
 public:
     PlayerLaser(float newCooldown):
         cooldown(newCooldown),

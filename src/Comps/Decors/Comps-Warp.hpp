@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Warp {};
+class Warp final {};

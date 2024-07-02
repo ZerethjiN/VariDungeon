@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class VoidSphere {
+class VoidSphere final {
 public:
     VoidSphere(float newVoidSphereOffDuration, float newVoidSphereOnDuration, float newAttractStrength):
         voidSphereOffDuration(newVoidSphereOffDuration),
@@ -17,7 +17,7 @@ public:
     const float attractStrength;
 };
 
-class IsVoidSphereOff {
+class IsVoidSphereOff final {
 public:
     IsVoidSphereOff(float newDuration):
         duration(newDuration),
@@ -34,7 +34,7 @@ private:
     float curTime;
 };
 
-class IsVoidSphereOn {
+class IsVoidSphereOn final {
 public:
     IsVoidSphereOn(float newDuration):
         duration(newDuration),

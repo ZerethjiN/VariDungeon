@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Bomb {
+class Bomb final {
 public:
     Bomb(float newCooldown):
         cooldown(newCooldown) {
@@ -17,7 +17,7 @@ private:
     float cooldown;
 };
 
-class BombSpread {
+class BombSpread final {
 public:
     BombSpread(float newDuration, const glm::vec2& newDirection, float newSpeed):
         duration(newDuration),
@@ -46,7 +46,7 @@ private:
     const float speed;
 };
 
-class PlayerBomb {
+class PlayerBomb final {
 public:
     PlayerBomb(float newCooldown):
         cooldown(newCooldown),

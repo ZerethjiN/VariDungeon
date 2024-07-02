@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Unerasable {};
+class Unerasable final {};

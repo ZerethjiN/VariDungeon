@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 
-struct ImageData {
+struct ImageData final {
 public:
     constexpr ImageData(const glm::uvec4& newSpriteRect, const glm::vec2& newOrigin) noexcept:
         spriteRect(newSpriteRect),

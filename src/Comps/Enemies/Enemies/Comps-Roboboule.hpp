@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Roboboule {
+class Roboboule final {
 public:
     Roboboule(float newPreAttackDuration, float newPreAttackRadius):
         preAttackDuration(newPreAttackDuration),
@@ -22,9 +22,9 @@ private:
     const float preAttackRadius;
 };
 
-class IsRobobouleMove {};
+class IsRobobouleMove final {};
 
-class IsRoboboulePreAttack {
+class IsRoboboulePreAttack final {
 public:
     IsRoboboulePreAttack(float newDuration):
         duration(newDuration),

@@ -69,7 +69,7 @@ static const std::vector<BonusData> bonusVec {
     BonusData(BONUS_BOMB, 18, "Bomb", {{"", bombBonusCallbackLvl1}}),
 };
 
-class BonusRow {
+class BonusRow final {
 public:
     BonusRow(std::size_t newId, BonusType newType, void(*newCallback)(World&)):
         id(newId),

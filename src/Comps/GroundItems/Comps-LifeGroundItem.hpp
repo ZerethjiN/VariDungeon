@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LifeGroundItem {
+class LifeGroundItem final {
 public:
     LifeGroundItem(float newAmount):
         amount(newAmount) {

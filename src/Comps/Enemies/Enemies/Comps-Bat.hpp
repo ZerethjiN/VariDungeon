@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Bat {
+class Bat final {
 public:
     Bat(float newMoveDuration, float newAttackDuration, float newAttackRadius):
         moveDuration(newMoveDuration),
@@ -16,7 +16,7 @@ public:
     const float attackRadius;
 };
 
-class IsBatMove {
+class IsBatMove final {
 public:
     IsBatMove(float newDuration):
         duration(newDuration),
@@ -33,7 +33,7 @@ private:
     float curTime;
 };
 
-class IsBatAttack {
+class IsBatAttack final {
 public:
     IsBatAttack(float newDuration):
         duration(newDuration),

@@ -7,7 +7,7 @@ enum AnimType: bool {
     UNSCALED = true
 };
 
-class Animation {
+class Animation final {
 friend void animationSys(LateFixedSystem, World& world);
 public:
     Animation(const AnimationAsset& newAnimations, const std::string& newAnim, AnimType newIsUnscaled = AnimType::SCALED) noexcept:

@@ -14,7 +14,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Collider {
+class Collider final {
 public:
     constexpr Collider(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
@@ -28,7 +28,7 @@ public:
     glm::vec4 col;
 };
 
-class Trigger {
+class Trigger final {
 public:
     constexpr Trigger(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
@@ -44,7 +44,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class OnCollisionEnter {
+class OnCollisionEnter final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
@@ -72,7 +72,7 @@ private:
     std::unordered_set<Ent> oldOthCols;
 };
 
-class OnCollisionStay {
+class OnCollisionStay final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
@@ -100,7 +100,7 @@ private:
     std::unordered_set<Ent> oldOthCols;
 };
 
-class OnCollisionExit {
+class OnCollisionExit final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateFixedSystem, World&);
 private:
@@ -130,7 +130,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LayerCollision {
+class LayerCollision final {
 public:
     constexpr LayerCollision(std::size_t newLayer) noexcept:
         layer(newLayer) {
@@ -142,7 +142,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LayerBasedCollisions {
+class LayerBasedCollisions final {
 public:
     void addExclusion(std::size_t typeA, std::size_t typeB) {
         // TypeB -> TypeA
@@ -201,7 +201,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class SpatialHashMap {
+class SpatialHashMap final {
 public:
     void clear() {
         cells.clear();

@@ -3,7 +3,7 @@
 #include <string>
 #include "Texture.hpp"
 
-class TextureManager {
+class TextureManager final {
 public:
     ~TextureManager() {
         for (auto& pair: textures) {

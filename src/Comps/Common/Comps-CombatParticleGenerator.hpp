@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class CombatParticleGenerator {
+class CombatParticleGenerator final {
 public:
     CombatParticleGenerator(float newDuration, int newNbRepulseParticles, int newNbSmallParticles):
         duration(newDuration),

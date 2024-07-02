@@ -13,7 +13,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Transform {
+class Transform final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void updateVelocityRec(World&, Ent, const glm::vec2&);
 friend void updateVelocitySys(LateFixedSystem, World&);
@@ -259,7 +259,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class AppState {
+class AppState final {
 public:
     [[nodiscard]] constexpr AppState(const std::uint8_t newState) noexcept:
         state(newState) {
@@ -280,7 +280,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LifeTime {
+class LifeTime final {
 public:
     LifeTime(float newDuration):
         duration(newDuration),
@@ -312,7 +312,7 @@ void lifeTimeSys(MainFixedSystem, World& world) {
     }
 }
 
-class UnscaledLifeTime {
+class UnscaledLifeTime final {
 public:
     UnscaledLifeTime(float newDuration):
         duration(newDuration),
@@ -346,7 +346,7 @@ void unscaledLifeTimeSys(MainFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Speed {
+class Speed final {
 public:
     Speed(float newSpeed):
         speed(newSpeed) {
@@ -367,7 +367,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Velocity {
+class Velocity final {
 public:
     operator glm::vec2&() {
         return vel;

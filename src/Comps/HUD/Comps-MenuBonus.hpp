@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LevelUpKnockback {
+class LevelUpKnockback final {
 public:
     LevelUpKnockback(float newDuration):
         duration(newDuration),
@@ -19,7 +19,7 @@ private:
     float curTime;
 };
 
-class LevelUpPreMenu {
+class LevelUpPreMenu final {
 public:
     LevelUpPreMenu(float newDuration, int newNbStars):
         duration(newDuration),
@@ -50,9 +50,9 @@ private:
     float starSpawnCurTime;
 };
 
-class MenuBonus {};
+class MenuBonus final {};
 
-class MenuBonusReverseTranslation {
+class MenuBonusReverseTranslation final {
 public:
     MenuBonusReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),
@@ -72,7 +72,7 @@ private:
     const float translationSpeed;
 };
 
-class MenuBonusTranslation {
+class MenuBonusTranslation final {
 public:
     MenuBonusTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed, const std::unordered_set<std::size_t>& newBonusesIdx):
         finalPosition(newFinalPosition),
@@ -98,7 +98,7 @@ private:
     const std::unordered_set<std::size_t> bonusesIdx;
 };
 
-class MenuBonusSelector {
+class MenuBonusSelector final {
 public:
     MenuBonusSelector(std::size_t newNbElements):
         nbElements(newNbElements),
@@ -132,7 +132,7 @@ private:
     std::size_t curElement;
 };
 
-class MenuBonusSelectorMoveDown {
+class MenuBonusSelectorMoveDown final {
 public:
     MenuBonusSelectorMoveDown(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -152,7 +152,7 @@ private:
     const float speed;
 };
 
-class MenuBonusSelectorMoveUp {
+class MenuBonusSelectorMoveUp final {
 public:
     MenuBonusSelectorMoveUp(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -172,7 +172,7 @@ private:
     const float speed;
 };
 
-class MenuBonusCurSelectedRow {
+class MenuBonusCurSelectedRow final {
 public:
     MenuBonusCurSelectedRow(float newMaxScale, float newMinScale, float newScaleSpeed):
         maxScale(newMaxScale),

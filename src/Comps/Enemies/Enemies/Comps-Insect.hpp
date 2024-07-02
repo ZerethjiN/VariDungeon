@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Insect {
+class Insect final {
 public:
     Insect(float newMoveDuration, float newDirectionCooldown, float newAttackDuration, float newAttackSpeedCoeff):
         moveDuration(newMoveDuration),
@@ -34,7 +34,7 @@ private:
     const float attackSpeedCoeff;
 };
 
-class IsInsectMove {
+class IsInsectMove final {
 public:
     IsInsectMove(float newDuration, float newDirectionCooldown):
         duration(newDuration),
@@ -65,7 +65,7 @@ private:
     float curDirectionCooldown;
 };
 
-class IsInsectAttack {
+class IsInsectAttack final {
 public:
     IsInsectAttack(float newDuration):
         duration(newDuration),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Shuriken {
+class Shuriken final {
 public:
     Shuriken(float newRotationSpeed, const glm::vec2& newOffset):
         rotationSpeed(newRotationSpeed),

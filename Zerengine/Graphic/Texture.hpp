@@ -24,7 +24,7 @@
 
 #include "VulkanEngine.hpp"
 
-class Texture {
+class Texture final {
 public:
     Texture(const std::string& filename):
         name(filename) {

@@ -7,11 +7,11 @@
 #include <Images.hpp>
 
 void rockBossRollSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockBossRoll, RockBoss, const Orientation, const Speed>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.view<Velocity, Animation, RockBoss, const Orientation, const Speed>(with<IsRockBossRoll, Unhittable>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, velocity, animation, isRockBossRoll, rockBoss, orientation, speed]: enemies) {
+    for (auto [enemyEnt, velocity, animation, rockBoss, orientation, speed]: enemies) {
         if (auto opt = world.get<const OnCollisionEnter>(enemyEnt)) {
             auto [collisions] = opt.value();
 
@@ -74,11 +74,11 @@ void rockBossRollSys(MainFixedSystem, World& world) {
 }
 
 void rockBossRollP2Sys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockBossRollP2, RockBoss, const Orientation, const Speed>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.view<Velocity, Animation, RockBoss, const Orientation, const Speed>(with<IsRockBossRollP2, Unhittable>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, velocity, animation, isRockBossRoll, rockBoss, orientation, speed]: enemies) {
+    for (auto [enemyEnt, velocity, animation, rockBoss, orientation, speed]: enemies) {
         if (auto opt = world.get<const OnCollisionEnter>(enemyEnt)) {
             auto [collisions] = opt.value();
 

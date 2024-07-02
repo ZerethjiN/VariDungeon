@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class EnemyDropLoots {
+class EnemyDropLoots final {
 public:
     EnemyDropLoots(const std::initializer_list<size_t>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
         loots(newLoots),

@@ -2,8 +2,8 @@
 
 #include <Zerengine.hpp>
 
-class PlayerLifeText {};
-class PlayerLifeBarInner {
+class PlayerLifeText final {};
+class PlayerLifeBarInner final {
 public:
     PlayerLifeBarInner(float newMaxLength):
         maxLength(newMaxLength) {

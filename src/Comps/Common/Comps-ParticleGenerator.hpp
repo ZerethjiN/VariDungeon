@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class ParticleGenerator {
+class ParticleGenerator final {
 public:
     ParticleGenerator(Ent(*const newParticlePrefab)(World&, const glm::vec2&), float newCooldown, float newRadius, const glm::vec2& newOffset = glm::vec2(0, 0)):
         radius(newRadius),

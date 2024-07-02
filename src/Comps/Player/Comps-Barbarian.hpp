@@ -2,9 +2,9 @@
 
 #include <Zerengine.hpp>
 
-class Barbarian {};
+class Barbarian final {};
 
-class IsBarbarianDash {
+class IsBarbarianDash final {
 public:
     IsBarbarianDash(float newDuration, const glm::vec2& newDirection, float newSpeedCoeff):
         duration(newDuration),
@@ -33,7 +33,7 @@ private:
     float speedCoeff;
 };
 
-class IsBarbarianAttack {
+class IsBarbarianAttack final {
 public:
     IsBarbarianAttack(float newDuration):
         duration(newDuration),

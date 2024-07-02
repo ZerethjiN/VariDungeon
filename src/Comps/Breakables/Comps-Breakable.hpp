@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Breakable {
+class Breakable final {
 public:
     Breakable(const std::string& newNoHitAnimName, const std::string& newOnHitAnimName, const std::string& newDestroyedAnimName):
         noHitAnimName(newNoHitAnimName),
@@ -28,7 +28,7 @@ private:
     const std::string destroyedAnimName;
 };
 
-class OnBreakableHit {
+class OnBreakableHit final {
 public:
     OnBreakableHit(float newDuration):
         duration(newDuration),
@@ -45,7 +45,7 @@ private:
     float curTime;
 };
 
-class OnBreakableBreak {
+class OnBreakableBreak final {
 public:
     OnBreakableBreak(void(*const newOnBreak)(World&, Ent)):
         onBreak(newOnBreak) {

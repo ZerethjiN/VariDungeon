@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class BonusSphere {};
+class BonusSphere final {};

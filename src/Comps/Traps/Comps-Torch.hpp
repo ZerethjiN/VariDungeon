@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Torch {
+class Torch final  {
 public:
     Torch(float newIdleDuration, float newCastDuration):
         idleDuration(newIdleDuration),
@@ -14,7 +14,7 @@ public:
     const float castDuration;
 };
 
-class IsTorchIdle {
+class IsTorchIdle final {
 public:
     IsTorchIdle(float newDuration):
         duration(newDuration),
@@ -31,7 +31,7 @@ private:
     float curTime;
 };
 
-class IsTorchCast {
+class IsTorchCast final {
 public:
     IsTorchCast(float newDuration):
         duration(newDuration),

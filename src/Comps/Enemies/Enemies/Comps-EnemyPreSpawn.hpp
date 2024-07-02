@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class EnemyPreSpawn {
+class EnemyPreSpawn final {
 public:
     EnemyPreSpawn(float newDuration, int newNbParticles):
         duration(newDuration),

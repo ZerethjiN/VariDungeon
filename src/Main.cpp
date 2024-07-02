@@ -43,10 +43,10 @@ int main() {
             .addResource<InGameView>(glm::vec4(0, 0, 160, 144))
             .addResource<UIView>(glm::vec4(0, 0, 160, 144))
             .addStartSystems(startSys)
-            .addMainFixedSystems(
+            .addMainFixedSystems({
                 pollEventsSys
-            )
-            .addMainFixedSystems(
+            })
+            .addMainFixedSystems({
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 playerLootSys, playerLootAttractSys, playerHitSys, playerFrenzySys,
                 breakableHitSys, breakableOnHitSys,
@@ -67,10 +67,8 @@ int main() {
                 // Enemies:
                 enemyPreSpawnSys,
                 slimeMoveSys,
-                insectMoveSys, insectAttackSys,
                 anubisMoveSys, anubisAttackSys,
                 batMoveSys, batAttackSys,
-                mummyMoveSys, mummyPreAttackSys, mummyAttackSys,
                 gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys,
                 lavaSlimeMoveSys, lavaSlimeAttackSys,
                 robobouleMoveSys, roboboulePreAttackSys,
@@ -107,13 +105,28 @@ int main() {
                 levelUpKnockbackSys,
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
+            })
+
+            // Enemies Lvl1 Threads
+            .addThreadedFixedConditionSystems( // Mummy Threads
+                [](World& world) -> bool {
+                    return !world.view(with<Mummy>).empty();
+                },
+                {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
             )
-            .addMainFixedSystems(
+            .addThreadedFixedConditionSystems( // Insect Threads
+                [](World& world) -> bool {
+                    return !world.view(with<Insect>).empty();
+                },
+                {insectMoveSys, insectAttackSys}
+            )
+
+            .addMainFixedSystems({
                 // particleSystems, generatorParticleMovement,
                 lifeTimeSys, unscaledLifeTimeSys,
                 cameraShakeRightSys, cameraShakeLeftSys
-            )
-            .addLateFixedSystems(
+            })
+            .addLateFixedSystems({
                 updatePositionSys,
                 updateVelocitySys, collisionSys,
                 spriteCreatorSys,
@@ -126,11 +139,11 @@ int main() {
                 // onClickButtonsSys,
                 // onHoverButtonsSys,
                 purgeCollisionSys
-            )
-            .addLateSystems(renderSys)
+            })
+            .addLateSystems({renderSys})
             .run();
     } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << "Exception Catch:" << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 

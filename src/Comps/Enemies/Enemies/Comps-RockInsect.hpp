@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class RockInsect {
+class RockInsect final {
 public:
     RockInsect(float newMoveDuration, float newPreCastDuration, float newCastDuration):
         moveDuration(newMoveDuration),
@@ -16,7 +16,7 @@ public:
     const float castDuration;
 };
 
-class IsRockInsectMove {
+class IsRockInsectMove final {
 public:
     IsRockInsectMove(float newDuration):
         duration(newDuration),
@@ -33,7 +33,7 @@ private:
     float curTime;
 };
 
-class IsRockInsectPreCast {
+class IsRockInsectPreCast final {
 public:
     IsRockInsectPreCast(float newDuration):
         duration(newDuration),
@@ -50,7 +50,7 @@ private:
     float curTime;
 };
 
-class IsRockInsectCast {
+class IsRockInsectCast final {
 public:
     IsRockInsectCast(float newDuration):
         duration(newDuration),

@@ -5,7 +5,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-class Glyph {
+class Glyph final {
 public:
     Glyph(const Texture* newTexture, unsigned int newAdvance, const glm::ivec2& newSize, const glm::ivec2& newbearing):
         texture(newTexture),
@@ -27,7 +27,7 @@ public:
     glm::ivec2 bearing;
 };
 
-class ZreFont {
+class ZreFont final {
 public:
     ~ZreFont() {
         FT_Done_Face(ftFace);
@@ -81,7 +81,7 @@ private:
     std::unordered_map<unsigned char, std::unordered_map<unsigned int, Glyph>> glyphs;
 };
 
-class FontManager {
+class FontManager final {
 public:
     ~FontManager() {
         for (auto& pair: fonts) {

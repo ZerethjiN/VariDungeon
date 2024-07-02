@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Slime {
+class Slime final {
 public:
     Slime(float newDirectionCooldown):
         directionCooldown(newDirectionCooldown),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Sarcophage {
+class Sarcophage final {
 public:
     Sarcophage(float newPreLaserDuration, float newLaserDuration, float newShadowMarkDuration, float newNbShadowMark, float newObeliskDuration):
         preLaserDuration(newPreLaserDuration),
@@ -20,15 +20,15 @@ public:
     const float obeliskDuration;
 };
 
-struct IsSarcophagePreLaserAttack: public IIsStateDuration {
+struct IsSarcophagePreLaserAttack final: public IIsStateDuration {
     IsSarcophagePreLaserAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsSarcophageLaserAttack: public IIsStateDuration {
+struct IsSarcophageLaserAttack final: public IIsStateDuration {
     IsSarcophageLaserAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class IsSarcophageShadowMark: public IIsStateDuration {
+class IsSarcophageShadowMark final: public IIsStateDuration {
 public:
     IsSarcophageShadowMark(float newDuration, int newNbShadowMark):
         IIsStateDuration(newDuration),
@@ -50,9 +50,9 @@ private:
     float curTime;
 };
 
-struct IsSarcophageObelisk: public IIsStateDuration {
+struct IsSarcophageObelisk final: public IIsStateDuration {
     IsSarcophageObelisk(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class SarcophageObelisk {};
-class SarcophageShockwave {};
+class SarcophageObelisk final {};
+class SarcophageShockwave final {};

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Damage {
+class Damage final {
 public:
     Damage(float newDamage):
         damage(newDamage) {
@@ -20,7 +20,7 @@ private:
     const float damage;
 };
 
-class DamageText {
+class DamageText final {
 public:
     DamageText(const glm::vec2& newDirection, float newDuration, float newMaxScale, float newSpeed):
         direction(newDirection),

@@ -28,7 +28,7 @@
 #include "Texture.hpp"
 #include "Sprite.hpp"
 
-class IGraphicsPipeline {
+class IGraphicsPipeline  {
 protected:
     IGraphicsPipeline(VulkanEngine& newEngine, const VkRenderPass& newRenderPass, std::size_t newNbSet, const std::initializer_list<VkPushConstantRange>& newPushConstantRanges):
         engine(newEngine),

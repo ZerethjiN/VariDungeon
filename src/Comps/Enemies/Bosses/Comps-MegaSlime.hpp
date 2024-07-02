@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class MegaSlime {
+class MegaSlime final {
 public:
     MegaSlime(float newMoveDuration, float newBounceDuration, float newFireballDuration, float newSpawnDuration, int nbBounceLvl1, int nbBounceLvl2, float newBounceMoveSpeed, float newBounceGroundDuration, int nbFireballLvl1, int nbFireballLvl2, float newFireballMegaSlimeMoveSpeed, int nbSpawnLvl1, int nbSpawnLvl2):
         moveDuration(newMoveDuration),
@@ -39,7 +39,7 @@ public:
     unsigned int lastState;
 };
 
-class IsMegaSlimeMove {
+class IsMegaSlimeMove final {
 public:
     IsMegaSlimeMove(float newMoveDuration, bool newIsP2):
         moveDuration(newMoveDuration),
@@ -62,7 +62,7 @@ private:
     const bool isP2;
 };
 
-class IsMegaSlimeBounce {
+class IsMegaSlimeBounce final {
 public:
     IsMegaSlimeBounce(float newBounceDuration, float newBounceCooldownLvl1, float newBounceCooldownLvl2, float newBounceGroundDuration, bool newIsP2):
         bounceDuration(newBounceDuration),
@@ -122,7 +122,7 @@ private:
     const bool isP2;
 };
 
-class IsMegaSlimeFireball {
+class IsMegaSlimeFireball final {
 public:
     IsMegaSlimeFireball(float newFireballDuration, float newFireballCooldownLvl1, float newFireballCooldownLvl2, bool newIsP2):
         fireballDuration(newFireballDuration),
@@ -175,7 +175,7 @@ private:
     const bool isP2;
 };
 
-class IsMegaSlimeSpawn {
+class IsMegaSlimeSpawn final {
 public:
     IsMegaSlimeSpawn(float newSpawnDuration, float newSpawnCooldownLvl1, float newSpawnCooldownLvl2, bool newIsP2):
         spawnDuration(newSpawnDuration),

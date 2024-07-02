@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LavaSlime {
+class LavaSlime final {
 public:
     LavaSlime(float newMoveDuration, float newPreAttackDuration):
         moveDuration(newMoveDuration),
@@ -22,7 +22,7 @@ private:
     const float preAttackDuration;
 };
 
-class IsLavaSlimeMove {
+class IsLavaSlimeMove final {
 public:
     IsLavaSlimeMove(float newDuration):
         duration(newDuration),
@@ -39,7 +39,7 @@ private:
     float curTime;
 };
 
-class IsLavaSlimePreAttack {
+class IsLavaSlimePreAttack final {
 public:
     IsLavaSlimePreAttack(float newDuration):
         duration(newDuration),

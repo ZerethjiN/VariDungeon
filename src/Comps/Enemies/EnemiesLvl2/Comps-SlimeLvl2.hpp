@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class SlimeLvl2 {
+class SlimeLvl2 final {
 public:
     SlimeLvl2(float newMoveDuration, float newJumpDuration, float newJumpSpeedCoeff):
         moveDuration(newMoveDuration),
@@ -19,10 +19,10 @@ public:
     glm::vec4 tmpCollider;
 };
 
-struct IsSlimeLvl2Move: public IIsStateDuration {
+struct IsSlimeLvl2Move final: public IIsStateDuration {
     IsSlimeLvl2Move(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsSlimeLvl2Jump: public IIsStateDuration {
+struct IsSlimeLvl2Jump final: public IIsStateDuration {
     IsSlimeLvl2Jump(float newDuration): IIsStateDuration(newDuration) {}
 };

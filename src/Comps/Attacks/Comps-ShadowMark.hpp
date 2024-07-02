@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class ShadowMark {
+class ShadowMark final {
 public:
     ShadowMark(float newPreExplosionDuration, float newExplosionDuration):
         preExplosionDuration(newPreExplosionDuration),
@@ -14,7 +14,7 @@ public:
     const float explosionDuration;
 };
 
-class IsShadowMarkPreExplosion {
+class IsShadowMarkPreExplosion final {
 public:
     IsShadowMarkPreExplosion(float newDuration):
         duration(newDuration),
@@ -31,7 +31,7 @@ private:
     float curTime;
 };
 
-class IsShadowMarkExplosion {
+class IsShadowMarkExplosion final {
 public:
     IsShadowMarkExplosion(float newDuration):
         duration(newDuration),

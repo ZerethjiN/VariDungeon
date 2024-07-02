@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class AnubisLvl2 {
+class AnubisLvl2 final {
 public:
     AnubisLvl2(float newAttackDuration, float newVanishDuration):
         attackDuration(newAttackDuration),
@@ -18,10 +18,10 @@ public:
     glm::vec4 tmpCol;
 };
 
-struct IsAnubisLvl2Attack: IIsStateDuration {
+struct IsAnubisLvl2Attack final: IIsStateDuration {
     IsAnubisLvl2Attack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsAnubisLvl2Vanish: IIsStateDuration {
+struct IsAnubisLvl2Vanish final: IIsStateDuration {
     IsAnubisLvl2Vanish(float newDuration): IIsStateDuration(newDuration) {}
 };

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerFrenzy {
+class PlayerFrenzy final {
 public:
     PlayerFrenzy(float newDuration, float newAttackSpeedCoeff, float newSpeedCoeff):
         attackSpeedCoeff(newAttackSpeedCoeff),

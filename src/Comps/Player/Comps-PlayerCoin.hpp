@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerCoin {
+class PlayerCoin final {
 public:
     PlayerCoin():
         curCoin(0) {
@@ -26,4 +26,4 @@ private:
     float curCoin;
 };
 
-class PlayerCoinText {};
+class PlayerCoinText final {};

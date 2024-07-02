@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class VoidSlime {
+class VoidSlime final {
 public:
     VoidSlime(float newMoveDuration, float newAttractDuration, float newAttractRadius, float newAttractStrength):
         moveDuration(newMoveDuration),
@@ -18,7 +18,7 @@ public:
     const float attractStrength;
 };
 
-class IsVoidSlimeMove {
+class IsVoidSlimeMove final {
 public:
     IsVoidSlimeMove(float newDuration):
         duration(newDuration),
@@ -35,7 +35,7 @@ private:
     float curTime;
 };
 
-class IsVoidSlimeAttract {
+class IsVoidSlimeAttract final {
 public:
     IsVoidSlimeAttract(float newDuration):
         duration(newDuration),

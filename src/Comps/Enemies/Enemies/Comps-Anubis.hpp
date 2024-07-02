@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Anubis {
+class Anubis final {
 public:
     Anubis(float newMoveDuration, float newAttackDuration):
         moveDuration(newMoveDuration),
@@ -22,7 +22,7 @@ private:
     const float attackDuration;
 };
 
-class IsAnubisMove {
+class IsAnubisMove final {
 public:
     IsAnubisMove(float newDuration):
         duration(newDuration),
@@ -39,7 +39,7 @@ private:
     float curTime;
 };
 
-class IsAnubisAttack {
+class IsAnubisAttack final {
 public:
     IsAnubisAttack(float newDuration):
         duration(newDuration),

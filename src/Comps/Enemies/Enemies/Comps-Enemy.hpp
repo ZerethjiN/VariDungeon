@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Enemy {};
-class Boss {};
-class EnemyWeapon {};
-class EnemyWeaponForBreakables {};
+class Enemy final {};
+class Boss final {};
+class EnemyWeapon final {};
+class EnemyWeaponForBreakables final {};

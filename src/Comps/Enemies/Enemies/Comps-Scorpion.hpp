@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Scorpion {
+class Scorpion final {
 public:
     Scorpion(float newMoveDuration, float newCastDuration):
         moveDuration(newMoveDuration),
@@ -14,7 +14,7 @@ public:
     const float castDuration;
 };
 
-class IsScorpionMove {
+class IsScorpionMove final {
 public:
     IsScorpionMove(float newDuration):
         duration(newDuration),
@@ -31,7 +31,7 @@ private:
     float curTime;
 };
 
-class IsScorpionCast {
+class IsScorpionCast final  {
 public:
     IsScorpionCast(float newDuration):
         duration(newDuration),

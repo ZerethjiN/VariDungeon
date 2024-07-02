@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class DustParticleGenerator {
+class DustParticleGenerator final {
 public:
     DustParticleGenerator(bool newNeedDestroy, float newDuration, int newNbParticles):
         needDestroy(newNeedDestroy),

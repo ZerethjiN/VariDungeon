@@ -14,7 +14,9 @@ glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/Aberatio
 g++ -D DEBUG -o Varidungeon.out src/Main.cpp\
     -I Lib\
     -I src -I Zerengine\
-    -Wall\
-    -O0 -s -pipe -std=c++2c\
+    -O0 -pipe -std=c++2c\
     -Wl,-Bdynamic -lvulkan\
     -Wl,-Bdynamic -lglfw -lfreetype
+
+#-Wall\
+#-s

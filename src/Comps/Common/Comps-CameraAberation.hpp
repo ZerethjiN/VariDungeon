@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class CameraAberation {
+class CameraAberation final {
 public:
     CameraAberation(float newDistance, float newDuration):
         distance(newDistance),

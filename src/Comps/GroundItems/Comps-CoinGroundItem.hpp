@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class CoinGroundItem {
+class CoinGroundItem final {
 public:
     CoinGroundItem(float newAmount):
         amount(newAmount) {

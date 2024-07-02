@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class UIView: public ZreView {
+class UIView final: public ZreView {
 public:
     UIView(const glm::vec4& newRect):
         ZreView(newRect) {

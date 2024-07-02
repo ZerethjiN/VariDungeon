@@ -2,7 +2,7 @@
 
 #include "ImageAsset.hpp"
 
-class TileMapTileInfo {
+class TileMapTileInfo final {
 public:
     TileMapTileInfo(const ImageData& newImageData):
         imageData(&newImageData),
@@ -39,7 +39,7 @@ private:
     float curTime;
 };
 
-class TileMap {
+class TileMap final {
 public:
     TileMap(const Texture& newTexture, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
         texture(newTexture),
@@ -133,7 +133,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class TileMapCreator {
+class TileMapCreator final {
 public:
     TileMapCreator(const std::string& newFilename, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
         filename(newFilename),

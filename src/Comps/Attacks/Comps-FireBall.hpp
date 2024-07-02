@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class FireBall {
+class FireBall final {
 public:
     FireBall(const glm::vec2& newDirection):
         direction(newDirection) {

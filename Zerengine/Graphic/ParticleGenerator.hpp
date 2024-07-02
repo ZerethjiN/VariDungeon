@@ -9,7 +9,7 @@
 
 #include "../ZerengineCommon.hpp"
 
-class ParticleSystemData {
+class ParticleSystemData final {
 friend void particleSystems(World& world);
 public:
     enum ParticleGeneratorMode: std::uint8_t {
@@ -118,7 +118,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class GeneratorParticle {
+class GeneratorParticle final  {
 public:
     GeneratorParticle(float newSpeed, const glm::vec2& newDirection):
         speed(newSpeed),

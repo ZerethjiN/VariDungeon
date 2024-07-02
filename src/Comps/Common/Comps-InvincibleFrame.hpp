@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class InvincibleFrame {
+class InvincibleFrame final {
 public:
     InvincibleFrame(float newDuration, const glm::vec2& newScale = glm::vec2(0, 0)):
         duration(newDuration),
@@ -26,4 +26,4 @@ private:
     glm::vec2 scale;
 };
 
-class Unhittable {};
+class Unhittable final {};

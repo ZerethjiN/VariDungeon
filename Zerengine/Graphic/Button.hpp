@@ -1,6 +1,6 @@
 #pragma once
 
-class OnClickButton {
+class OnClickButton final {
 public:
     OnClickButton(const glm::vec4& newRect, void(*newCallback)(World&, Ent)):
         rect(newRect),
@@ -12,7 +12,7 @@ public:
     void(*callback)(World&, Ent);
 };
 
-class OnHoverButton {
+class OnHoverButton final {
 public:
     OnHoverButton(const glm::vec4& newRect, void(*newHoverCallback)(World&, Ent), void(*newUnhoverCallback)(World&, Ent)):
         rect(newRect),
