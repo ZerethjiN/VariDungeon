@@ -17,6 +17,18 @@ void startSys(StartSystem, World& world) {
         {REROLL_BUTTON, {GLFW_KEY_R}},
     };
 
+    vulkanEngine.window.gamepadButtonNameBinds = {
+        {MOVE_UP, {GLFW_GAMEPAD_BUTTON_DPAD_UP}},
+        {MOVE_DOWN, {GLFW_GAMEPAD_BUTTON_DPAD_DOWN}},
+        {MOVE_LEFT, {GLFW_GAMEPAD_BUTTON_DPAD_LEFT}},
+        {MOVE_RIGHT, {GLFW_GAMEPAD_BUTTON_DPAD_RIGHT}},
+        {VALIDATE, {GLFW_GAMEPAD_BUTTON_A}},
+        {B_BUTTON, {GLFW_GAMEPAD_BUTTON_B}},
+        {A_BUTTON, {GLFW_GAMEPAD_BUTTON_A}},
+        {EXIT, {GLFW_GAMEPAD_BUTTON_B}},
+        {REROLL_BUTTON, {GLFW_GAMEPAD_BUTTON_X}},
+    };
+
     // vulkanEngine.window.mouseButtonNameBinds = {
     //     {MOUSE_LEFT, {GLFW_MOUSE_BUTTON_LEFT}},
     //     {MOUSE_RIGHT, {GLFW_MOUSE_BUTTON_RIGHT}},

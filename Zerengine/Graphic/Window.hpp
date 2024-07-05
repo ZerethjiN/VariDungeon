@@ -65,6 +65,7 @@ public:
     void pollEvents() noexcept {
         glfwPollEvents();
 
+        // Button Input
         buttonDownOld.swap(buttonDown);
         buttonHoldOld.swap(buttonHold);
 
@@ -86,6 +87,35 @@ public:
             }
         }
 
+        // Gamepad Input
+        if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1)) {
+            gamepadButtonDownOld.swap(gamepadButtonDown);
+            gamepadButtonHoldOld.swap(gamepadButtonHold);
+
+            gamepadButtonDown.clear();
+            gamepadButtonHold.clear();
+            gamepadButtonUp.clear();
+
+            GLFWgamepadstate state;
+ 
+            if (glfwGetGamepadState(GLFW_JOYSTICK_1, &state)) {
+                for (const auto& pair: gamepadButtonNameBinds) {
+                    for (const auto keyCode: pair.second) {
+                        if (state.buttons[keyCode] == GLFW_PRESS) {
+                            if (!gamepadButtonDownOld.contains(keyCode) && !gamepadButtonHoldOld.contains(keyCode)) {
+                                gamepadButtonDown.emplace(keyCode);
+                            } else {
+                                gamepadButtonHold.emplace(keyCode);
+                            }
+                        } else if (gamepadButtonDownOld.contains(keyCode) || gamepadButtonHoldOld.contains(keyCode)) {
+                            gamepadButtonUp.emplace(keyCode);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Mouse Input
         mouseButtonDownOld.swap(mouseButtonDown);
         mouseButtonHoldOld.swap(mouseButtonHold);
 
@@ -114,6 +144,11 @@ public:
                 return true;
             }
         }
+        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
+            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonDown.contains(keyCode)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -123,12 +158,22 @@ public:
                 return true;
             }
         }
+        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
+            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonHold.contains(keyCode)) {
+                return true;
+            }
+        }
         return false;
     }
 
     bool isKeyUp(std::size_t buttonName) const noexcept {
         for (const auto keyCode: buttonNameBinds.at(buttonName)) {
             if (buttonUp.contains(keyCode)) {
+                return true;
+            }
+        }
+        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
+            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonUp.contains(keyCode)) {
                 return true;
             }
         }
@@ -239,4 +284,15 @@ private:
 
     std::unordered_set<int> mouseButtonDownOld;
     std::unordered_set<int> mouseButtonHoldOld;
+
+public:
+    std::unordered_map<std::size_t, std::vector<int>> gamepadButtonNameBinds;
+
+private:
+    std::unordered_set<int> gamepadButtonDown;
+    std::unordered_set<int> gamepadButtonHold;
+    std::unordered_set<int> gamepadButtonUp;
+
+    std::unordered_set<int> gamepadButtonDownOld;
+    std::unordered_set<int> gamepadButtonHoldOld;
 };

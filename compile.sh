@@ -19,7 +19,9 @@ g++ -D NDEBUG -o Varidungeon.out src/Main.cpp\
     -I src -I Zerengine\
     -Oz -s -pipe -std=c++2c\
     -Wl,-Bdynamic -lvulkan\
-    -Wl,-Bdynamic -lglfw -lfreetype
+    -Wl,-Bdynamic -lfreetype\
+    -Wl,-Bdynamic -lglfw
 
+#-Wl,-Bdynamic -lvulkan\
 #-Wall\
 #-s

@@ -11,11 +11,11 @@ glslc -O --target-env=vulkan1.3 shaders/TextShader.frag -o shaders/TextShaderFra
 glslc -O --target-env=vulkan1.3 shaders/AberationShader.vert -o shaders/AberationShaderVert.spv
 glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/AberationShaderFrag.spv
 
-clang++ -D NDEBUG -o Varidungeon.exe src/Main.cpp^
+clang++ -D DEBUG -o Varidungeon.exe src/Main.cpp^
     Lib/freetype-2.13.2/objs/freetype.a^
     -I C:\VulkanSDK\1.3.280.0\Include -I Lib/glfw-3.3.9.bin.WIN64/include -I Lib/freetype-2.13.2/include -I Lib/freetype-2.13.2/include/freetype -I Lib/glm-0.9.9.8/glm -I Lib^
     -I src -I Zerengine^
-    -Oz -s -pipe -std=c++2c^
+    -O0 -pipe -std=c++2c^
     -L Lib/glfw-3.3.9.bin.WIN64/lib-static-ucrt -L C:\VulkanSDK\1.3.280.0\Lib^
     -lglfw3 -lvulkan-1
 
