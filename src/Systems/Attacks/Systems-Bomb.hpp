@@ -39,7 +39,7 @@ void bombSpreadSys(MainFixedSystem, World& world) {
             world.remove<BombSpread, Collider>(bombEnt);
         }
 
-        velocity += bombSpread.getDirection() * bombSpread.getSpeed() * time.fixedDelta();
+        velocity += bombSpread.direction * bombSpread.speed * time.fixedDelta();
     }
 }
 

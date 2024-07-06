@@ -116,7 +116,7 @@ public:
 
     bool previousElement() {
         curElement--;
-        if (curElement < 0) {
+        if (curElement >= nbElements) {
             curElement = 0;
             return false;
         }

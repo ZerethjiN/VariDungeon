@@ -1502,12 +1502,25 @@ private:
     }
 
 public:
-    bool exist(const Ent ent) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande Exist doit toujours etre evalue")]] bool exist(const Ent ent) const noexcept {
         return reg.exist(ent);
     }
 
     template <typename T, typename... Ts>
-    bool has(const Ent ent) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande Has doit toujours etre evalue")]] bool has(const Ent ent) const noexcept {
+        if (!reg.exist(ent)) {
+            return false;
+        } else if (reg.has(ent, {typeid(T).hash_code()})) {
+            if constexpr (sizeof...(Ts) > 0) {
+                return has<Ts...>(ent);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    template <typename T, typename... Ts>
+    [[nodiscard("La valeur de retour d'une commande HasThisFrame doit toujours etre evalue")]] bool hasThisFrame(const Ent ent) const noexcept {
         if (!reg.exist(ent)) {
             return false;
         } else if (reg.has(ent, {typeid(T).hash_code()})) {
@@ -1529,7 +1542,7 @@ public:
         return false;
     }
 
-    const std::vector<std::string> getTypes(const Ent ent) noexcept {
+    [[nodiscard("La valeur de retour d'une commande GetTypes doit toujours etre recupere")]] const std::vector<std::string> getTypes(const Ent ent) noexcept {
         auto types = reg.getTypes(ent);
         for (const auto& type: lateUpgrade.getTypes(ent)) {
             types.emplace_back(type);
@@ -1578,7 +1591,7 @@ private:
 
 public:
     template <typename T, typename... Ts> requires (IsNotEmptyConcept<T>)
-    [[nodiscard]] std::optional<std::tuple<T&, Ts&...>> get(const Ent ent) noexcept {
+    [[nodiscard("La valeur de retour d'une commande Get doit toujours etre recupere")]] std::optional<std::tuple<T&, Ts&...>> get(const Ent ent) noexcept {
         if (auto opt = internalGet<T>(ent)) {
             if constexpr (sizeof...(Ts) > 0) {
                 if (auto othOpt = get<Ts...>(ent)) {
@@ -1593,19 +1606,19 @@ public:
         return std::nullopt;
     }
 
-    [[nodiscard]] bool hasParent(const Ent childEnt) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande HasParent doit toujours etre evaluer")]] bool hasParent(const Ent childEnt) const noexcept {
         return reg.hasParent(childEnt);
     }
 
-    [[nodiscard]] std::optional<Ent> getParent(const Ent childEnt) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande GetParent doit toujours etre recupere")]] std::optional<Ent> getParent(const Ent childEnt) const noexcept {
         return reg.getParent(childEnt);
     }
 
-    [[nodiscard]] bool hasChildren(const Ent parentEnt) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande HasChildren doit toujours etre evaluer")]] bool hasChildren(const Ent parentEnt) const noexcept {
         return reg.hasChildren(parentEnt);
     }
 
-    [[nodiscard]] std::optional<std::reference_wrapper<const std::unordered_set<Ent>>> getChildren(const Ent parentEnt) const noexcept {
+    [[nodiscard("La valeur de retour d'une commande GetChildren doit toujours etre recupere")]] std::optional<std::reference_wrapper<const std::unordered_set<Ent>>> getChildren(const Ent parentEnt) const noexcept {
         return reg.getChildren(parentEnt);
     }
 
@@ -1624,7 +1637,7 @@ public:
     }
 
     template <typename... Ts> requires (sizeof...(Ts) > 0)
-    [[nodiscard]] decltype(auto) resource(this auto&& self) noexcept {
+    [[nodiscard("La valeur de retour d'une commande Resource doit toujours etre recupere")]] decltype(auto) resource(this auto&& self) noexcept {
         return std::forward_as_tuple(std::any_cast<Ts&>(std::move(self).res.get(typeid(Ts).hash_code()))...);
     }
 

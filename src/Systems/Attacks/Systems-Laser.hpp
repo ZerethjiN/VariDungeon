@@ -12,7 +12,7 @@ void laserMovementSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [_, velocity, speed, laser]: lasers) {
-        velocity.vel += laser.getDirection() * speed.speed * time.fixedDelta();
+        velocity.vel += laser.direction * speed.speed * time.fixedDelta();
     }
 }
 

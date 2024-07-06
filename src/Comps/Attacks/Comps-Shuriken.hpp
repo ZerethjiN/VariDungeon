@@ -9,15 +9,7 @@ public:
         offset(newOffset) {
     }
 
-    float getRotationSpeed() const {
-        return rotationSpeed;
-    }
-
-    const glm::vec2& getOffset() const {
-        return offset;
-    }
-
-private:
+public:
     const float rotationSpeed;
     const glm::vec2 offset;
 };

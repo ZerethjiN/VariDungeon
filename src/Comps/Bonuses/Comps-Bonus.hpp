@@ -77,24 +77,18 @@ public:
         callback(newCallback) {
     }
 
-    std::size_t getId() const {
-        return id;
-    }
-
     bool hasCallback() const {
         return callback != nullptr;
-    }
-
-    BonusType getType() const {
-        return type;
     }
 
     void operator()(World& world) const {
         callback(world);
     }
 
-private:
+public:
     const std::size_t id;
     const BonusType type;
+
+private:
     void(*const callback)(World&);
 };

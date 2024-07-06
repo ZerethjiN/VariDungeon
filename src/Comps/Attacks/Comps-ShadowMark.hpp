@@ -14,36 +14,10 @@ public:
     const float explosionDuration;
 };
 
-class IsShadowMarkPreExplosion final {
-public:
-    IsShadowMarkPreExplosion(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct IsShadowMarkPreExplosion final: public IIsStateDuration {
+    IsShadowMarkPreExplosion(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class IsShadowMarkExplosion final {
-public:
-    IsShadowMarkExplosion(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct IsShadowMarkExplosion final: public IIsStateDuration {
+    IsShadowMarkExplosion(float newDuration): IIsStateDuration(newDuration) {}
 };

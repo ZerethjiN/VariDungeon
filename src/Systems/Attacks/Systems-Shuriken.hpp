@@ -20,10 +20,10 @@ void shurikenRotationSys(MainFixedSystem, World& world) {
 
                 auto diff = parentTransform.getPosition() - shurikenTransform.getPosition();
 
-                shurikenTransform.rotate(shuriken.getRotationSpeed() * time.fixedDelta());
+                shurikenTransform.rotate(shuriken.rotationSpeed * time.fixedDelta());
 
                 shurikenTransform.move(
-                    rotateAround(-diff, diff, shuriken.getRotationSpeed() * time.fixedDelta())
+                    rotateAround(-diff, diff, shuriken.rotationSpeed * time.fixedDelta())
                 );
             }
         }

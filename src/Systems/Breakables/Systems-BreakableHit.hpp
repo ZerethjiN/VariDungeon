@@ -12,8 +12,8 @@ void breakableOnHitSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [breakableEnt, animation, onBreakableHit, breakable]: breakables) {
-        if (onBreakableHit.canStop(time.fixedDelta())) {
-            animation.play(breakable.getNoHitAnimName());
+        if (onBreakableHit.canSwitchState(time.fixedDelta())) {
+            animation.play(breakable.noHitAnimName);
             world.remove<OnBreakableHit>(breakableEnt);
         }
     }
@@ -29,7 +29,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                 life -= 1;
 
                 // Visual Effect:
-                animation.play(breakable.getOnHitAnimName());
+                animation.play(breakable.onHitAnimName);
                 world.add(breakableEnt,
                     InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f))
                 );
@@ -48,7 +48,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
 
                     world.remove<Breakable, Life, Collider>(breakableEnt);
                     zindex = -3;
-                    animation.play(breakable.getDestroyedAnimName());
+                    animation.play(breakable.destroyedAnimName);
 
                     std::vector<std::size_t> newLoots;
                     if (!loots.empty()) {

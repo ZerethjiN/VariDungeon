@@ -69,10 +69,8 @@ int main() {
                 slimeMoveSys,
                 anubisMoveSys, anubisAttackSys,
                 batMoveSys, batAttackSys,
-                gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys,
                 lavaSlimeMoveSys, lavaSlimeAttackSys,
                 robobouleMoveSys, roboboulePreAttackSys,
-                spectreMoveSys, spectreVanishSys, spectreCastSys,
                 rockInsectMoveSys, rockInsectPreCastSys, rockInsectCastSys,
                 voidSlimeMoveSys, voidSlimeAttractSys,
                 miniRockSpawnerSys, miniRockMoveSys,
@@ -119,6 +117,18 @@ int main() {
                     return !world.view(with<Insect>).empty();
                 },
                 {insectMoveSys, insectAttackSys}
+            )
+            .addThreadedFixedConditionSystems( // Gasterolcan Threads
+                [](World& world) -> bool {
+                    return !world.view(with<Gasterolcan>).empty();
+                },
+                {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
+            )
+            .addThreadedFixedConditionSystems( // Spectre Threads
+                [](World& world) -> bool {
+                    return !world.view(with<Spectre>).empty();
+                },
+                {spectreMoveSys, spectreVanishSys, spectreCastSys}
             )
 
             .addMainFixedSystems({

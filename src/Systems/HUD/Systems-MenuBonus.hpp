@@ -183,7 +183,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                     world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
-                    if (bonusRow.getId() == selector.getCurElement()) {
+                    if (bonusRow.id == selector.getCurElement()) {
                         world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
                     }
@@ -197,7 +197,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                     world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
-                    if (bonusRow.getId() == selector.getCurElement()) {
+                    if (bonusRow.id == selector.getCurElement()) {
                         world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
                     }
@@ -205,9 +205,9 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
             }
         } else if (vulkanEngine.window.isKeyDown(VALIDATE)) {
             for (auto [_, bonusRow]: world.view<const BonusRow>()) {
-                if (bonusRow.getId() == selector.getCurElement()) {
+                if (bonusRow.id == selector.getCurElement()) {
                     for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
-                        playerBonuses.addBonus(bonusRow.getType());
+                        playerBonuses.addBonus(bonusRow.type);
                     }
                     if (bonusRow.hasCallback()) {
                         bonusRow(world);

@@ -31,19 +31,13 @@ public:
         return curTime >= duration;
     }
 
-    const glm::vec2& getDirection() const {
-        return direction;
-    }
-
-    float getSpeed() const {
-        return speed;
-    }
+public:
+    const glm::vec2 direction;
+    const float speed;
 
 private:
     const float duration;
     float curTime;
-    const glm::vec2 direction;
-    const float speed;
 };
 
 class PlayerBomb final {

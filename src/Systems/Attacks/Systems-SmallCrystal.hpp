@@ -20,10 +20,10 @@ void smallCrystalRotationSys(MainFixedSystem, World& world) {
 
                 auto diff = parentTransform.getPosition() - smallCrystalTransform.getPosition();
 
-                smallCrystalTransform.rotate(smallCrystal.getRotationSpeed() * time.fixedDelta());
+                smallCrystalTransform.rotate(smallCrystal.rotationSpeed * time.fixedDelta());
 
                 smallCrystalTransform.move(
-                    rotateAround(-diff, diff, smallCrystal.getRotationSpeed() * time.fixedDelta())
+                    rotateAround(-diff, diff, smallCrystal.rotationSpeed * time.fixedDelta())
                 );
             }
         }

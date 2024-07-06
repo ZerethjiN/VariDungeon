@@ -10,39 +10,14 @@ public:
         destroyedAnimName(newDestroyedAnimName) {
     }
 
-    const std::string& getNoHitAnimName() const {
-        return noHitAnimName;
-    }
-
-    const std::string& getOnHitAnimName() const {
-        return onHitAnimName;
-    }
-
-    const std::string& getDestroyedAnimName() const {
-        return destroyedAnimName;
-    }
-
-private:
+public:
     const std::string noHitAnimName;
     const std::string onHitAnimName;
     const std::string destroyedAnimName;
 };
 
-class OnBreakableHit final {
-public:
-    OnBreakableHit(float newDuration):
-        duration(newDuration),
-        curTime(0) {
-    }
-
-    bool canStop(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
+struct OnBreakableHit final: public IIsStateDuration {
+    OnBreakableHit(float newDuration): IIsStateDuration(newDuration) {}
 };
 
 class OnBreakableBreak final {

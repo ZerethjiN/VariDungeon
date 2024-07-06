@@ -103,7 +103,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         }
 
                         for (auto [xpIconEnt, xpIconTransform]: world.view<Transform>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
-                            if (!world.has<ShrinkIcon>(xpIconEnt)) {
+                            if (!world.hasThisFrame<ShrinkIcon>(xpIconEnt)) {
                                 xpIconTransform.scale(-0.2f, -0.2f);
                                 world.add(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }
@@ -146,7 +146,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         }
 
                         for (auto [coinIconEnt, coinIconTransform]: world.view<Transform>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
-                            if (!world.has<ShrinkIcon>(coinIconEnt)) {
+                            if (!world.hasThisFrame<ShrinkIcon>(coinIconEnt)) {
                                 coinIconTransform.scale(-0.2f, -0.2f);
                                 world.add(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }

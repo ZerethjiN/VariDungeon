@@ -27,6 +27,6 @@ void daggerMovementSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [_, velocity, speed, dagger]: daggers) {
-        velocity.vel += dagger.getDirection() * speed.speed * time.fixedDelta();
+        velocity.vel += dagger.direction * speed.speed * time.fixedDelta();
     }
 }

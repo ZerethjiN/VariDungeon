@@ -8,10 +8,6 @@ public:
         direction(newDirection) {
     }
 
-    const glm::vec2& getDirection() const {
-        return direction;
-    }
-
-private:
+public:
     const glm::vec2 direction;
 };
