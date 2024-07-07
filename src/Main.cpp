@@ -57,6 +57,7 @@ int main() {
                 doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
                 playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
                 warpSys, particleGeneratorSys, bombSpreadSys, rerollSys,
+                
                 // Attacks:
                 shadowMarkPreExplosionSys, shadowMarkExplosionSys,
                 groundCrystalAttackCrossSys,
@@ -102,7 +103,8 @@ int main() {
                 // HUD
                 levelUpKnockbackSys,
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
-                menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys
+                menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys,
+                pauseMenuOpenCloseSys, pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys
             })
 
             // Enemies Lvl1 Threads

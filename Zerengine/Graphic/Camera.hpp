@@ -75,7 +75,7 @@ void appliedCameraShake(World& world, float distance, float speed, unsigned int 
     auto cameras = world.view(with<CurCamera>, without<CameraShake>);
 
     for (auto [entCam]: cameras) {
-        if (!world.hasThisFrame<CameraShake>(entCam)) {
+        if (!world.has<CameraShake>(entCam)) {
             if (auto parentOpt = world.getParent(entCam)) {
                 auto parentEnt = parentOpt.value();
                 world.add(

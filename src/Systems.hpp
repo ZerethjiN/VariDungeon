@@ -67,6 +67,7 @@
 // HUD:
 #include "Systems/HUD/Systems-InventoryBar.hpp"
 #include "Systems/HUD/Systems-MenuBonus.hpp"
+#include "Systems/HUD/Systems-PauseMenu.hpp"
 
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"

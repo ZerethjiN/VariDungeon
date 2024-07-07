@@ -12,7 +12,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, transform, orientation, playerDamage]: players) {
         if (vulkanEngine.window.isKeyDown(B_BUTTON)) {
             for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
-                if (!world.hasThisFrame<ShrinkIcon>(buttonBIconEnt)) {
+                if (!world.has<ShrinkIcon>(buttonBIconEnt)) {
                     buttonBIconTransform.scale(-0.1f, -0.1f);
                     world.add(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
                 }
@@ -239,7 +239,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
         if (vulkanEngine.window.isKeyDown(A_BUTTON)) {
             for (auto [buttonAIconEnt, buttonAIconTransform]: world.view<Transform>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
-                if (!world.hasThisFrame<ShrinkIcon>(buttonAIconEnt)) {
+                if (!world.has<ShrinkIcon>(buttonAIconEnt)) {
                     buttonAIconTransform.scale(-0.1f, -0.1f);
                     world.add(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
                 }

@@ -25,7 +25,7 @@ void startSys(StartSystem, World& world) {
         {VALIDATE, {GLFW_GAMEPAD_BUTTON_A}},
         {B_BUTTON, {GLFW_GAMEPAD_BUTTON_B}},
         {A_BUTTON, {GLFW_GAMEPAD_BUTTON_A}},
-        {EXIT, {GLFW_GAMEPAD_BUTTON_B}},
+        {EXIT, {GLFW_GAMEPAD_BUTTON_Y}},
         {REROLL_BUTTON, {GLFW_GAMEPAD_BUTTON_X}},
     };
 

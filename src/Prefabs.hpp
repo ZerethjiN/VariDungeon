@@ -72,6 +72,7 @@
 #include "Prefabs/HUD/Prefabs-BossHealthBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
+#include "Prefabs/HUD/Prefabs-PauseMenuUI.hpp"
 
 // Particles
 #include "Prefabs/Particles/Prefabs-CombatParticle.hpp"

@@ -8,7 +8,6 @@
 
 void rerollSys(MainFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(REROLL_BUTTON)) {
-        printf("Prout\n");
         world.loadScene(testScene);
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-// Attacks
+// Attacks:
 #include "Comps/Attacks/Comps-Bomb.hpp"
 #include "Comps/Attacks/Comps-Dagger.hpp"
 #include "Comps/Attacks/Comps-FireBall.hpp"
@@ -11,13 +11,13 @@
 #include "Comps/Attacks/Comps-Shuriken.hpp"
 #include "Comps/Attacks/Comps-SmallCrystal.hpp"
 
-// Bonuses
+// Bonuses:
 #include "Comps/Bonuses/Comps-Bonus.hpp"
 
-// Breakables
+// Breakables:
 #include "Comps/Breakables/Comps-Breakable.hpp"
 
-// Common
+// Common:
 #include "Comps/Common/Comps-CameraAberation.hpp"
 #include "Comps/Common/Comps-Chunk.hpp"
 #include "Comps/Common/Comps-CombatParticleGenerator.hpp"
@@ -36,11 +36,11 @@
 #include "Comps/Common/Comps-Unerasable.hpp"
 #include "Comps/Common/Comps-Unmoveable.hpp"
 
-// Decors
+// Decors:
 #include "Comps/Decors/Comps-Wall.hpp"
 #include "Comps/Decors/Comps-Warp.hpp"
 
-// Enemies
+// Enemies:
 // Bosses:
 #include "Comps/Enemies/Bosses/Comps-Golem.hpp"
 #include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
@@ -81,8 +81,9 @@
 #include "Comps/HUD/Comps-BossHealthBar.hpp"
 #include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
+#include "Comps/HUD/Comps-PauseMenu.hpp"
 
-// Player
+// Player:
 #include "Comps/Player/Comps-Barbarian.hpp"
 #include "Comps/Player/Comps-Player.hpp"
 #include "Comps/Player/Comps-PlayerBonuses.hpp"

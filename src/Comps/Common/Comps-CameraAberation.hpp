@@ -34,7 +34,7 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
         auto curCameras = world.view(with<CurCamera>);
 
         for (auto [curCameraEnt]: curCameras) {
-            if (!world.hasThisFrame<CameraAberation>(curCameraEnt)) {
+            if (!world.has<CameraAberation>(curCameraEnt)) {
                 world.add(curCameraEnt, CameraAberation(newDistance, newDuration));
             }
         }

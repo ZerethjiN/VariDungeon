@@ -1041,6 +1041,7 @@ private:
 
         if (needClean) {
             needClean = false;
+            std::unordered_map<Ent, std::unordered_set<Ent>> dontDestroyesHierarchies;
             for (auto [dontDestroyEnt]: reg.view({typeid(DontDestroyOnLoad).hash_code()}, {})) {
                 auto* arch = reg.entArch.at(dontDestroyEnt);
                 std::unordered_map<Type, std::any> comps;
@@ -1053,6 +1054,7 @@ private:
                 }
             }
             reg.clean();
+
             std::unordered_map<Ent, Ent> oldToNewEnts;
             for (const auto& pair: dontDestroyes) {
                 auto newEntId = reg.getEntToken();
@@ -1060,15 +1062,20 @@ private:
                 oldToNewEnts.emplace(pair.first, newEntId);
             }
             dontDestroyes.clear();
+
             for (const auto& pair: dontDestroyesHierarchies) {
                 auto newEntId = oldToNewEnts.at(pair.first);
                 std::unordered_set<Ent> newChildrens;
                 for (auto oldChildEnt: pair.second) {
-                    newChildrens.emplace(oldToNewEnts.at(oldChildEnt));
+                    if (auto oldToNewEntsIt = oldToNewEnts.find(oldChildEnt); oldToNewEntsIt != oldToNewEnts.end()) {
+                        newChildrens.emplace(oldToNewEntsIt->second);
+                    } else {
+                        printf("Probleme sur la purge des scenes\n");
+                    }
                 }
                 reg.appendChildren(newEntId, newChildrens);
             }
-            dontDestroyesHierarchies.clear();
+
             newSceneFunc(world);
         }
     }
@@ -1080,7 +1087,6 @@ private:
     std::unordered_set<Ent> delEnts;
     std::unordered_map<Ent, std::unordered_set<Type>> delComps;
     std::unordered_map<Ent, std::unordered_map<Type, std::any>> dontDestroyes;
-    std::unordered_map<Ent, std::unordered_set<Ent>> dontDestroyesHierarchies;
     bool needClean = false;
     void(*newSceneFunc)(World&);
 };
@@ -1508,19 +1514,6 @@ public:
 
     template <typename T, typename... Ts>
     [[nodiscard("La valeur de retour d'une commande Has doit toujours etre evalue")]] bool has(const Ent ent) const noexcept {
-        if (!reg.exist(ent)) {
-            return false;
-        } else if (reg.has(ent, {typeid(T).hash_code()})) {
-            if constexpr (sizeof...(Ts) > 0) {
-                return has<Ts...>(ent);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    template <typename T, typename... Ts>
-    [[nodiscard("La valeur de retour d'une commande HasThisFrame doit toujours etre evalue")]] bool hasThisFrame(const Ent ent) const noexcept {
         if (!reg.exist(ent)) {
             return false;
         } else if (reg.has(ent, {typeid(T).hash_code()})) {
