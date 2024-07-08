@@ -70,25 +70,3 @@ void cameraShakeLeftSys(MainFixedSystem, World& world) noexcept {
         }
     }
 }
-
-void appliedCameraShake(World& world, float distance, float speed, unsigned int nbShake) {
-    auto cameras = world.view(with<CurCamera>, without<CameraShake>);
-
-    for (auto [entCam]: cameras) {
-        if (!world.has<CameraShake>(entCam)) {
-            if (auto parentOpt = world.getParent(entCam)) {
-                auto parentEnt = parentOpt.value();
-                world.add(
-                    entCam,
-                    CameraShake(
-                        /*OriginEnt:*/ parentEnt,
-                        /*Distance:*/ distance,
-                        /*Speed:*/ speed,
-                        /*NbShake:*/ nbShake
-                    ),
-                    CameraShakeLeft()
-                );
-            }
-        }
-    }
-}

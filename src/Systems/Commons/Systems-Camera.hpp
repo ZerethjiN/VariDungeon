@@ -6,6 +6,38 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
+void cameraEffectApplicationSys(MainFixedSystem, World& world) {
+    auto cameras = world.view<CameraEffect>(with<CurCamera>);
+
+    for (auto [curCameraEnt, cameraEffect]: cameras) {
+        if (cameraEffect.canUseCameraAberation) {
+            cameraEffect.canUseCameraAberation = false;
+            if (!world.has<CameraAberation>(curCameraEnt)) {
+                world.add(curCameraEnt, CameraAberation(cameraEffect.aberationDistance, cameraEffect.aberationDuration));
+            }
+        }
+
+        if (cameraEffect.canUseCameraShake) {
+            cameraEffect.canUseCameraShake = false;
+            if (!world.has<CameraShake>(curCameraEnt)) {
+                if (auto parentOpt = world.getParent(curCameraEnt)) {
+                    auto parentEnt = parentOpt.value();
+                    world.add(
+                        curCameraEnt,
+                        CameraShake(
+                            /*OriginEnt:*/ parentEnt,
+                            /*Distance:*/ cameraEffect.shakeDistance,
+                            /*Speed:*/ cameraEffect.shakeSpeed,
+                            /*NbShake:*/ cameraEffect.nbShake
+                        ),
+                        CameraShakeLeft()
+                    );
+                }
+            }
+        }
+    }
+}
+
 void cameraSys(MainFixedSystem, World& world) {
     auto cameras = world.view<const Transform>(with<CurCamera>);
 

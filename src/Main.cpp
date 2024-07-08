@@ -51,7 +51,7 @@ int main() {
                 playerLootSys, playerLootAttractSys, playerHitSys, playerFrenzySys,
                 breakableHitSys, breakableOnHitSys,
                 enemyHitSys, enemyDropLootsSys,
-                shurikenRotationSys, cameraAberationSys,
+                shurikenRotationSys, cameraAberationSys, cameraEffectApplicationSys,
                 invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
                 lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
                 doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,

@@ -397,53 +397,53 @@ void collisionSys(LateFixedSystem, World& world) {
     for (auto [dynEnt, dynTrig, dynTrans]: world.view<const Trigger, Transform>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynTrig.col, dynTrans.getModel());
 
-        if (auto onCollisionEnterOpt = world.get<OnCollisionEnter>(dynEnt)) {
+        if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
             auto [dynCollisionEnter] = onCollisionEnterOpt.value();
             for (const auto oldEnt: dynCollisionEnter.oldOthCols) {
                 if (world.exist(oldEnt)) {
                     if (!list.contains(oldEnt)) {
-                        if (auto onCollisionExitOpt = world.get<OnCollisionExit>(dynEnt)) {
+                        if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [dynCollisionExit] = onCollisionExitOpt.value();
                             dynCollisionExit.othCols.emplace(oldEnt);
                         } else {
                             world.add(dynEnt, OnCollisionExit({oldEnt}));
                         }
-                        if (auto onCollisionExitOpt = world.get<OnCollisionExit>(oldEnt)) {
+                        if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [oldCollisionExit] = onCollisionExitOpt.value();
                             oldCollisionExit.othCols.emplace(dynEnt);
                         } else {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.get<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
-                                if (auto opt = world.get<const Collider>(oldEnt)) {
+                                if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
                                     auto [oldCollider] = opt.value();
                                     col = oldCollider.col;
-                                } else if (auto opt = world.get<const Trigger>(oldEnt)) {
+                                } else if (auto opt = world.getThisFrame<const Trigger>(oldEnt)) {
                                     auto [oldTrigger] = opt.value();
                                     col = oldTrigger.col;
                                 }
                                 // if (intersect(dynTrans.getPosition(), dynTrig.col, dynTrans.getScale(), oldTransform.getPosition(), col, oldTransform.getScale())) {
                                 if (intersectOBB(dynTrig.col, dynTrans.getModel(), col, oldTransform.getModel())) {
                                     bool layerOk = true;
-                                    if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                                        if (auto oldLayerCollisionOpt = world.get<LayerCollision>(oldEnt)) {
+                                    if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                                        if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(oldEnt)) {
                                             auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                             auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                             layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                                         }
                                     }
                                     if (layerOk) {
-                                        if (auto opt = world.get<OnCollisionStay>(dynEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
                                             world.add(dynEnt, OnCollisionStay({oldEnt}));
                                         }
-                                        if (auto opt = world.get<OnCollisionStay>(oldEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
@@ -451,13 +451,13 @@ void collisionSys(LateFixedSystem, World& world) {
                                         }
                                     }
                                 } else {
-                                    if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
                                         world.add(dynEnt, OnCollisionExit({oldEnt}));
                                     }
-                                    if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
@@ -472,53 +472,53 @@ void collisionSys(LateFixedSystem, World& world) {
             }
         }
 
-        if (auto dynCollisionStayOpt = world.get<OnCollisionStay>(dynEnt)) {
+        if (auto dynCollisionStayOpt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
             auto [dynCollisionStay] = dynCollisionStayOpt.value();
             for (const auto oldEnt: dynCollisionStay.oldOthCols) {
                 if (world.exist(oldEnt)) {
                     if (!list.contains(oldEnt)) {
-                        if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                        if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [onCollisionExitDyn] = opt.value();
                             onCollisionExitDyn.othCols.emplace(oldEnt);
                         } else {
                             world.add(dynEnt, OnCollisionExit({oldEnt}));
                         }
-                        if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                        if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [onCollisionExitOld] = opt.value();
                             onCollisionExitOld.othCols.emplace(dynEnt);
                         } else {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.get<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
-                                if (auto opt = world.get<const Collider>(oldEnt)) {
+                                if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
                                     auto [oldCollider] = opt.value();
                                     col = oldCollider.col;
-                                } else if (auto opt = world.get<const Trigger>(oldEnt)) {
+                                } else if (auto opt = world.getThisFrame<const Trigger>(oldEnt)) {
                                     auto [oldTrigger] = opt.value();
                                     col = oldTrigger.col;
                                 }
                                 // if (intersect(dynTrans.getPosition(), dynTrig.col, dynTrans.getScale(), oldTransform.getPosition(), col, oldTransform.getScale())) {
                                 if (intersectOBB(dynTrig.col, dynTrans.getModel(), col, oldTransform.getModel())) {
                                     bool layerOk = true;
-                                    if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                                        if (auto oldLayerCollisionOpt = world.get<LayerCollision>(oldEnt)) {
+                                    if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                                        if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(oldEnt)) {
                                             auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                             auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                             layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                                         }
                                     }
                                     if (layerOk) {
-                                        if (auto opt = world.get<OnCollisionStay>(dynEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
                                             world.add(dynEnt, OnCollisionStay({oldEnt}));
                                         }
-                                        if (auto opt = world.get<OnCollisionStay>(oldEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
@@ -526,13 +526,13 @@ void collisionSys(LateFixedSystem, World& world) {
                                         }
                                     }
                                 } else {
-                                    if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
                                         world.add(dynEnt, OnCollisionExit({oldEnt}));
                                     }
-                                    if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
@@ -548,35 +548,35 @@ void collisionSys(LateFixedSystem, World& world) {
         }
 
         for (const auto othEnt: list) {
-            if (auto oldTransformOpt = world.get<Transform>(othEnt)) {
+            if (auto oldTransformOpt = world.getThisFrame<Transform>(othEnt)) {
                 if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
-                    if (auto opt = world.get<const Collider>(othEnt)) {
+                    if (auto opt = world.getThisFrame<const Collider>(othEnt)) {
                         auto [oldCollider] = opt.value();
                         col = oldCollider.col;
-                    } else if (auto opt = world.get<const Trigger>(othEnt)) {
+                    } else if (auto opt = world.getThisFrame<const Trigger>(othEnt)) {
                         auto [oldTrigger] = opt.value();
                         col = oldTrigger.col;
                     }
                     // if (intersect(dynTrans.getPosition(), dynTrig.col, dynTrans.getScale(), othTransform.getPosition(), col, othTransform.getScale())) {
                     if (intersectOBB(dynTrig.col, dynTrans.getModel(), col, othTransform.getModel())) {
                         bool layerOk = true;
-                        if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                            if (auto oldLayerCollisionOpt = world.get<LayerCollision>(othEnt)) {
+                        if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                            if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(othEnt)) {
                                 auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                 auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                 layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                             }
                         }
                         if (layerOk) {
-                            if (auto opt = world.get<OnCollisionEnter>(dynEnt)) {
+                            if (auto opt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
                                 auto [onCollisionEnterDyn] = opt.value();
                                 onCollisionEnterDyn.othCols.emplace(othEnt);
                             } else {
                                 world.add(dynEnt, OnCollisionEnter({othEnt}));
                             }
-                            if (auto opt = world.get<OnCollisionEnter>(othEnt)) {
+                            if (auto opt = world.getThisFrame<OnCollisionEnter>(othEnt)) {
                                 auto [onCollisionEnterOth] = opt.value();
                                 onCollisionEnterOth.othCols.emplace(dynEnt);
                             } else {
@@ -592,32 +592,32 @@ void collisionSys(LateFixedSystem, World& world) {
     for (auto [dynEnt, dynCol, dynTrans]: world.view<const Collider, Transform>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynCol.col, dynTrans.getModel());
 
-        if (auto onCollisionEnterOpt = world.get<OnCollisionEnter>(dynEnt)) {
+        if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
             auto [dynCollisionEnter] = onCollisionEnterOpt.value();
             for (const auto oldEnt: dynCollisionEnter.oldOthCols) {
                 if (world.exist(oldEnt)) {
                     if (!list.contains(oldEnt)) {
-                        if (auto onCollisionExitOpt = world.get<OnCollisionExit>(dynEnt)) {
+                        if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [dynCollisionExit] = onCollisionExitOpt.value();
                             dynCollisionExit.othCols.emplace(oldEnt);
                         } else {
                             world.add(dynEnt, OnCollisionExit({oldEnt}));
                         }
-                        if (auto onCollisionExitOpt = world.get<OnCollisionExit>(oldEnt)) {
+                        if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [oldCollisionExit] = onCollisionExitOpt.value();
                             oldCollisionExit.othCols.emplace(dynEnt);
                         } else {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.get<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
-                                if (auto opt = world.get<const Collider>(oldEnt)) {
+                                if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
                                     auto [oldCollider] = opt.value();
                                     col = oldCollider.col;
-                                } else if (auto opt = world.get<const Trigger>(oldEnt)) {
+                                } else if (auto opt = world.getThisFrame<const Trigger>(oldEnt)) {
                                     auto [oldTrigger] = opt.value();
                                     col = oldTrigger.col;
                                 }
@@ -625,21 +625,21 @@ void collisionSys(LateFixedSystem, World& world) {
                                 auto intersectWithMTVRes = intersectOBBWithMTV(dynCol.col, dynTrans.getModel(), col, oldTransform.getModel());
                                 if (intersectWithMTVRes.first) {
                                     bool layerOk = true;
-                                    if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                                        if (auto oldLayerCollisionOpt = world.get<LayerCollision>(oldEnt)) {
+                                    if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                                        if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(oldEnt)) {
                                             auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                             auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                             layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                                         }
                                     }
                                     if (layerOk) {
-                                        if (auto opt = world.get<OnCollisionStay>(dynEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
                                             world.add(dynEnt, OnCollisionStay({oldEnt}));
                                         }
-                                        if (auto opt = world.get<OnCollisionStay>(oldEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
@@ -655,13 +655,13 @@ void collisionSys(LateFixedSystem, World& world) {
                                         }
                                     }
                                 } else {
-                                    if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
                                         world.add(dynEnt, OnCollisionExit({oldEnt}));
                                     }
-                                    if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
@@ -676,32 +676,32 @@ void collisionSys(LateFixedSystem, World& world) {
             }
         }
 
-        if (auto dynCollisionStayOpt = world.get<OnCollisionStay>(dynEnt)) {
+        if (auto dynCollisionStayOpt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
             auto [dynCollisionStay] = dynCollisionStayOpt.value();
             for (const auto oldEnt: dynCollisionStay.oldOthCols) {
                 if (world.exist(oldEnt)) {
                     if (!list.contains(oldEnt)) {
-                        if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                        if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [onCollisionExitDyn] = opt.value();
                             onCollisionExitDyn.othCols.emplace(oldEnt);
                         } else {
                             world.add(dynEnt, OnCollisionExit({oldEnt}));
                         }
-                        if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                        if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [onCollisionExitOld] = opt.value();
                             onCollisionExitOld.othCols.emplace(dynEnt);
                         } else {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.get<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
-                                if (auto opt = world.get<const Collider>(oldEnt)) {
+                                if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
                                     auto [oldCollider] = opt.value();
                                     col = oldCollider.col;
-                                } else if (auto opt = world.get<const Trigger>(oldEnt)) {
+                                } else if (auto opt = world.getThisFrame<const Trigger>(oldEnt)) {
                                     auto [oldTrigger] = opt.value();
                                     col = oldTrigger.col;
                                 }
@@ -709,21 +709,21 @@ void collisionSys(LateFixedSystem, World& world) {
                                 auto intersectWithMTVRes = intersectOBBWithMTV(dynCol.col, dynTrans.getModel(), col, oldTransform.getModel());
                                 if (intersectWithMTVRes.first) {
                                     bool layerOk = true;
-                                    if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                                        if (auto oldLayerCollisionOpt = world.get<LayerCollision>(oldEnt)) {
+                                    if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                                        if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(oldEnt)) {
                                             auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                             auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                             layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                                         }
                                     }
                                     if (layerOk) {
-                                        if (auto opt = world.get<OnCollisionStay>(dynEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
                                             world.add(dynEnt, OnCollisionStay({oldEnt}));
                                         }
-                                        if (auto opt = world.get<OnCollisionStay>(oldEnt)) {
+                                        if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
@@ -739,13 +739,13 @@ void collisionSys(LateFixedSystem, World& world) {
                                         }
                                     }
                                 } else {
-                                    if (auto opt = world.get<OnCollisionExit>(dynEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
                                         world.add(dynEnt, OnCollisionExit({oldEnt}));
                                     }
-                                    if (auto opt = world.get<OnCollisionExit>(oldEnt)) {
+                                    if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
@@ -761,14 +761,14 @@ void collisionSys(LateFixedSystem, World& world) {
         }
 
         for (const auto othEnt: list) {
-            if (auto oldTransformOpt = world.get<Transform>(othEnt)) {
+            if (auto oldTransformOpt = world.getThisFrame<Transform>(othEnt)) {
                 if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
-                    if (auto opt = world.get<const Collider>(othEnt)) {
+                    if (auto opt = world.getThisFrame<const Collider>(othEnt)) {
                         auto [oldCollider] = opt.value();
                         col = oldCollider.col;
-                    } else if (auto opt = world.get<const Trigger>(othEnt)) {
+                    } else if (auto opt = world.getThisFrame<const Trigger>(othEnt)) {
                         auto [oldTrigger] = opt.value();
                         col = oldTrigger.col;
                     }
@@ -776,21 +776,21 @@ void collisionSys(LateFixedSystem, World& world) {
                     auto intersectWithMTVRes = intersectOBBWithMTV(dynCol.col, dynTrans.getModel(), col, othTransform.getModel());
                     if (intersectWithMTVRes.first) {
                         bool layerOk = true;
-                        if (auto dynLayerCollisionOpt = world.get<LayerCollision>(dynEnt)) {
-                            if (auto oldLayerCollisionOpt = world.get<LayerCollision>(othEnt)) {
+                        if (auto dynLayerCollisionOpt = world.getThisFrame<LayerCollision>(dynEnt)) {
+                            if (auto oldLayerCollisionOpt = world.getThisFrame<LayerCollision>(othEnt)) {
                                 auto [dynLayerCollision] = dynLayerCollisionOpt.value();
                                 auto [oldLayerCollision] = oldLayerCollisionOpt.value();
                                 layerOk = layerBasedCollisions.isSameLayer(dynLayerCollision, oldLayerCollision);
                             }
                         }
                         if (layerOk) {
-                            if (auto opt = world.get<OnCollisionEnter>(dynEnt)) {
+                            if (auto opt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
                                 auto [onCollisionEnterDyn] = opt.value();
                                 onCollisionEnterDyn.othCols.emplace(othEnt);
                             } else {
                                 world.add(dynEnt, OnCollisionEnter({othEnt}));
                             }
-                            if (auto opt = world.get<OnCollisionEnter>(othEnt)) {
+                            if (auto opt = world.getThisFrame<OnCollisionEnter>(othEnt)) {
                                 auto [onCollisionEnterOth] = opt.value();
                                 onCollisionEnterOth.othCols.emplace(dynEnt);
                             } else {

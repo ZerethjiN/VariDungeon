@@ -2,6 +2,30 @@
 
 #include <Zerengine.hpp>
 
+class CameraEffect final {
+public:
+    CameraEffect():
+        canUseCameraShake(false),
+        canUseCameraAberation(false),
+        aberationDistance(0),
+        aberationDuration(0),
+        shakeSpeed(0),
+        shakeDistance(0),
+        nbShake(0) {
+    }
+
+public:
+    bool canUseCameraShake;
+    bool canUseCameraAberation;
+
+    float aberationDistance;
+    float aberationDuration;
+
+    float shakeSpeed;
+    float shakeDistance;
+    float nbShake;
+};
+
 class CameraAberation final {
 public:
     CameraAberation(float newDistance, float newDuration):
@@ -31,12 +55,41 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
             aberation.curTime = 0;
         }
     } else {
-        auto curCameras = world.view(with<CurCamera>);
+        auto curCameras = world.view<CameraEffect>(with<CurCamera>);
 
-        for (auto [curCameraEnt]: curCameras) {
-            if (!world.has<CameraAberation>(curCameraEnt)) {
-                world.add(curCameraEnt, CameraAberation(newDistance, newDuration));
-            }
+        for (auto [_, cameraEffect]: curCameras) {
+            cameraEffect.canUseCameraAberation = true;
+            cameraEffect.aberationDistance = newDistance;
+            cameraEffect.aberationDuration = newDuration;
+            // if (!world.has<CameraAberation>(curCameraEnt)) {
+            //     world.add(curCameraEnt, CameraAberation(newDistance, newDuration));
+            // }
         }
+    }
+}
+
+void appliedCameraShake(World& world, float distance, float speed, unsigned int nbShake) {
+    auto cameras = world.view<CameraEffect>(with<CurCamera>, without<CameraShake>);
+
+    for (auto [_, cameraEffect]: cameras) {
+        cameraEffect.canUseCameraShake = true;
+        cameraEffect.shakeSpeed = speed;
+        cameraEffect.shakeDistance = distance;
+        cameraEffect.nbShake = nbShake;
+        // if (!world.has<CameraShake>(entCam)) {
+        //     if (auto parentOpt = world.getParent(entCam)) {
+        //         auto parentEnt = parentOpt.value();
+        //         world.add(
+        //             entCam,
+        //             CameraShake(
+        //                 /*OriginEnt:*/ parentEnt,
+        //                 /*Distance:*/ distance,
+        //                 /*Speed:*/ speed,
+        //                 /*NbShake:*/ nbShake
+        //             ),
+        //             CameraShakeLeft()
+        //         );
+        //     }
+        // }
     }
 }

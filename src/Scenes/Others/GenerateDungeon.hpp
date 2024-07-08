@@ -410,7 +410,7 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
-    std::cout << "Total Ent: " << world.getTotalEntities() << std::endl;
+    std::cout << "Generate Dungeon - Total Ent: " << world.getTotalEntities() << std::endl;
 
     // Purge Old Table:
     auto chunkTables = world.view<const ChunkTable>();
@@ -420,8 +420,6 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
         }
         world.destroy(chunkTableEnt);
     }
-
-    std::cout << "Total Ent: " << world.getTotalEntities() << std::endl;
 
     // Create New Table:
     std::vector<std::pair<const std::size_t, Ent>> newTables;
@@ -469,11 +467,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                     world.addDontDestroyOnLoad(playerEnt);
                 } else {
                     for (auto [_, playerTransform]: players) {
-                        std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
-                        // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
                         playerTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
-                        std::cout << "Player Transform: " << playerTransform.getPosition().x << ", " << playerTransform.getPosition().y << std::endl;
-                        // std::cout << "Player diff: " << playerTransform.diffPosition.x << ", " << playerTransform.diffPosition.y << std::endl;
                     }
                 }
 
@@ -487,7 +481,6 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                             glm::vec2(1, 1)
                         )
                     );
-                    world.addDontDestroyOnLoad(cameraOrigin);
 
                     world.appendChildren(cameraOrigin, {
                         // Camera
@@ -498,9 +491,12 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                                 glm::vec2(1, 1)
                             ),
                             Camera(),
-                            CurCamera()
+                            CurCamera(),
+                            CameraEffect()
                         )
                     });
+
+                    world.addDontDestroyOnLoad(cameraOrigin);
                 } else {
                     for (auto [curCameraEnt]: cameras) {
                         if (auto opt = world.getParent(curCameraEnt)) {
