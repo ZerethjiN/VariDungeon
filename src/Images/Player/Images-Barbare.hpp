@@ -74,6 +74,18 @@ static const ImageAsset barbareUV("Textures/Barbare.png", {
     {{ 48,  96, 32, 16}, {0.25f, 0.50f}}, // 45: Barbare Hit Dash Right
     {{ 48, 112, 32, 16}, {0.75f, 0.50f}}, // 46: Barbare Hit Dash Left
     {{ 80,  96, 16, 32}, {0.50f, 0.75f}}, // 47: Barbare Hit Dash Up
+
+    // Persistence Dark
+    {{160,  32, 16, 32}, {0.50f, 0.25f}}, // 48: Barbare Hit Dash Down
+    {{176,  32, 32, 16}, {0.25f, 0.50f}}, // 49: Barbare Hit Dash Right
+    {{176,  48, 32, 16}, {0.75f, 0.50f}}, // 50: Barbare Hit Dash Left
+    {{208,  32, 16, 32}, {0.50f, 0.75f}}, // 51: Barbare Hit Dash Up
+
+    // Persistence Light
+    {{224,  32, 16, 32}, {0.50f, 0.25f}}, // 52: Barbare Hit Dash Down
+    {{240,  32, 32, 16}, {0.25f, 0.50f}}, // 53: Barbare Hit Dash Right
+    {{240,  48, 32, 16}, {0.75f, 0.50f}}, // 54: Barbare Hit Dash Left
+    {{272,  32, 16, 32}, {0.50f, 0.75f}}, // 55: Barbare Hit Dash Up
 });
 
 static const AnimationAsset barbareAnim({
@@ -223,5 +235,23 @@ static const AnimationAsset barbareAnim({
     }},
     {"HitDashUp", {
         {1.00f, barbareUV[47]},
+    }},
+
+    // Persistence
+    {"PersistenceDown", {
+        {0.15f, barbareUV[48]},
+        {0.15f, barbareUV[52]},
+    }},
+    {"PersistenceRight", {
+        {0.15f, barbareUV[49]},
+        {0.15f, barbareUV[53]},
+    }},
+    {"PersistenceLeft", {
+        {0.15f, barbareUV[50]},
+        {0.15f, barbareUV[54]},
+    }},
+    {"PersistenceUp", {
+        {0.15f, barbareUV[51]},
+        {0.15f, barbareUV[55]},
     }},
 });

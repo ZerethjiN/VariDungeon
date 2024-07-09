@@ -64,6 +64,7 @@ int main() {
                 playerBombSys, playerBombExplosionSys,
                 smallCrystalRotationSys, smallCrystalThrowSys,
                 megaLaserRotationSys,
+                playerLightningBallSys, lightballMovementSys, lightningBallHitSys,
 
                 // Enemies:
                 enemyPreSpawnSys,

@@ -80,7 +80,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     }
 
                     for (auto [playerEnt, playerAttackSpeed, playerSpeed]: world.view<PlayerAttackCooldown, Speed>(with<Player>)) {
-                        if (auto opt = world.get<PlayerFrenzy>(playerEnt)) {
+                        if (auto opt = world.getThisFrame<PlayerFrenzy>(playerEnt)) {
                             auto [playerFrenzy] = opt.value();
                             playerFrenzy.reset();
                         } else {

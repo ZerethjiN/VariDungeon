@@ -8,6 +8,7 @@
 #include "Prefabs/Attacks/Prefabs-FireBallParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-GroundCrystalAttack.hpp"
 #include "Prefabs/Attacks/Prefabs-LaserParticle.hpp"
+#include "Prefabs/Attacks/Prefabs-LightningBallParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-MegaLaserParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-PlayerBombParticle.hpp"
 #include "Prefabs/Attacks/Prefabs-ShadowMarkParticle.hpp"

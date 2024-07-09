@@ -19,9 +19,12 @@ g++ -D DEBUG -o VariDungeon.out src/Main.cpp\
     -I src -I Zerengine\
     -m64\
     -O0 -pipe -std=c++2c\
-    -Wl,-Bdynamic -lvulkan\
-    -Wl,-Bdynamic -lfreetype\
-    -Wl,-Bdynamic -lglfw
+    -L .\
+    -Wl,-rpath\
+    -Wl,'$ORIGIN'\
+    -lvulkan\
+    -lfreetype\
+    -lglfw
 
 #-Wl,-Bdynamic -lvulkan\
 #-Wall\

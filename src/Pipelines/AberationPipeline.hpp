@@ -29,7 +29,9 @@ class AberationPipeline: public IGraphicsPipeline {
 private:
     struct FragmentPushConstant {
         glm::ivec2 screenSize;
+        glm::vec2 aberationDirection;
         float aberationOffset;
+        float _padding1;
     };
 
     struct VertexPushConstant {
@@ -92,9 +94,10 @@ public:
         };
     }
 
-    void updateFragmentPushConstant(const glm::ivec2& screenSize, float aberationOffset) {
+    void updateFragmentPushConstant(const glm::ivec2& screenSize, float aberationOffset, const glm::vec2& aberationDirection) {
         fragmentPushConstant[engine.getCurFrame()] = {
             .screenSize = screenSize,
+            .aberationDirection = aberationDirection,
             .aberationOffset = aberationOffset
         };
     }

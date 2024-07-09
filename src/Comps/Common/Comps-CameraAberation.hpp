@@ -9,6 +9,7 @@ public:
         canUseCameraAberation(false),
         aberationDistance(0),
         aberationDuration(0),
+        aberationDirection(-1, 0),
         shakeSpeed(0),
         shakeDistance(0),
         nbShake(0) {
@@ -20,6 +21,7 @@ public:
 
     float aberationDistance;
     float aberationDuration;
+    glm::vec2 aberationDirection;
 
     float shakeSpeed;
     float shakeDistance;
@@ -28,30 +30,40 @@ public:
 
 class CameraAberation final {
 public:
-    CameraAberation(float newDistance, float newDuration):
-        distance(newDistance),
+    CameraAberation(float newDistance, float newDuration, const glm::vec2& newDirection = glm::vec2(1, 0)):
+        maxDistance(newDistance),
+        distance(0),
         duration(newDuration),
-        curTime(0) {
+        curTime(0),
+        direction(newDirection) {
     }
 
     bool canStopAberation(float delta) {
         curTime += delta;
+        if (curTime <= duration / 2) {
+            distance = curTime * maxDistance / (duration / 2);
+        } else {
+            distance = (duration - curTime) * maxDistance / (duration / 2);
+        }
         return curTime >= duration;
     }
 
 public:
+    float maxDistance;
     float distance;
     float duration;
     float curTime;
+    glm::vec2 direction;
 };
 
-void appliedCurCameraAberation(World& world, float newDistance, float newDuration) {
+void appliedCurCameraAberation(World& world, float newDistance, float newDuration, const glm::vec2& newAberationDirection = glm::vec2(1, 0)) {
     auto aberations = world.view<CameraAberation>();
 
     if (!aberations.empty()) {
         for (auto [_, aberation]: aberations) {
             aberation.distance = newDistance;
             aberation.duration = newDuration;
+            aberation.direction = newAberationDirection;
             aberation.curTime = 0;
         }
     } else {
@@ -61,6 +73,7 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
             cameraEffect.canUseCameraAberation = true;
             cameraEffect.aberationDistance = newDistance;
             cameraEffect.aberationDuration = newDuration;
+            cameraEffect.aberationDirection = newAberationDirection;
             // if (!world.has<CameraAberation>(curCameraEnt)) {
             //     world.add(curCameraEnt, CameraAberation(newDistance, newDuration));
             // }

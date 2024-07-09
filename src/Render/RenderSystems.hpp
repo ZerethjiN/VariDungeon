@@ -268,8 +268,10 @@ void renderSys(LateSystem, World& world) {
 
     //// preparation de l'aberation ////
     float aberationOffset = 0;
+    glm::vec2 aberationDirection(1, 0);
     for (auto [_, aberation]: world.view<const CameraAberation>()) {
         aberationOffset = aberation.distance;
+        aberationDirection = aberation.direction;
     }
 
     glm::vec2 cameraPos(0, 0);
@@ -281,7 +283,8 @@ void renderSys(LateSystem, World& world) {
 
     aberationPipeline.updateFragmentPushConstant(
         glm::ivec2(vulkanEngine.swapChainExtent.width, vulkanEngine.swapChainExtent.height),
-        aberationOffset
+        aberationOffset,
+        aberationDirection
     );
     aberationPipeline.updateTexture(offscreenFrameBuffer.sampler, offscreenFrameBuffer.offscreenImageViews[vulkanEngine.imageIndex]);
 

@@ -47,3 +47,17 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
 
     return playerEnt;
 }
+
+Ent instantiateBarbarianPersistence(World& world, const glm::vec2& position, const std::string& animationName, std::size_t zindex) {
+    return world.newEnt(
+        SpriteCreator(barbareUV),
+        Animation(barbareAnim, animationName),
+        Transform(
+            position,
+            0,
+            glm::vec2(1, 1)
+        ),
+        ZIndex(zindex),
+        LifeTime(0.25f)
+    );
+}

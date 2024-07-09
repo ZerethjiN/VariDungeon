@@ -7,6 +7,7 @@
 #include "Images/Attacks/Images-FireBallParticle.hpp"
 #include "Images/Attacks/Images-GroundCrystalAttack.hpp"
 #include "Images/Attacks/Images-LaserParticle.hpp"
+#include "Images/Attacks/Images-LightningBallParticle.hpp"
 #include "Images/Attacks/Images-MegaLaserParticle.hpp"
 #include "Images/Attacks/Images-PlayerBombParticle.hpp"
 #include "Images/Attacks/Images-ShadowMarkParticle.hpp"

@@ -7,9 +7,9 @@
 #include <Images.hpp>
 
 void barbarianStartDashSys(MainFixedSystem, World& world) {
-    auto players = world.view<const Transform, const Orientation, const PlayerDamage>(with<Player, Barbarian>, without<IsBarbarianDash>);
+    auto players = world.view<const Transform, const Orientation, const PlayerDamage, const ZIndex>(with<Player, Barbarian>, without<IsBarbarianDash>);
 
-    for (auto [playerEnt, transform, orientation, playerDamage]: players) {
+    for (auto [playerEnt, transform, orientation, playerDamage, zindex]: players) {
         if (vulkanEngine.window.isKeyDown(B_BUTTON)) {
             for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
                 if (!world.has<ShrinkIcon>(buttonBIconEnt)) {
@@ -22,6 +22,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
 
             if (orientation.x > 0) {
                 newDirection = glm::vec2(1, 0);
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceRight", zindex.layer - 1);
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -38,6 +39,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             } else if (orientation.x < 0) {
                 newDirection = glm::vec2(-1, 0);
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceLeft", zindex.layer - 1);
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -54,6 +56,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             } else if (orientation.y > 0) {
                 newDirection = glm::vec2(0, 1);
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceDown", zindex.layer - 1);
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -70,6 +73,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             } else if (orientation.y < 0) {
                 newDirection = glm::vec2(0, -1);
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceUp", zindex.layer - 1);
                 world.appendChildren(playerEnt, {
                     world.newEnt(
                         PlayerWeapon(),
@@ -86,7 +90,8 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             }
 
-            world.add(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f));
+            world.add(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f, 0.1f));
+            // appliedCurCameraAberation(world, 8, 10, newDirection);
 
             if (!world.has<Unhittable>(playerEnt)) {
                 world.add(playerEnt, Unhittable());
@@ -96,15 +101,28 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
 }
 
 void barbarianStopDashSys(MainFixedSystem, World& world) {
-    auto players = world.view<IsBarbarianDash>(with<Player, Barbarian>);
+    auto players = world.view<IsBarbarianDash, const Orientation, const Transform, const ZIndex>(with<Player, Barbarian>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [playerEnt, isBarbarianDash]: players) {
+    for (auto [playerEnt, isBarbarianDash, orientation, transform, zindex]: players) {
         if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(B_BUTTON)) {
             world.remove<IsBarbarianDash>(playerEnt);
             if (world.has<Unhittable>(playerEnt)) {
                 world.remove<Unhittable>(playerEnt);
+            }
+            continue;
+        }
+
+        if (isBarbarianDash.canSpawnPersistentImage(time.fixedDelta())) {
+            if (orientation.x > 0) {
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceRight", zindex.layer - 1);
+            } else if (orientation.x < 0) {
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceLeft", zindex.layer - 1);
+            } else if (orientation.y > 0) {
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceDown", zindex.layer - 1);
+            } else if (orientation.y < 0) {
+                instantiateBarbarianPersistence(world, transform.getPosition(), "PersistenceUp", zindex.layer - 1);
             }
         }
     }

@@ -72,6 +72,9 @@ public:
         return curElement;
     }
 
+public:
+    std::vector<ButtonNameType> secretkeys;
+
 private:
     const std::size_t nbElements;
     std::size_t curElement;

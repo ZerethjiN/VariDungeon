@@ -56,6 +56,7 @@ void healthBonusCallbackLvl1(World& world);
 void attackSpeedBonusCallbackLvl1(World& world);
 void knockbackBonusCallbackLvl1(World& world);
 void bombBonusCallbackLvl1(World& world);
+void lightningBallBonusCallbackLvl1(World& world);
 
 static const std::vector<BonusData> bonusVec {
     BonusData(BONUS_STRENGTH, 9, "Strength", {{"", strengthBonusCallbackLvl1}}),
@@ -67,6 +68,7 @@ static const std::vector<BonusData> bonusVec {
     BonusData(BONUS_ATTACK_SPEED, 2, "Attack Speed", {{"", attackSpeedBonusCallbackLvl1}}),
     BonusData(BONUS_KNOCKBACK, 1, "Knockback", {{"", knockbackBonusCallbackLvl1}}),
     BonusData(BONUS_BOMB, 18, "Bomb", {{"", bombBonusCallbackLvl1}}),
+    BonusData(BONUS_ELECTRICAL_ORB, 20, "Lightning Ball", {{"", lightningBallBonusCallbackLvl1}}),
 };
 
 class BonusRow final {

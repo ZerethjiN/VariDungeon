@@ -7,7 +7,7 @@
 
 void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::EXIT)) {
-        auto pauseMenus = world.view<const Transform>(with<PauseMenu>, without<PauseMenuReverseTranslation>);
+        auto pauseMenus = world.view<const Transform>(with<PauseMenu>);
 
         auto [time] = world.resource<Time>();
 
@@ -15,7 +15,7 @@ void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
             time.setTimeScale(0);
             auto menuEnt = instantiatePauseMenuUI(world, glm::vec2(-72, -64));
             printf("Ouverture Menu Pause: %zu\n", menuEnt);
-        } else {
+        } else if (!world.view<const Transform>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
             for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
                 world.add(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
@@ -97,7 +97,47 @@ void pauseMenuSelectorSys(MainFixedSystem, World& world) {
         //         }
         //     }
         // } else
+        if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
+            selector.secretkeys.emplace_back(ButtonNameType::MOVE_UP);
+            if (selector.secretkeys.size() > 9) {
+                selector.secretkeys.erase(selector.secretkeys.begin());
+            }
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
+            selector.secretkeys.emplace_back(ButtonNameType::MOVE_DOWN);
+            if (selector.secretkeys.size() > 9) {
+                selector.secretkeys.erase(selector.secretkeys.begin());
+            }
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_LEFT)) {
+            selector.secretkeys.emplace_back(ButtonNameType::MOVE_LEFT);
+            if (selector.secretkeys.size() > 9) {
+                selector.secretkeys.erase(selector.secretkeys.begin());
+            }
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_RIGHT)) {
+            selector.secretkeys.emplace_back(ButtonNameType::MOVE_RIGHT);
+            if (selector.secretkeys.size() > 9) {
+                selector.secretkeys.erase(selector.secretkeys.begin());
+            }
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::B_BUTTON)) {
+            selector.secretkeys.emplace_back(ButtonNameType::B_BUTTON);
+            if (selector.secretkeys.size() > 9) {
+                selector.secretkeys.erase(selector.secretkeys.begin());
+            }
+        }
+
         if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
+            if (
+                selector.secretkeys[0] == MOVE_UP &&
+                selector.secretkeys[1] == MOVE_UP &&
+                selector.secretkeys[2] == MOVE_DOWN &&
+                selector.secretkeys[3] == MOVE_DOWN &&
+                selector.secretkeys[4] == MOVE_LEFT &&
+                selector.secretkeys[5] == MOVE_RIGHT &&
+                selector.secretkeys[6] == MOVE_LEFT &&
+                selector.secretkeys[7] == MOVE_RIGHT &&
+                selector.secretkeys[8] == B_BUTTON
+            ) {
+                printf("BRAVO!!!\n");
+            }
             vulkanEngine.window.close();
             world.stopRun();
         }

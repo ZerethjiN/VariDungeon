@@ -13,7 +13,7 @@ void cameraEffectApplicationSys(MainFixedSystem, World& world) {
         if (cameraEffect.canUseCameraAberation) {
             cameraEffect.canUseCameraAberation = false;
             if (!world.has<CameraAberation>(curCameraEnt)) {
-                world.add(curCameraEnt, CameraAberation(cameraEffect.aberationDistance, cameraEffect.aberationDuration));
+                world.add(curCameraEnt, CameraAberation(cameraEffect.aberationDistance, cameraEffect.aberationDuration, cameraEffect.aberationDirection));
             }
         }
 
