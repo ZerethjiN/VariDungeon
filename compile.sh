@@ -18,7 +18,7 @@ g++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
     -I Lib\
     -I src -I Zerengine\
     -m64\
-    -O0 -pipe -std=c++2c\
+    -Ofast -pipe -std=c++2c\
     -L .\
     -Wl,-rpath\
     -Wl,'$ORIGIN'\
