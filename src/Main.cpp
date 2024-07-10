@@ -34,6 +34,7 @@ int main() {
         ZerEngine()
             .useMultithreading(false)
             .setFixedTimeStep(0.02f)
+            .addResource<BuildVersion>("0.0.1R")
             .addResource<PipelineManager>()
             .addResource<FrameBufferManager>()
             .addResource<TextureManager>()
@@ -42,11 +43,27 @@ int main() {
             .addResource<LayerBasedCollisions>()
             .addResource<InGameView>(glm::vec4(0, 0, 160, 144))
             .addResource<UIView>(glm::vec4(0, 0, 160, 144))
+            .addResource<AppState>(APP_STATE_HOME_MENU)
             .addStartSystems(startSys)
             .addMainFixedSystems({
                 pollEventsSys
             })
-            .addMainFixedSystems({
+            .addMainFixedConditionSystems(
+                [](World& world) -> bool {
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_HOME_MENU;
+                },
+                {
+                    cameraSys,
+                    homeMenuBackgroundSlideSys, homeMenuSelectorSys, homeMenuSelectorMoveDownSys, homeMenuSelectorMoveUpSys
+                }
+            )
+            .addMainFixedConditionSystems(
+                [](World& world) -> bool {
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_IN_GAME;
+                },
+                {
                 barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
                 playerLootSys, playerLootAttractSys, playerHitSys, playerFrenzySys,
                 breakableHitSys, breakableOnHitSys,
@@ -111,25 +128,29 @@ int main() {
             // Enemies Lvl1 Threads
             .addThreadedFixedConditionSystems( // Mummy Threads
                 [](World& world) -> bool {
-                    return !world.view(with<Mummy>).empty();
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_IN_GAME && !world.view(with<Mummy>).empty();
                 },
                 {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
             )
             .addThreadedFixedConditionSystems( // Insect Threads
                 [](World& world) -> bool {
-                    return !world.view(with<Insect>).empty();
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_IN_GAME && !world.view(with<Insect>).empty();
                 },
                 {insectMoveSys, insectAttackSys}
             )
             .addThreadedFixedConditionSystems( // Gasterolcan Threads
                 [](World& world) -> bool {
-                    return !world.view(with<Gasterolcan>).empty();
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_IN_GAME && !world.view(with<Gasterolcan>).empty();
                 },
                 {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
             )
             .addThreadedFixedConditionSystems( // Spectre Threads
                 [](World& world) -> bool {
-                    return !world.view(with<Spectre>).empty();
+                    auto [appstate] = world.resource<const AppState>();
+                    return appstate.state == APP_STATE_IN_GAME && !world.view(with<Spectre>).empty();
                 },
                 {spectreMoveSys, spectreVanishSys, spectreCastSys}
             )

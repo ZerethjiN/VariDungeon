@@ -76,9 +76,12 @@
 #include "Images/HUD/Images-BossHealthBar.hpp"
 #include "Images/HUD/Images-BottomBar.hpp"
 #include "Images/HUD/Images-Firework.hpp"
+#include "Images/HUD/Images-HomeBackground.hpp"
+#include "Images/HUD/Images-HomeButton.hpp"
 #include "Images/HUD/Images-HUDElements.hpp"
 #include "Images/HUD/Images-InventoryBar.hpp"
 #include "Images/HUD/Images-LevelUp.hpp"
+#include "Images/HUD/Images-Logo.hpp"
 #include "Images/HUD/Images-MenuBonusHUD.hpp"
 #include "Images/HUD/Images-MenuBonusIcons.hpp"
 
@@ -94,6 +97,7 @@
 #include "Images/Particles/Images-ParticleEffect.hpp"
 #include "Images/Particles/Images-PopHitParticle.hpp"
 #include "Images/Particles/Images-Shadow.hpp"
+#include "Images/Particles/Images-ShadowPortalParticle.hpp"
 #include "Images/Particles/Images-SwordImpact.hpp"
 
 // Player:

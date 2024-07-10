@@ -100,9 +100,9 @@ private:
 
 class MenuBonusSelector final {
 public:
-    MenuBonusSelector(std::size_t newNbElements):
+    MenuBonusSelector(std::size_t newNbElements, std::size_t newCurElement = 0):
         nbElements(newNbElements),
-        curElement(0) {
+        curElement(newCurElement) {
     }
 
     bool nextElement() {

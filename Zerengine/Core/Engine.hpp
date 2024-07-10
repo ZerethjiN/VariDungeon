@@ -42,6 +42,7 @@ class ThreadedSystem final {};
 class ThreadedFixedSystem final {};
 class LateSystem final {};
 class LateFixedSystem final {};
+class SceneSystem final {};
 
 template <typename T>
 concept IsNotEmptyConcept = [] -> bool {
@@ -939,7 +940,7 @@ private:
         destroyChildRec(reg, ent);
     }
 
-    void loadScene(void(*newScene)(World&)) noexcept {
+    void loadScene(void(*newScene)(SceneSystem, World&)) noexcept {
         needClean = true;
         newSceneFunc = newScene;
     }
@@ -1075,7 +1076,7 @@ private:
                 reg.appendChildren(newEntId, newChildrens);
             }
 
-            newSceneFunc(world);
+            newSceneFunc({}, world);
         }
     }
 
@@ -1095,7 +1096,7 @@ private:
     std::unordered_set<Ent> addDontDestroyOnLoadEnts;
 
     bool needClean = false;
-    void(*newSceneFunc)(World&);
+    void(*newSceneFunc)(SceneSystem, World&);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1776,7 +1777,7 @@ public:
         lateUpgrade.addDontDestroyOnLoad(ent);
     }
 
-    void loadScene(void(*newScene)(World&)) noexcept {
+    void loadScene(void(*newScene)(SceneSystem, World&)) noexcept {
         lateUpgrade.loadScene(newScene);
     }
 

@@ -80,6 +80,7 @@
 
 // HUD:
 #include "Comps/HUD/Comps-BossHealthBar.hpp"
+#include "Comps/HUD/Comps-HomeMenu.hpp"
 #include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 #include "Comps/HUD/Comps-PauseMenu.hpp"

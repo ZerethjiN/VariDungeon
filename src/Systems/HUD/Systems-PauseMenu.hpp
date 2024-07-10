@@ -126,6 +126,7 @@ void pauseMenuSelectorSys(MainFixedSystem, World& world) {
 
         if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
             if (
+                selector.secretkeys.size() >= 9 &&
                 selector.secretkeys[0] == MOVE_UP &&
                 selector.secretkeys[1] == MOVE_UP &&
                 selector.secretkeys[2] == MOVE_DOWN &&
@@ -138,8 +139,7 @@ void pauseMenuSelectorSys(MainFixedSystem, World& world) {
             ) {
                 printf("BRAVO!!!\n");
             }
-            vulkanEngine.window.close();
-            world.stopRun();
+            world.loadScene(testScene2);
         }
     }
 }

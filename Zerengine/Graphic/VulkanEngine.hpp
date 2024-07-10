@@ -188,7 +188,7 @@ friend class DescriptorSet;
 friend class TextureDescriptorSet;
 public:
     VulkanEngine():
-        window(glm::uvec2(800, 600), "Test Vulkan") {
+        window(glm::uvec2(640, 576), "Test Vulkan") {
         initVulkan();
     }
 

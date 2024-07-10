@@ -34,5 +34,5 @@ void startSys(StartSystem, World& world) {
     //     {MOUSE_RIGHT, {GLFW_MOUSE_BUTTON_RIGHT}},
     // };
 
-    world.loadScene(testScene);
+    world.loadScene(testScene2);
 }

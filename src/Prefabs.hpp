@@ -84,6 +84,7 @@
 #include "Prefabs/Particles/Prefabs-ItemFeedbackParticle.hpp"
 #include "Prefabs/Particles/Prefabs-ParticleEffect.hpp"
 #include "Prefabs/Particles/Prefabs-PopHitParticle.hpp"
+#include "Prefabs/Particles/Prefabs-ShadowPortalParticle.hpp"
 #include "Prefabs/Particles/Prefabs-SwordImpact.hpp"
 
 // Player

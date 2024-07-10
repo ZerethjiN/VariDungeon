@@ -66,6 +66,7 @@
 #include "Systems/GroundItems/Systems-BonusSphere.hpp"
 
 // HUD:
+#include "Systems/HUD/Systems-HomeMenu.hpp"
 #include "Systems/HUD/Systems-InventoryBar.hpp"
 #include "Systems/HUD/Systems-MenuBonus.hpp"
 #include "Systems/HUD/Systems-PauseMenu.hpp"

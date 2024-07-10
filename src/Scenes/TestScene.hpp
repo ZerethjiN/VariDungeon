@@ -7,12 +7,16 @@
 
 #include "Others/GenerateDungeon.hpp"
 
-void testScene(World& world) {
+void testScene(SceneSystem, World& world) {
     // Purge
     // auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
     // textureManager.clear();
     // fontManager.clear();
     // pipelineManager.clear();
+
+    // AppState
+    auto [appstate] = world.resource<AppState>();
+    appstate.state = APP_STATE_IN_GAME;
 
     auto [spatialHashMap] = world.resource<SpatialHashMap>();
     spatialHashMap.clear();

@@ -32,9 +32,13 @@ void turretCardinalSys(MainFixedSystem, World& world) {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, -16 * i), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 16 * i), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, -16 * i), zindex),
-                    instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 16 * i), zindex),
+                    instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 16 * i), zindex)
                 });
             }
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(8, -8), -45);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(-8, -8), -135);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(-8, 8), -225);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(8, 8), -315);
         }
     }
 }
@@ -68,6 +72,10 @@ void turretDiagonalSys(MainFixedSystem, World& world) {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, -16 * i), zindex),
                 });
             }
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(8, 0), 0);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(0, -8), 90);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(-8, 0), 180);
+            instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(0, 8), 270);
         }
     }
 }
