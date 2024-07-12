@@ -36,12 +36,19 @@ class IsInactive final {};
 class DontDestroyOnLoad final {};
 
 class StartSystem final {};
+constinit StartSystem startSystem;
 class MainSystem final {};
+constinit MainSystem mainSystem;
 class MainFixedSystem final {};
+constinit MainFixedSystem mainFixedSystem;
 class ThreadedSystem final {};
+constinit ThreadedSystem threadedSystem;
 class ThreadedFixedSystem final {};
+constinit ThreadedFixedSystem threadedFixedSystem;
 class LateSystem final {};
+constinit LateSystem lateSystem;
 class LateFixedSystem final {};
+constinit LateFixedSystem lateFixedSystem;
 class SceneSystem final {};
 
 template <typename T>
@@ -1828,67 +1835,67 @@ public:
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addStartSystems(void(*const func)(StartSystem, World&)) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(StartSystem, void(*const func)(StartSystem, World&)) noexcept {
         world.sys.addStartSys(func);
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addMainSystems(std::initializer_list<void(*)(MainSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(MainSystem, std::initializer_list<void(*)(MainSystem, World&)>&& funcs) noexcept {
         world.sys.addMainCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addMainConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(MainSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(MainSystem, bool(*const cond)(World&), std::initializer_list<void(*)(MainSystem, World&)>&& funcs) noexcept {
         world.sys.addMainCondSys(cond, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addMainFixedSystems(std::initializer_list<void(*)(MainFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(MainFixedSystem, std::initializer_list<void(*)(MainFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addMainFixedCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addMainFixedConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(MainFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(MainFixedSystem, bool(*const cond)(World&), std::initializer_list<void(*)(MainFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addMainFixedCondSys(cond, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addThreadedSystems(std::initializer_list<void(*)(ThreadedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(ThreadedSystem, std::initializer_list<void(*)(ThreadedSystem, World&)>&& funcs) noexcept {
         world.sys.addThreadedCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addThreadedConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(ThreadedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(ThreadedSystem, bool(*const cond)(World&), std::initializer_list<void(*)(ThreadedSystem, World&)>&& funcs) noexcept {
         world.sys.addThreadedCondSys(cond, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addThreadedFixedSystems(std::initializer_list<void(*)(ThreadedFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(ThreadedFixedSystem, std::initializer_list<void(*)(ThreadedFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addThreadedFixedCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addThreadedFixedConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(ThreadedFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(ThreadedFixedSystem, bool(*const cond)(World&), std::initializer_list<void(*)(ThreadedFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addThreadedFixedCondSys(cond, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addLateSystems(std::initializer_list<void(*)(LateSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(LateSystem, std::initializer_list<void(*)(LateSystem, World&)>&& funcs) noexcept {
         world.sys.addLateCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addLateConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(LateSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(LateSystem, bool(*const cond)(World&), std::initializer_list<void(*)(LateSystem, World&)>&& funcs) noexcept {
         world.sys.addLateCondSys(cond, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addLateFixedSystems(std::initializer_list<void(*)(LateFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(LateFixedSystem, std::initializer_list<void(*)(LateFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addLateFixedCondSys(nullptr, std::move(funcs));
         return *this;
     }
 
-    [[nodiscard]] ZerEngine& addLateFixedConditionSystems(bool(*const cond)(World&), std::initializer_list<void(*)(LateFixedSystem, World&)>&& funcs) noexcept {
+    [[nodiscard]] ZerEngine& addSystems(LateFixedSystem, bool(*const cond)(World&), std::initializer_list<void(*)(LateFixedSystem, World&)>&& funcs) noexcept {
         world.sys.addLateFixedCondSys(cond, std::move(funcs));
         return *this;
     }

@@ -14,22 +14,20 @@ glslc -O --target-env=vulkan1.3 shaders/AberationShader.frag -o shaders/Aberatio
 # Besoin des bibliotheques: freetype2, glfw3, vulkan, glm
 # Surtout bien configurer le path de freetype2 sur linux
 
+# Utilisation d'x86_64v3: AVX2 dispo sur Intel (haswell) 4000 et AMD (Excavatore) 15h gen 4
+
 g++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
     -I Lib\
     -I src -I Zerengine\
     -m64\
-    -Ofast -pipe -std=c++2c\
-    -L .\
-    -Wl,-rpath\
-    -Wl,'$ORIGIN'\
+    -O0 -pipe -std=c++2c\
+    -march=x86-64-v3\
     -lvulkan\
     -lfreetype\
     -lglfw
-
-
     # -static-libgcc\
     # -static-libstdc++\
-    
+
 #-Wl,-Bdynamic -lvulkan\
 #-Wall\
 #-s

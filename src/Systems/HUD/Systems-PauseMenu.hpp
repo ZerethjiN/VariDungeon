@@ -13,8 +13,7 @@ void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
 
         if (pauseMenus.empty()) {
             time.setTimeScale(0);
-            auto menuEnt = instantiatePauseMenuUI(world, glm::vec2(-72, -64));
-            printf("Ouverture Menu Pause: %zu\n", menuEnt);
+            instantiatePauseMenuUI(world, glm::vec2(-72, -64));
         } else if (!world.view<const Transform>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
             for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
                 world.add(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
@@ -34,10 +33,36 @@ void pauseMenuTranslationSys(MainFixedSystem, World& world) {
 
             world.remove<PauseMenuTranslation>(menuEnt);
 
+            // Title:
+            world.appendChildren(menuEnt, {
+                world.newEnt(
+                    TextUICreator("Pause:", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
+                    Transform(
+                        glm::vec2(-60, -64),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(10)
+                )
+            });
+
+            // Key:
+            world.appendChildren(menuEnt, {
+                world.newEnt(
+                    TextUICreator("[esc]", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
+                    Transform(
+                        glm::vec2(48, -64),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(10)
+                )
+            });
+
             world.appendChildren(menuEnt, {
                 // Selector
                 world.newEnt(
-                    PauseMenuSelector(1),
+                    PauseMenuSelector(2),
                     UICreator(menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
                     Animation(menuBonusHUDAnim, "MediumSelector", AnimType::UNSCALED),
                     Transform(
@@ -47,15 +72,35 @@ void pauseMenuTranslationSys(MainFixedSystem, World& world) {
                     ),
                     ZIndex(1)
                 ),
-                // Text Exit
+                // Text Continue
                 world.newEnt(
-                    TextUICreator("Exit", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
+                    TextUICreator("Continue", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                     Transform(
                         pauseMenuTranslation.getFinalPosition() + glm::vec2(48, 12),
                         0,
                         glm::vec2(1, 1)
                     ),
-                    ZIndex(1)
+                    ZIndex(1),
+                    PauseMenuCallback(0, [](World& world, Ent thisEnt) {
+                        auto pauseMenus = world.view<const Transform>(with<PauseMenu>);
+
+                        for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
+                            world.add(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                        }
+                    })
+                ),
+                // Text Exit
+                world.newEnt(
+                    TextUICreator("Exit", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
+                    Transform(
+                        pauseMenuTranslation.getFinalPosition() + glm::vec2(48, 44),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(1),
+                    PauseMenuCallback(1, [](World& world, Ent thisEnt) {
+                        world.loadScene(testScene2);
+                    })
                 )
             });
         } else {
@@ -68,35 +113,15 @@ void pauseMenuSelectorSys(MainFixedSystem, World& world) {
     auto selectors = world.view<PauseMenuSelector, const Transform>(without<PauseMenuSelectorMoveDown, PauseMenuSelectorMoveUp>);
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
-        // if (vulkanEngine.window.isKeyDown(MOVE_DOWN)) {
-        //     if (selector.nextElement()) {
-        //         world.add(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
-        //         for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
-        //             transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-        //             world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
-        //         }
-        //         for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
-        //             if (bonusRow.id == selector.getCurElement()) {
-        //                 world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // } else if (vulkanEngine.window.isKeyDown(MOVE_UP)) {
-        //     if (selector.previousElement()) {
-        //         world.add(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
-        //         for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
-        //             transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-        //             world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
-        //         }
-        //         for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
-        //             if (bonusRow.id == selector.getCurElement()) {
-        //                 world.add(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // } else
+        if (vulkanEngine.window.isKeyDown(MOVE_DOWN)) {
+            if (selector.nextElement()) {
+                world.add(selectorEnt, PauseMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
+            }
+        } else if (vulkanEngine.window.isKeyDown(MOVE_UP)) {
+            if (selector.previousElement()) {
+                world.add(selectorEnt, PauseMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
+            }
+        }
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             selector.secretkeys.emplace_back(ButtonNameType::MOVE_UP);
             if (selector.secretkeys.size() > 9) {
@@ -139,7 +164,12 @@ void pauseMenuSelectorSys(MainFixedSystem, World& world) {
             ) {
                 printf("BRAVO!!!\n");
             }
-            world.loadScene(testScene2);
+            for (auto [callbackEnt, callback]: world.view<const PauseMenuCallback>()) {
+                if (callback.id == selector.getCurElement()) {
+                    callback.callback(world, callbackEnt);
+                    break;
+                }
+            }
         }
     }
 }
@@ -158,6 +188,36 @@ void pauseMenuReverseTranslationSys(MainFixedSystem, World& world) {
             time.setTimeScale(1.0f);
         } else {
             transform.move(glm::normalize(pauseMenuTranslation.getFinalPosition() - transform.getPosition()) * pauseMenuTranslation.getTranslationSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void pauseMenuSelectorMoveDownSys(MainFixedSystem, World& world) {
+    auto selectors = world.view<Transform, const PauseMenuSelectorMoveDown>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [selectorEnt, transform, pauseMenuSelectorMoveDown]: selectors) {
+        if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveDown.getDestination()) <= 4.f) {
+            transform.setPosition(pauseMenuSelectorMoveDown.getDestination());
+            world.remove<PauseMenuSelectorMoveDown>(selectorEnt);
+        } else {
+            transform.moveY(pauseMenuSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
+        }
+    }
+}
+
+void pauseMenuSelectorMoveUpSys(MainFixedSystem, World& world) {
+    auto selectors = world.view<Transform, const PauseMenuSelectorMoveUp>();
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [selectorEnt, transform, pauseMenuSelectorMoveUp]: selectors) {
+        if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveUp.getDestination()) <= 4.f) {
+            transform.setPosition(pauseMenuSelectorMoveUp.getDestination());
+            world.remove<PauseMenuSelectorMoveUp>(selectorEnt);
+        } else {
+            transform.moveY(-pauseMenuSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
         }
     }
 }

@@ -52,8 +52,10 @@ void doorTriggerSys(MainFixedSystem, World& world) {
         for (auto othEnt: collisions) {
             if (world.has<Player, Transform>(othEnt)) {
                 Ent nextRoomEnt = 0;
-                for (auto [_, chunkTable]: world.view<const ChunkTable>()) {
+                for (auto [_, exploration, chunkTable]: world.view<ChunkExploration, const ChunkTable>()) {
                     nextRoomEnt = chunkTable.getChunkById(doorTrigger.getNextRoomIdx());
+                    exploration.roomTypes[doorTrigger.curRoomXY.y][doorTrigger.curRoomXY.x] = ChunkExploration::ROOM_EXPLORATION_KNOW;
+                    exploration.roomTypes[doorTrigger.nextRoomXY.y][doorTrigger.nextRoomXY.x] = ChunkExploration::ROOM_EXPLORATION_PLAYER;
                 }
 
                 Ent curRoomEnt = 0;

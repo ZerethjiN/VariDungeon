@@ -12,7 +12,8 @@ enum ButtonNameType: std::size_t {
     B_BUTTON,
     A_BUTTON,
     REROLL_BUTTON,
-    DEBUG_COMMAND
+    DEBUG_COMMAND,
+    MAP_MENU
 };
 
 enum MouseButtonNameType: std::size_t {

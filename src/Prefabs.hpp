@@ -72,6 +72,7 @@
 // HUD:
 #include "Prefabs/HUD/Prefabs-BossHealthBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
+#include "Prefabs/HUD/Prefabs-MapMenuUI.hpp"
 #include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
 #include "Prefabs/HUD/Prefabs-PauseMenuUI.hpp"
 

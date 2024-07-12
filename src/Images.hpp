@@ -82,6 +82,7 @@
 #include "Images/HUD/Images-InventoryBar.hpp"
 #include "Images/HUD/Images-LevelUp.hpp"
 #include "Images/HUD/Images-Logo.hpp"
+#include "Images/HUD/Images-MapAsset.hpp"
 #include "Images/HUD/Images-MenuBonusHUD.hpp"
 #include "Images/HUD/Images-MenuBonusIcons.hpp"
 

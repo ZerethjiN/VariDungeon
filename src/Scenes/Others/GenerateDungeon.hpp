@@ -107,7 +107,7 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
     return true;
 }
 
-void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     std::vector<Ent> subEnts;
 
     // Wall Collisions:
@@ -125,7 +125,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
         );
         subEnts.emplace_back(
             world.newEnt(
-                DoorTrigger(chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
+                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
                 IsDoorLock(),
                 SpriteCreator(doorUV, 0),
                 Transform(
@@ -188,7 +188,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
         );
         subEnts.emplace_back(
             world.newEnt(
-                DoorTrigger(chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
+                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
                 IsDoorLock(),
                 SpriteCreator(doorUV, 0),
                 Transform(
@@ -251,7 +251,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
         );
         subEnts.emplace_back(
             world.newEnt(
-                DoorTrigger(chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
+                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
                 IsDoorLock(),
                 SpriteCreator(doorUV, 0),
                 Transform(
@@ -314,7 +314,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::vec2& position, std::
         );
         subEnts.emplace_back(
             world.newEnt(
-                DoorTrigger(chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
+                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
                 IsDoorLock(),
                 SpriteCreator(doorUV, 0),
                 Transform(
@@ -453,7 +453,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -524,7 +524,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -537,7 +537,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -556,7 +556,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -568,8 +568,24 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
         }
     }
 
+    // Chunk Exploration Init:
+    std::vector<std::vector<ChunkExploration::RoomExplorationType>> roomTypes;
+    for (int y = 0; y < height; y++) {
+        roomTypes.emplace_back();
+        for (int x = 0; x < width; x++) {
+            if (cellMat[y * width + x].isPrimary) {
+                roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_PLAYER);
+            } else if (cellMat[y * width + x].isActive) {
+                roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_UNKNOW);
+            } else {
+                roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_EMPTY);
+            }
+        }
+    }
+
     // ChunkTable recreation:
     world.newEnt(
-        ChunkTable(width, height, newTables)
+        ChunkTable(width, height, newTables),
+        ChunkExploration(width, height, roomTypes)
     );
 }

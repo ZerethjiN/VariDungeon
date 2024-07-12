@@ -15,6 +15,7 @@ void startSys(StartSystem, World& world) {
         {A_BUTTON, {GLFW_KEY_ENTER}},
         {EXIT, {GLFW_KEY_ESCAPE}},
         {REROLL_BUTTON, {GLFW_KEY_R}},
+        {MAP_MENU, {GLFW_KEY_M, GLFW_KEY_SEMICOLON}}
     };
 
     vulkanEngine.window.gamepadButtonNameBinds = {
@@ -27,6 +28,7 @@ void startSys(StartSystem, World& world) {
         {A_BUTTON, {GLFW_GAMEPAD_BUTTON_A}},
         {EXIT, {GLFW_GAMEPAD_BUTTON_Y}},
         {REROLL_BUTTON, {GLFW_GAMEPAD_BUTTON_X}},
+        {MAP_MENU, {GLFW_GAMEPAD_BUTTON_START}}
     };
 
     // vulkanEngine.window.mouseButtonNameBinds = {

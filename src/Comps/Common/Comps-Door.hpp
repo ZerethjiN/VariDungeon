@@ -12,7 +12,9 @@ public:
     };
 
 public:
-    DoorTrigger(std::size_t newNextRoomIdx, DoorTriggerOrientation newOrientation):
+    DoorTrigger(const glm::ivec2 newCurRoomXY, const glm::ivec2 newNextRoomXY, std::size_t newNextRoomIdx, DoorTriggerOrientation newOrientation):
+        curRoomXY(newCurRoomXY),
+        nextRoomXY(newNextRoomXY),
         nextRoomIdx(newNextRoomIdx),
         orientation(newOrientation) {
     }
@@ -24,6 +26,10 @@ public:
     DoorTriggerOrientation getOrientation() const {
         return orientation;
     }
+
+public:
+    const glm::ivec2 curRoomXY;
+    const glm::ivec2 nextRoomXY;
 
 private:
     const std::size_t nextRoomIdx;

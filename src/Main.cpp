@@ -44,11 +44,11 @@ int main() {
             .addResource<InGameView>(glm::vec4(0, 0, 160, 144))
             .addResource<UIView>(glm::vec4(0, 0, 160, 144))
             .addResource<AppState>(APP_STATE_HOME_MENU)
-            .addStartSystems(startSys)
-            .addMainFixedSystems({
+            .addSystems(startSystem, startSys)
+            .addSystems(mainFixedSystem, {
                 pollEventsSys
             })
-            .addMainFixedConditionSystems(
+            .addSystems(mainFixedSystem,
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_HOME_MENU;
@@ -58,7 +58,7 @@ int main() {
                     homeMenuBackgroundSlideSys, homeMenuSelectorSys, homeMenuSelectorMoveDownSys, homeMenuSelectorMoveUpSys
                 }
             )
-            .addMainFixedConditionSystems(
+            .addSystems(mainFixedSystem,
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME;
@@ -122,32 +122,37 @@ int main() {
                 levelUpKnockbackSys,
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys,
-                pauseMenuOpenCloseSys, pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys
+                pauseMenuOpenCloseSys, pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys, pauseMenuSelectorMoveDownSys, pauseMenuSelectorMoveUpSys,
+                mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys
             })
 
             // Enemies Lvl1 Threads
-            .addThreadedFixedConditionSystems( // Mummy Threads
+            .addSystems(
+                threadedFixedSystem, // Mummy Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Mummy>).empty();
                 },
                 {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
             )
-            .addThreadedFixedConditionSystems( // Insect Threads
+            .addSystems(
+                threadedFixedSystem, // Insect Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Insect>).empty();
                 },
                 {insectMoveSys, insectAttackSys}
             )
-            .addThreadedFixedConditionSystems( // Gasterolcan Threads
+            .addSystems(
+                threadedFixedSystem, // Gasterolcan Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Gasterolcan>).empty();
                 },
                 {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
             )
-            .addThreadedFixedConditionSystems( // Spectre Threads
+            .addSystems(
+                threadedFixedSystem, // Spectre Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Spectre>).empty();
@@ -155,12 +160,12 @@ int main() {
                 {spectreMoveSys, spectreVanishSys, spectreCastSys}
             )
 
-            .addMainFixedSystems({
+            .addSystems(mainFixedSystem, {
                 // particleSystems, generatorParticleMovement,
                 lifeTimeSys, unscaledLifeTimeSys,
                 cameraShakeRightSys, cameraShakeLeftSys
             })
-            .addLateFixedSystems({
+            .addSystems(lateFixedSystem, {
                 updatePositionSys,
                 updateVelocitySys, collisionSys,
                 spriteCreatorSys,
@@ -174,7 +179,7 @@ int main() {
                 // onHoverButtonsSys,
                 purgeCollisionSys
             })
-            .addLateSystems({renderSys})
+            .addSystems(lateSystem, {renderSys})
             .run();
     } catch (const std::exception& e) {
         std::cerr << "Exception Catch:" << e.what() << std::endl;

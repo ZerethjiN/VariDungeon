@@ -47,6 +47,30 @@ public:
 
 private:
     std::unordered_map<std::size_t, Ent> chunks;
+
+public:
+    const int width;
+    const int height;
+};
+
+class ChunkExploration final {
+public:
+    enum RoomExplorationType: uint8_t {
+        ROOM_EXPLORATION_EMPTY,
+        ROOM_EXPLORATION_PLAYER,
+        ROOM_EXPLORATION_UNKNOW,
+        ROOM_EXPLORATION_KNOW
+    };
+
+public:
+    ChunkExploration(int newWidth, int newHeight, const std::vector<std::vector<RoomExplorationType>>& newRoomTypes):
+        roomTypes(newRoomTypes),
+        width(newWidth),
+        height(newHeight) {
+    }
+
+public:
+    std::vector<std::vector<RoomExplorationType>> roomTypes;
     const int width;
     const int height;
 };

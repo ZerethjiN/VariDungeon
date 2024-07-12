@@ -3,6 +3,18 @@
 
 class PauseMenu final {};
 
+class PauseMenuCallback final {
+public:
+    PauseMenuCallback(std::size_t newId, void(*const newCallback)(World&, Ent)):
+        id(newId),
+        callback(newCallback) {
+    }
+
+public:
+    const std::size_t id;
+    void(*const callback)(World&, Ent);
+};
+
 class PauseMenuReverseTranslation final {
 public:
     PauseMenuReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):

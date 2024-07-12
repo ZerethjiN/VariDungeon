@@ -608,14 +608,14 @@ public:
 
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
         for (const auto& availablePresentMode : availablePresentModes) {
-            if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
+            if (availablePresentMode == VK_PRESENT_MODE_FIFO_KHR) {
                 return availablePresentMode;
             }
         }
         // VK_PRESENT_MODE_FIFO_KHR //====>> Vsync
         // VK_PRESENT_MODE_IMMEDIATE_KHR //====>> uncap without image sync (tearing)
         // VK_PRESENT_MODE_MAILBOX_KHR //====>> uncap with image sync
- 
+
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
