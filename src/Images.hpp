@@ -28,6 +28,7 @@
 #include "Images/Decors/Images-Column.hpp"
 #include "Images/Decors/Images-Crystal.hpp"
 #include "Images/Decors/Images-Door.hpp"
+#include "Images/Decors/Images-King.hpp"
 #include "Images/Decors/Images-MiniTorch.hpp"
 #include "Images/Decors/Images-Obelisk.hpp"
 #include "Images/Decors/Images-Pillar.hpp"
@@ -44,6 +45,7 @@
 #include "Images/Enemies/Bosses/Images-MegaSlime.hpp"
 #include "Images/Enemies/Bosses/Images-RockBoss.hpp"
 #include "Images/Enemies/Bosses/Images-Sarcophage.hpp"
+#include "Images/Enemies/Bosses/Images-ShadowBoss.hpp"
 
 // Enemies:
 #include "Images/Enemies/Enemies/Images-Anubis.hpp"
@@ -73,6 +75,7 @@
 #include "Images/GroundItems/Images-XpParticle.hpp"
 
 // HUD:
+#include "Images/HUD/Images-BlackBackground.hpp"
 #include "Images/HUD/Images-BossHealthBar.hpp"
 #include "Images/HUD/Images-BottomBar.hpp"
 #include "Images/HUD/Images-Firework.hpp"

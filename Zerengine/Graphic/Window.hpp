@@ -229,7 +229,7 @@ public:
         glfwGetFramebufferSize(window, &width, &height);
     }
 
-    [[nodiscard]] constexpr const glm::uvec2& getSize() const noexcept {
+    [[nodiscard]] constexpr const glm::ivec2& getSize() const noexcept {
         return size;
     }
 
@@ -256,7 +256,7 @@ private:
     }
 
 private:
-    glm::uvec2 size;
+    glm::ivec2 size;
     std::string title;
     GLFWwindow* window;
 

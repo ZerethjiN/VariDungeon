@@ -25,6 +25,8 @@
 #include "Prefabs/Decors/Prefabs-Candlestick.hpp"
 #include "Prefabs/Decors/Prefabs-Column.hpp"
 #include "Prefabs/Decors/Prefabs-Crystal.hpp"
+#include "Prefabs/Decors/Prefabs-Fragments.hpp"
+#include "Prefabs/Decors/Prefabs-King.hpp"
 #include "Prefabs/Decors/Prefabs-MiniTorch.hpp"
 #include "Prefabs/Decors/Prefabs-Obelisk.hpp"
 #include "Prefabs/Decors/Prefabs-Pillar.hpp"
@@ -33,6 +35,7 @@
 #include "Prefabs/Decors/Prefabs-Sarcophage.hpp"
 #include "Prefabs/Decors/Prefabs-SkullBossRoom.hpp"
 #include "Prefabs/Decors/Prefabs-Sphere.hpp"
+#include "Prefabs/Decors/Prefabs-TorchDecor.hpp"
 #include "Prefabs/Decors/Prefabs-Warp.hpp"
 
 // Enemies
@@ -41,6 +44,7 @@
 #include "Prefabs/Enemies/Bosses/Prefabs-MegaSlime.hpp"
 #include "Prefabs/Enemies/Bosses/Prefabs-RockBoss.hpp"
 #include "Prefabs/Enemies/Bosses/Prefabs-Sarcophage.hpp"
+#include "Prefabs/Enemies/Bosses/Prefabs-ShadowBoss.hpp"
 
 // Enemies:
 #include "Prefabs/Enemies/Enemies/Prefabs-Anubis.hpp"

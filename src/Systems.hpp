@@ -37,6 +37,7 @@
 #include "Systems/Enemies/Bosses/Systems-MegaSlime.hpp"
 #include "Systems/Enemies/Bosses/Systems-RockBoss.hpp"
 #include "Systems/Enemies/Bosses/Systems-Sarcophage.hpp"
+#include "Systems/Enemies/Bosses/Systems-ShadowBoss.hpp"
 
 // Enemies:
 #include "Systems/Enemies/Enemies/Systems-Anubis.hpp"

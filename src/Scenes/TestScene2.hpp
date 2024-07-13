@@ -86,7 +86,7 @@ void testScene2(SceneSystem, World& world) {
         HomeMenuButtonId(0),
         HomeMenuSelectedButton(),
         HomeMenuButtonCallback([](World& world, Ent thisEnt) {
-            world.loadScene(testScene);
+            world.loadScene(hubScene);
         })
     );
 

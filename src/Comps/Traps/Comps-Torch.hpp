@@ -2,6 +2,8 @@
 
 #include <Zerengine.hpp>
 
+class TorchDecor final {};
+
 class Torch final  {
 public:
     Torch(float newIdleDuration, float newCastDuration):

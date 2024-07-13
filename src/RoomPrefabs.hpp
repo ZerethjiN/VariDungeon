@@ -42,3 +42,12 @@
 #include "RoomPrefabs/Desert/RoomLvl2/RoomPrefabs-Desert-Lvl2-Room10.hpp"
 #include "RoomPrefabs/Desert/RoomLvl2/RoomPrefabs-Desert-Lvl2-Room11.hpp"
 #include "RoomPrefabs/Desert/RoomLvl2/RoomPrefabs-Desert-Lvl2-Room12.hpp"
+
+
+
+
+
+
+// Hub:
+#include "RoomPrefabs/Hub/RoomPrefabs-Hub-BeginingRoom.hpp"
+#include "RoomPrefabs/Hub/RoomPrefabs-Hub-KingsRoom.hpp"

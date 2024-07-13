@@ -38,6 +38,7 @@
 #include "Comps/Common/Comps-Unmoveable.hpp"
 
 // Decors:
+#include "Comps/Decors/Comps-King.hpp"
 #include "Comps/Decors/Comps-Wall.hpp"
 #include "Comps/Decors/Comps-Warp.hpp"
 
@@ -47,6 +48,7 @@
 #include "Comps/Enemies/Bosses/Comps-MegaSlime.hpp"
 #include "Comps/Enemies/Bosses/Comps-RockBoss.hpp"
 #include "Comps/Enemies/Bosses/Comps-Sarcophage.hpp"
+#include "Comps/Enemies/Bosses/Comps-ShadowBoss.hpp"
 
 // Enemies:
 #include "Comps/Enemies/Enemies/Comps-Anubis.hpp"

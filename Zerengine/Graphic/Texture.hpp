@@ -56,6 +56,7 @@ public:
         VkDeviceSize imageSize = texWidth * texHeight * 4;
 
         if (!pixels) {
+            std::cerr << "Image Manquante: " << name << std::endl;
             throw std::runtime_error("failed to load texture image!");
         }
 

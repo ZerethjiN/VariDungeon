@@ -46,17 +46,17 @@ void cameraSys(MainFixedSystem, World& world) {
     for (auto [_, trans]: cameras) {
         const auto& windowSize = vulkanEngine.window.getSize();
 
-        if (160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)) > 160.f) {
-            inGameView.setSize(160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)), 144.f);
+        if (160.f / static_cast<float>(windowSize.y) * (static_cast<float>(windowSize.x)) > 160.f) {
+            inGameView.setSize(160.f / static_cast<float>(windowSize.y) * static_cast<float>(windowSize.x), 144.f);
         } else {
-            inGameView.setSize(160.f, 144.f * (static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x)));
+            inGameView.setSize(160.f, 144.f / static_cast<float>(windowSize.x) * static_cast<float>(windowSize.y));
         }
         inGameView.setCenter(trans.getPosition());
 
-        if (160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)) > 160.f) {
-            uiView.setSize(160.f * (static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y)), 144.f);
+        if (160.f / static_cast<float>(windowSize.y) * (static_cast<float>(windowSize.x)) > 160.f) {
+            uiView.setSize(160.f / static_cast<float>(windowSize.y) * static_cast<float>(windowSize.x), 144.f);
         } else {
-            uiView.setSize(160.f, 144.f * (static_cast<float>(windowSize.y) / static_cast<float>(windowSize.x)));
+            uiView.setSize(160.f, 144.f / static_cast<float>(windowSize.x) * static_cast<float>(windowSize.y));
         }
     }
 }
