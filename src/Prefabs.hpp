@@ -80,6 +80,9 @@
 #include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
 #include "Prefabs/HUD/Prefabs-PauseMenuUI.hpp"
 
+// NPC:
+#include "Prefabs/NPC/Prefabs-Merchant.hpp"
+
 // Particles
 #include "Prefabs/Particles/Prefabs-CombatParticle.hpp"
 #include "Prefabs/Particles/Prefabs-DeathParticle.hpp"

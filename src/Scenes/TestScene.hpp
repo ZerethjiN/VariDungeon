@@ -50,9 +50,9 @@ void testScene(SceneSystem, World& world) {
                 Transform(
                     glm::vec2(-80, -88),
                     0,
-                    glm::vec2(1, 1),
-                    ZIndex(999)
-                )
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(999)
             )
         }
     );

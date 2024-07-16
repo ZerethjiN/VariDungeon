@@ -51,6 +51,7 @@ private:
 };
 
 class MenuBonus final {};
+class MenuBonusMerchant final {};
 
 class MenuBonusReverseTranslation final {
 public:

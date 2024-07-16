@@ -5,7 +5,7 @@
 class PlayerCoin final {
 public:
     PlayerCoin():
-        curCoin(0) {
+        curCoin(100) {
     }
 
     PlayerCoin& operator +=(float newAmount) {
@@ -16,6 +16,10 @@ public:
     PlayerCoin& operator -=(float newAmount) {
         curCoin -= newAmount;
         return *this;
+    }
+
+    operator float() const noexcept {
+        return curCoin;
     }
 
     float getCurCoin() const {

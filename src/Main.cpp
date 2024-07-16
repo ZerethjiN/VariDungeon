@@ -124,7 +124,10 @@ int main() {
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys, inventoryBarShrinkSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys,
                 pauseMenuOpenCloseSys, pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys, pauseMenuSelectorMoveDownSys, pauseMenuSelectorMoveUpSys,
-                mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys
+                mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys,
+            
+                // NPC:
+                merchantOpenCloseSys
             })
 
             // Enemies Lvl1 Threads

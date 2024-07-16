@@ -73,6 +73,9 @@
 #include "Systems/HUD/Systems-MenuBonus.hpp"
 #include "Systems/HUD/Systems-PauseMenu.hpp"
 
+// NPC:
+#include "Systems/NPC/Systems-Merchant.hpp"
+
 // Players
 #include "Systems/Players/Systems-Barbarian.hpp"
 #include "Systems/Players/Systems-PlayerAttackWeight.hpp"

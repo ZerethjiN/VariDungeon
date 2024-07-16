@@ -88,6 +88,9 @@
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 #include "Comps/HUD/Comps-PauseMenu.hpp"
 
+// NPC:
+#include "Comps/NPC/Comps-Merchant.hpp"
+
 // Player:
 #include "Comps/Player/Comps-Barbarian.hpp"
 #include "Comps/Player/Comps-Player.hpp"

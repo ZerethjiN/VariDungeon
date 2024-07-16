@@ -213,7 +213,7 @@ private:
         return std::move(self).ents.size();
     }
 
-    [[nodiscard]] constexpr auto contains(this auto&& self, const Type type) noexcept -> bool {
+    [[nodiscard]] constexpr auto containsType(this auto&& self, const Type type) noexcept -> bool {
         return std::move(self).pools.contains(type);
     }
 
@@ -405,9 +405,9 @@ private:
             if (arch->isTotalyCompatibleLate(anyes)) {
                 arch->newEnt(ent, anyes);
                 entArchIt->second = arch;
-                for (const auto& pair: arch->pools) {
-                    emplaceArchByType(pair.first, arch);
-                }
+                // for (const auto& pair: arch->pools) {
+                //     emplaceArchByType(pair.first, arch);
+                // }
                 return;
             }
         }
@@ -427,7 +427,7 @@ private:
             return;
         }
 
-        if (entArchIt->second->contains(any.type().hash_code())) {
+        if (entArchIt->second->containsType(any.type().hash_code())) {
             printf("ZerEngine: Impossible d'ajouter 2 composants identiques  - [%zu] - %s\n", ent, any.type().name());
             return;
         }
@@ -465,7 +465,7 @@ private:
             return;
         }
 
-        if (!entArchIt->second->contains(type)) {
+        if (!entArchIt->second->containsType(type)) {
             printf("ZerEngine: Impossible de supprimer un composant qui n'existe pas - [%zu]\n", ent);
             return;
         }
@@ -1655,8 +1655,9 @@ public:
         return reg.getChildren(parentEnt);
     }
 
-    void appendChildren(const Ent parentEnt, const std::vector<Ent>& childrenEnt) noexcept {
+    constexpr Ent appendChildren(const Ent parentEnt, const std::vector<Ent>& childrenEnt) noexcept {
         lateUpgrade.appendChildren(parentEnt, childrenEnt);
+        return parentEnt;
     }
 
     template <typename... Ts> requires (sizeof...(Ts) > 0)

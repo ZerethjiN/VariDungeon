@@ -127,7 +127,7 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
 
                 world.appendChildren(menuEnt, {
                     world.newEnt(
-                        BonusRow(i, bonusVec[bonusIdx].type, bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback),
+                        BonusRow(i, bonusVec[bonusIdx].type, bonusVec[bonusIdx].cost, bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback),
                         UICreator(menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
                         Transform(
                             menuBonusTranslation.getFinalPosition() + glm::vec2(16 + 16, 8 + i * 32 + 16),
@@ -146,6 +146,20 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
                         ZIndex(1)
                     )
                 });
+
+                if (world.has<MenuBonusMerchant>(menuEnt)) {
+                    world.appendChildren(menuEnt, {
+                        world.newEnt(
+                            TextUICreator(std::to_string(bonusVec[bonusIdx].cost) + "$", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
+                            Transform(
+                                menuBonusTranslation.getFinalPosition() + glm::vec2(0, 12 + i * 32),
+                                0,
+                                glm::vec2(1, 1)
+                            ),
+                            ZIndex(1)
+                        )
+                    });
+                }
                 i++;
             }
         } else {
@@ -206,11 +220,32 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
         } else if (vulkanEngine.window.isKeyDown(VALIDATE)) {
             for (auto [_, bonusRow]: world.view<const BonusRow>()) {
                 if (bonusRow.id == selector.getCurElement()) {
-                    for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
-                        playerBonuses.addBonus(bonusRow.type);
+                    bool canBuy = false;
+                    if (!world.view(with<MenuBonusMerchant>).empty()) {
+                        for (auto [_, playerCoin]: world.view<PlayerCoin>()) {
+                            if (playerCoin >= bonusRow.cost) {
+                                playerCoin -= bonusRow.cost;
+                                canBuy = true;
+                                for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
+                                    coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
+                                }
+                            }
+                            break;
+                        }
                     }
-                    if (bonusRow.hasCallback()) {
-                        bonusRow(world);
+
+                    if (canBuy) {
+                        for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
+                            playerBonuses.addBonus(bonusRow.type);
+                            if (!world.view(with<MenuBonusMerchant>).empty()) {
+                                for (auto [_, merchantBonus]: world.view<MerchantBonus>()) {
+                                    merchantBonus.bonusesIdx.erase(merchantBonus.typeToIdx.at(bonusRow.type));
+                                }
+                            }
+                        }
+                        if (bonusRow.hasCallback()) {
+                            bonusRow(world);
+                        }
                     }
                     break;
                 }

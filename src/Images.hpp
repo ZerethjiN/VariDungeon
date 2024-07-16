@@ -89,6 +89,9 @@
 #include "Images/HUD/Images-MenuBonusHUD.hpp"
 #include "Images/HUD/Images-MenuBonusIcons.hpp"
 
+// NPC:
+#include "Images/NPC/Images-Merchant.hpp"
+
 // Particles:
 #include "Images/Particles/Images-CombatParticle.hpp"
 #include "Images/Particles/Images-DeathParticle.hpp"

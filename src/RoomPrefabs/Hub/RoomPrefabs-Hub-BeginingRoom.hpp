@@ -93,6 +93,8 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
         instantiateColumn(world, position + glm::vec2(32, 8)),
         instantiateColumn(world, position + glm::vec2(-48, 8)),
 
+        instantiateMerchant(world, position + glm::vec2(-56, -40)),
+
         // Tests:
         // instantiateAnubisLvl2(world, position + glm::vec2(-48, 0)),
         // instantiateAnubisLvl2(world, position + glm::vec2(32, 0)),
