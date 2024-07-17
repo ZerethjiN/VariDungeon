@@ -25,6 +25,7 @@
 
 // Decors:
 #include "Images/Decors/Images-Candlestick.hpp"
+#include "Images/Decors/Images-Chest.hpp"
 #include "Images/Decors/Images-Column.hpp"
 #include "Images/Decors/Images-Crystal.hpp"
 #include "Images/Decors/Images-Door.hpp"

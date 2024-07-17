@@ -18,6 +18,7 @@
 // Commons
 #include "Systems/Commons/Systems-Camera.hpp"
 #include "Systems/Commons/Systems-CameraAberation.hpp"
+#include "Systems/Commons/Systems-Chest.hpp"
 #include "Systems/Commons/Systems-CombatParticleGenerator.hpp"
 #include "Systems/Commons/Systems-DamageText.hpp"
 #include "Systems/Commons/Systems-DeathParticle.hpp"

@@ -95,7 +95,8 @@ void enemyHitSys(MainFixedSystem, World& world) {
                             world.destroy(bossHealthBarEnt);
                         }
                         for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
-                            instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
+                            instantiateChest(world, roomTransform.getPosition() + glm::vec2(-8, -40));
+                            // instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }
                         world.add(enemyEnt,
                             DeathParticleGenerator(true, 0.4, 4),

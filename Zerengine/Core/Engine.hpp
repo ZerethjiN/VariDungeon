@@ -65,6 +65,181 @@ concept IsFinalConcept = [] -> bool {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+// class CompAny final {
+// public:
+//     constexpr CompAny() noexcept:
+//         manager(nullptr) {
+//     }
+
+//     CompAny(const CompAny& other) {
+//         if (!other.has_value()) {
+//             manager = nullptr;
+//         } else {
+//             CompArg arg;
+//             arg.any = this;
+//             other.manager(OP_CLONE, &other, &arg);
+//         }
+//     }
+
+//     CompAny(CompAny&& other) noexcept {
+//         if (!other.has_value()) {
+//             manager = nullptr;
+//         } else {
+//             CompArg arg;
+//             arg.any = this;
+//             other.manager(OP_TRANSFER, &other, &arg);
+//         }
+//     }
+
+//     template <typename T> requires (std::copy_constructible<T>)
+//     CompAny(T&& value):
+//         data(new T{std::move(value)}),
+//         manager(&compAnyManager<T>) {
+//     }
+
+//     template <typename T, typename... Args> requires (std::constructible_from<T, Args...>)
+//     CompAny(std::in_place_type_t<T>, Args&&... args):
+//         data(new T{std::forward<Args>(args)...}),
+//         manager(&compAnyManager<T>) {
+//     }
+
+//     ~CompAny() {
+//         reset();
+//     }
+
+//     CompAny& operator=(const CompAny& rhs) {
+//         *this = CompAny(rhs);
+//         return *this;
+//     }
+
+//     CompAny& operator=(CompAny&& rhs) noexcept {
+//         if (!rhs.has_value()) {
+//             reset();
+//         } else if (this != &rhs) {
+//             reset();
+//             CompArg arg;
+//             arg.any = this;
+//             rhs.manager(OP_TRANSFER, &rhs, &arg);
+//         }
+//         return *this;
+//     }
+
+//     template <typename T> requires (std::copy_constructible<T>)
+//     CompAny& operator=(T&& rhs) {
+//         *this = CompAny(std::move(rhs));
+//         return *this;
+//     }
+
+// public:
+//     template <typename T, typename... Args> requires (std::constructible_from<T, Args...>)
+//     T& emplace(Args&&... args) {
+//         data = new T{std::forward<Args>(args)...};
+//         manager = &compAnyManager<T>;
+//         return *static_cast<T*>(data);
+//     }
+
+//     void swap(CompAny& rhs) noexcept {
+//         if (!has_value() && !rhs.has_value()) {
+//             return;
+//         }
+
+//         if (has_value() && rhs.has_value()) {
+//             if (this == &rhs) {
+//                 return;
+//             }
+
+//             CompAny tmp;
+//             CompArg arg;
+//             arg.any = &tmp;
+//             rhs.manager(OP_TRANSFER, &rhs, &arg);
+//             arg.any = &rhs;
+//             manager(OP_TRANSFER, this, &arg);
+//             arg.any = this;
+//             tmp.manager(OP_TRANSFER, &tmp, &arg);
+//         } else {
+//             CompAny* empty = !has_value() ? this : &rhs;
+//             CompAny* full = !has_value() ? &rhs : this;
+//             CompArg arg;
+//             arg.any = empty;
+//             full->manager(OP_TRANSFER, full, &arg);
+//         }
+//     }
+
+//     void reset() noexcept {
+//         if (has_value()) {
+//             manager(OP_DESTROY, this, nullptr);
+//             manager = nullptr;
+//         }
+//     }
+
+//     bool has_value() const {
+//         return manager != nullptr;
+//     }
+
+//     const std::type_info& type() const noexcept {
+//         if (!has_value()) {
+//             return typeid(void);
+//         }
+//         CompArg arg;
+//         manager(OP_TYPE, this, &arg);
+//         return *arg.typeinfo;
+//     }
+
+// private:
+//     enum CompOp: uint8_t {
+//         OP_ACCESS, OP_TYPE, OP_CLONE, OP_DESTROY, OP_TRANSFER
+//     };
+
+//     union CompArg {
+//         void* data;
+//         const std::type_info* typeinfo;
+//         CompAny* any;
+//     };
+
+// private:
+//     template <typename T>
+//     static void compAnyManager(CompOp op, const CompAny* any, CompArg* arg) {
+//         auto ptr = static_cast<const T*>(any->data);
+//         switch (op) {
+//             case CompOp::OP_ACCESS:
+//                 arg->data = const_cast<T*>(ptr);
+//                 break;
+//             case CompOp::OP_TYPE:
+//                 arg->typeinfo = &typeid(T);
+//                 break;
+//             case CompOp::OP_CLONE:
+//                 arg->any->data = new T{*ptr};
+//                 arg->any->manager = any->manager;
+//                 break;
+//             case CompOp::OP_DESTROY:
+//                 delete ptr;
+//                 break;
+//             case CompOp::OP_TRANSFER:
+//                 arg->any->data = any->data;
+//                 arg->any->manager = any->manager;
+//                 const_cast<CompAny*>(any)->manager = nullptr;
+//                 break;
+//         }
+//     }
+
+// public:
+//     template <typename T> requires (!std::same_as<T, void> && (std::copy_constructible<T> || std::is_rvalue_reference_v<T> || std::is_lvalue_reference_v<T>))
+//     constexpr std::optional<T> comp_any_cast(CompAny& any) {
+//         if (any.manager == &CompAny::compAnyManager<T> || any.type() == typeid(T)) {
+//             CompArg arg;
+//             any.manager(OP_ACCESS, &any, &arg);
+//             return static_cast<T>(*arg.data);
+//         }
+//         return std::nullopt;
+//     }
+
+// private:
+//     void* data;
+//     void(*manager)(CompOp, const CompAny*, CompArg*);
+// };
+
+///////////////////////////////////////////////////////////////////////////////////
+
 class CompPool final {
 friend class Archetype;
 friend class LiteArchetype;
@@ -405,9 +580,6 @@ private:
             if (arch->isTotalyCompatibleLate(anyes)) {
                 arch->newEnt(ent, anyes);
                 entArchIt->second = arch;
-                // for (const auto& pair: arch->pools) {
-                //     emplaceArchByType(pair.first, arch);
-                // }
                 return;
             }
         }

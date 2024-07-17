@@ -51,3 +51,11 @@
 // Hub:
 #include "RoomPrefabs/Hub/RoomPrefabs-Hub-BeginingRoom.hpp"
 #include "RoomPrefabs/Hub/RoomPrefabs-Hub-KingsRoom.hpp"
+
+
+
+
+
+
+// Other:
+#include "RoomPrefabs/Other/RoomPrefabs-MerchantRoom.hpp"

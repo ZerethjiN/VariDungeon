@@ -20,6 +20,7 @@
 
 // Common:
 #include "Comps/Common/Comps-CameraAberation.hpp"
+#include "Comps/Common/Comps-Chest.hpp"
 #include "Comps/Common/Comps-Chunk.hpp"
 #include "Comps/Common/Comps-CombatParticleGenerator.hpp"
 #include "Comps/Common/Comps-Damage.hpp"
@@ -96,6 +97,7 @@
 #include "Comps/Player/Comps-Player.hpp"
 #include "Comps/Player/Comps-PlayerBonuses.hpp"
 #include "Comps/Player/Comps-PlayerCoin.hpp"
+#include "Comps/Player/Comps-PlayerFloor.hpp"
 #include "Comps/Player/Comps-PlayerFrenzy.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"

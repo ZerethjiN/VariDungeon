@@ -23,6 +23,7 @@
 
 // Decors
 #include "Prefabs/Decors/Prefabs-Candlestick.hpp"
+#include "Prefabs/Decors/Prefabs-Chest.hpp"
 #include "Prefabs/Decors/Prefabs-Column.hpp"
 #include "Prefabs/Decors/Prefabs-Crystal.hpp"
 #include "Prefabs/Decors/Prefabs-Fragments.hpp"

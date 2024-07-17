@@ -11,10 +11,13 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         Player(),
         Barbarian(),
         PlayerXp(25),
-        Life(5),
+        Life(50),//(5),
         PlayerCoin(),
-        PlayerDamage(1),
+        PlayerDamage(500),//(1),
         PlayerBonuses(),
+        PlayerFloor(
+            /*MerchantFloor:*/ {2, 4}
+        ),
         // PlayerBomb(2.0f),
         PlayerAttackCooldown(0.25f),
         PlayerKnockbackStrength(128.f),

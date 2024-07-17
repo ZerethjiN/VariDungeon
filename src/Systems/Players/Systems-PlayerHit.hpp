@@ -46,7 +46,7 @@ void playerHitSys(MainFixedSystem, World& world) {
                 // IsDead:
                 if (life.isDead()) {
                     world.destroy(playerEnt);
-                    world.loadScene(testScene);
+                    world.loadScene(hubScene);
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
                     appliedCurCameraAberation(world, 4, 0.1);

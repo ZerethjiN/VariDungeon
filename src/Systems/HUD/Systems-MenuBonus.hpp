@@ -232,6 +232,8 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                             }
                             break;
                         }
+                    } else {
+                        canBuy = true;
                     }
 
                     if (canBuy) {

@@ -29,7 +29,115 @@ void testScene(SceneSystem, World& world) {
         AmbientLight(glm::vec4(255, 255, 255, 255))
     );
 
-    generateDungeon(world, glm::vec2(0, 0));
+    std::size_t curFloor = 0;
+    bool canLoadMerchantRoom = false;
+    for (auto [_, playerFloor]: world.view<const PlayerFloor>()) {
+        curFloor = playerFloor.curFloor;
+        canLoadMerchantRoom = playerFloor.canLoadMerchantRoom;
+    }
+
+    if (canLoadMerchantRoom) {
+        // Rooms Generation:
+        // Create New Table:
+        std::vector<std::pair<const std::size_t, Ent>> newTables;
+        std::size_t height = 5;
+        std::size_t width = 5;
+
+        // Generate Cells:
+        std::vector<RoomCellInfo> cellMat(height * width);
+        cellMat[12].isActive = true;
+        cellMat[12].isPrimary = true;
+
+        auto beginingRoomEnt = instantiateMerchantRoom(world, glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
+        // addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
+
+        newTables.emplace_back(
+            12,
+            beginingRoomEnt
+        );
+
+        // Chunk Exploration Init:
+        std::vector<std::vector<ChunkExploration::RoomExplorationType>> roomTypes;
+        for (int y = 0; y < height; y++) {
+            roomTypes.emplace_back();
+            for (int x = 0; x < width; x++) {
+                if (cellMat[y * width + x].isPrimary) {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_PLAYER);
+                } else if (cellMat[y * width + x].isActive) {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_UNKNOW);
+                } else {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_EMPTY);
+                }
+            }
+        }
+
+        // ChunkTable recreation:
+        world.newEnt(
+            ChunkTable(width, height, newTables),
+            ChunkExploration(width, height, roomTypes)
+        );
+
+        // Spawn Player + Camera:
+        auto players = world.view<Transform>(with<Player>);
+        if (players.empty()) {
+            auto playerEnt = instantiateBarbarian(world, glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
+            world.addDontDestroyOnLoad(playerEnt);
+        } else {
+            for (auto [_, playerTransform]: players) {
+                playerTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
+            }
+        }
+
+        auto cameras = world.view(with<CurCamera>);
+        if (cameras.empty()) {
+            auto cameraOrigin = world.newEnt(
+                Transform(
+                    glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
+                    0,
+                    glm::vec2(1, 1)
+                )
+            );
+
+            world.appendChildren(cameraOrigin, {
+                // Camera
+                world.newEnt(
+                    Transform(
+                        glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    Camera(),
+                    CurCamera(),
+                    CameraEffect()
+                )
+            });
+
+            world.addDontDestroyOnLoad(cameraOrigin);
+        } else {
+            for (auto [curCameraEnt]: cameras) {
+                if (auto opt = world.getParent(curCameraEnt)) {
+                    if (auto optTransform = world.get<Transform>(opt.value())) {
+                        auto [parentTransform] = optTransform.value();
+                        parentTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0));
+                    }
+                }
+            }
+
+            for (auto [cameraEnt]: world.view(with<CameraShake>)) {
+                if (world.has<CameraShake>(cameraEnt)) {
+                    world.remove<CameraShake>(cameraEnt);
+                }
+                if (world.has<CameraShakeLeft>(cameraEnt)) {
+                    world.remove<CameraShakeLeft>(cameraEnt);
+                }
+                if (world.has<CameraShakeRight>(cameraEnt)) {
+                    world.remove<CameraShakeRight>(cameraEnt);
+                }
+            }
+        }
+    } else {
+        generateDungeon(world, glm::vec2(0, 0), curFloor);
+    }
 
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
@@ -46,7 +154,7 @@ void testScene(SceneSystem, World& world) {
         ),
         {
             world.newEnt(
-                TextUICreator("Floor X", "Fonts/Zepto-Regular.ttf", 16, UIAnchor::BOTTOM_CENTER, glm::vec2(160, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
+                TextUICreator(std::string("Floor ") + std::to_string(curFloor), "Fonts/Zepto-Regular.ttf", 16, UIAnchor::BOTTOM_CENTER, glm::vec2(160, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                 Transform(
                     glm::vec2(-80, -88),
                     0,

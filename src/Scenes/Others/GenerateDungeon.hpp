@@ -409,7 +409,7 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
     instantiateDesertBossRoom3,
 };
 
-void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
+void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t curFloor) {
     std::cout << "Generate Dungeon - Total Ent: " << world.getTotalEntities() << std::endl;
 
     // Purge Old Table:
@@ -438,7 +438,12 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
     } while(!checkGen);
 
     // Instantiate Rooms:
-    std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> newPrefabRooms(prefabRoomDeserts);
+    std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> newPrefabRooms;
+    if (curFloor < 3) {
+        newPrefabRooms = prefabRoomDeserts;
+    } else {
+        newPrefabRooms = prefabRoomDesertsLvl2;
+    }
 
     for (std::size_t roomPosY = 0; roomPosY < height; roomPosY++) {
         for (std::size_t roomPosX = 0; roomPosX < width; roomPosX++) {
@@ -550,7 +555,11 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition) {
                 auto newRoomPrefab = newPrefabRooms[rnd];
                 newPrefabRooms.erase(newPrefabRooms.begin() + rnd);
                 if (newPrefabRooms.empty()) {
-                    newPrefabRooms = prefabRoomDeserts;
+                    if (curFloor < 3) {
+                        newPrefabRooms = prefabRoomDeserts;
+                    } else {
+                        newPrefabRooms = prefabRoomDesertsLvl2;
+                    }
                 }
                 // auto newRoomPrefab = prefabRoomDesertsLvl2[rand() % prefabRoomDesertsLvl2.size()];
 
