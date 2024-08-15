@@ -57,7 +57,7 @@ public:
 
             Texture* newTexture = nullptr;
             if (ftFace->glyph->bitmap.buffer != nullptr) {
-                newTexture = new Texture(ftFace->glyph->bitmap.buffer, ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows);
+                newTexture = new Texture(ftFace->glyph->bitmap.buffer, ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows, 1);
             }
 
             glyphs.at(letter).emplace(

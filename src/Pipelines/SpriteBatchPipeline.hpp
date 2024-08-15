@@ -248,9 +248,9 @@ public:
             VkDeviceSize bufferSize = sprites[engine.getCurFrame()].size() * sizeof(StorageBufferObject);
 
             createBuffer(engine.physicalDevice, engine.device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, vertexStorageBuffers[vulkanEngine.getCurFrame()], vertexStorageBuffersMemory[vulkanEngine.getCurFrame()]);
+            
+            vkMapMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()], 0, sprites[engine.getCurFrame()].size() * sizeof(StorageBufferObject), 0, &vertexStorageBuffersMapped[vulkanEngine.getCurFrame()]);
 
-            vkMapMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()], 0, bufferSize, 0, &vertexStorageBuffersMapped[vulkanEngine.getCurFrame()]);
-        
             lastVertexStorageBufferSizes[engine.getCurFrame()] = sprites[engine.getCurFrame()].size();
         }
 
@@ -266,7 +266,7 @@ public:
 
             createBuffer(engine.physicalDevice, engine.device, bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, fragmentStorageBuffers[vulkanEngine.getCurFrame()], fragmentStorageBuffersMemory[vulkanEngine.getCurFrame()]);
 
-            vkMapMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()], 0, bufferSize, 0, &fragmentStorageBuffersMapped[vulkanEngine.getCurFrame()]);
+            vkMapMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()], 0, lights[engine.getCurFrame()].size() * sizeof(SSBOLight), 0, &fragmentStorageBuffersMapped[vulkanEngine.getCurFrame()]);
         
             lastFragmentStorageBufferSizes[engine.getCurFrame()] = lights[engine.getCurFrame()].size();
         }

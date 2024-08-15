@@ -72,6 +72,7 @@
 #include "Systems/HUD/Systems-InventoryBar.hpp"
 #include "Systems/HUD/Systems-MapMenu.hpp"
 #include "Systems/HUD/Systems-MenuBonus.hpp"
+#include "Systems/HUD/Systems-MenuChest.hpp"
 #include "Systems/HUD/Systems-PauseMenu.hpp"
 
 // NPC:

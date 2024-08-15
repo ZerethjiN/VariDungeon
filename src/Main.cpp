@@ -32,7 +32,6 @@ void pollEventsSys(MainFixedSystem, World& world) {
 int main() {
     try {
         ZerEngine()
-            .useMultithreading(false)
             .setFixedTimeStep(0.02f)
             .addResource<BuildVersion>("0.0.1R")
             .addResource<PipelineManager>()
@@ -126,14 +125,15 @@ int main() {
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, MenuBonusCurSelectedRowScaleSys,
                 pauseMenuOpenCloseSys, pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys, pauseMenuSelectorMoveDownSys, pauseMenuSelectorMoveUpSys,
                 mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys,
-            
+                menuChestValidateSys,
+
                 // NPC:
                 merchantOpenCloseSys
             })
 
             // Enemies Lvl1 Threads
             .addSystems(
-                threadedFixedSystem, // Mummy Threads
+                mainFixedSystem, // Mummy Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Mummy>).empty();
@@ -141,7 +141,7 @@ int main() {
                 {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
             )
             .addSystems(
-                threadedFixedSystem, // Insect Threads
+                mainFixedSystem, // Insect Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Insect>).empty();
@@ -149,7 +149,7 @@ int main() {
                 {insectMoveSys, insectAttackSys}
             )
             .addSystems(
-                threadedFixedSystem, // Gasterolcan Threads
+                mainFixedSystem, // Gasterolcan Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Gasterolcan>).empty();
@@ -157,7 +157,7 @@ int main() {
                 {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
             )
             .addSystems(
-                threadedFixedSystem, // Spectre Threads
+                mainFixedSystem, // Spectre Threads
                 [](World& world) -> bool {
                     auto [appstate] = world.resource<const AppState>();
                     return appstate.state == APP_STATE_IN_GAME && !world.view(with<Spectre>).empty();

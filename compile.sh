@@ -28,6 +28,7 @@ g++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
     # -static-libgcc\
     # -static-libstdc++\
 
+#-fsanitize=address -fsanitize-address-use-after-scope -fsanitize=leak -fsanitize=undefined\
 #-Wl,-Bdynamic -lvulkan\
 #-Wall\
 #-s

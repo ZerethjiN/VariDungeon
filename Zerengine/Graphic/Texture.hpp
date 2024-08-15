@@ -33,8 +33,9 @@ public:
         createTextureSampler();
     }
 
-    Texture(const unsigned char* buffer, unsigned int width, unsigned int height):
-        size(width, height) {
+    Texture(const unsigned char* buffer, unsigned int width, unsigned int height, unsigned int newChannels):
+        size(width, height),
+        channels(newChannels) {
         createTextureImageFromBuffer(buffer);
         createTextureImageViewRed();
         createTextureSampler();
@@ -61,6 +62,7 @@ public:
         }
 
         size = {texWidth, texHeight};
+        channels = texChannels;
 
         VkBuffer stagingBuffer;
         VkDeviceMemory stagingBufferMemory;
@@ -84,7 +86,7 @@ public:
     }
     
     void createTextureImageFromBuffer(const unsigned char* buffer) {
-        VkDeviceSize imageSize = size.x * size.y * 4;
+        VkDeviceSize imageSize = size.x * size.y * channels;
 
         if (!buffer) {
             throw std::runtime_error("failed to load texture image!");
@@ -280,6 +282,7 @@ private:
 
 public:
     glm::uvec2 size;
+    int channels;
     std::string name;
 
 public:

@@ -87,6 +87,7 @@
 #include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MapMenu.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
+#include "Comps/HUD/Comps-MenuChest.hpp"
 #include "Comps/HUD/Comps-PauseMenu.hpp"
 
 // NPC:

@@ -434,7 +434,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
         std::size_t primaryCell = rand() % (height * width);
         cellMat[primaryCell].isActive = true;
         cellMat[primaryCell].isPrimary = true;
-        checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
+        checkGen = newGenCell(width, height, primaryCell, /*9*/ 1, /*5*/ 1, cellMat);
     } while(!checkGen);
 
     // Instantiate Rooms:

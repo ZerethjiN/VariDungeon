@@ -79,6 +79,7 @@
 #include "Prefabs/HUD/Prefabs-InventoryBarUI.hpp"
 #include "Prefabs/HUD/Prefabs-MapMenuUI.hpp"
 #include "Prefabs/HUD/Prefabs-MenuBonusUI.hpp"
+#include "Prefabs/HUD/Prefabs-MenuChestUI.hpp"
 #include "Prefabs/HUD/Prefabs-PauseMenuUI.hpp"
 
 // NPC:
