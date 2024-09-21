@@ -88,59 +88,98 @@ static const ImageAsset barbareUV("Textures/Barbare.png", {
     {{272,  32, 16, 32}, {0.50f, 0.75f}}, // 55: Barbare Hit Dash Up
 });
 
-static const AnimationAsset barbareAnim({
+enum class BarbareAnimType: std::size_t {
+    IDLE_DOWN,
+    IDLE_RIGHT,
+    IDLE_LEFT,
+    IDLE_UP,
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    DASH_DOWN,
+    DASH_RIGHT,
+    DASH_LEFT,
+    DASH_UP,
+    HIT_IDLE_DOWN,
+    HIT_IDLE_RIGHT,
+    HIT_IDLE_LEFT,
+    HIT_IDLE_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+    HIT_DASH_DOWN,
+    HIT_DASH_RIGHT,
+    HIT_DASH_LEFT,
+    HIT_DASH_UP,
+    PERSISTENCE_DOWN,
+    PERSISTENCE_RIGHT,
+    PERSISTENCE_LEFT,
+    PERSISTENCE_UP,
+};
+
+static const AnimationAsset barbareAnim(animEnum<BarbareAnimType>, {
     // Idles
-    {"IdleDown", {
+    {BarbareAnimType::IDLE_DOWN, {{
         {1.00f, barbareUV[0]},
-    }},
-    {"IdleRight", {
+    }}},
+    {BarbareAnimType::IDLE_RIGHT, {{
         {1.00f, barbareUV[2]},
-    }},
-    {"IdleLeft", {
+    }}},
+    {BarbareAnimType::IDLE_LEFT, {{
         {1.00f, barbareUV[4]},
-    }},
-    {"IdleUp", {
+    }}},
+    {BarbareAnimType::IDLE_UP, {{
         {1.00f, barbareUV[6]},
-    }},
+    }}},
 
     // Movements
-    {"MoveDown", {
+    {BarbareAnimType::MOVE_DOWN, {{
         {0.20f, barbareUV[0]},
         {0.20f, barbareUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {BarbareAnimType::MOVE_RIGHT, {{
         {0.20f, barbareUV[2]},
         {0.20f, barbareUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {BarbareAnimType::MOVE_LEFT, {{
         {0.20f, barbareUV[4]},
         {0.20f, barbareUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {BarbareAnimType::MOVE_UP, {{
         {0.20f, barbareUV[6]},
         {0.20f, barbareUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {{
+    {BarbareAnimType::ATTACK_DOWN, {{
         {0.025f, barbareUV[8]},
         {0.10f, barbareUV[9]},
         {0.025f, barbareUV[10]},
         {1.00f, barbareUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackRight", {{
+    {BarbareAnimType::ATTACK_RIGHT, {{
         {0.025f, barbareUV[11]},
         {0.10f, barbareUV[12]},
         {0.025f, barbareUV[13]},
         {1.00f, barbareUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackLeft", {{
+    {BarbareAnimType::ATTACK_LEFT, {{
         {0.025f, barbareUV[14]},
         {0.10f, barbareUV[15]},
         {0.025f, barbareUV[16]},
         {1.00f, barbareUV[4]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackUp", {{
+    {BarbareAnimType::ATTACK_UP, {{
         {0.025f, barbareUV[17]},
         {0.10f, barbareUV[18]},
         {0.025f, barbareUV[19]},
@@ -148,75 +187,75 @@ static const AnimationAsset barbareAnim({
     }, AnimationType::ONE_SHOT}},
 
     // Dashs
-    {"DashDown", {
+    {BarbareAnimType::DASH_DOWN, {{
         {1.00f, barbareUV[20]},
-    }},
-    {"DashRight", {
+    }}},
+    {BarbareAnimType::DASH_RIGHT, {{
         {1.00f, barbareUV[21]},
-    }},
-    {"DashLeft", {
+    }}},
+    {BarbareAnimType::DASH_LEFT, {{
         {1.00f, barbareUV[22]},
-    }},
-    {"DashUp", {
+    }}},
+    {BarbareAnimType::DASH_UP, {{
         {1.00f, barbareUV[23]},
-    }},
+    }}},
 
 
 
 
 
     // Hit Idles
-    {"HitIdleDown", {
+    {BarbareAnimType::HIT_IDLE_DOWN, {{
         {1.00f, barbareUV[24]},
-    }},
-    {"HitIdleRight", {
+    }}},
+    {BarbareAnimType::HIT_IDLE_RIGHT, {{
         {1.00f, barbareUV[26]},
-    }},
-    {"HitIdleLeft", {
+    }}},
+    {BarbareAnimType::HIT_IDLE_LEFT, {{
         {1.00f, barbareUV[28]},
-    }},
-    {"HitIdleUp", {
+    }}},
+    {BarbareAnimType::HIT_IDLE_UP, {{
         {1.00f, barbareUV[30]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {BarbareAnimType::HIT_MOVE_DOWN, {{
         {0.20f, barbareUV[24]},
         {0.20f, barbareUV[25]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {BarbareAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, barbareUV[26]},
         {0.20f, barbareUV[27]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {BarbareAnimType::HIT_MOVE_LEFT, {{
         {0.20f, barbareUV[28]},
         {0.20f, barbareUV[29]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {BarbareAnimType::HIT_MOVE_UP, {{
         {0.20f, barbareUV[30]},
         {0.20f, barbareUV[31]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {{
+    {BarbareAnimType::HIT_ATTACK_DOWN, {{
         {0.025f, barbareUV[32]},
         {0.10f, barbareUV[33]},
         {0.025f, barbareUV[34]},
         {1.00f, barbareUV[24]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackRight", {{
+    {BarbareAnimType::HIT_ATTACK_RIGHT, {{
         {0.025f, barbareUV[35]},
         {0.10f, barbareUV[36]},
         {0.025f, barbareUV[37]},
         {1.00f, barbareUV[26]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackLeft", {{
+    {BarbareAnimType::HIT_ATTACK_LEFT, {{
         {0.025f, barbareUV[38]},
         {0.10f, barbareUV[39]},
         {0.025f, barbareUV[40]},
         {1.00f, barbareUV[28]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackUp", {{
+    {BarbareAnimType::HIT_ATTACK_UP, {{
         {0.025f, barbareUV[41]},
         {0.10f, barbareUV[42]},
         {0.025f, barbareUV[43]},
@@ -224,34 +263,34 @@ static const AnimationAsset barbareAnim({
     }, AnimationType::ONE_SHOT}},
 
     // Hit Dashs
-    {"HitDashDown", {
+    {BarbareAnimType::HIT_DASH_DOWN, {{
         {1.00f, barbareUV[44]},
-    }},
-    {"HitDashRight", {
+    }}},
+    {BarbareAnimType::HIT_DASH_RIGHT, {{
         {1.00f, barbareUV[45]},
-    }},
-    {"HitDashLeft", {
+    }}},
+    {BarbareAnimType::HIT_DASH_LEFT, {{
         {1.00f, barbareUV[46]},
-    }},
-    {"HitDashUp", {
+    }}},
+    {BarbareAnimType::HIT_DASH_UP, {{
         {1.00f, barbareUV[47]},
-    }},
+    }}},
 
     // Persistence
-    {"PersistenceDown", {
+    {BarbareAnimType::PERSISTENCE_DOWN, {{
         {0.15f, barbareUV[48]},
         {0.15f, barbareUV[52]},
-    }},
-    {"PersistenceRight", {
+    }}},
+    {BarbareAnimType::PERSISTENCE_RIGHT, {{
         {0.15f, barbareUV[49]},
         {0.15f, barbareUV[53]},
-    }},
-    {"PersistenceLeft", {
+    }}},
+    {BarbareAnimType::PERSISTENCE_LEFT, {{
         {0.15f, barbareUV[50]},
         {0.15f, barbareUV[54]},
-    }},
-    {"PersistenceUp", {
+    }}},
+    {BarbareAnimType::PERSISTENCE_UP, {{
         {0.15f, barbareUV[51]},
         {0.15f, barbareUV[55]},
-    }},
+    }}},
 });

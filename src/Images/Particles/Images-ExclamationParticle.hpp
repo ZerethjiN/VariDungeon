@@ -8,10 +8,14 @@ static const ImageAsset exclamationParticleUV("Textures/ExclamationParticle.png"
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: Exclamation Particle C
 });
 
-static const AnimationAsset exclamationParticleAnim({
-    {"Default", {
+enum class ExclamationParticleAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset exclamationParticleAnim(animEnum<ExclamationParticleAnimType>, {
+    {ExclamationParticleAnimType::DEFAULT, {{
         {0.05f, exclamationParticleUV[0]},
         {0.05f, exclamationParticleUV[1]},
         {1.00f, exclamationParticleUV[2]},
-    }},
+    }}},
 });

@@ -25,29 +25,29 @@ void slimeMoveSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(slimeEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(SlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(SlimeAnimType::MOVE_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(slimeEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(SlimeAnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(SlimeAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(slimeEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(SlimeAnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(SlimeAnimType::MOVE_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(slimeEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(SlimeAnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(SlimeAnimType::MOVE_UP);
                 }
             }
         }

@@ -10,13 +10,18 @@ static const ImageAsset torchUV("Textures/Torch.png", {
     {{ 16,  16, 16, 16}, {0.5f, 0.5f}}, //  3: Torch On B
 });
 
-static const AnimationAsset torchAnim({
-    {"Off", {
+enum class TorchAnimType: std::size_t {
+    OFF,
+    ON,
+};
+
+static const AnimationAsset torchAnim(animEnum<TorchAnimType>, {
+    {TorchAnimType::OFF, {{
         {0.50f, torchUV[0]},
         {0.50f, torchUV[1]},
-    }},
-    {"On", {
+    }}},
+    {TorchAnimType::ON, {{
         {0.50f, torchUV[2]},
         {0.50f, torchUV[3]},
-    }},
+    }}},
 });

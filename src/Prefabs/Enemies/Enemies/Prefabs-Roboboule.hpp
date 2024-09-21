@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateRoboboule(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -13,9 +14,9 @@ Ent instantiateRoboboule(World& world, const glm::vec2& position) {
         IsRobobouleMove(),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(robobouleUV),
-        Animation(robobouleAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, robobouleUV),
+        Animation(robobouleAnim, RobobouleAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

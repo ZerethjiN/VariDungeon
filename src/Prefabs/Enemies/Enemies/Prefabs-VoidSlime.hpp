@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateVoidSlime(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -13,9 +14,9 @@ Ent instantiateVoidSlime(World& world, const glm::vec2& position) {
         IsVoidSlimeMove(1.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(voidSlimeUV),
-        Animation(voidSlimeAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, voidSlimeUV),
+        Animation(voidSlimeAnim, VoidSlimeAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

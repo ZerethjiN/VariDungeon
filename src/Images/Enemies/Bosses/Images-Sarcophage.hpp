@@ -44,76 +44,95 @@ static const ImageAsset sarcophageUV("Textures/Sarcophage.png", {
     {{ 96, 224, 32, 32}, {0.5f, 0.5f}}, // 31: Sarcophage Hit Attack Up B
 });
 
-static const AnimationAsset sarcophageAnim({
+enum class SarcophageAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset sarcophageAnim(animEnum<SarcophageAnimType>, {
     // Movements
-    {"MoveDown", {
+    {SarcophageAnimType::MOVE_DOWN, {{
         {0.20f, sarcophageUV[0]},
         {0.20f, sarcophageUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {SarcophageAnimType::MOVE_RIGHT, {{
         {0.20f, sarcophageUV[2]},
         {0.20f, sarcophageUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {SarcophageAnimType::MOVE_LEFT, {{
         {0.20f, sarcophageUV[4]},
         {0.20f, sarcophageUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {SarcophageAnimType::MOVE_UP, {{
         {0.20f, sarcophageUV[6]},
         {0.20f, sarcophageUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {SarcophageAnimType::ATTACK_DOWN, {{
         {0.40f, sarcophageUV[8]},
         {0.40f, sarcophageUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {SarcophageAnimType::ATTACK_RIGHT, {{
         {0.40f, sarcophageUV[10]},
         {0.40f, sarcophageUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {SarcophageAnimType::ATTACK_LEFT, {{
         {0.40f, sarcophageUV[12]},
         {0.40f, sarcophageUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {SarcophageAnimType::ATTACK_UP, {{
         {0.40f, sarcophageUV[14]},
         {0.40f, sarcophageUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {SarcophageAnimType::HIT_MOVE_DOWN, {{
         {0.20f, sarcophageUV[16]},
         {0.20f, sarcophageUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {SarcophageAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, sarcophageUV[18]},
         {0.20f, sarcophageUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {SarcophageAnimType::HIT_MOVE_LEFT, {{
         {0.20f, sarcophageUV[20]},
         {0.20f, sarcophageUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {SarcophageAnimType::HIT_MOVE_UP, {{
         {0.20f, sarcophageUV[22]},
         {0.20f, sarcophageUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {SarcophageAnimType::HIT_ATTACK_DOWN, {{
         {0.40f, sarcophageUV[24]},
         {0.40f, sarcophageUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {SarcophageAnimType::HIT_ATTACK_RIGHT, {{
         {0.40f, sarcophageUV[26]},
         {0.40f, sarcophageUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {SarcophageAnimType::HIT_ATTACK_LEFT, {{
         {0.40f, sarcophageUV[28]},
         {0.40f, sarcophageUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {SarcophageAnimType::HIT_ATTACK_UP, {{
         {0.40f, sarcophageUV[30]},
         {0.40f, sarcophageUV[31]},
-    }},
+    }}},
 });

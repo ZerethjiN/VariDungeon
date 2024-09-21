@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateMegaSlime(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Boss(),
         Enemy(),
@@ -28,9 +29,9 @@ Ent instantiateMegaSlime(World& world, const glm::vec2& position) {
         IsMegaSlimeMove(1.0f, false),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(megaSlimeUV),
-        Animation(megaSlimeAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, megaSlimeUV),
+        Animation(megaSlimeAnim, MegaSlimeAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -46,15 +47,16 @@ Ent instantiateMegaSlime(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateSlimeSlimeBoss(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Slime(0.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(slimeUV),
-        Animation(slimeAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, slimeUV),
+        Animation(slimeAnim, SlimeAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

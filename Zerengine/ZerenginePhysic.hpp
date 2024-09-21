@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 #include <sstream>
+#include <type_traits>
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
@@ -46,7 +47,7 @@ public:
 
 class OnCollisionEnter final {
 friend void collisionSys(LateFixedSystem, World&);
-friend void purgeCollisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
     OnCollisionEnter() noexcept:
         othCols(),
@@ -74,7 +75,7 @@ private:
 
 class OnCollisionStay final {
 friend void collisionSys(LateFixedSystem, World&);
-friend void purgeCollisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
     OnCollisionStay() noexcept:
         othCols(),
@@ -102,7 +103,7 @@ private:
 
 class OnCollisionExit final {
 friend void collisionSys(LateFixedSystem, World&);
-friend void purgeCollisionSys(LateFixedSystem, World&);
+friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
     OnCollisionExit() noexcept:
         othCols(),
@@ -132,8 +133,9 @@ private:
 
 class LayerCollision final {
 public:
-    constexpr LayerCollision(std::size_t newLayer) noexcept:
-        layer(newLayer) {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    constexpr LayerCollision(const E& newLayer) noexcept:
+        layer(static_cast<std::size_t>(newLayer)) {
     }
 
 public:
@@ -144,7 +146,11 @@ public:
 
 class LayerBasedCollisions final {
 public:
-    void addExclusion(std::size_t typeA, std::size_t typeB) {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    void addExclusion(const E& typeAE, const E& typeBE) {
+        auto typeA = static_cast<std::size_t>(typeAE);
+        auto typeB = static_cast<std::size_t>(typeBE);
+
         // TypeB -> TypeA
         auto exclusionMatrixTypeAIt = exclusionMatrix.find(typeA);
         // if (!exclusionMatrix.contains(typeA)) {
@@ -175,7 +181,11 @@ public:
         }
     }
 
-    void removeExclusion(std::size_t typeA, std::size_t typeB) {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    void removeExclusion(const E& typeAE, const E& typeBE) {
+        auto typeA = static_cast<std::size_t>(typeAE);
+        auto typeB = static_cast<std::size_t>(typeBE);
+
         if (auto exclusionMatrixTypeAIt = exclusionMatrix.find(typeA); exclusionMatrixTypeAIt != exclusionMatrix.end()) {
             exclusionMatrixTypeAIt->second.erase(typeB);
         }
@@ -211,9 +221,17 @@ public:
     void erase(const Ent ent) {
         if (auto containEnt = entLocations.find(ent); containEnt != entLocations.end()) {
             const auto& location = containEnt->second;
-            for (float x = location.x; x < location.y; x++) {
-                for (float y = location.z; y < location.w; y++) {
+            for (int xi = location.x; xi < location.y; xi++) {
+                float x = xi;
+                for (int yi = location.z; yi < location.w; yi++) {
+                    float y = yi;
                     cells.at(x).at(y).erase(ent);
+                    if (cells.at(x).at(y).empty()) {
+                        cells.at(x).erase(y);
+                        if (cells.at(x).empty()) {
+                            cells.erase(x);
+                        }
+                    }
                 }
             }
             entLocations.erase(containEnt);
@@ -224,9 +242,17 @@ public:
         decltype(entLocations)::iterator containEnt;
         if (containEnt = entLocations.find(ent); containEnt != entLocations.end()) {
             const auto& location = containEnt->second;
-            for (float x = location.x; x < location.y; x++) {
-                for (float y = location.z; y < location.w; y++) {
+            for (int xi = location.x; xi < location.y; xi++) {
+                float x = xi;
+                for (int yi = location.z; yi < location.w; yi++) {
+                    float y = yi;
                     cells.at(x).at(y).erase(ent);
+                    if (cells.at(x).at(y).empty()) {
+                        cells.at(x).erase(y);
+                        if (cells.at(x).empty()) {
+                            cells.erase(x);
+                        }
+                    }
                 }
             }
         }
@@ -236,7 +262,8 @@ public:
         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
 
-        for (float x = min.x; x < max.x; x++) {
+        for (int xi = min.x; xi < max.x; xi++) {
+            float x = xi;
             auto cellX = cells.find(x);
             if (cellX == cells.end()) {
                 cellX = cells.emplace(
@@ -245,7 +272,8 @@ public:
                     std::forward_as_tuple()
                 ).first;
             }
-            for (float y = min.y; y < max.y; y++) {
+            for (int yi = min.y; yi < max.y; yi++) {
+                float y = yi;
                 auto cellY = cellX->second.find(y);
                 if (cellY == cellX->second.end()) {
                     cellX->second.emplace(
@@ -278,9 +306,11 @@ public:
         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
 
-        for (float x = min.x; x < max.x; x++) {
+        for (int xi = min.x; xi < max.x; xi++) {
+            float x = xi;
             if (const auto cellX = cells.find(x); cellX != cells.end()) {
-                for (float y = min.y; y < max.y; y++) {
+                for (int yi = min.y; yi < max.y; yi++) {
+                    float y = yi;
                     if (const auto cellXY = cellX->second.find(y); cellXY != cellX->second.end()) {
                         othEnts.insert(cellXY->second.begin(), cellXY->second.end());
                     }
@@ -301,9 +331,11 @@ public:
         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
 
-        for (float x = min.x; x < max.x; x++) {
+        for (int xi = min.x; xi < max.x; xi++) {
+            float x = xi;
             if (const auto cellX = cells.find(x); cellX != cells.end()) {
-                for (float y = min.y; y < max.y; y++) {
+                for (int yi = min.y; yi < max.y; yi++) {
+                    float y = yi;
                     if (const auto cellXY = cellX->second.find(y); cellXY != cellX->second.end()) {
                         othEnts.insert(cellXY->second.begin(), cellXY->second.end());
                     }
@@ -320,12 +352,148 @@ private:
     std::unordered_map<Ent, glm::vec4> entLocations;
 };
 
+// struct SpatialHashMapPosition {
+// friend struct std::hash<SpatialHashMapPosition>;
+// public:
+//     [[nodiscard]] constexpr SpatialHashMapPosition() noexcept:
+//         x(0.f),
+//         y(0.f) {
+//     }
+
+//     [[nodiscard]] constexpr SpatialHashMapPosition(float newX, float newY) noexcept:
+//         x(newX),
+//         y(newY) {
+//     }
+
+//     [[nodiscard]] constexpr bool operator==(const SpatialHashMapPosition&) const noexcept = default;
+
+// private:
+//     float x;
+//     float y;
+// };
+
+// template<>
+// struct std::hash<SpatialHashMapPosition> {
+//     std::size_t operator()(const SpatialHashMapPosition& s) const noexcept {
+//         std::size_t h1 = std::hash<float>()(s.x);
+//         std::size_t h2 = std::hash<float>()(s.y);
+//         return h1 ^ (h2 << 1);
+//     }
+// };
+
+// class SpatialHashMap final {
+// public:
+//     void clear() {
+//         cells.clear();
+//         entLocations.clear();
+//     }
+
+//     void erase(const Ent ent) {
+//         if (auto containEnt = entLocations.find(ent); containEnt != entLocations.end()) {
+//             const auto& location = containEnt->second;
+//             for (float x = location.x; x < location.y; x++) {
+//                 for (float y = location.z; y < location.w; y++) {
+//                     cells.at({x, y}).erase(ent);
+//                 }
+//             }
+//             entLocations.erase(containEnt);
+//         }
+//     }
+
+//     void emplace_or_replace(const Ent ent, const glm::vec4& col, const glm::mat4& model) {
+//         decltype(entLocations)::iterator containEnt;
+//         if (containEnt = entLocations.find(ent); containEnt != entLocations.end()) {
+//             const auto& location = containEnt->second;
+//             for (float x = location.x; x < location.y; x++) {
+//                 for (float y = location.z; y < location.w; y++) {
+//                     cells.at({x, y}).erase(ent);
+//                 }
+//             }
+//         }
+
+//         auto globalBoundingBox = getGlobalBoundingBox(col, model);
+
+//         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
+//         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
+
+//         for (float x = min.x; x < max.x; x++) {
+//             for (float y = min.y; y < max.y; y++) {
+//                 auto cellIt = cells.find({x, y});
+//                 if (cellIt == cells.end()) {
+//                     cells.emplace(
+//                         std::piecewise_construct,
+//                         std::forward_as_tuple(x, y),
+//                         std::forward_as_tuple(std::initializer_list<Ent>{ent})
+//                     );
+//                 } else {
+//                     cellIt->second.emplace(ent);
+//                 }
+//             }
+//         }
+
+//         if (containEnt != entLocations.end()) {
+//             containEnt->second = glm::vec4(min.x, max.x, min.y, max.y);
+//         } else {
+//             entLocations.emplace(
+//                 std::piecewise_construct,
+//                 std::forward_as_tuple(ent),
+//                 std::forward_as_tuple(min.x, max.x, min.y, max.y)
+//             );
+//         }
+//     }
+
+//     [[nodiscard]] std::unordered_set<Ent> getIntersectList(const Ent ent, const glm::vec4& col, const glm::mat4& model) const {
+//         std::unordered_set<Ent> othEnts;
+
+//         auto globalBoundingBox = getGlobalBoundingBox(col, model);
+
+//         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
+//         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
+
+//         for (float x = min.x; x < max.x; x++) {
+//             for (float y = min.y; y < max.y; y++) {
+//                 if (const auto cellIt = cells.find({x, y}); cellIt != cells.end()) {
+//                     othEnts.insert(cellIt->second.begin(), cellIt->second.end());
+//                 }
+//             }
+//         }
+
+//         othEnts.erase(ent);
+
+//         return othEnts;
+//     }
+
+//     [[nodiscard]] std::unordered_set<Ent> getIntersectList(const glm::vec4& col, const glm::mat4& model) const {
+//         std::unordered_set<Ent> othEnts;
+
+//         auto globalBoundingBox = getGlobalBoundingBox(col, model);
+
+//         glm::vec2 min = glm::floor(glm::vec2(globalBoundingBox.x, globalBoundingBox.y) / cellSize);
+//         glm::vec2 max = glm::ceil(glm::vec2(globalBoundingBox.z, globalBoundingBox.w) / cellSize);
+
+//         for (float x = min.x; x < max.x; x++) {
+//             for (float y = min.y; y < max.y; y++) {
+//                 if (const auto cellIt = cells.find({x, y}); cellIt != cells.end()) {
+//                     othEnts.insert(cellIt->second.begin(), cellIt->second.end());
+//                 }
+//             }
+//         }
+
+//         return othEnts;
+//     }
+
+// private:
+//     glm::vec2 cellSize = glm::vec2(32.f, 32.f);
+//     std::unordered_map<SpatialHashMapPosition, std::unordered_set<Ent>> cells;
+//     std::unordered_map<Ent, glm::vec4> entLocations;
+// };
+
 ///////////////////////////////////////////////////////////////////////////////////
 
-void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
+inline void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
     if (auto childrenOpt = world.getChildren(ent)) {
         for (const auto childEnt: childrenOpt.value().get()) {
-            if (auto opt = world.get<Transform>(childEnt)) {
+            if (auto opt = world.get<Transform2D>(childEnt)) {
                 auto [childTrans] = opt.value();
                 childTrans.moveVelocity(vel);
             }
@@ -334,8 +502,8 @@ void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
     }
 }
 
-void updateVelocitySys(LateFixedSystem, World& world) {
-    for (auto [ent, velocity, trans]: world.view<Velocity, Transform>()) {
+inline void updateVelocitySys(LateFixedSystem, World& world) {
+    for (auto [ent, velocity, trans]: world.view<Velocity, Transform2D>()) {
         if (velocity.vel != glm::vec2(0, 0)) {
             trans.moveVelocity(velocity.vel);
             updateVelocityRec(world, ent, velocity.vel);
@@ -346,8 +514,8 @@ void updateVelocitySys(LateFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void updatePositionSys(LateFixedSystem, World& world) {
-    for (auto [ent, trans]: world.view<Transform>()) {
+inline void updatePositionSys(LateUnscaledFixedSystem, World& world) {
+    for (auto [ent, trans]: world.view<Transform2D>()) {
         if (trans.needUpdatePosition) {
             trans.moveVelocity(trans.diffPosition);
             updateVelocityRec(world, ent, trans.diffPosition);
@@ -359,10 +527,7 @@ void updatePositionSys(LateFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void collisionSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
+inline void collisionSys(LateFixedSystem, World& world) {
     for (auto [_, collision]: world.view<OnCollisionEnter>()) {
         collision.oldOthCols.swap(collision.othCols);
         collision.othCols.clear();
@@ -380,21 +545,21 @@ void collisionSys(LateFixedSystem, World& world) {
 
     auto [layerBasedCollisions, spatialHashMap] = world.resource<const LayerBasedCollisions, SpatialHashMap>();
 
-    for (auto [othEnt, othTrig, othTrans]: world.view<const Trigger, Transform>()) {
+    for (auto [othEnt, othTrig, othTrans]: world.view<const Trigger, Transform2D>()) {
         if (othTrans.hashMapUpdated) {
             othTrans.hashMapUpdated = false;
             spatialHashMap.emplace_or_replace(othEnt, othTrig.col, othTrans.getModel());
         }
     }
 
-    for (auto [othEnt, othCol, othTrans]: world.view<const Collider, Transform>()) {
+    for (auto [othEnt, othCol, othTrans]: world.view<const Collider, Transform2D>()) {
         if (othTrans.hashMapUpdated) {
             othTrans.hashMapUpdated = false;
             spatialHashMap.emplace_or_replace(othEnt, othCol.col, othTrans.getModel());
         }
     }
 
-    for (auto [dynEnt, dynTrig, dynTrans]: world.view<const Trigger, Transform>(with<Velocity>)) {
+    for (auto [dynEnt, dynTrig, dynTrans]: world.view<const Trigger, Transform2D>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynTrig.col, dynTrans.getModel());
 
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
@@ -415,7 +580,7 @@ void collisionSys(LateFixedSystem, World& world) {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
@@ -490,7 +655,7 @@ void collisionSys(LateFixedSystem, World& world) {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
@@ -548,7 +713,7 @@ void collisionSys(LateFixedSystem, World& world) {
         }
 
         for (const auto othEnt: list) {
-            if (auto oldTransformOpt = world.getThisFrame<Transform>(othEnt)) {
+            if (auto oldTransformOpt = world.getThisFrame<Transform2D>(othEnt)) {
                 if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
@@ -589,7 +754,7 @@ void collisionSys(LateFixedSystem, World& world) {
         }
     }
 
-    for (auto [dynEnt, dynCol, dynTrans]: world.view<const Collider, Transform>(with<Velocity>)) {
+    for (auto [dynEnt, dynCol, dynTrans]: world.view<const Collider, Transform2D>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynCol.col, dynTrans.getModel());
 
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
@@ -610,7 +775,7 @@ void collisionSys(LateFixedSystem, World& world) {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
@@ -694,7 +859,7 @@ void collisionSys(LateFixedSystem, World& world) {
                             world.add(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
-                        if (auto oldTransformOpt = world.getThisFrame<Transform>(oldEnt)) {
+                        if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
                             if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
@@ -761,7 +926,7 @@ void collisionSys(LateFixedSystem, World& world) {
         }
 
         for (const auto othEnt: list) {
-            if (auto oldTransformOpt = world.getThisFrame<Transform>(othEnt)) {
+            if (auto oldTransformOpt = world.getThisFrame<Transform2D>(othEnt)) {
                 if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
@@ -829,19 +994,11 @@ void collisionSys(LateFixedSystem, World& world) {
             world.remove<OnCollisionExit>(entCollision);
         }
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void purgeCollisionSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
+inline void purgeCollisionSys(LateUnscaledFixedSystem, World& world) {
     auto [spatialHashMap] = world.resource<SpatialHashMap>();
 
     for (const auto othEnt: world.getDestroyedEnts()) {
@@ -869,11 +1026,6 @@ void purgeCollisionSys(LateFixedSystem, World& world) {
             }
         }
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

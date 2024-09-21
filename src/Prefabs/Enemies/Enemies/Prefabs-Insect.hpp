@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateInsect(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -18,9 +19,9 @@ Ent instantiateInsect(World& world, const glm::vec2& position) {
         IsInsectMove(1.5f, 0.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(insectUV),
-        Animation(insectAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, insectUV),
+        Animation(insectAnim, InsectAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

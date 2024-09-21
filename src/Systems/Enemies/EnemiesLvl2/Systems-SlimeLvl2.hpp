@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void slimeLvl2MoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Move, Orientation, SlimeLvl2, const Speed, const Transform>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Move, Orientation, SlimeLvl2, const Speed, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -16,7 +16,7 @@ void slimeLvl2MoveSys(MainFixedSystem, World& world) {
         if (isSlimeLvl2Move.canSwitchState(time.fixedDelta())) {
             world.remove<IsSlimeLvl2Move>(enemyEnt);
             world.add(enemyEnt, IsSlimeLvl2Jump(slime.jumpDuration));
-            animation.play("Shadow");
+            animation.play(SlimeLvl2AnimType::SHADOW);
 
             if (auto opt = world.get<const Collider>(enemyEnt)) {
                 auto [collider] = opt.value();
@@ -37,32 +37,32 @@ void slimeLvl2MoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(SlimeLvl2AnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(SlimeLvl2AnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(SlimeLvl2AnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(SlimeLvl2AnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(SlimeLvl2AnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(SlimeLvl2AnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(SlimeLvl2AnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(SlimeLvl2AnimType::MOVE_UP);
                 }
             }
         }
@@ -70,8 +70,8 @@ void slimeLvl2MoveSys(MainFixedSystem, World& world) {
 }
 
 void slimeLvl2JumpSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Jump, Orientation, const Speed, const Transform, const SlimeLvl2>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Jump, Orientation, const Speed, const Transform2D, const SlimeLvl2>(without<EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

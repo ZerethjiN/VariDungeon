@@ -56,76 +56,95 @@ static const ImageAsset voidSlimeUV("Textures/VoidSlime.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Void Slime Hit Pre Attack Up B
 });
 
-static const AnimationAsset voidSlimeAnim({
+enum class VoidSlimeAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    PRE_ATTACK_DOWN,
+    PRE_ATTACK_RIGHT,
+    PRE_ATTACK_LEFT,
+    PRE_ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_PRE_ATTACK_DOWN,
+    HIT_PRE_ATTACK_RIGHT,
+    HIT_PRE_ATTACK_LEFT,
+    HIT_PRE_ATTACK_UP,
+};
+
+static const AnimationAsset voidSlimeAnim(animEnum<VoidSlimeAnimType>, {
     // Movements
-    {"MoveDown", {
+    {VoidSlimeAnimType::MOVE_DOWN, {{
         {0.20f, voidSlimeUV[0]},
         {0.20f, voidSlimeUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {VoidSlimeAnimType::MOVE_RIGHT, {{
         {0.20f, voidSlimeUV[2]},
         {0.20f, voidSlimeUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {VoidSlimeAnimType::MOVE_LEFT, {{
         {0.20f, voidSlimeUV[4]},
         {0.20f, voidSlimeUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {VoidSlimeAnimType::MOVE_UP, {{
         {0.20f, voidSlimeUV[6]},
         {0.20f, voidSlimeUV[7]},
-    }},
+    }}},
 
     // Pre Attacks
-    {"PreAttackDown", {
+    {VoidSlimeAnimType::PRE_ATTACK_DOWN, {{
         {0.20f, voidSlimeUV[8]},
         {0.20f, voidSlimeUV[9]},
-    }},
-    {"PreAttackRight", {
+    }}},
+    {VoidSlimeAnimType::PRE_ATTACK_RIGHT, {{
         {0.20f, voidSlimeUV[10]},
         {0.20f, voidSlimeUV[11]},
-    }},
-    {"PreAttackLeft", {
+    }}},
+    {VoidSlimeAnimType::PRE_ATTACK_LEFT, {{
         {0.20f, voidSlimeUV[12]},
         {0.20f, voidSlimeUV[13]},
-    }},
-    {"PreAttackUp", {
+    }}},
+    {VoidSlimeAnimType::PRE_ATTACK_UP, {{
         {0.20f, voidSlimeUV[14]},
         {0.20f, voidSlimeUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {VoidSlimeAnimType::HIT_MOVE_DOWN, {{
         {0.20f, voidSlimeUV[16]},
         {0.20f, voidSlimeUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {VoidSlimeAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, voidSlimeUV[18]},
         {0.20f, voidSlimeUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {VoidSlimeAnimType::HIT_MOVE_LEFT, {{
         {0.20f, voidSlimeUV[20]},
         {0.20f, voidSlimeUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {VoidSlimeAnimType::HIT_MOVE_UP, {{
         {0.20f, voidSlimeUV[22]},
         {0.20f, voidSlimeUV[23]},
-    }},
+    }}},
 
     // Hit Pre Attacks
-    {"HitPreAttackDown", {
+    {VoidSlimeAnimType::HIT_PRE_ATTACK_DOWN, {{
         {0.20f, voidSlimeUV[24]},
         {0.20f, voidSlimeUV[25]},
-    }},
-    {"HitPreAttackRight", {
+    }}},
+    {VoidSlimeAnimType::HIT_PRE_ATTACK_RIGHT, {{
         {0.20f, voidSlimeUV[26]},
         {0.20f, voidSlimeUV[27]},
-    }},
-    {"HitPreAttackLeft", {
+    }}},
+    {VoidSlimeAnimType::HIT_PRE_ATTACK_LEFT, {{
         {0.20f, voidSlimeUV[28]},
         {0.20f, voidSlimeUV[29]},
-    }},
-    {"HitPreAttackUp", {
+    }}},
+    {VoidSlimeAnimType::HIT_PRE_ATTACK_UP, {{
         {0.20f, voidSlimeUV[30]},
         {0.20f, voidSlimeUV[31]},
-    }},
+    }}},
 });

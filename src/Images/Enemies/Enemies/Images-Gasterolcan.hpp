@@ -64,112 +64,139 @@ static const ImageAsset gasterolcanUV("Textures/Gasterolcan.png", {
     {{ 48, 176, 16, 16}, {0.5f, 0.5f}}, // 47: Gasterolcan Hit Pre Attack Up B
 });
 
-static const AnimationAsset gasterolcanAnim({
+enum class GasterolcanAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    PRE_ATTACK_DOWN,
+    PRE_ATTACK_RIGHT,
+    PRE_ATTACK_LEFT,
+    PRE_ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+    HIT_PRE_ATTACK_DOWN,
+    HIT_PRE_ATTACK_RIGHT,
+    HIT_PRE_ATTACK_LEFT,
+    HIT_PRE_ATTACK_UP,
+};
+
+static const AnimationAsset gasterolcanAnim(animEnum<GasterolcanAnimType>, {
     // Movements
-    {"MoveDown", {
+    {GasterolcanAnimType::MOVE_DOWN, {{
         {0.20f, gasterolcanUV[0]},
         {0.20f, gasterolcanUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {GasterolcanAnimType::MOVE_RIGHT, {{
         {0.20f, gasterolcanUV[2]},
         {0.20f, gasterolcanUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {GasterolcanAnimType::MOVE_LEFT, {{
         {0.20f, gasterolcanUV[4]},
         {0.20f, gasterolcanUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {GasterolcanAnimType::MOVE_UP, {{
         {0.20f, gasterolcanUV[6]},
         {0.20f, gasterolcanUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {GasterolcanAnimType::ATTACK_DOWN, {{
         {0.20f, gasterolcanUV[8]},
         {0.20f, gasterolcanUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {GasterolcanAnimType::ATTACK_RIGHT, {{
         {0.20f, gasterolcanUV[10]},
         {0.20f, gasterolcanUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {GasterolcanAnimType::ATTACK_LEFT, {{
         {0.20f, gasterolcanUV[12]},
         {0.20f, gasterolcanUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {GasterolcanAnimType::ATTACK_UP, {{
         {0.20f, gasterolcanUV[14]},
         {0.20f, gasterolcanUV[15]},
-    }},
+    }}},
 
     // Pre Attacks
-    {"PreAttackDown", {
+    {GasterolcanAnimType::PRE_ATTACK_DOWN, {{
         {0.20f, gasterolcanUV[16]},
         {0.20f, gasterolcanUV[17]},
-    }},
-    {"PreAttackRight", {
+    }}},
+    {GasterolcanAnimType::PRE_ATTACK_RIGHT, {{
         {0.20f, gasterolcanUV[18]},
         {0.20f, gasterolcanUV[19]},
-    }},
-    {"PreAttackLeft", {
+    }}},
+    {GasterolcanAnimType::PRE_ATTACK_LEFT, {{
         {0.20f, gasterolcanUV[20]},
         {0.20f, gasterolcanUV[21]},
-    }},
-    {"PreAttackUp", {
+    }}},
+    {GasterolcanAnimType::PRE_ATTACK_UP, {{
         {0.20f, gasterolcanUV[22]},
         {0.20f, gasterolcanUV[23]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {GasterolcanAnimType::HIT_MOVE_DOWN, {{
         {0.20f, gasterolcanUV[24]},
         {0.20f, gasterolcanUV[25]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {GasterolcanAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, gasterolcanUV[26]},
         {0.20f, gasterolcanUV[27]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {GasterolcanAnimType::HIT_MOVE_LEFT, {{
         {0.20f, gasterolcanUV[28]},
         {0.20f, gasterolcanUV[29]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {GasterolcanAnimType::HIT_MOVE_UP, {{
         {0.20f, gasterolcanUV[30]},
         {0.20f, gasterolcanUV[31]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {GasterolcanAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, gasterolcanUV[32]},
         {0.20f, gasterolcanUV[33]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {GasterolcanAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, gasterolcanUV[34]},
         {0.20f, gasterolcanUV[35]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {GasterolcanAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, gasterolcanUV[36]},
         {0.20f, gasterolcanUV[37]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {GasterolcanAnimType::HIT_ATTACK_UP, {{
         {0.20f, gasterolcanUV[38]},
         {0.20f, gasterolcanUV[39]},
-    }},
+    }}},
 
     // Hit Pre Attacks
-    {"HitPreAttackDown", {
+    {GasterolcanAnimType::HIT_PRE_ATTACK_DOWN, {{
         {0.20f, gasterolcanUV[40]},
         {0.20f, gasterolcanUV[41]},
-    }},
-    {"HitPreAttackRight", {
+    }}},
+    {GasterolcanAnimType::HIT_PRE_ATTACK_RIGHT, {{
         {0.20f, gasterolcanUV[42]},
         {0.20f, gasterolcanUV[43]},
-    }},
-    {"HitPreAttackLeft", {
+    }}},
+    {GasterolcanAnimType::HIT_PRE_ATTACK_LEFT, {{
         {0.20f, gasterolcanUV[44]},
         {0.20f, gasterolcanUV[45]},
-    }},
-    {"HitPreAttackUp", {
+    }}},
+    {GasterolcanAnimType::HIT_PRE_ATTACK_UP, {{
         {0.20f, gasterolcanUV[46]},
         {0.20f, gasterolcanUV[47]},
-    }},
+    }}},
 });

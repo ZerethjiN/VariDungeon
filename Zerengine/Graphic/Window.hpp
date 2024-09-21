@@ -138,49 +138,73 @@ public:
         }
     }
 
-    bool isKeyDown(std::size_t buttonName) const noexcept {
-        for (const auto keyCode: buttonNameBinds.at(buttonName)) {
-            if (buttonDown.contains(keyCode)) {
-                return true;
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isKeyDown(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
+        if (auto buttonIt = buttonNameBinds.find(buttonName); buttonIt != buttonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (buttonDown.contains(keyCode)) {
+                    return true;
+                }
             }
         }
-        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
-            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonDown.contains(keyCode)) {
-                return true;
+        if (auto buttonIt = gamepadButtonNameBinds.find(buttonName); buttonIt != gamepadButtonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonDown.contains(keyCode)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    bool isKeyHold(std::size_t buttonName) const noexcept {
-        for (const auto keyCode: buttonNameBinds.at(buttonName)) {
-            if (buttonHold.contains(keyCode)) {
-                return true;
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isKeyHold(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
+        if (auto buttonIt = buttonNameBinds.find(buttonName); buttonIt != buttonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (buttonHold.contains(keyCode)) {
+                    return true;
+                }
             }
         }
-        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
-            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonHold.contains(keyCode)) {
-                return true;
+        if (auto buttonIt = gamepadButtonNameBinds.find(buttonName); buttonIt != gamepadButtonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonHold.contains(keyCode)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    bool isKeyUp(std::size_t buttonName) const noexcept {
-        for (const auto keyCode: buttonNameBinds.at(buttonName)) {
-            if (buttonUp.contains(keyCode)) {
-                return true;
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isKeyUp(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
+        if (auto buttonIt = buttonNameBinds.find(buttonName); buttonIt != buttonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (buttonUp.contains(keyCode)) {
+                    return true;
+                }
             }
         }
-        for (const auto keyCode: gamepadButtonNameBinds.at(buttonName)) {
-            if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonUp.contains(keyCode)) {
-                return true;
+        if (auto buttonIt = gamepadButtonNameBinds.find(buttonName); buttonIt != gamepadButtonNameBinds.end()) {
+            for (const auto keyCode: buttonIt->second) {
+                if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1) && gamepadButtonUp.contains(keyCode)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    bool isMouseDown(std::size_t buttonName) const noexcept {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isMouseDown(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
         for (const auto keyCode: mouseButtonNameBinds.at(buttonName)) {
             if (mouseButtonDown.contains(keyCode)) {
                 return true;
@@ -189,7 +213,10 @@ public:
         return false;
     }
 
-    bool isMouseHold(std::size_t buttonName) const noexcept {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isMouseHold(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
         for (const auto keyCode: mouseButtonNameBinds.at(buttonName)) {
             if (mouseButtonHold.contains(keyCode)) {
                 return true;
@@ -198,7 +225,10 @@ public:
         return false;
     }
 
-    bool isMouseUp(std::size_t buttonName) const noexcept {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    bool isMouseUp(const E& buttonNameE) const noexcept {
+        auto buttonName = static_cast<std::size_t>(buttonNameE);
+
         for (const auto keyCode: mouseButtonNameBinds.at(buttonName)) {
             if (mouseButtonUp.contains(keyCode)) {
                 return true;
@@ -241,6 +271,7 @@ public:
         glfwInit();
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_SCALE_FRAMEBUFFER, GLFW_TRUE);
 
         window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr);
         glfwSetWindowUserPointer(window, this);

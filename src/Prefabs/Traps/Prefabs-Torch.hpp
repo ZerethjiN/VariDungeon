@@ -8,12 +8,13 @@
 Ent instantiateParticleEffectFire(World&, const glm::vec2&);
 
 Ent instantiateTorch(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Torch(1.5f, 0.75f),
         IsTorchIdle(1.5f),
-        SpriteCreator(torchUV),
-        Animation(torchAnim, "On"),
-        Transform(
+        Sprite(textureManager, torchUV),
+        Animation(torchAnim, TorchAnimType::ON),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

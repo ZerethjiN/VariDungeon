@@ -6,11 +6,12 @@
 #include <Res.hpp>
 
 Ent instantiateBatAttackParticle(World& world, const glm::vec2& position, float rotation) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(batAttackParticleUV),
-        Transform(
+        Sprite(textureManager, batAttackParticleUV),
+        Transform2D(
             position,
             rotation,
             glm::vec2(1, 1)

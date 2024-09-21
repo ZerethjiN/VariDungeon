@@ -9,7 +9,7 @@ public:
         anim(nullptr) {
     }
 
-    TileMapTileInfo(const std::vector<std::pair<float, ImageData>>& newAnim):
+    TileMapTileInfo(const AnimationData& newAnim):
         imageData(nullptr),
         anim(&newAnim),
         curAnim(0),
@@ -22,46 +22,90 @@ public:
             return *imageData;
         }
         curTime += delta;
-        if (curTime >= (*anim)[curAnim].first) {
-            curTime -= (*anim)[curAnim].first;
+        if (curTime >= (*anim).at(curAnim).first) {
+            curTime -= (*anim).at(curAnim).first;
             curAnim++;
             if (curAnim >= anim->size()) {
                 curAnim = 0;
             }
         }
-        return (*anim)[curAnim].second;
+        return (*anim).at(curAnim).second;
+    }
+
+    const ImageData& getCurImage() const {
+        if (imageData != nullptr) {
+            return *imageData;
+        }
+        return (*anim).at(curAnim).second;
     }
 
 private:
     const ImageData* imageData;
-    const std::vector<std::pair<float, ImageData>>* anim;
+    const AnimationData* anim;
     std::size_t curAnim;
     float curTime;
 };
 
 class TileMap final {
 public:
-    TileMap(const Texture& newTexture, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
-        texture(newTexture),
-        tiles(newTiles),
+    TileMap(TextureManager& textureManager, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
+        tiles(),
         tilemapSize(newTileMapSize),
         tileSize(newTileSize),
-        vertices(),
         color(255, 255, 255, 255) {
-        load();
+        for (const auto& newTile: newTiles) {
+            tiles.emplace_back(newTile, std::array<SSBOVertex, 4>());
+        }
+        load(textureManager);
     }
 
 public:
-    void load() {
-        const glm::ivec2 originalTextureSize(texture.size);
-
-        vertices.resize(tilemapSize.x * tilemapSize.y);
-
+    void load(TextureManager& textureManager) {
         for (unsigned int i = 0; i < tilemapSize.x; ++i) {
             for (unsigned int j = 0; j < tilemapSize.y; ++j) {
-                const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].getCurImage(0).spriteRect;
+                const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].first.getCurImage().spriteRect;
+                const glm::vec2& origin = tiles[i + j * tilemapSize.x].first.getCurImage().origin;
 
-                auto& quad = vertices[i + j * tilemapSize.x];
+                const Texture& texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
+                const glm::ivec2 originalTextureSize(texture.size);
+
+                auto& quad = tiles[i + j * tilemapSize.x].second;
+
+                const float left   = static_cast<float>(tileRect.x) / static_cast<float>(originalTextureSize.x);
+                const float right  = left + static_cast<float>(tileRect.z) / static_cast<float>(originalTextureSize.x);
+                const float top    = static_cast<float>(tileRect.y) / static_cast<float>(originalTextureSize.y);
+                const float bottom = top + static_cast<float>(tileRect.w) / static_cast<float>(originalTextureSize.y);
+
+                quad[0] = {
+                    glm::vec2((tileSize.x * i) + (-origin.x * tileRect.z), (tileSize.y * j) + (-origin.y * tileRect.w)),
+                    glm::vec2(left, top)
+                };
+                quad[1] = {
+                    glm::vec2((tileSize.x * i) + (-origin.x * tileRect.z), (tileSize.y * j) + ((1 - origin.y) * tileRect.w)),
+                    glm::vec2(left, bottom)
+                };
+                quad[2] = {
+                    glm::vec2((tileSize.x * i) + ((1 - origin.x) *  tileRect.z), (tileSize.y * j) + (-origin.y * tileRect.w)),
+                    glm::vec2(right, top)
+                };
+                quad[3] = {
+                    glm::vec2((tileSize.x * i) + ((1 - origin.x) * tileRect.z), (tileSize.y * j) + ((1 - origin.y) * tileRect.w)),
+                    glm::vec2(right, bottom)
+                };
+            }
+        }
+    }
+
+public:
+    void update(TextureManager& textureManager, float delta) {
+        for (unsigned int i = 0; i < tilemapSize.x; ++i) {
+            for (unsigned int j = 0; j < tilemapSize.y; ++j) {
+                const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].first.getCurImage(delta).spriteRect;
+
+                const Texture& texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
+                const glm::ivec2 originalTextureSize(texture.size);
+
+                auto& quad = tiles[i + j * tilemapSize.x].second;
 
                 const float left   = static_cast<float>(tileRect.x) / static_cast<float>(originalTextureSize.x);
                 const float right  = left + static_cast<float>(tileRect.z) / static_cast<float>(originalTextureSize.x);
@@ -89,82 +133,20 @@ public:
     }
 
 public:
-    void update(float delta) {
-        const glm::ivec2 originalTextureSize(texture.size);
-        for (unsigned int i = 0; i < tilemapSize.x; ++i) {
-            for (unsigned int j = 0; j < tilemapSize.y; ++j) {
-                const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].getCurImage(delta).spriteRect;
-
-                auto& quad = vertices[i + j * tilemapSize.x];
-
-                const float left   = static_cast<float>(tileRect.x) / static_cast<float>(originalTextureSize.x);
-                const float right  = left + static_cast<float>(tileRect.z) / static_cast<float>(originalTextureSize.x);
-                const float top    = static_cast<float>(tileRect.y) / static_cast<float>(originalTextureSize.y);
-                const float bottom = top + static_cast<float>(tileRect.w) / static_cast<float>(originalTextureSize.y);
-
-                quad[0] = {
-                    glm::vec2((tileSize.x * i) + (-0.5f * tileRect.z), (tileSize.y * j) + (-0.5f * tileRect.w)),
-                    glm::vec2(left, top)
-                };
-                quad[1] = {
-                    glm::vec2((tileSize.x * i) + (-0.5f * tileRect.z), (tileSize.y * j) + ((1 - 0.5f) * tileRect.w)),
-                    glm::vec2(left, bottom)
-                };
-                quad[2] = {
-                    glm::vec2((tileSize.x * i) + ((1 - 0.5f) *  tileRect.z), (tileSize.y * j) + (-0.5f * tileRect.w)),
-                    glm::vec2(right, top)
-                };
-                quad[3] = {
-                    glm::vec2((tileSize.x * i) + ((1 - 0.5f) * tileRect.z), (tileSize.y * j) + ((1 - 0.5f) * tileRect.w)),
-                    glm::vec2(right, bottom)
-                };
-            }
-        }
-    }
-
-public:
-    const Texture& texture;
-    std::vector<TileMapTileInfo> tiles;
+    std::vector<std::pair<TileMapTileInfo, std::array<SSBOVertex, 4>>> tiles;
     glm::uvec2 tilemapSize;
     const glm::uvec2 tileSize;
-    std::vector<std::array<SSBOVertex, 4>> vertices;
     glm::vec4 color;
 };
-
-///////////////////////////////////////////////////////////////////////////////////
-
-class TileMapCreator final {
-public:
-    TileMapCreator(const std::string& newFilename, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
-        filename(newFilename),
-        tiles(newTiles),
-        tileMapSize(newTileMapSize),
-        tileSize(newTileSize) {
-    }
-
-public:
-    const std::string filename;
-    const std::vector<TileMapTileInfo> tiles;
-    const glm::uvec2 tileMapSize;
-    const glm::uvec2 tileSize;
-};
-
-void tileMapCreatorSys(LateFixedSystem, World& world) {
-    auto [texManager] = world.resource<TextureManager>();
-    for (auto [entUI, creator]: world.view<const TileMapCreator>()) {
-        world.add(entUI, TileMap(texManager.get(creator.filename), creator.tiles, creator.tileMapSize, creator.tileSize));
-        world.remove<TileMapCreator>(entUI);
-    }
-}
 
 ///////////////////////////////////////////////////////////////////////////////////
 
 void updateTileMapSys(LateFixedSystem, World& world) {
     auto tilemaps = world.view<TileMap>();
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [_, tilemap]: tilemaps) {
-        tilemap.update(time.fixedDelta());
+        // tilemap.update(textureManager, time.fixedDelta());
     }
 }

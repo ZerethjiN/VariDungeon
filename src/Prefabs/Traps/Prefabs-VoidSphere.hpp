@@ -6,12 +6,13 @@
 #include <Res.hpp>
 
 Ent instantiateVoidSphere(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         VoidSphere(1.5f, 1.5f, 32.f),
         IsVoidSphereOff(1.5f),
-        SpriteCreator(voidSphereUV),
-        Animation(voidSphereAnim, "Off"),
-        Transform(
+        Sprite(textureManager, voidSphereUV),
+        Animation(voidSphereAnim, VoidSphereAnimType::OFF),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

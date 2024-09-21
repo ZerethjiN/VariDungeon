@@ -17,7 +17,7 @@ void laserMovementSys(MainFixedSystem, World& world) {
 }
 
 void laserHitSys(MainFixedSystem, World& world) {
-    auto lasers = world.view<const OnCollisionEnter, const Transform>(with<Laser>);
+    auto lasers = world.view<const OnCollisionEnter, const Transform2D>(with<Laser>);
 
     for (auto [laserEnt, collisions, transform]: lasers) {
         for (auto othEnt: collisions) {

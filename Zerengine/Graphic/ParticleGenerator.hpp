@@ -12,9 +12,9 @@
 class ParticleSystemData final {
 friend void particleSystems(World& world);
 public:
-    enum ParticleGeneratorMode: std::uint8_t {
-        PARTICLE_GENERATOR_ONE_SHOT,
-        PARTICLE_GENERATOR_LOOP
+    enum class ParticleGeneratorMode: std::uint8_t {
+        ONE_SHOT,
+        LOOP
     };
 
 public:
@@ -46,7 +46,7 @@ public:
     bool isGeneratorEndOfLife(float delta) {
         curGeneratorDurationTime += delta;
         if (curGeneratorDurationTime >= generatorDuration) {
-            if (generatorMode == PARTICLE_GENERATOR_ONE_SHOT) {
+            if (generatorMode == ParticleGeneratorMode::ONE_SHOT) {
                 return true;
             }
             curGeneratorDurationTime -= generatorDuration;
@@ -133,7 +133,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////
 
 // void particleSystems(World& world) {
-//     auto generators = world.view<ParticleGenerator, const Transform>();
+//     auto generators = world.view<ParticleGenerator, const Transform2D>();
 
 //     auto [time] = world.getRes<const Time>();
 
@@ -146,7 +146,7 @@ public:
 //             if (particleSystem.canSpawnANewParticle(time.fixedDelta())) {
 //                 world.newEnt(
 //                     SpriteCreator(particleSystem.imageAsset, particleSystem.particleColors[rand() % particleSystem.particleColors.size()]),
-//                     Transform(
+//                     Transform2D(
 //                         transform.getPosition(),
 //                         0,
 //                         glm::vec2(1, 1)

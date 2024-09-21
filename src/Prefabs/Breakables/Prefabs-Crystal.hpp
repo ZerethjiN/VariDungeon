@@ -8,12 +8,13 @@
 Ent instantiateParticleEffectStar(World&, const glm::vec2&);
 
 Ent instantiateCrystal(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        Breakable("NoHit", "Hit", "Destroyed"),
+        Breakable(),
         Life(1),
-        SpriteCreator(crystalUV),
-        Animation(crystalAnim, "NoHit"),
-        Transform(
+        Sprite(textureManager, crystalUV),
+        Animation(crystalAnim, CrystalAnimType::NO_HIT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -23,9 +24,25 @@ Ent instantiateCrystal(World& world, const glm::vec2& position) {
             {LOOT_TYPE_HEART, 1, 1}
         }),
         ParticleGenerator(instantiateParticleEffectStar, 1.5f, 8.f),
+        OnBreakableHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(CrystalAnimType::HIT);
+            }
+        }),
+        OnBreakableNoHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(CrystalAnimType::NO_HIT);
+            }
+        }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
             if (world.has<ParticleGenerator>(thisEnt)) {
                 world.remove<ParticleGenerator>(thisEnt);
+            }
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(CrystalAnimType::DESTROYED);
             }
         }),
         ZIndex(0),

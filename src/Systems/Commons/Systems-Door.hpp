@@ -20,12 +20,12 @@ void openDoorSys(MainFixedSystem, World& world) {
 }
 
 void doorCameraMovementSys(MainFixedSystem, World& world) {
-    auto cameras = world.view<Transform, const ChunkCameraMovement>();
+    auto cameras = world.view<Transform2D, const ChunkCameraMovement>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [cameraEnt, cameraTransform, chunkCameraMovement]: cameras) {
-        if (auto opt = world.get<const Transform>(chunkCameraMovement.getNextRoomEnt())) {
+        if (auto opt = world.get<const Transform2D>(chunkCameraMovement.getNextRoomEnt())) {
             auto [nextTransform] = opt.value();
 
             if (glm::distance(nextTransform.getPosition() + glm::vec2(-8, 0), cameraTransform.getPosition()) < 8) {
@@ -50,7 +50,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
 
     for (auto [_, collisions, doorTrigger]: doors) {
         for (auto othEnt: collisions) {
-            if (world.has<Player, Transform>(othEnt)) {
+            if (world.has<Player, Transform2D>(othEnt)) {
                 Ent nextRoomEnt = 0;
                 for (auto [_, exploration, chunkTable]: world.view<ChunkExploration, const ChunkTable>()) {
                     nextRoomEnt = chunkTable.getChunkById(doorTrigger.getNextRoomIdx());
@@ -69,9 +69,9 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                         if (curRoomEnt != 0 && nextRoomEnt != 0) {
                             world.add(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
                         }
-                        // if (auto optCameraParent = world.get<Transform>(cameraParentEnt)) {
+                        // if (auto optCameraParent = world.get<Transform2D>(cameraParentEnt)) {
                         //     auto [cameraParentTransform] = optCameraParent.value();
-                        //     if (auto opt = world.get<const Transform>(nextRoomEnt)) {
+                        //     if (auto opt = world.get<const Transform2D>(nextRoomEnt)) {
                         //         auto [nextRoomTransform] = opt.value();
                         //         cameraParentTransform.setPosition(nextRoomTransform.getPosition());
                         //     }
@@ -79,7 +79,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                     }
                 }
 
-                if (auto opt = world.get<Transform>(othEnt)) {
+                if (auto opt = world.get<Transform2D>(othEnt)) {
                     auto [playerTransform] = opt.value();
                     switch (doorTrigger.getOrientation()) {
                         case DoorTrigger::DOOR_TRIGGER_NORTH:

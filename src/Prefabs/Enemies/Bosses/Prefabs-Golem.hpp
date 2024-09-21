@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateGolem(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Boss(),
         Enemy(),
@@ -21,9 +22,9 @@ Ent instantiateGolem(World& world, const glm::vec2& position) {
         IsGolemRockAttack(3.0f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(golemUV),
-        Animation(golemAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, golemUV),
+        Animation(golemAnim, GolemAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -39,17 +40,36 @@ Ent instantiateGolem(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateGolemRock(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         GolemRock(0.75f),
-        Breakable("NoHit", "Hit", "Destroyed"),
+        Breakable(),
         Life(2),
-        // SpriteCreator(rockUV),
-        // Animation(rockAnim, "NoHit"),
-        Transform(
+        Sprite(textureManager, rockUV),
+        Animation(rockAnim, RockAnimType::NO_HIT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
         ),
+        OnBreakableHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(RockAnimType::HIT);
+            }
+        }),
+        OnBreakableNoHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(RockAnimType::NO_HIT);
+            }
+        }),
+        OnBreakableBreak([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(RockAnimType::DESTROYED);
+            }
+        }),
         Loots(),
         ZIndex(0),
         LifeTime(6.0)

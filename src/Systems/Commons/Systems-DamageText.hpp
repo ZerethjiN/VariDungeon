@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void damageTextSys(MainFixedSystem, World& world) {
-    auto texts = world.view<Velocity, Transform, DamageText>();
+    auto texts = world.view<Velocity, Transform2D, DamageText>();
 
     auto [time] = world.resource<const Time>();
 

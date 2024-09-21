@@ -44,76 +44,95 @@ static const ImageAsset anubisUV("Textures/Anubis.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Anubis Hit Attack Up B
 });
 
-static const AnimationAsset anubisAnim({
+enum class AnubisAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset anubisAnim(animEnum<AnubisAnimType>, {
     // Movements
-    {"MoveDown", {
+    {AnubisAnimType::MOVE_DOWN, {{
         {0.20f, anubisUV[0]},
         {0.20f, anubisUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {AnubisAnimType::MOVE_RIGHT, {{
         {0.20f, anubisUV[2]},
         {0.20f, anubisUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {AnubisAnimType::MOVE_LEFT, {{
         {0.20f, anubisUV[4]},
         {0.20f, anubisUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {AnubisAnimType::MOVE_UP, {{
         {0.20f, anubisUV[6]},
         {0.20f, anubisUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {AnubisAnimType::ATTACK_DOWN, {{
         {0.20f, anubisUV[8]},
         {0.20f, anubisUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {AnubisAnimType::ATTACK_RIGHT, {{
         {0.20f, anubisUV[10]},
         {0.20f, anubisUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {AnubisAnimType::ATTACK_LEFT, {{
         {0.20f, anubisUV[12]},
         {0.20f, anubisUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {AnubisAnimType::ATTACK_UP, {{
         {0.20f, anubisUV[14]},
         {0.20f, anubisUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {AnubisAnimType::HIT_MOVE_DOWN, {{
         {0.20f, anubisUV[16]},
         {0.20f, anubisUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {AnubisAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, anubisUV[18]},
         {0.20f, anubisUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {AnubisAnimType::HIT_MOVE_LEFT, {{
         {0.20f, anubisUV[20]},
         {0.20f, anubisUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {AnubisAnimType::HIT_MOVE_UP, {{
         {0.20f, anubisUV[22]},
         {0.20f, anubisUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {AnubisAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, anubisUV[24]},
         {0.20f, anubisUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {AnubisAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, anubisUV[26]},
         {0.20f, anubisUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {AnubisAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, anubisUV[28]},
         {0.20f, anubisUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {AnubisAnimType::HIT_ATTACK_UP, {{
         {0.20f, anubisUV[30]},
         {0.20f, anubisUV[31]},
-    }},
+    }}},
 });

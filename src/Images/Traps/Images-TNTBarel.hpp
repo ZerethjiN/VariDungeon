@@ -8,14 +8,20 @@ static const ImageAsset tntBarelUV("Textures/TntBarel.png", {
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: TNT Barel Hit
 });
 
-static const AnimationAsset tntBarelAnim({
-    {"NoHit", {{
+enum class TntBarelAnimType: std::size_t {
+    NO_HIT,
+    HIT,
+    DESTROYED,
+};
+
+static const AnimationAsset tntBarelAnim(animEnum<TntBarelAnimType>, {
+    {TntBarelAnimType::NO_HIT, {{
         {1.00f, tntBarelUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"Hit", {{
+    {TntBarelAnimType::HIT, {{
         {1.00f, tntBarelUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"Destroyed", {{
+    {TntBarelAnimType::DESTROYED, {{
         {1.00f, tntBarelUV[1]},
     }, AnimationType::ONE_SHOT}},
 });

@@ -32,48 +32,61 @@ static const ImageAsset miniRockUV("Textures/MiniRock.png", {
     {{ 48,  64, 16, 16}, {0.5f, 0.5f}}, // 19: Hit Mini Rock Move Up B
 });
 
-static const AnimationAsset miniRockAnim({
-    {"Spawner", {
+enum class MiniRockAnimType: std::size_t {
+    SPAWNER,
+    HIT_SPAWNER,
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+};
+
+static const AnimationAsset miniRockAnim(animEnum<MiniRockAnimType>, {
+    {MiniRockAnimType::SPAWNER, {{
         {1.0f, miniRockUV[0]},
         {0.5f, miniRockUV[1]},
-    }},
+    }}},
 
-    {"HitSpawner", {
+    {MiniRockAnimType::HIT_SPAWNER, {{
         {1.0f, miniRockUV[2]},
         {0.5f, miniRockUV[3]},
-    }},
+    }}},
 
-    {"MoveDown", {
+    {MiniRockAnimType::MOVE_DOWN, {{
         {0.2f, miniRockUV[4]},
         {0.2f, miniRockUV[5]},
-    }},
-    {"MoveRight", {
+    }}},
+    {MiniRockAnimType::MOVE_RIGHT, {{
         {0.2f, miniRockUV[6]},
         {0.2f, miniRockUV[7]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {MiniRockAnimType::MOVE_LEFT, {{
         {0.2f, miniRockUV[8]},
         {0.2f, miniRockUV[9]},
-    }},
-    {"MoveUp", {
+    }}},
+    {MiniRockAnimType::MOVE_UP, {{
         {0.2f, miniRockUV[10]},
         {0.2f, miniRockUV[11]},
-    }},
+    }}},
 
-    {"HitMoveDown", {
+    {MiniRockAnimType::HIT_MOVE_DOWN, {{
         {0.2f, miniRockUV[12]},
         {0.2f, miniRockUV[13]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {MiniRockAnimType::HIT_MOVE_RIGHT, {{
         {0.2f, miniRockUV[14]},
         {0.2f, miniRockUV[15]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {MiniRockAnimType::HIT_MOVE_LEFT, {{
         {0.2f, miniRockUV[16]},
         {0.2f, miniRockUV[17]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {MiniRockAnimType::HIT_MOVE_UP, {{
         {0.2f, miniRockUV[18]},
         {0.2f, miniRockUV[19]},
-    }},
+    }}},
 });

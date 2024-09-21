@@ -6,10 +6,11 @@
 #include <Res.hpp>
 
 Ent instantiateExclamationParticle(World& world, const glm::vec2& position, int baseZIndex) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(exclamationParticleUV),
-        Animation(exclamationParticleAnim, "Default"),
-        Transform(
+        Sprite(textureManager, exclamationParticleUV),
+        Animation(exclamationParticleAnim, ExclamationParticleAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

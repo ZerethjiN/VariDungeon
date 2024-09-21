@@ -44,76 +44,95 @@ static const ImageAsset batUV("Textures/Bat.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Bat Hit Attack Up B
 });
 
-static const AnimationAsset batAnim({
+enum class BatAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset batAnim(animEnum<BatAnimType>, {
     // Movements
-    {"MoveDown", {
+    {BatAnimType::MOVE_DOWN, {{
         {0.20f, batUV[0]},
         {0.20f, batUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {BatAnimType::MOVE_RIGHT, {{
         {0.20f, batUV[2]},
         {0.20f, batUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {BatAnimType::MOVE_LEFT, {{
         {0.20f, batUV[4]},
         {0.20f, batUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {BatAnimType::MOVE_UP, {{
         {0.20f, batUV[6]},
         {0.20f, batUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {BatAnimType::ATTACK_DOWN, {{
         {0.20f, batUV[8]},
         {0.20f, batUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {BatAnimType::ATTACK_RIGHT, {{
         {0.20f, batUV[10]},
         {0.20f, batUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {BatAnimType::ATTACK_LEFT, {{
         {0.20f, batUV[12]},
         {0.20f, batUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {BatAnimType::ATTACK_UP, {{
         {0.20f, batUV[14]},
         {0.20f, batUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {BatAnimType::HIT_MOVE_DOWN, {{
         {0.20f, batUV[16]},
         {0.20f, batUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {BatAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, batUV[18]},
         {0.20f, batUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {BatAnimType::HIT_MOVE_LEFT, {{
         {0.20f, batUV[20]},
         {0.20f, batUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {BatAnimType::HIT_MOVE_UP, {{
         {0.20f, batUV[22]},
         {0.20f, batUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {BatAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, batUV[24]},
         {0.20f, batUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {BatAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, batUV[26]},
         {0.20f, batUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {BatAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, batUV[28]},
         {0.20f, batUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {BatAnimType::HIT_ATTACK_UP, {{
         {0.20f, batUV[30]},
         {0.20f, batUV[31]},
-    }},
+    }}},
 });

@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void menuChestValidateSys(MainFixedSystem, World& world) {
+void menuChestValidateSys(MainUnscaledFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
         for (auto [menuEnt]: world.view(with<MenuChest>)) {
             auto [time] = world.resource<Time>();

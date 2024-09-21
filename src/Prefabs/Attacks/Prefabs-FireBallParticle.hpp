@@ -6,13 +6,14 @@
 #include <Res.hpp>
 
 Ent instantiateFireBallParticle(World& world, const glm::vec2& position, const glm::vec2& direction, float speed) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         FireBall(direction),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(fireBallParticleUV),
-        Animation(fireBallParticleAnim, "Default"),
-        Transform(
+        Sprite(textureManager, fireBallParticleUV),
+        Animation(fireBallParticleAnim, FireBallParticleAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

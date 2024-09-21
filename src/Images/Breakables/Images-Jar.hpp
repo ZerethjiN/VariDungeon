@@ -8,14 +8,20 @@ static const ImageAsset jarUV("Textures/Jar.png", {
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: Jar Hit
 });
 
-static const AnimationAsset jarAnim({
-    {"NoHit", {{
+enum class JarAnimType: std::size_t {
+    NO_HIT,
+    HIT,
+    DESTROYED,
+};
+
+static const AnimationAsset jarAnim(animEnum<JarAnimType>, {
+    {JarAnimType::NO_HIT, {{
         {1.00f, jarUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"Hit", {{
+    {JarAnimType::HIT, {{
         {1.00f, jarUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"Destroyed", {{
+    {JarAnimType::DESTROYED, {{
         {1.00f, jarUV[1]},
     }, AnimationType::ONE_SHOT}},
 });

@@ -44,76 +44,95 @@ static const ImageAsset insectUV("Textures/Insect.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Insect Hit Attack Up B
 });
 
-static const AnimationAsset insectAnim({
+enum class InsectAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset insectAnim(animEnum<InsectAnimType>, {
     // Movements
-    {"MoveDown", {
+    {InsectAnimType::MOVE_DOWN, {{
         {0.20f, insectUV[0]},
         {0.20f, insectUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {InsectAnimType::MOVE_RIGHT, {{
         {0.20f, insectUV[2]},
         {0.20f, insectUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {InsectAnimType::MOVE_LEFT, {{
         {0.20f, insectUV[4]},
         {0.20f, insectUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {InsectAnimType::MOVE_UP, {{
         {0.20f, insectUV[6]},
         {0.20f, insectUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {InsectAnimType::ATTACK_DOWN, {{
         {0.20f, insectUV[8]},
         {0.20f, insectUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {InsectAnimType::ATTACK_RIGHT, {{
         {0.20f, insectUV[10]},
         {0.20f, insectUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {InsectAnimType::ATTACK_LEFT, {{
         {0.20f, insectUV[12]},
         {0.20f, insectUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {InsectAnimType::ATTACK_UP, {{
         {0.20f, insectUV[14]},
         {0.20f, insectUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {InsectAnimType::HIT_MOVE_DOWN, {{
         {0.20f, insectUV[16]},
         {0.20f, insectUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {InsectAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, insectUV[18]},
         {0.20f, insectUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {InsectAnimType::HIT_MOVE_LEFT, {{
         {0.20f, insectUV[20]},
         {0.20f, insectUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {InsectAnimType::HIT_MOVE_UP, {{
         {0.20f, insectUV[22]},
         {0.20f, insectUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {InsectAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, insectUV[24]},
         {0.20f, insectUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {InsectAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, insectUV[26]},
         {0.20f, insectUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {InsectAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, insectUV[28]},
         {0.20f, insectUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {InsectAnimType::HIT_ATTACK_UP, {{
         {0.20f, insectUV[30]},
         {0.20f, insectUV[31]},
-    }},
+    }}},
 });

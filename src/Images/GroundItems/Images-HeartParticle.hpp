@@ -7,9 +7,13 @@ static const ImageAsset heartParticleUV("Textures/HeartParticle.png", {
     {{ 16,   0, 16, 16}, {0.5f, 0.5f}}, //  1: Heart Particle B
 });
 
-static const AnimationAsset heartParticleAnim({
-    {"Default", {
+enum class HeartParticleAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset heartParticleAnim(animEnum<HeartParticleAnimType>, {
+    {HeartParticleAnimType::DEFAULT, {{
         {0.25f, heartParticleUV[0]},
         {0.25f, heartParticleUV[1]},
-    }},
+    }}},
 });

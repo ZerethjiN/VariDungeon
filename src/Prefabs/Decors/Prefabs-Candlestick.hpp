@@ -8,10 +8,11 @@
 Ent instantiateParticleEffectFire(World&, const glm::vec2&);
 
 Ent instantiateCandlestick(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(candlestickUV),
-        Animation(candlestickAnim, "Default"),
-        Transform(
+        Sprite(textureManager, candlestickUV),
+        Animation(candlestickAnim, CandlestickAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

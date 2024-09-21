@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateShadowBossHub(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         ShadowBossHubPattern({
@@ -14,9 +15,9 @@ Ent instantiateShadowBossHub(World& world, const glm::vec2& position) {
             position + glm::vec2(32, -48),
             position + glm::vec2(-8, -40)
         }),
-        SpriteCreator(shadowBossUV),
-        Animation(shadowBossAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, shadowBossUV),
+        Animation(shadowBossAnim, ShadowBossAnimType::MOVE_DOWN),
+        Transform2D(
             position + glm::vec2(-128, 64),
             0,
             glm::vec2(1, 1)

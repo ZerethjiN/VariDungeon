@@ -9,12 +9,17 @@ static const ImageAsset groundCrystalAttackUV("Textures/GroundCrystalAttack.png"
     {{  0,   16, 16, 16}, {0.5f, 0.5f}}, //  2: Crystal Particle
 });
 
-static const AnimationAsset groundCrystalAttackAnim({
-    {"Cross", {
+enum class GroundCrystalAttackAnimType: std::size_t {
+    CROSS,
+    CRYSTAL,
+};
+
+static const AnimationAsset groundCrystalAttackAnim(animEnum<GroundCrystalAttackAnimType>, {
+    {GroundCrystalAttackAnimType::CROSS, {{
         {0.25f, groundCrystalAttackUV[0]},
         {0.25f, groundCrystalAttackUV[1]},
-    }},
-    {"Crystal", {{
+    }}},
+    {GroundCrystalAttackAnimType::CRYSTAL, {{
         {1.0f, groundCrystalAttackUV[2]},
     }, AnimationType::ONE_SHOT}},
 });

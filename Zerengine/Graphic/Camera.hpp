@@ -24,13 +24,13 @@ public:
 class CameraShakeLeft final {};
 class CameraShakeRight final {};
 
-void cameraShakeRightSys(MainFixedSystem, World& world) noexcept {
-    auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeRight>);
+void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
+    auto cameras = world.view<CameraShake, Transform2D>(with<CurCamera, CameraShakeRight>, without<CameraShakeLeft>);
 
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        if (auto opt = world.get<const Transform>(camShake.originEnt)) {
+        if (auto opt = world.get<const Transform2D>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x >= originTransform.getPosition().x + camShake.distance) {
                 camShake.curShake++;
@@ -48,12 +48,12 @@ void cameraShakeRightSys(MainFixedSystem, World& world) noexcept {
     }
 }
 
-void cameraShakeLeftSys(MainFixedSystem, World& world) noexcept {
-    auto cameras = world.view<CameraShake, Transform>(with<CurCamera, CameraShakeLeft>);
+void cameraShakeLeftSys(ThreadedFixedSystem, World& world) noexcept {
+    auto cameras = world.view<CameraShake, Transform2D>(with<CurCamera, CameraShakeLeft>, without<CameraShakeRight>);
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        if (auto opt = world.get<const Transform>(camShake.originEnt)) {
+        if (auto opt = world.get<const Transform2D>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x <= originTransform.getPosition().x - camShake.distance) {
                 camShake.curShake++;

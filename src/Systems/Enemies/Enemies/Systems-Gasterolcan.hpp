@@ -8,8 +8,8 @@
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -30,32 +30,32 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(GasterolcanAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(GasterolcanAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(GasterolcanAnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(GasterolcanAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(GasterolcanAnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(GasterolcanAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(GasterolcanAnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(GasterolcanAnimType::MOVE_UP);
                 }
             }
         }
@@ -64,7 +64,7 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -78,29 +78,29 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackRight");
+                    animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
-                    animation.play("PreAttackRight");
+                    animation.play(GasterolcanAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackLeft");
+                    animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
-                    animation.play("PreAttackLeft");
+                    animation.play(GasterolcanAnimType::PRE_ATTACK_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackDown");
+                    animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
-                    animation.play("PreAttackDown");
+                    animation.play(GasterolcanAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackUp");
+                    animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_UP);
                 } else {
-                    animation.play("PreAttackUp");
+                    animation.play(GasterolcanAnimType::PRE_ATTACK_UP);
                 }
             }
         }
@@ -109,8 +109,8 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -130,29 +130,29 @@ void gasterolcanAttackSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackRight");
+                    animation.play(GasterolcanAnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    animation.play("AttackRight");
+                    animation.play(GasterolcanAnimType::ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackLeft");
+                    animation.play(GasterolcanAnimType::HIT_ATTACK_LEFT);
                 } else {
-                    animation.play("AttackLeft");
+                    animation.play(GasterolcanAnimType::ATTACK_RIGHT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackDown");
+                    animation.play(GasterolcanAnimType::HIT_ATTACK_DOWN);
                 } else {
-                    animation.play("AttackDown");
+                    animation.play(GasterolcanAnimType::ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackUp");
+                    animation.play(GasterolcanAnimType::HIT_ATTACK_UP);
                 } else {
-                    animation.play("AttackUp");
+                    animation.play(GasterolcanAnimType::ATTACK_UP);
                 }
             }
         }

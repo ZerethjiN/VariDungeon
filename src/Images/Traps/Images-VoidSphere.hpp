@@ -10,13 +10,18 @@ static const ImageAsset voidSphereUV("Textures/VoidSphere.png", {
     {{ 16,  16, 16, 16}, {0.5f, 0.5f}}, //  3: Void Sphere On B
 });
 
-static const AnimationAsset voidSphereAnim({
-    {"Off", {
+enum class VoidSphereAnimType: std::size_t {
+    OFF,
+    ON,
+};
+
+static const AnimationAsset voidSphereAnim(animEnum<VoidSphereAnimType>, {
+    {VoidSphereAnimType::OFF, {{
         {0.50f, voidSphereUV[0]},
         {0.50f, voidSphereUV[1]},
-    }},
-    {"On", {
+    }}},
+    {VoidSphereAnimType::ON, {{
         {0.50f, voidSphereUV[2]},
         {0.50f, voidSphereUV[3]},
-    }},
+    }}},
 });

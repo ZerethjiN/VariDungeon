@@ -35,7 +35,7 @@ public:
 
     const glm::mat4& getModel() {
         if (needRefreshTransform) {
-            model = glm::ortho(center.x - size.x / 2, center.x + size.x / 2, center.y - size.y / 2, center.y + size.y / 2);
+            model = glm::ortho(center.x - size.x * 0.5f, center.x + size.x * 0.5f, center.y - size.y * 0.5f, center.y + size.y * 0.5f);
 
             needRefreshTransform = false;
         }

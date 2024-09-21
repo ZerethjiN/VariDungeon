@@ -44,76 +44,95 @@ static const ImageAsset golemUV("Textures/Golem.png", {
     {{ 96, 224, 32, 32}, {0.5f, 0.5f}}, // 31: Golem Hit Attack Up B
 });
 
-static const AnimationAsset golemAnim({
+enum class GolemAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP
+};
+
+static const AnimationAsset golemAnim(animEnum<GolemAnimType>, {
     // Movements
-    {"MoveDown", {
+    {GolemAnimType::MOVE_DOWN, {{
         {0.40f, golemUV[0]},
         {0.40f, golemUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {GolemAnimType::MOVE_RIGHT, {{
         {0.40f, golemUV[2]},
         {0.40f, golemUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {GolemAnimType::MOVE_LEFT, {{
         {0.40f, golemUV[4]},
         {0.40f, golemUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {GolemAnimType::MOVE_UP, {{
         {0.40f, golemUV[6]},
         {0.40f, golemUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {GolemAnimType::ATTACK_DOWN, {{
         {0.40f, golemUV[8]},
         {0.40f, golemUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {GolemAnimType::ATTACK_RIGHT, {{
         {0.40f, golemUV[10]},
         {0.40f, golemUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {GolemAnimType::ATTACK_LEFT, {{
         {0.40f, golemUV[12]},
         {0.40f, golemUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {GolemAnimType::ATTACK_UP, {{
         {0.40f, golemUV[14]},
         {0.40f, golemUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {GolemAnimType::HIT_MOVE_DOWN, {{
         {0.40f, golemUV[16]},
         {0.40f, golemUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {GolemAnimType::HIT_MOVE_RIGHT, {{
         {0.40f, golemUV[18]},
         {0.40f, golemUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {GolemAnimType::HIT_MOVE_LEFT, {{
         {0.40f, golemUV[20]},
         {0.40f, golemUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {GolemAnimType::HIT_MOVE_UP, {{
         {0.40f, golemUV[22]},
         {0.40f, golemUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {GolemAnimType::HIT_ATTACK_DOWN, {{
         {0.40f, golemUV[24]},
         {0.40f, golemUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {GolemAnimType::HIT_ATTACK_RIGHT, {{
         {0.40f, golemUV[26]},
         {0.40f, golemUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {GolemAnimType::HIT_ATTACK_LEFT, {{
         {0.40f, golemUV[28]},
         {0.40f, golemUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {GolemAnimType::HIT_ATTACK_UP, {{
         {0.40f, golemUV[30]},
         {0.40f, golemUV[31]},
-    }},
+    }}},
 });

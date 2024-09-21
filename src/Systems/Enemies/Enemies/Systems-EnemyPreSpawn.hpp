@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void enemyPreSpawnSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<EnemyPreSpawn, const Transform, const ZIndex>();
+    auto enemies = world.view<EnemyPreSpawn, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 

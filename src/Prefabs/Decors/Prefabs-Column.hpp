@@ -6,9 +6,10 @@
 #include <Res.hpp>
 
 Ent instantiateColumn(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(columnUV, 0),
-        Transform(
+        Sprite(textureManager, columnUV, 0),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -18,9 +19,10 @@ Ent instantiateColumn(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateColumnBanner(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(columnUV, 1),
-        Transform(
+        Sprite(textureManager, columnUV, 1),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

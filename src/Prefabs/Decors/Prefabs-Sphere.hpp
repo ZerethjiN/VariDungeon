@@ -6,10 +6,11 @@
 #include <Res.hpp>
 
 Ent instantiateSphere(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(sphereUV),
-        Animation(sphereAnim, "Default"),
-        Transform(
+        Sprite(textureManager, sphereUV),
+        Animation(sphereAnim, SphereAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

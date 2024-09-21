@@ -19,12 +19,18 @@ public:
 
 class Sprite final {
 public:
-    Sprite(const Texture& newTexture, const glm::uvec4& newTextureRect, const glm::vec2& newOrigin, const glm::vec4& newColor = glm::vec4(255, 255, 255, 255)):
-        texture(newTexture),
-        origin(newOrigin),
+    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+        texture(textureManager[newImageAsset.filename]),
         color(newColor),
         isMirror(false) {
-        setTextureRect(newTextureRect);
+        setTextureRect(newImageAsset[imageDataIndex]);
+    }
+
+    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+        texture(textureManager[newImageAsset.filename]),
+        color(newColor),
+        isMirror(false) {
+        setTextureRect(newImageAsset[0]);
     }
 
 public:
@@ -46,8 +52,10 @@ public:
     }
 
     void setMirror(bool val) {
-        isMirror = val;
-        setTextureRect(textureRect);
+        if (isMirror != val) {
+            isMirror = val;
+            setTextureRect(textureRect);
+        }
     }
 
     [[nodiscard]] constexpr bool getIsMirror() const noexcept {
@@ -63,7 +71,7 @@ public:
         const float top    = static_cast<float>(textureRect.y) / static_cast<float>(originalTextureSize.y);
         const float bottom = top + static_cast<float>(textureRect.w) / static_cast<float>(originalTextureSize.y);
 
-        if (isMirror == 0) {
+        if (isMirror == false) {
             vertices[0] = {
                 glm::vec2(-origin.x * textureRect.z, -origin.y * textureRect.w),
                 glm::vec2(left, top)
@@ -73,7 +81,7 @@ public:
                 glm::vec2(left, bottom)
             };
             vertices[2] = {
-                glm::vec2((1 - origin.x) *  textureRect.z, -origin.y * textureRect.w),
+                glm::vec2((1 - origin.x) * textureRect.z, -origin.y * textureRect.w),
                 glm::vec2(right, top)
             };
             vertices[3] = {
@@ -100,6 +108,54 @@ public:
         }
     }
 
+    std::array<SSBOVertex, 4> getHorizontalMirror() const noexcept {
+        const glm::ivec2 originalTextureSize(texture.size);
+
+        const float left   = static_cast<float>(textureRect.x) / static_cast<float>(originalTextureSize.x);
+        const float right  = left + static_cast<float>(textureRect.z) / static_cast<float>(originalTextureSize.x);
+        const float top    = static_cast<float>(textureRect.y) / static_cast<float>(originalTextureSize.y);
+        const float bottom = top + static_cast<float>(textureRect.w) / static_cast<float>(originalTextureSize.y);
+
+        if (isMirror) {
+            return std::array<SSBOVertex, 4>({
+                {
+                    glm::vec2(-origin.x * textureRect.z, -origin.y * textureRect.w),
+                    glm::vec2(right, bottom)
+                },
+                {
+                    glm::vec2(-origin.x * textureRect.z, (1 - origin.y) * textureRect.w),
+                    glm::vec2(right, top)
+                },
+                {
+                    glm::vec2((1 - origin.x) *  textureRect.z, -origin.y * textureRect.w),
+                    glm::vec2(left, bottom)
+                },
+                {
+                    glm::vec2((1 - origin.x) * textureRect.z, (1 - origin.y) * textureRect.w),
+                    glm::vec2(left, top)
+                }
+            });
+        }
+        return std::array<SSBOVertex, 4>({
+            {
+                glm::vec2(-origin.x * textureRect.z, -origin.y * textureRect.w),
+                glm::vec2(left, bottom)
+            },
+            {
+                glm::vec2(-origin.x * textureRect.z, (1 - origin.y) * textureRect.w),
+                glm::vec2(left, top)
+            },
+            {
+                glm::vec2((1 - origin.x) *  textureRect.z, -origin.y * textureRect.w),
+                glm::vec2(right, bottom)
+            },
+            {
+                glm::vec2((1 - origin.x) * textureRect.z, (1 - origin.y) * textureRect.w),
+                glm::vec2(right, top)
+            }
+        });
+    }
+
 public:
     std::array<SSBOVertex, 4> vertices;
     const Texture& texture;
@@ -111,7 +167,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-enum UIAnchor: uint8_t {
+enum class UIAnchor: uint8_t {
     TOP_LEFT,
     TOP_CENTER,
     TOP_RIGHT,
@@ -125,12 +181,18 @@ enum UIAnchor: uint8_t {
 
 class UI final  {
 public:
-    UI(const Texture& newTexture, const glm::uvec4& newTextureRect, const glm::vec2& newOrigin, const UIAnchor newAnchor, const glm::vec4& newColor = glm::vec4(255, 255, 255, 255)):
-        origin(newOrigin),
+    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+        texture(textureManager[newImageAsset.filename]),
         color(newColor),
-        texture(newTexture),
         anchor(newAnchor) {
-        setTextureRect(newTextureRect);
+        setTextureRect(newImageAsset[imageDataIndex]);
+    }
+
+    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+        texture(textureManager[newImageAsset.filename]),
+        color(newColor),
+        anchor(newAnchor) {
+        setTextureRect(newImageAsset[0]);
     }
 
 public:
@@ -210,82 +272,21 @@ class IsUnlit final  {};
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class SpriteCreator final {
-public:
-    SpriteCreator(const ImageAsset& newImageAsset, int imageDataIndex, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
-        filename(newImageAsset.filename),
-        rect(newImageAsset[imageDataIndex].spriteRect),
-        rotation(0),
-        origin(newImageAsset[imageDataIndex].origin),
-        color(newColor) {
+// Co Dependency implem
+
+void TextureManager::clear(World& world) noexcept {
+    std::unique_lock<std::mutex> lock(mtx);
+    std::unordered_set<Texture*> keepedTextures;
+    for (auto [_, sprite]: world.view<Sprite>(with<DontDestroyOnLoad>)) {
+        keepedTextures.emplace(&const_cast<Texture&>(sprite.texture));
     }
-
-    SpriteCreator(const ImageAsset& newImageAsset, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
-        filename(newImageAsset.filename),
-        rect(newImageAsset[0].spriteRect),
-        rotation(0),
-        origin(newImageAsset[0].origin),
-        color(newColor) {
+    for (auto& pair: textures) {
+        if (!keepedTextures.contains(pair.second)) {
+            delete pair.second;
+        }
     }
-
-public:
-    std::string filename;
-    glm::ivec4 rect;
-    float rotation;
-    glm::vec2 origin;
-    glm::vec4 color;
-};
-
-void spriteCreatorSys(LateFixedSystem, World& world) {
-    auto [texManager] = world.resource<TextureManager>();
-    for (auto [entSprite, creator]: world.view<const SpriteCreator>()) {
-        world.add(entSprite, Sprite(texManager.get(creator.filename), creator.rect, creator.origin, creator.color));
-        world.remove<SpriteCreator>(entSprite);
+    textures.clear();
+    for (auto* reinjectedTexture: keepedTextures) {
+        textures.emplace(reinjectedTexture->name, reinjectedTexture);
     }
 }
-
-///////////////////////////////////////////////////////////////////////////////////
-
-class UICreator final {
-public:
-    UICreator(const ImageAsset& newImageAsset, int imageDataIndex, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
-        filename(newImageAsset.filename),
-        rect(newImageAsset[imageDataIndex].spriteRect),
-        anchor(newAnchor),
-        origin(newImageAsset[imageDataIndex].origin),
-        color(newColor) {
-    }
-
-    UICreator(const ImageAsset& newImageAsset, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
-        filename(newImageAsset.filename),
-        rect(newImageAsset[0].spriteRect),
-        anchor(newAnchor),
-        origin(newImageAsset[0].origin),
-        color(newColor) {
-    }
-
-public:
-    std::string filename;
-    glm::ivec4 rect;
-    UIAnchor anchor;
-    glm::vec2 origin;
-    glm::vec4 color;
-};
-
-void uiCreatorSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
-    auto [texManager] = world.resource<TextureManager>();
-    for (auto [entUI, creator]: world.view<const UICreator>()) {
-        world.add(entUI, UI(texManager.get(creator.filename), creator.rect, creator.origin, creator.anchor, creator.color));
-        world.remove<UICreator>(entUI);
-    }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
-}
-
-///////////////////////////////////////////////////////////////////////////////////

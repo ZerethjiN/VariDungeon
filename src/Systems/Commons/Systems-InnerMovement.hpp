@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void innerMovementDownSys(MainFixedSystem, World& world) {
-    auto objs = world.view<InnerMovement, Transform>(with<InnerMovementDown>);
+    auto objs = world.view<InnerMovement, Transform2D>(with<InnerMovementDown>);
 
     auto [time] = world.resource<const Time>();
 
@@ -22,7 +22,7 @@ void innerMovementDownSys(MainFixedSystem, World& world) {
 }
 
 void innerMovementUpSys(MainFixedSystem, World& world) {
-    auto objs = world.view<InnerMovement, Transform>(with<InnerMovementUp>);
+    auto objs = world.view<InnerMovement, Transform2D>(with<InnerMovementUp>);
 
     auto [time] = world.resource<const Time>();
 

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerDaggerSys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerDagger, const Transform>();
+    auto players = world.view<PlayerDagger, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 

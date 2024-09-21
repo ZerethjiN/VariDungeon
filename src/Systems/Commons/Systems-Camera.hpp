@@ -39,7 +39,7 @@ void cameraEffectApplicationSys(MainFixedSystem, World& world) {
 }
 
 void cameraSys(MainFixedSystem, World& world) {
-    auto cameras = world.view<const Transform>(with<CurCamera>);
+    auto cameras = world.view<const Transform2D>(with<CurCamera>);
 
     auto [inGameView, uiView] = world.resource<InGameView, UIView>();
 

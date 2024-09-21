@@ -16,7 +16,7 @@ void hubScene(SceneSystem, World& world) {
 
     // AppState
     auto [appstate] = world.resource<AppState>();
-    appstate.state = APP_STATE_IN_GAME;
+    appstate = AppStateType::APP_STATE_IN_GAME;
 
     auto [spatialHashMap] = world.resource<SpatialHashMap>();
     spatialHashMap.clear();
@@ -88,7 +88,7 @@ void hubScene(SceneSystem, World& world) {
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
     // Spawn Player + Camera:
-    auto players = world.view<Transform>(with<Player>);
+    auto players = world.view<Transform2D>(with<Player>);
     if (players.empty()) {
         auto playerEnt = instantiateBarbarian(world, glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
         world.addDontDestroyOnLoad(playerEnt);
@@ -101,7 +101,7 @@ void hubScene(SceneSystem, World& world) {
     auto cameras = world.view(with<CurCamera>);
     if (cameras.empty()) {
         auto cameraOrigin = world.newEnt(
-            Transform(
+            Transform2D(
                 glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                 0,
                 glm::vec2(1, 1)
@@ -111,7 +111,7 @@ void hubScene(SceneSystem, World& world) {
         world.appendChildren(cameraOrigin, {
             // Camera
             world.newEnt(
-                Transform(
+                Transform2D(
                     glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                     0,
                     glm::vec2(1, 1)
@@ -126,7 +126,7 @@ void hubScene(SceneSystem, World& world) {
     } else {
         for (auto [curCameraEnt]: cameras) {
             if (auto opt = world.getParent(curCameraEnt)) {
-                if (auto optTransform = world.get<Transform>(opt.value())) {
+                if (auto optTransform = world.get<Transform2D>(opt.value())) {
                     auto [parentTransform] = optTransform.value();
                     parentTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0));
                 }

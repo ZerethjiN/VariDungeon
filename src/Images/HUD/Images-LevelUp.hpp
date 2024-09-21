@@ -8,10 +8,14 @@ static const ImageAsset levelUpUV("Textures/LevelUp.png", {
     {{192,   0, 96, 32}, {0.5f, 0.5f}}, //  2: Level Up Text C
 });
 
-static const AnimationAsset levelUpAnim({
-    {"Default", {
+enum class LevelUpAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset levelUpAnim(animEnum<LevelUpAnimType>, {
+    {LevelUpAnimType::DEFAULT, {{
         {0.20f, levelUpUV[0]},
         {0.20f, levelUpUV[1]},
         {0.20f, levelUpUV[2]},
-    }},
+    }}},
 });

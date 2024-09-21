@@ -44,76 +44,95 @@ static const ImageAsset batLvl2UV("Textures/BatLvl2.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Bat Lvl2 Hit Attack Up B
 });
 
-static const AnimationAsset batLvl2Anim({
+enum class BatLvl2AnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset batLvl2Anim(animEnum<BatLvl2AnimType>, {
     // Movements
-    {"MoveDown", {
+    {BatLvl2AnimType::MOVE_DOWN, {{
         {0.20f, batLvl2UV[0]},
         {0.20f, batLvl2UV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {BatLvl2AnimType::MOVE_RIGHT, {{
         {0.20f, batLvl2UV[2]},
         {0.20f, batLvl2UV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {BatLvl2AnimType::MOVE_LEFT, {{
         {0.20f, batLvl2UV[4]},
         {0.20f, batLvl2UV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {BatLvl2AnimType::MOVE_UP, {{
         {0.20f, batLvl2UV[6]},
         {0.20f, batLvl2UV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {BatLvl2AnimType::ATTACK_DOWN, {{
         {0.20f, batLvl2UV[8]},
         {0.20f, batLvl2UV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {BatLvl2AnimType::ATTACK_RIGHT, {{
         {0.20f, batLvl2UV[10]},
         {0.20f, batLvl2UV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {BatLvl2AnimType::ATTACK_LEFT, {{
         {0.20f, batLvl2UV[12]},
         {0.20f, batLvl2UV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {BatLvl2AnimType::ATTACK_UP, {{
         {0.20f, batLvl2UV[14]},
         {0.20f, batLvl2UV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {BatLvl2AnimType::HIT_MOVE_DOWN, {{
         {0.20f, batLvl2UV[16]},
         {0.20f, batLvl2UV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {BatLvl2AnimType::HIT_MOVE_RIGHT, {{
         {0.20f, batLvl2UV[18]},
         {0.20f, batLvl2UV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {BatLvl2AnimType::HIT_MOVE_LEFT, {{
         {0.20f, batLvl2UV[20]},
         {0.20f, batLvl2UV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {BatLvl2AnimType::HIT_MOVE_UP, {{
         {0.20f, batLvl2UV[22]},
         {0.20f, batLvl2UV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {BatLvl2AnimType::HIT_ATTACK_DOWN, {{
         {0.20f, batLvl2UV[24]},
         {0.20f, batLvl2UV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {BatLvl2AnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, batLvl2UV[26]},
         {0.20f, batLvl2UV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {BatLvl2AnimType::HIT_ATTACK_LEFT, {{
         {0.20f, batLvl2UV[28]},
         {0.20f, batLvl2UV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {BatLvl2AnimType::HIT_ATTACK_UP, {{
         {0.20f, batLvl2UV[30]},
         {0.20f, batLvl2UV[31]},
-    }},
+    }}},
 });

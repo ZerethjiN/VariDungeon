@@ -6,12 +6,13 @@
 #include <Res.hpp>
 
 Ent instantiateEnemyExplosionAttackParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(explosionParticleUV),
-        Animation(explosionParticleAnim, "SmallExplosion"),
-        Transform(
+        Sprite(textureManager, explosionParticleUV),
+        Animation(explosionParticleAnim, ExplosionParticleAnimType::SMALL_EXPLOSION),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -23,12 +24,13 @@ Ent instantiateEnemyExplosionAttackParticle(World& world, const glm::vec2& posit
 }
 
 Ent instantiateEnemyBigExplosionAttackParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         EnemyWeapon(),
         Damage(2),
-        SpriteCreator(explosionParticleUV),
-        Animation(explosionParticleAnim, "BigExplosion"),
-        Transform(
+        Sprite(textureManager, explosionParticleUV),
+        Animation(explosionParticleAnim, ExplosionParticleAnimType::BIG_EXPLOSION),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -40,12 +42,13 @@ Ent instantiateEnemyBigExplosionAttackParticle(World& world, const glm::vec2& po
 }
 
 Ent instantiatePlayerExplosionAttackParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         PlayerWeapon(),
         Damage(1),
-        SpriteCreator(explosionParticleUV),
-        Animation(explosionParticleAnim, "SmallExplosion"),
-        Transform(
+        Sprite(textureManager, explosionParticleUV),
+        Animation(explosionParticleAnim, ExplosionParticleAnimType::SMALL_EXPLOSION),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -57,13 +60,14 @@ Ent instantiatePlayerExplosionAttackParticle(World& world, const glm::vec2& posi
 }
 
 Ent instantiatePlayerEnemyExplosionAttackParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         EnemyWeapon(),
         PlayerWeapon(),
         Damage(1),
-        SpriteCreator(explosionParticleUV),
-        Animation(explosionParticleAnim, "SmallExplosion"),
-        Transform(
+        Sprite(textureManager, explosionParticleUV),
+        Animation(explosionParticleAnim, ExplosionParticleAnimType::SMALL_EXPLOSION),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

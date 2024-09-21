@@ -8,6 +8,7 @@
 Ent instantiateSmallCrystalParticle(World&, const glm::vec2&, float, const glm::vec2&);
 
 Ent instantiateRockBoss(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     auto bossEnt = world.newEnt(
         Boss(),
         Enemy(),
@@ -23,9 +24,9 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
         Unhittable(),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(rockBossUV),
-        Animation(rockBossAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, rockBossUV),
+        Animation(rockBossAnim, RockBossAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

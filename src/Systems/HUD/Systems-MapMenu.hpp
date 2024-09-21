@@ -5,16 +5,18 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void mapMenuOpenCloseSys(MainFixedSystem, World& world) {
+void mapMenuOpenCloseSys(MainUnscaledFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::MAP_MENU)) {
-        auto mapMenus = world.view<const Transform>(with<MapMenu>);
+        auto mapMenus = world.view<const Transform2D>(with<MapMenu>);
 
         auto [time] = world.resource<Time>();
 
         if (mapMenus.empty()) {
-            time.setTimeScale(0);
-            instantiateMapMenuUI(world, glm::vec2(-72, -64));
-        } else if (!world.view<const Transform>(with<MapMenu>, without<MapMenuTranslation, MapMenuReverseTranslation>).empty()) {
+            if (world.view(with<Menu>).empty()) {
+                time.setTimeScale(0);
+                instantiateMapMenuUI(world, glm::vec2(-72, -64));
+            }
+        } else if (!world.view<const Transform2D>(with<MapMenu>, without<MapMenuTranslation, MapMenuReverseTranslation>).empty()) {
             for (auto [mapMenuEnt, mapMenuTransform]: mapMenus) {
                 world.add(mapMenuEnt, MapMenuReverseTranslation(mapMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
@@ -22,10 +24,10 @@ void mapMenuOpenCloseSys(MainFixedSystem, World& world) {
     }
 }
 
-void mapMenuTranslationSys(MainFixedSystem, World& world) {
-    auto menus = world.view<Transform, const MapMenuTranslation>();
+void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
+    auto menus = world.view<Transform2D, const MapMenuTranslation>();
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [menuEnt, transform, mapMenuTranslation]: menus) {
         if (glm::distance(transform.getPosition(), mapMenuTranslation.finalPosition) <= 4.f) {
@@ -37,7 +39,7 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
             world.appendChildren(menuEnt, {
                 world.newEnt(
                     TextUICreator("Map:", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
-                    Transform(
+                    Transform2D(
                         glm::vec2(-60, -64),
                         0,
                         glm::vec2(1, 1)
@@ -50,7 +52,7 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
             world.appendChildren(menuEnt, {
                 world.newEnt(
                     TextUICreator("[m]", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
-                    Transform(
+                    Transform2D(
                         glm::vec2(52, -64),
                         0,
                         glm::vec2(1, 1)
@@ -66,8 +68,8 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
                             case ChunkExploration::ROOM_EXPLORATION_PLAYER:
                                 world.appendChildren(menuEnt, {
                                     world.newEnt(
-                                        UICreator(mapAssetUV, 2, UIAnchor::CENTER_CENTER),
-                                        Transform(
+                                        UI(textureManager, mapAssetUV, 2, UIAnchor::CENTER_CENTER),
+                                        Transform2D(
                                             glm::vec2((x * 8) - ((exploration.width - 1) * 8 / 2), (y * 8) - ((exploration.height - 1) * 8 / 2) - 8),
                                             0,
                                             glm::vec2(1, 1)
@@ -79,8 +81,8 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
                             case ChunkExploration::ROOM_EXPLORATION_UNKNOW:
                                 world.appendChildren(menuEnt, {
                                     world.newEnt(
-                                        UICreator(mapAssetUV, 0, UIAnchor::CENTER_CENTER),
-                                        Transform(
+                                        UI(textureManager, mapAssetUV, 0, UIAnchor::CENTER_CENTER),
+                                        Transform2D(
                                             glm::vec2((x * 8) - ((exploration.width - 1) * 8 / 2), (y * 8) - ((exploration.height - 1) * 8 / 2) - 8),
                                             0,
                                             glm::vec2(1, 1)
@@ -92,8 +94,8 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
                             case ChunkExploration::ROOM_EXPLORATION_KNOW:
                                 world.appendChildren(menuEnt, {
                                     world.newEnt(
-                                        UICreator(mapAssetUV, 1, UIAnchor::CENTER_CENTER),
-                                        Transform(
+                                        UI(textureManager, mapAssetUV, 1, UIAnchor::CENTER_CENTER),
+                                        Transform2D(
                                             glm::vec2((x * 8) - ((exploration.width - 1) * 8 / 2), (y * 8) - ((exploration.height - 1) * 8 / 2) - 8),
                                             0,
                                             glm::vec2(1, 1)
@@ -105,8 +107,8 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
                             default:
                                 world.appendChildren(menuEnt, {
                                     world.newEnt(
-                                        UICreator(mapAssetUV, 0, UIAnchor::CENTER_CENTER),
-                                        Transform(
+                                        UI(textureManager, mapAssetUV, 0, UIAnchor::CENTER_CENTER),
+                                        Transform2D(
                                             glm::vec2((x * 8) - ((exploration.width - 1) * 8 / 2), (y * 8) - ((exploration.height - 1) * 8 / 2) - 8),
                                             0,
                                             glm::vec2(1, 1)
@@ -126,8 +128,8 @@ void mapMenuTranslationSys(MainFixedSystem, World& world) {
     }
 }
 
-void mapMenuReverseTranslationSys(MainFixedSystem, World& world) {
-    auto menus = world.view<Transform, const MapMenuReverseTranslation>();
+void mapMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
+    auto menus = world.view<Transform2D, const MapMenuReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 

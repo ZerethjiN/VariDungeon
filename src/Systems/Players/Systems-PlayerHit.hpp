@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerHitSys(MainFixedSystem, World& world) {
-    auto players = world.view<Transform, Life, const OnCollisionEnter>(with<Player>, without<Unhittable, InvincibleFrame>);
+    auto players = world.view<Transform2D, Life, const OnCollisionEnter>(with<Player>, without<Unhittable, InvincibleFrame>);
 
     for (auto [playerEnt, playerTransform, life, collisions]: players) {
         for (auto othEnt: collisions) {
@@ -23,7 +23,7 @@ void playerHitSys(MainFixedSystem, World& world) {
                 world.add(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
                 playerTransform.scale(-0.2f, -0.2f);
 
-                if (auto opt = world.get<const Transform>(othEnt)) {
+                if (auto opt = world.get<const Transform2D>(othEnt)) {
                     auto [enemyTransform] = opt.value();
 
                     world.add(playerEnt,

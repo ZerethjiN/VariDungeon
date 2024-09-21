@@ -34,46 +34,58 @@ static const ImageAsset slimeLvl2UV("Textures/SlimeLvl2.png", {
     {{ 16,  64, 16, 16}, {0.5f, 0.5f}}, // 17: Slime Lvl2 Shadow B
 });
 
-static const AnimationAsset slimeLvl2Anim({
+enum class SlimeLvl2AnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    SHADOW,
+};
+
+static const AnimationAsset slimeLvl2Anim(animEnum<SlimeLvl2AnimType>, {
     // Movements
-    {"MoveDown", {
+    {SlimeLvl2AnimType::MOVE_DOWN, {{
         {0.20f, slimeLvl2UV[0]},
         {0.20f, slimeLvl2UV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {SlimeLvl2AnimType::MOVE_RIGHT, {{
         {0.20f, slimeLvl2UV[2]},
         {0.20f, slimeLvl2UV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {SlimeLvl2AnimType::MOVE_LEFT, {{
         {0.20f, slimeLvl2UV[4]},
         {0.20f, slimeLvl2UV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {SlimeLvl2AnimType::MOVE_UP, {{
         {0.20f, slimeLvl2UV[6]},
         {0.20f, slimeLvl2UV[7]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {SlimeLvl2AnimType::HIT_MOVE_DOWN, {{
         {0.20f, slimeLvl2UV[8]},
         {0.20f, slimeLvl2UV[9]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {SlimeLvl2AnimType::HIT_MOVE_RIGHT, {{
         {0.20f, slimeLvl2UV[10]},
         {0.20f, slimeLvl2UV[11]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {SlimeLvl2AnimType::HIT_MOVE_LEFT, {{
         {0.20f, slimeLvl2UV[12]},
         {0.20f, slimeLvl2UV[13]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {SlimeLvl2AnimType::HIT_MOVE_UP, {{
         {0.20f, slimeLvl2UV[14]},
         {0.20f, slimeLvl2UV[15]},
-    }},
+    }}},
 
     // Shadow
-    {"Shadow", {
+    {SlimeLvl2AnimType::SHADOW, {{
         {0.50f, slimeLvl2UV[16]},
         {0.50f, slimeLvl2UV[17]},
-    }},
+    }}},
 });

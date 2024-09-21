@@ -8,18 +8,35 @@
 Ent instantiatePlayerEnemyExplosionAttackParticle(World&, const glm::vec2&);
 
 Ent instantiateTNTBarel(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        Breakable("NoHit", "Hit", "Destroyed"),
+        Breakable(),
+        OnBreakableHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(TntBarelAnimType::HIT);
+            }
+        }),
+        OnBreakableNoHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(TntBarelAnimType::NO_HIT);
+            }
+        }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<const Transform>(thisEnt)) {
+            if (auto opt = world.get<const Transform2D>(thisEnt)) {
                 auto [transform] = opt.value();
                 instantiatePlayerEnemyExplosionAttackParticle(world, transform.getPosition());
             }
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(TntBarelAnimType::DESTROYED);
+            }
         }),
         Life(1),
-        SpriteCreator(tntBarelUV),
-        Animation(tntBarelAnim, "NoHit"),
-        Transform(
+        Sprite(textureManager, tntBarelUV),
+        Animation(tntBarelAnim, TntBarelAnimType::NO_HIT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

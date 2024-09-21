@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void voidSphereOffSys(MainFixedSystem, World& world) {
-    auto spheres = world.view<IsVoidSphereOff, Animation, const VoidSphere, const ZIndex, const Transform>();
+    auto spheres = world.view<IsVoidSphereOff, Animation, const VoidSphere, const ZIndex, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
@@ -21,15 +21,15 @@ void voidSphereOffSys(MainFixedSystem, World& world) {
                 world.appendChildren(sphereEnt, {
                     instantiateAttractParticle(world, transform.getPosition(), zindex + 1, voidSphere.voidSphereOnDuration)
                 });
-                animation.play("On");
+                animation.play(VoidSphereAnimType::ON);
             }
         }
     }
 }
 
 void voidSphereOnSys(MainFixedSystem, World& world) {
-    auto spheres = world.view<IsVoidSphereOn, Animation, const VoidSphere, const Transform>();
-    auto players = world.view<Velocity, const Transform>(with<Player>);
+    auto spheres = world.view<IsVoidSphereOn, Animation, const VoidSphere, const Transform2D>();
+    auto players = world.view<Velocity, const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -41,7 +41,7 @@ void voidSphereOnSys(MainFixedSystem, World& world) {
                 world.remove<IsVoidSphereOn>(sphereEnt);
                 world.add(sphereEnt, IsVoidSphereOff(voidSphere.voidSphereOffDuration));
             }
-            animation.play("Off");
+            animation.play(VoidSphereAnimType::OFF);
             continue;
         }
 

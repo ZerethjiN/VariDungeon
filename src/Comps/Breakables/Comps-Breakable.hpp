@@ -2,30 +2,38 @@
 
 #include <Zerengine.hpp>
 
-class Breakable final {
+class Breakable final {};
+
+struct OnBreakableHitDuration final: public IIsStateDuration {
+    OnBreakableHitDuration(float newDuration): IIsStateDuration(newDuration) {}
+};
+
+class OnBreakableHit final {
 public:
-    Breakable(const std::string& newNoHitAnimName, const std::string& newOnHitAnimName, const std::string& newDestroyedAnimName):
-        noHitAnimName(newNoHitAnimName),
-        onHitAnimName(newOnHitAnimName),
-        destroyedAnimName(newDestroyedAnimName) {
+    OnBreakableHit(const std::function<void(World&, Ent)>& newCallback):
+        callback(newCallback) {
     }
 
 public:
-    const std::string noHitAnimName;
-    const std::string onHitAnimName;
-    const std::string destroyedAnimName;
+    std::function<void(World&, Ent)> callback;
 };
 
-struct OnBreakableHit final: public IIsStateDuration {
-    OnBreakableHit(float newDuration): IIsStateDuration(newDuration) {}
+class OnBreakableNoHit final {
+public:
+    OnBreakableNoHit(const std::function<void(World&, Ent)>& newCallback):
+        callback(newCallback) {
+    }
+
+public:
+    std::function<void(World&, Ent)> callback;
 };
 
 class OnBreakableBreak final {
 public:
-    OnBreakableBreak(void(*const newOnBreak)(World&, Ent)):
-        onBreak(newOnBreak) {
+    OnBreakableBreak(const std::function<void(World&, Ent)>& newCallback):
+        callback(newCallback) {
     }
 
 public:
-    void(*const onBreak)(World&, Ent);
+    std::function<void(World&, Ent)> callback;
 };

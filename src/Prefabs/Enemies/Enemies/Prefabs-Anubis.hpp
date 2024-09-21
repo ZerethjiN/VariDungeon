@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateAnubis(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -13,9 +14,9 @@ Ent instantiateAnubis(World& world, const glm::vec2& position) {
         IsAnubisMove(1.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(anubisUV),
-        Animation(anubisAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, anubisUV),
+        Animation(anubisAnim, AnubisAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

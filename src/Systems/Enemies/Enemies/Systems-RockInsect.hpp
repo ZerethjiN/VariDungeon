@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void rockInsectMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockInsectMove, Orientation, const Speed, const RockInsect, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsRockInsectMove, Orientation, const Speed, const RockInsect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -54,32 +54,32 @@ void rockInsectMoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(RockInsectAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(RockInsectAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(RockInsectAnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(RockInsectAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(RockInsectAnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(RockInsectAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(RockInsectAnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(RockInsectAnimType::MOVE_UP);
                 }
             }
         }
@@ -87,7 +87,7 @@ void rockInsectMoveSys(MainFixedSystem, World& world) {
 }
 
 void rockInsectPreCastSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockInsectPreCast, Orientation, const RockInsect, const Transform>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsRockInsectPreCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -123,29 +123,29 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackRight");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    animation.play("AttackRight");
+                    animation.play(RockInsectAnimType::ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackLeft");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_LEFT);
                 } else {
-                    animation.play("AttackLeft");
+                    animation.play(RockInsectAnimType::ATTACK_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackDown");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_DOWN);
                 } else {
-                    animation.play("AttackDown");
+                    animation.play(RockInsectAnimType::ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackUp");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_UP);
                 } else {
-                    animation.play("AttackUp");
+                    animation.play(RockInsectAnimType::ATTACK_UP);
                 }
             }
         }
@@ -153,7 +153,7 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
 }
 
 void rockInsectCastSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockInsectCast, Orientation, const RockInsect, const Transform>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsRockInsectCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -167,29 +167,29 @@ void rockInsectCastSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackRight");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    animation.play("AttackRight");
+                    animation.play(RockInsectAnimType::ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackLeft");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_LEFT);
                 } else {
-                    animation.play("AttackLeft");
+                    animation.play(RockInsectAnimType::ATTACK_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackDown");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_DOWN);
                 } else {
-                    animation.play("AttackDown");
+                    animation.play(RockInsectAnimType::ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackUp");
+                    animation.play(RockInsectAnimType::HIT_ATTACK_UP);
                 } else {
-                    animation.play("AttackUp");
+                    animation.play(RockInsectAnimType::ATTACK_UP);
                 }
             }
         }

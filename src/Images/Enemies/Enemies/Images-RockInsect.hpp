@@ -44,76 +44,95 @@ static const ImageAsset rockInsectUV("Textures/RockInsect.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Rock Insect Hit Attack Up B
 });
 
-static const AnimationAsset rockInsectAnim({
+enum class RockInsectAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset rockInsectAnim(animEnum<RockInsectAnimType>, {
     // Movements
-    {"MoveDown", {
+    {RockInsectAnimType::MOVE_DOWN, {{
         {0.20f, rockInsectUV[0]},
         {0.20f, rockInsectUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {RockInsectAnimType::MOVE_RIGHT, {{
         {0.20f, rockInsectUV[2]},
         {0.20f, rockInsectUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {RockInsectAnimType::MOVE_LEFT, {{
         {0.20f, rockInsectUV[4]},
         {0.20f, rockInsectUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {RockInsectAnimType::MOVE_UP, {{
         {0.20f, rockInsectUV[6]},
         {0.20f, rockInsectUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {RockInsectAnimType::ATTACK_DOWN, {{
         {0.20f, rockInsectUV[8]},
         {0.20f, rockInsectUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {RockInsectAnimType::ATTACK_RIGHT, {{
         {0.20f, rockInsectUV[10]},
         {0.20f, rockInsectUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {RockInsectAnimType::ATTACK_LEFT, {{
         {0.20f, rockInsectUV[12]},
         {0.20f, rockInsectUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {RockInsectAnimType::ATTACK_UP, {{
         {0.20f, rockInsectUV[14]},
         {0.20f, rockInsectUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {RockInsectAnimType::HIT_MOVE_DOWN, {{
         {0.20f, rockInsectUV[16]},
         {0.20f, rockInsectUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {RockInsectAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, rockInsectUV[18]},
         {0.20f, rockInsectUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {RockInsectAnimType::HIT_MOVE_LEFT, {{
         {0.20f, rockInsectUV[20]},
         {0.20f, rockInsectUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {RockInsectAnimType::HIT_MOVE_UP, {{
         {0.20f, rockInsectUV[22]},
         {0.20f, rockInsectUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {RockInsectAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, rockInsectUV[24]},
         {0.20f, rockInsectUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {RockInsectAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, rockInsectUV[26]},
         {0.20f, rockInsectUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {RockInsectAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, rockInsectUV[28]},
         {0.20f, rockInsectUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {RockInsectAnimType::HIT_ATTACK_UP, {{
         {0.20f, rockInsectUV[30]},
         {0.20f, rockInsectUV[31]},
-    }},
+    }}},
 });

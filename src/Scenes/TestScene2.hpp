@@ -14,12 +14,14 @@ void testScene2(SceneSystem, World& world) {
     // fontManager.clear();
     // pipelineManager.clear();
 
+    auto [textureManager] = world.resource<TextureManager>();
+
     auto [spatialHashMap] = world.resource<SpatialHashMap>();
     spatialHashMap.clear();
 
     // AppState
     auto [appstate] = world.resource<AppState>();
-    appstate.state = APP_STATE_HOME_MENU;
+    appstate = AppStateType::APP_STATE_HOME_MENU;
 
     // Reset Time
     auto [time] = world.resource<Time>();
@@ -31,7 +33,7 @@ void testScene2(SceneSystem, World& world) {
 
     // Camera
     auto cameraOrigin = world.newEnt(
-        Transform(
+        Transform2D(
             glm::vec2(0, 0),// + glm::vec2(160 * 2, 144 * 2),
             0,
             glm::vec2(1, 1)
@@ -41,7 +43,7 @@ void testScene2(SceneSystem, World& world) {
     world.appendChildren(cameraOrigin, {
         // Camera
         world.newEnt(
-            Transform(
+            Transform2D(
                 glm::vec2(0, 0),// + glm::vec2(160 * 2, 144 * 2),
                 0,
                 glm::vec2(1, 1)
@@ -53,8 +55,8 @@ void testScene2(SceneSystem, World& world) {
 
     // Background
     world.newEnt(
-        UICreator(homeBackgroundUV, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, homeBackgroundUV, UIAnchor::CENTER_CENTER),
+        Transform2D(
             glm::vec2(0, 0),
             0,
             glm::vec2(1, 1)
@@ -65,8 +67,8 @@ void testScene2(SceneSystem, World& world) {
 
     // Logo
     world.newEnt(
-        UICreator(logoUV, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, logoUV, UIAnchor::CENTER_CENTER),
+        Transform2D(
             glm::vec2(0, -44),
             0,
             glm::vec2(1, 1)
@@ -76,8 +78,8 @@ void testScene2(SceneSystem, World& world) {
 
     // Play Button
     world.newEnt(
-        UICreator(homeButtonUV, 0, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, homeButtonUV, 0, UIAnchor::CENTER_CENTER),
+        Transform2D(
             glm::vec2(0, 0),
             0,
             glm::vec2(1.05f, 1.05f)
@@ -92,7 +94,7 @@ void testScene2(SceneSystem, World& world) {
 
     world.newEnt(
         TextUICreator("Play", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
-        Transform(
+        Transform2D(
             glm::vec2(-70, -8),
             0,
             glm::vec2(1.5, 1.5)
@@ -102,8 +104,8 @@ void testScene2(SceneSystem, World& world) {
 
     // Settings Button
     world.newEnt(
-        UICreator(homeButtonUV, 0, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, homeButtonUV, 0, UIAnchor::CENTER_CENTER),
+        Transform2D(
             glm::vec2(0, 40),
             0,
             glm::vec2(1, 1)
@@ -114,7 +116,7 @@ void testScene2(SceneSystem, World& world) {
 
     world.newEnt(
         TextUICreator("Settings", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
-        Transform(
+        Transform2D(
             glm::vec2(-70, 32),
             0,
             glm::vec2(1.5, 1.5)
@@ -124,9 +126,9 @@ void testScene2(SceneSystem, World& world) {
 
     // Selector
     world.newEnt(
-        UICreator(homeButtonUV, 1, UIAnchor::CENTER_CENTER),
-        Animation(homeButtonAnim, "LightSelector"),
-        Transform(
+        UI(textureManager, homeButtonUV, 1, UIAnchor::CENTER_CENTER),
+        Animation(homeButtonAnim, HomeButtonAnimType::LIGHT_SELECTOR),
+        Transform2D(
             glm::vec2(0, 0),
             0,
             glm::vec2(1, 1)
@@ -140,7 +142,7 @@ void testScene2(SceneSystem, World& world) {
 
     world.newEnt(
         TextUICreator(std::string("Version ") + buildVersion.version, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
-        Transform(
+        Transform2D(
             glm::vec2(-16, 60),
             0,
             glm::vec2(1, 1)

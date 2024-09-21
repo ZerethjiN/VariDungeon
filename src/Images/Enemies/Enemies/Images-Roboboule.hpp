@@ -36,76 +36,95 @@ static const ImageAsset robobouleUV("Textures/Roboboule.png", {
     {{ 32, 112, 16, 16}, {0.5f, 0.5f}}, // 23: Roboboule Hit Pre Attack Up A
 });
 
-static const AnimationAsset robobouleAnim({
+enum class RobobouleAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    PRE_ATTACK_DOWN,
+    PRE_ATTACK_RIGHT,
+    PRE_ATTACK_LEFT,
+    PRE_ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_PRE_ATTACK_DOWN,
+    HIT_PRE_ATTACK_RIGHT,
+    HIT_PRE_ATTACK_LEFT,
+    HIT_PRE_ATTACK_UP,
+};
+
+static const AnimationAsset robobouleAnim(animEnum<RobobouleAnimType>, {
     // Movements
-    {"MoveDown", {
+    {RobobouleAnimType::MOVE_DOWN, {{
         {0.20f, robobouleUV[0]},
         {0.20f, robobouleUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {RobobouleAnimType::MOVE_RIGHT, {{
         {0.20f, robobouleUV[2]},
         {0.20f, robobouleUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {RobobouleAnimType::MOVE_LEFT, {{
         {0.20f, robobouleUV[4]},
         {0.20f, robobouleUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {RobobouleAnimType::MOVE_UP, {{
         {0.20f, robobouleUV[6]},
         {0.20f, robobouleUV[7]},
-    }},
+    }}},
 
     // Pre Attacks
-    {"PreAttackDown", {
+    {RobobouleAnimType::PRE_ATTACK_DOWN, {{
         {0.20f, robobouleUV[8]},
         {0.20f, robobouleUV[1]},
-    }},
-    {"PreAttackRight", {
+    }}},
+    {RobobouleAnimType::PRE_ATTACK_RIGHT, {{
         {0.20f, robobouleUV[9]},
         {0.20f, robobouleUV[3]},
-    }},
-    {"PreAttackLeft", {
+    }}},
+    {RobobouleAnimType::PRE_ATTACK_LEFT, {{
         {0.20f, robobouleUV[10]},
         {0.20f, robobouleUV[5]},
-    }},
-    {"PreAttackUp", {
+    }}},
+    {RobobouleAnimType::PRE_ATTACK_UP, {{
         {0.20f, robobouleUV[11]},
         {0.20f, robobouleUV[7]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {RobobouleAnimType::HIT_MOVE_DOWN, {{
         {0.20f, robobouleUV[12]},
         {0.20f, robobouleUV[13]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {RobobouleAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, robobouleUV[14]},
         {0.20f, robobouleUV[15]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {RobobouleAnimType::HIT_MOVE_LEFT, {{
         {0.20f, robobouleUV[16]},
         {0.20f, robobouleUV[17]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {RobobouleAnimType::HIT_MOVE_UP, {{
         {0.20f, robobouleUV[18]},
         {0.20f, robobouleUV[19]},
-    }},
+    }}},
 
     // Hit Pre Attacks
-    {"HitPreAttackDown", {
+    {RobobouleAnimType::HIT_PRE_ATTACK_DOWN, {{
         {0.20f, robobouleUV[20]},
         {0.20f, robobouleUV[13]},
-    }},
-    {"HitPreAttackRight", {
+    }}},
+    {RobobouleAnimType::HIT_PRE_ATTACK_RIGHT, {{
         {0.20f, robobouleUV[21]},
         {0.20f, robobouleUV[15]},
-    }},
-    {"HitPreAttackLeft", {
+    }}},
+    {RobobouleAnimType::HIT_PRE_ATTACK_LEFT, {{
         {0.20f, robobouleUV[22]},
         {0.20f, robobouleUV[17]},
-    }},
-    {"HitPreAttackUp", {
+    }}},
+    {RobobouleAnimType::HIT_PRE_ATTACK_UP, {{
         {0.20f, robobouleUV[23]},
         {0.20f, robobouleUV[19]},
-    }},
+    }}},
 });

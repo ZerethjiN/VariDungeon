@@ -12,13 +12,18 @@ static const ImageAsset shadowMarkParticleUV("Textures/ShadowMarkParticle.png", 
     {{144,   0, 48, 48}, {0.5f, 0.5f}}, //  3: Shadow Mark Explosion Particle B
 });
 
-static const AnimationAsset shadowMarkParticleAnim({
-    {"PreExplosion", {
+enum class ShadowMarkParticleAnimType: std::size_t {
+    PRE_EXPLOSION,
+    EXPLOSION,
+};
+
+static const AnimationAsset shadowMarkParticleAnim(animEnum<ShadowMarkParticleAnimType>, {
+    {ShadowMarkParticleAnimType::PRE_EXPLOSION, {{
         {0.25f, shadowMarkParticleUV[0]},
         {0.25f, shadowMarkParticleUV[1]},
-    }},
-    {"Explosion", {
+    }}},
+    {ShadowMarkParticleAnimType::EXPLOSION, {{
         {0.25f, shadowMarkParticleUV[2]},
         {0.25f, shadowMarkParticleUV[3]},
-    }},
+    }}},
 });

@@ -7,9 +7,13 @@ static const ImageAsset obeliskUV("Textures/Obelisk.png", {
     {{ 16,   0, 16, 32}, {0.5f, 0.5f}}, //  1: Obelisk B
 });
 
-static const AnimationAsset obeliskAnim({
-    {"Default", {
+enum class ObeliskAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset obeliskAnim(animEnum<ObeliskAnimType>, {
+    {ObeliskAnimType::DEFAULT, {{
         {1.50f, obeliskUV[0]},
         {1.50f, obeliskUV[1]},
-    }},
+    }}},
 });

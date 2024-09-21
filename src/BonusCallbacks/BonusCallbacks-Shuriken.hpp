@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shurikenBonusCallbackLvl1(World& world) {
-    auto players = world.view<const Transform>(with<Player>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     for (auto [playerEnt, transform]: players) {
         world.appendChildren(playerEnt, {

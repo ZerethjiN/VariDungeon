@@ -6,15 +6,16 @@
 #include <Res.hpp>
 
 Ent instantiateSlime(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Slime(0.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(slimeUV),
-        Animation(slimeAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, slimeUV),
+        Animation(slimeAnim, SlimeAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

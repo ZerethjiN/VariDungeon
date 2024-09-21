@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-enum ButtonNameType: std::size_t {
+enum class ButtonNameType: std::size_t {
     MOVE_UP,
     MOVE_DOWN,
     MOVE_LEFT,
@@ -16,7 +16,7 @@ enum ButtonNameType: std::size_t {
     MAP_MENU
 };
 
-enum MouseButtonNameType: std::size_t {
+enum class MouseButtonNameType: std::size_t {
     MOUSE_LEFT,
     MOUSE_RIGHT
 };

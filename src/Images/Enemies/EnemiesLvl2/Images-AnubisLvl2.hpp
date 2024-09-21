@@ -58,96 +58,119 @@ static const ImageAsset anubisLvl2UV("Textures/AnubisLvl2.png", {
     {{ 32, 176, 16, 16}, {0.5f, 0.5f}}, // 43: Anubis Lvl2 Vanish Up C
 });
 
-static const AnimationAsset anubisLvl2Anim({
+enum class AnubisLvl2AnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+    VANISH_DOWN,
+    VANISH_RIGHT,
+    VANISH_LEFT,
+    VANISH_UP,
+};
+
+static const AnimationAsset anubisLvl2Anim(animEnum<AnubisLvl2AnimType>, {
     // Movements
-    {"MoveDown", {
+    {AnubisLvl2AnimType::MOVE_DOWN, {{
         {0.20f, anubisLvl2UV[0]},
         {0.20f, anubisLvl2UV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {AnubisLvl2AnimType::MOVE_RIGHT, {{
         {0.20f, anubisLvl2UV[2]},
         {0.20f, anubisLvl2UV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {AnubisLvl2AnimType::MOVE_LEFT, {{
         {0.20f, anubisLvl2UV[4]},
         {0.20f, anubisLvl2UV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {AnubisLvl2AnimType::MOVE_UP, {{
         {0.20f, anubisLvl2UV[6]},
         {0.20f, anubisLvl2UV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {AnubisLvl2AnimType::ATTACK_DOWN, {{
         {0.20f, anubisLvl2UV[8]},
         {0.20f, anubisLvl2UV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {AnubisLvl2AnimType::ATTACK_RIGHT, {{
         {0.20f, anubisLvl2UV[10]},
         {0.20f, anubisLvl2UV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {AnubisLvl2AnimType::ATTACK_LEFT, {{
         {0.20f, anubisLvl2UV[12]},
         {0.20f, anubisLvl2UV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {AnubisLvl2AnimType::ATTACK_UP, {{
         {0.20f, anubisLvl2UV[14]},
         {0.20f, anubisLvl2UV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {AnubisLvl2AnimType::HIT_MOVE_DOWN, {{
         {0.20f, anubisLvl2UV[16]},
         {0.20f, anubisLvl2UV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {AnubisLvl2AnimType::HIT_MOVE_RIGHT, {{
         {0.20f, anubisLvl2UV[18]},
         {0.20f, anubisLvl2UV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {AnubisLvl2AnimType::HIT_MOVE_LEFT, {{
         {0.20f, anubisLvl2UV[20]},
         {0.20f, anubisLvl2UV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {AnubisLvl2AnimType::HIT_MOVE_UP, {{
         {0.20f, anubisLvl2UV[22]},
         {0.20f, anubisLvl2UV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {AnubisLvl2AnimType::HIT_ATTACK_DOWN, {{
         {0.20f, anubisLvl2UV[24]},
         {0.20f, anubisLvl2UV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {AnubisLvl2AnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, anubisLvl2UV[26]},
         {0.20f, anubisLvl2UV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {AnubisLvl2AnimType::HIT_ATTACK_LEFT, {{
         {0.20f, anubisLvl2UV[28]},
         {0.20f, anubisLvl2UV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {AnubisLvl2AnimType::HIT_ATTACK_UP, {{
         {0.20f, anubisLvl2UV[30]},
         {0.20f, anubisLvl2UV[31]},
-    }},
+    }}},
 
     // Vanish
-    {"VanishDown", {{
+    {AnubisLvl2AnimType::VANISH_DOWN, {{
         {0.20f, anubisLvl2UV[32]},
         {0.20f, anubisLvl2UV[33]},
         {0.20f, anubisLvl2UV[34]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishRight", {{
+    {AnubisLvl2AnimType::VANISH_RIGHT, {{
         {0.20f, anubisLvl2UV[35]},
         {0.20f, anubisLvl2UV[36]},
         {0.20f, anubisLvl2UV[37]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishLeft", {{
+    {AnubisLvl2AnimType::VANISH_LEFT, {{
         {0.20f, anubisLvl2UV[38]},
         {0.20f, anubisLvl2UV[39]},
         {0.20f, anubisLvl2UV[40]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishUp", {{
+    {AnubisLvl2AnimType::VANISH_UP, {{
         {0.20f, anubisLvl2UV[41]},
         {0.20f, anubisLvl2UV[42]},
         {0.20f, anubisLvl2UV[43]},

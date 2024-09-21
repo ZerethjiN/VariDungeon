@@ -36,9 +36,9 @@ const std::vector<const char*> deviceExtensions = {
 };
 
 #ifdef NDEBUG
-    const bool enableValidationLayers = false;
+    static constexpr bool enableValidationLayers = false;
 #else
-    const bool enableValidationLayers = true;
+    static constexpr bool enableValidationLayers = true;
 #endif
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
@@ -82,7 +82,8 @@ static uint32_t findMemoryType(VkPhysicalDevice& physicalDevice, uint32_t typeFi
         }
     }
 
-    throw std::runtime_error("failed to find suitable memory type!");
+    std::cerr << "failed to find suitable memory type!" << std::endl;
+    std::exit(EXIT_FAILURE);
 }
 
 static void createBuffer(VkPhysicalDevice& physicalDevice, VkDevice& device, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
@@ -94,7 +95,8 @@ static void createBuffer(VkPhysicalDevice& physicalDevice, VkDevice& device, VkD
     };
 
     if (vkCreateBuffer(device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create buffer!");
+        std::cerr << "failed to create buffer!" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     VkMemoryRequirements memRequirements;
@@ -107,7 +109,8 @@ static void createBuffer(VkPhysicalDevice& physicalDevice, VkDevice& device, VkD
     };
 
     if (vkAllocateMemory(device, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
-        throw std::runtime_error("failed to allocate buffer memory!");
+        std::cerr << "failed to allocate buffer memory!" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     vkBindBufferMemory(device, buffer, bufferMemory, 0);
@@ -164,7 +167,8 @@ static std::vector<char> readFile(const std::string& filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
     if (!file.is_open()) {
-        throw std::runtime_error("failed to open file!");
+        std::cerr << "failed to open file!" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     size_t fileSize = (size_t) file.tellg();
@@ -188,7 +192,7 @@ friend class DescriptorSet;
 friend class TextureDescriptorSet;
 public:
     VulkanEngine():
-        window(glm::uvec2(640, 576), "Test Vulkan") {
+        window(glm::uvec2(1280, 720), "Test Vulkan") {
         initVulkan();
     }
 
@@ -284,7 +288,8 @@ public:
 
     void createInstance() {
         if (enableValidationLayers && !checkValidationLayerSupport()) {
-            throw std::runtime_error("validation layers requested, but not available!");
+            std::cerr << "validation layers requested, but not available!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         VkApplicationInfo appInfo {
@@ -317,7 +322,8 @@ public:
         }
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create instance!");
+            std::cerr << "failed to create instance!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -337,13 +343,15 @@ public:
         populateDebugMessengerCreateInfo(createInfo);
 
         if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
-            throw std::runtime_error("failed to set up debug messenger!");
+            std::cerr << "failed to set up debug messenger!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
     void createSurface() {
         if (window.createWindowSurface(instance, surface) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create window surface!");
+            std::cerr << "failed to create window surface!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -352,7 +360,8 @@ public:
         vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
         if (deviceCount == 0) {
-            throw std::runtime_error("failed to find GPUs with Vulkan support!");
+            std::cerr << "failed to find GPUs with Vulkan support!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -367,7 +376,8 @@ public:
         }
 
         if (physicalDevice == VK_NULL_HANDLE) {
-            throw std::runtime_error("failed to find a suitable GPU!");
+            std::cerr << "failed to find a suitable GPU!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -421,7 +431,8 @@ public:
         }
 
         if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create logical device!");
+            std::cerr << "failed to create logical device!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         vkGetDeviceQueue(device, queueIndices.graphicsFamily.value(), 0, &graphicsQueue);
@@ -466,7 +477,8 @@ public:
         }
 
         if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create swap chain!");
+            std::cerr << "failed to create swap chain!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         swapChainImageFormat = surfaceFormat.format;
@@ -483,7 +495,8 @@ public:
         };
 
         if (vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create graphics command pool!");
+            std::cerr << "failed to create graphics command pool!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -498,7 +511,8 @@ public:
         };
 
         if (vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate command buffers!");
+            std::cerr << "failed to allocate command buffers!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -520,7 +534,8 @@ public:
             if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
                 vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
                 vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
-                throw std::runtime_error("failed to create synchronization objects for a frame!");
+                std::cerr << "failed to create synchronization objects for a frame!" << std::endl;
+                std::exit(EXIT_FAILURE);
             }
         }
     }
@@ -542,7 +557,8 @@ public:
             recreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            throw std::runtime_error("failed to acquire swap chain image!");
+            std::cerr << "failed to acquire swap chain image!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         vkResetFences(device, 1, &inFlightFences[currentFrame]);
@@ -567,10 +583,9 @@ public:
             .pSignalSemaphores = signalSemaphores
         };
 
-        auto res = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
-        if (res != VK_SUCCESS) {
-            printf("Res: %d\n", res);
-            throw std::runtime_error("failed to submit draw command buffer!");
+        if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS) {
+            std::cerr << "failed to submit draw command buffer!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         VkSwapchainKHR swapChains[] = {swapChain};
@@ -590,7 +605,8 @@ public:
             window.framebufferResized = false;
             recreateSwapChain();
         } else if (result != VK_SUCCESS) {
-            throw std::runtime_error("failed to present swap chain image!");
+            std::cerr << "failed to present swap chain image!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
@@ -608,7 +624,7 @@ public:
 
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
         for (const auto& availablePresentMode : availablePresentModes) {
-            if (availablePresentMode == VK_PRESENT_MODE_FIFO_KHR) {
+            if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
                 return availablePresentMode;
             }
         }

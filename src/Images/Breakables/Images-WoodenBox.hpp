@@ -8,14 +8,20 @@ static const ImageAsset woodenBoxUV("Textures/WoodenBox.png", {
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: Wooden Box Hit
 });
 
-static const AnimationAsset woodenBoxAnim({
-    {"NoHit", {{
+enum class WoodenBoxAnim: std::size_t {
+    NO_HIT,
+    HIT,
+    DESTROYED,
+};
+
+static const AnimationAsset woodenBoxAnim(animEnum<WoodenBoxAnim>, {
+    {WoodenBoxAnim::NO_HIT, {{
         {1.00f, woodenBoxUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"Hit", {{
+    {WoodenBoxAnim::HIT, {{
         {1.00f, woodenBoxUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"Destroyed", {{
+    {WoodenBoxAnim::DESTROYED, {{
         {1.00f, woodenBoxUV[1]},
     }, AnimationType::ONE_SHOT}},
 });

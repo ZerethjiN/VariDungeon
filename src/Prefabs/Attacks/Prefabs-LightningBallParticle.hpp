@@ -6,13 +6,14 @@
 #include <Res.hpp>
 
 Ent instantiateLightningBallParticle(World& world, const glm::vec2& position, const glm::vec2& direction, float speed) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         LightningBall(direction),
         PlayerWeapon(),
         Damage(1),
-        SpriteCreator(lightningBallParticleUV),
-        Animation(lightningBallParticleAnim, "Default"),
-        Transform(
+        Sprite(textureManager, lightningBallParticleUV),
+        Animation(lightningBallParticleAnim, LightningBallParticleAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

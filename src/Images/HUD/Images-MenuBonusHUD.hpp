@@ -15,17 +15,23 @@ static const ImageAsset menuBonusHUDUV("Textures/MenuBonusHUD.png", {
     {{128, 144,  32,  32}, {0.0f, 0.0f}}, //  6: Small Selector B
 });
 
-static const AnimationAsset menuBonusHUDAnim({
-    {"MediumSelector", {
+enum class MenuBonusHUDAnimType: std::size_t {
+    MEDIUM_SELECTOR,
+    LARGE_SELECTOR,
+    SMALL_SELECTOR,
+};
+
+static const AnimationAsset menuBonusHUDAnim(animEnum<MenuBonusHUDAnimType>, {
+    {MenuBonusHUDAnimType::MEDIUM_SELECTOR, {{
         {0.50f, menuBonusHUDUV[1]},
         {0.50f, menuBonusHUDUV[2]},
-    }},
-    {"LargeSelector", {
+    }}},
+    {MenuBonusHUDAnimType::LARGE_SELECTOR, {{
         {0.50f, menuBonusHUDUV[3]},
         {0.50f, menuBonusHUDUV[4]},
-    }},
-    {"SmallSelector", {
+    }}},
+    {MenuBonusHUDAnimType::SMALL_SELECTOR, {{
         {0.50f, menuBonusHUDUV[5]},
         {0.50f, menuBonusHUDUV[6]},
-    }},
+    }}},
 });

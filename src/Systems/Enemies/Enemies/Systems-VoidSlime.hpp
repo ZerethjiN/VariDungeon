@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void voidSlimeMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsVoidSlimeMove, Orientation, const Speed, const VoidSlime, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsVoidSlimeMove, Orientation, const Speed, const VoidSlime, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -33,32 +33,32 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(VoidSlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(VoidSlimeAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(VoidSlimeAnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(VoidSlimeAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(VoidSlimeAnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(VoidSlimeAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(VoidSlimeAnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(VoidSlimeAnimType::MOVE_UP);
                 }
             }
         }
@@ -66,8 +66,8 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
 }
 
 void voidSlimeAttractSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsVoidSlimeAttract, Orientation, const VoidSlime, const Transform>(without<EnemyPreSpawn>);
-    auto players = world.view<Velocity, const Transform>(with<Player>);
+    auto enemies = world.view<Animation, IsVoidSlimeAttract, Orientation, const VoidSlime, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.view<Velocity, const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -91,29 +91,29 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackRight");
+                    animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
-                    animation.play("PreAttackRight");
+                    animation.play(VoidSlimeAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackLeft");
+                    animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
-                    animation.play("PreAttackLeft");
+                    animation.play(VoidSlimeAnimType::PRE_ATTACK_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackDown");
+                    animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
-                    animation.play("PreAttackDown");
+                    animation.play(VoidSlimeAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitPreAttackUp");
+                    animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_UP);
                 } else {
-                    animation.play("PreAttackUp");
+                    animation.play(VoidSlimeAnimType::PRE_ATTACK_UP);
                 }
             }
         }

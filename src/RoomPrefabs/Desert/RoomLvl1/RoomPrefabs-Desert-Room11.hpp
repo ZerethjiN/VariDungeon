@@ -7,9 +7,11 @@
 #include <Prefabs.hpp>
 
 Ent instantiateDesertRoom11(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+    auto [textureManager] = world.resource<TextureManager>();
+    
     auto chunkHolderEnt = world.newEnt(
         ChunkInfos(chunkIdx),
-        Transform(
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -71,18 +73,18 @@ Ent instantiateDesertRoom11(World& world, const glm::vec2& position, std::size_t
     world.appendChildren(chunkHolderEnt, {
         // Background + Foregound:
         world.newEnt(
-            TileMapCreator("Textures/TileMapDesert.png", backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
-            ZIndex(0),
-            Transform(
+            TileMap(textureManager, backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
+            ZIndex(-50),
+            Transform2D(
                 position - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                 0,
                 glm::vec2(1, 1)
             )
         ),
         world.newEnt(
-            TileMapCreator("Textures/TileMapDesert.png", foregroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
-            ZIndex(1),
-            Transform(
+            TileMap(textureManager, foregroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
+            ZIndex(-49),
+            Transform2D(
                 position - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                 0,
                 glm::vec2(1, 1)

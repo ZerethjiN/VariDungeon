@@ -16,7 +16,7 @@ void playerLootSys(MainFixedSystem, World& world) {
                 world.add(othEnt,
                     LootAttract(128.f, playerEnt)
                 );
-                if (auto opt = world.get<Transform>(othEnt)) {
+                if (auto opt = world.get<Transform2D>(othEnt)) {
                     auto [othTransform] = opt.value();
                     othTransform.scale(0.1f, 0.1f);
                 }
@@ -26,9 +26,9 @@ void playerLootSys(MainFixedSystem, World& world) {
 }
 
 void playerLootAttractSys(MainFixedSystem, World& world) {
-    auto loots = world.view<Velocity, const Transform, const LootAttract>();
+    auto loots = world.view<Velocity, const Transform2D, const LootAttract>();
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [lootEnt, velocity, lootTransform, lootAttract]: loots) {
         Ent targetEnt = lootAttract.getTargetEnt();
@@ -38,7 +38,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
             continue;
         }
 
-        if (auto opt = world.get<const Transform>(targetEnt)) {
+        if (auto opt = world.get<const Transform2D>(targetEnt)) {
             auto [othTransform] = opt.value();
 
             velocity += glm::normalize(othTransform.getPosition() - lootTransform.getPosition()) * lootAttract.getSpeed() * time.fixedDelta();
@@ -49,7 +49,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                 world.appendChildren(targetEnt, {
                     world.newEnt(
                         TextCreator("+" + std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
-                        Transform(
+                        Transform2D(
                             othTransform.getPosition(),
                             0,
                             glm::vec2(0.5, 0.5)
@@ -78,8 +78,8 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                                     PlayerWeapon(),
                                     Damage(1),
                                     LevelUpKnockback(0.25f),
-                                    SpriteCreator(levelUpShockwaveUV),
-                                    Transform(
+                                    Sprite(textureManager, levelUpShockwaveUV),
+                                    Transform2D(
                                         othTransform.getPosition(),
                                         0,
                                         glm::vec2(1, 1)
@@ -102,7 +102,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                             xpInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(xpRatio * xpInnerBar.getMaxLength()), 8));
                         }
 
-                        for (auto [xpIconEnt, xpIconTransform]: world.view<Transform>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
+                        for (auto [xpIconEnt, xpIconTransform]: world.view<Transform2D>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
                             if (!world.has<ShrinkIcon>(xpIconEnt)) {
                                 xpIconTransform.scale(-0.2f, -0.2f);
                                 world.add(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
@@ -145,7 +145,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                             coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
                         }
 
-                        for (auto [coinIconEnt, coinIconTransform]: world.view<Transform>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
+                        for (auto [coinIconEnt, coinIconTransform]: world.view<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
                             if (!world.has<ShrinkIcon>(coinIconEnt)) {
                                 coinIconTransform.scale(-0.2f, -0.2f);
                                 world.add(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));

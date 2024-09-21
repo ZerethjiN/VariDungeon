@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void fireBallHitSys(MainFixedSystem, World& world) {
-    auto fireballs = world.view<const OnCollisionEnter, const Transform>(with<FireBall>);
+    auto fireballs = world.view<const OnCollisionEnter, const Transform2D>(with<FireBall>);
 
     for (auto [fireballEnt, collisions, transform]: fireballs) {
         for (auto othEnt: collisions) {

@@ -8,21 +8,25 @@
 
 struct ImageData final {
 public:
-    constexpr ImageData(const glm::uvec4& newSpriteRect, const glm::vec2& newOrigin) noexcept:
-        spriteRect(newSpriteRect),
-        origin(newOrigin) {
+    constexpr ImageData(const std::string& newFilename, const std::tuple<glm::uvec4, glm::vec2>& newAsset) noexcept:
+        filename(newFilename),
+        spriteRect(std::get<0>(newAsset)),
+        origin(std::get<1>(newAsset)) {
     }
 
 public:
+    const std::string filename;
     const glm::uvec4 spriteRect;
     const glm::vec2 origin;
 };
 
 class ImageAsset final {
 public:
-    [[nodiscard]] constexpr ImageAsset(const std::string& newFilename, const std::initializer_list<ImageData>& newAssets) noexcept:
-        filename(newFilename),
-        assets(newAssets) {
+    [[nodiscard]] constexpr ImageAsset(const std::string& newFilename, const std::initializer_list<std::tuple<glm::uvec4, glm::vec2>>& newAssets) noexcept:
+        filename(newFilename) {
+        for (const auto& newAsset: newAssets) {
+            assets.emplace_back(newFilename, newAsset);
+        }
     }
 
     [[nodiscard]] constexpr const ImageData& operator [](int idx) const noexcept {
@@ -31,10 +35,10 @@ public:
 
 public:
     const std::string filename;
-    const std::vector<ImageData> assets;
+    std::vector<ImageData> assets;
 };
 
-enum AnimationType: uint8_t {
+enum class AnimationType: uint8_t {
     LOOP,
     BOOMERANG,
     ONE_SHOT
@@ -56,8 +60,8 @@ public:
         return animations.size();
     }
 
-    [[nodiscard]] constexpr const std::pair<float, ImageData>& at(size_t index) const noexcept {
-        return animations.at(index);
+    [[nodiscard]] constexpr const std::pair<float, ImageData>& at(std::size_t index) const noexcept {
+        return animations[index];
     }
 
     [[nodiscard]] constexpr AnimationType getAnimationType() const noexcept {
@@ -74,16 +78,25 @@ private:
     float totalDuration;
 };
 
+template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+constexpr inline std::in_place_type_t<E> animEnum {};
+
 class AnimationAsset final {
 public:
-    [[nodiscard]] AnimationAsset(const std::initializer_list<std::unordered_map<std::string, const AnimationData>::value_type>& newAnims) noexcept:
-        anims(newAnims) {
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    [[nodiscard]] AnimationAsset(std::in_place_type_t<E>, const std::initializer_list<std::pair<E, const AnimationData>>& newAnims) noexcept:
+        anims(reinterpret_cast<const std::initializer_list<std::unordered_map<std::size_t, const AnimationData>::value_type>&>(newAnims)) {
     }
 
-    [[nodiscard]] constexpr const AnimationData& operator [](const std::string& name) const noexcept {
-        return anims.at(name);
+    template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
+    [[nodiscard]] constexpr const AnimationData& operator[](const E& name) const noexcept {
+        if (!anims.contains(static_cast<std::size_t>(name))) {
+            printf("Nik, L'erreur c'est le numero: %zu\n", static_cast<std::size_t>(name));
+        }
+
+        return anims.at(static_cast<std::size_t>(name));
     }
 
 public:
-    const std::unordered_map<std::string, const AnimationData> anims;
+    const std::unordered_map<std::size_t, const AnimationData> anims;
 };

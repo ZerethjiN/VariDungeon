@@ -7,7 +7,9 @@
 #include <Images.hpp>
 
 void chestOpenSys(MainFixedSystem, World& world) {
-    auto chests = world.view<const Transform, const OnCollisionEnter>(with<Chest>);
+    auto chests = world.view<const Transform2D, const OnCollisionEnter>(with<Chest>);
+
+    auto [textureManager] = world.resource<TextureManager>();
 
     for (auto [chestEnt, chestTransform, collisions]: chests) {
         for (auto othEnt: collisions) {
@@ -44,8 +46,8 @@ void chestOpenSys(MainFixedSystem, World& world) {
                 for (auto bonusIdx: bonusesIdx) {
                     world.appendChildren(menuChest, {
                         world.newEnt(
-                            UICreator(menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
-                            Transform(
+                            UI(textureManager, menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
+                            Transform2D(
                                 glm::vec2(0, -32),
                                 0,
                                 glm::vec2(1, 1)
@@ -53,9 +55,9 @@ void chestOpenSys(MainFixedSystem, World& world) {
                             ZIndex(1)
                         ),
                         world.newEnt(
-                            UICreator(menuBonusHUDUV, 5, UIAnchor::CENTER_CENTER),
-                            Animation(menuBonusHUDAnim, "SmallSelector", AnimType::UNSCALED),
-                            Transform(
+                            UI(textureManager, menuBonusHUDUV, 5, UIAnchor::CENTER_CENTER),
+                            Animation(menuBonusHUDAnim, MenuBonusHUDAnimType::SMALL_SELECTOR, AnimType::UNSCALED),
+                            Transform2D(
                                 glm::vec2(-16, -48),
                                 0,
                                 glm::vec2(1, 1)
@@ -64,7 +66,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
                         ),
                         world.newEnt(
                             TextUICreator(bonusVec[bonusIdx].name, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(64, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
-                            Transform(
+                            Transform2D(
                                 glm::vec2(-32, -16),
                                 0,
                                 glm::vec2(1, 1)

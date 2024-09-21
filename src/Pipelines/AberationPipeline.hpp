@@ -31,32 +31,22 @@ private:
         glm::ivec2 screenSize;
         glm::vec2 aberationDirection;
         float aberationOffset;
-        float _padding1;
-    };
-
-    struct VertexPushConstant {
-        glm::mat4 proj;
-        glm::vec2 cameraPos;
+        float seed;
     };
 
 public:
     AberationPipeline(VulkanEngine& newEngine, const VkRenderPass& newRenderPass):
         IGraphicsPipeline(newEngine, newRenderPass, 1, {
             {
-                .stageFlags = VK_SHADER_STAGE_VERTEX_BIT,
-                .offset = 0,
-                .size = sizeof(VertexPushConstant)
-            },
-            {
                 .stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT,
-                .offset = sizeof(VertexPushConstant),
+                .offset = 0,
                 .size = sizeof(FragmentPushConstant)
             }
         }) {
         createDescriptorSetLayout(
             // Bindings
             {
-                // Images
+                // Background Image
                 VkDescriptorSetLayoutBinding {
                     .binding = 0,
                     .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
@@ -67,45 +57,51 @@ public:
             },
             // Flags
             {
-                VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT | VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT
+                VK_DESCRIPTOR_BINDING_PARTIALLY_BOUND_BIT,
             },
             // Set Index
             0
         );
-        createGraphicsPipeline(newRenderPass, "shaders/AberationShaderVert.spv", "shaders/AberationShaderFrag.spv");
+        std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachements {
+            VkPipelineColorBlendAttachmentState {
+                .blendEnable = VK_FALSE,//VK_TRUE,
+                .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
+                .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+                .colorBlendOp = VK_BLEND_OP_ADD,
+                .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE,
+                .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
+                .alphaBlendOp = VK_BLEND_OP_ADD,
+                .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
+            }
+        };
+        createGraphicsPipeline(newRenderPass, "shaders/AberationShaderVert.spv", "shaders/AberationShaderFrag.spv", 1, colorBlendAttachements, 0);
         createDescriptorPool(0, {
             VkDescriptorPoolSize {
                 .type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                .descriptorCount = static_cast<uint32_t>(VulkanEngine::MAX_FRAMES_IN_FLIGHT)
-            },
-            VkDescriptorPoolSize {
-                .type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
                 .descriptorCount = static_cast<uint32_t>(VulkanEngine::MAX_FRAMES_IN_FLIGHT)
             }
         });
         createDescriptorSet(0);
     }
 
-public:
-    void addView(const glm::mat4& view, const glm::vec2& cameraPos) {
-        vertexPushConstant[engine.getCurFrame()] = {
-            .proj = view,
-            .cameraPos = cameraPos
-        };
+    ~AberationPipeline() {
+        vkDeviceWaitIdle(engine.device);
     }
 
-    void updateFragmentPushConstant(const glm::ivec2& screenSize, float aberationOffset, const glm::vec2& aberationDirection) {
+public:
+    void updateFragmentPushConstant(const glm::ivec2& screenSize, const glm::vec2& aberationDirection, float aberationOffset, float newSeed) {
         fragmentPushConstant[engine.getCurFrame()] = {
             .screenSize = screenSize,
             .aberationDirection = aberationDirection,
-            .aberationOffset = aberationOffset
+            .aberationOffset = aberationOffset,
+            .seed = newSeed
         };
     }
 
-    void updateTexture(VkSampler newSampler, VkImageView newImageView) {
+    void updateTexture(VkSampler newSampler, VkImageView newBackgroundView) {
         textures[engine.getCurFrame()] = {
             newSampler,
-            newImageView
+            newBackgroundView
         };
     }
 
@@ -119,7 +115,7 @@ public:
 
 private:
     void updateDescriptorSets() {
-        VkDescriptorImageInfo imageInfo {
+        VkDescriptorImageInfo imageColorInfo {
             .sampler = std::get<0>(textures[engine.getCurFrame()]),
             .imageView = std::get<1>(textures[engine.getCurFrame()]),
             .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
@@ -136,7 +132,7 @@ private:
                 .dstArrayElement = 0,
                 .descriptorCount = 1,
                 .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                .pImageInfo = &imageInfo,
+                .pImageInfo = &imageColorInfo,
                 .pBufferInfo = nullptr,
                 .pTexelBufferView = nullptr
             }
@@ -146,12 +142,10 @@ private:
     }
 
     void updatePushConstants() {
-        vkCmdPushConstants(engine.commandBuffers[engine.getCurFrame()], pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(VertexPushConstant), &vertexPushConstant[vulkanEngine.getCurFrame()]);
-        vkCmdPushConstants(engine.commandBuffers[engine.getCurFrame()], pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, sizeof(VertexPushConstant), sizeof(FragmentPushConstant), &fragmentPushConstant[vulkanEngine.getCurFrame()]);
+        vkCmdPushConstants(engine.commandBuffers[engine.getCurFrame()], pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(FragmentPushConstant), &fragmentPushConstant[vulkanEngine.getCurFrame()]);
     }
 
 public:
     std::array<std::tuple<VkSampler, VkImageView>, VulkanEngine::MAX_FRAMES_IN_FLIGHT> textures;
     std::array<FragmentPushConstant, VulkanEngine::MAX_FRAMES_IN_FLIGHT> fragmentPushConstant;
-    std::array<VertexPushConstant, VulkanEngine::MAX_FRAMES_IN_FLIGHT> vertexPushConstant;
 };

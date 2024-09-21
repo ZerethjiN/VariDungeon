@@ -48,104 +48,131 @@ static const ImageAsset mummyLvl2UV("Textures/MummyLvl2.png", {
     {{ 48,  64, 16, 32}, {0.5f, 0.75f}}, // 31: Mummy Hit Attack Up
 });
 
-static const AnimationAsset mummyLvl2Anim({
+enum class MummyLvl2AnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    PRE_ATTACK_DOWN,
+    PRE_ATTACK_RIGHT,
+    PRE_ATTACK_LEFT,
+    PRE_ATTACK_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_PRE_ATTACK_DOWN,
+    HIT_PRE_ATTACK_RIGHT,
+    HIT_PRE_ATTACK_LEFT,
+    HIT_PRE_ATTACK_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset mummyLvl2Anim(animEnum<MummyLvl2AnimType>, {
     // Movements
-    {"MoveDown", {
+    {MummyLvl2AnimType::MOVE_DOWN, {{
         {0.20f, mummyLvl2UV[0]},
         {0.20f, mummyLvl2UV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {MummyLvl2AnimType::MOVE_RIGHT, {{
         {0.20f, mummyLvl2UV[2]},
         {0.20f, mummyLvl2UV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {MummyLvl2AnimType::MOVE_LEFT, {{
         {0.20f, mummyLvl2UV[4]},
         {0.20f, mummyLvl2UV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {MummyLvl2AnimType::MOVE_UP, {{
         {0.20f, mummyLvl2UV[6]},
         {0.20f, mummyLvl2UV[7]},
-    }},
+    }}},
 
     // Pre Attack
-    {"PreAttackDown", {
+    {MummyLvl2AnimType::PRE_ATTACK_DOWN, {{
         {0.20f, mummyLvl2UV[8]},
         {0.20f, mummyLvl2UV[1]},
-    }},
-    {"PreAttackRight", {
+    }}},
+    {MummyLvl2AnimType::PRE_ATTACK_RIGHT, {{
         {0.20f, mummyLvl2UV[9]},
         {0.20f, mummyLvl2UV[3]},
-    }},
-    {"PreAttackLeft", {
+    }}},
+    {MummyLvl2AnimType::PRE_ATTACK_LEFT, {{
         {0.20f, mummyLvl2UV[10]},
         {0.20f, mummyLvl2UV[5]},
-    }},
-    {"PreAttackUp", {
+    }}},
+    {MummyLvl2AnimType::PRE_ATTACK_UP, {{
         {0.20f, mummyLvl2UV[11]},
         {0.20f, mummyLvl2UV[7]},
-    }},
+    }}},
 
     // Attack
-    {"AttackDown", {{
-        {1.00f, mummyLvl2UV[12]},
+    {MummyLvl2AnimType::ATTACK_DOWN, {{
+        {0.20f, mummyLvl2UV[12]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackRight", {{
+    {MummyLvl2AnimType::ATTACK_RIGHT, {{
         {0.20f, mummyLvl2UV[13]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackLeft", {{
+    {MummyLvl2AnimType::ATTACK_LEFT, {{
         {0.20f, mummyLvl2UV[14]},
     }, AnimationType::ONE_SHOT}},
-    {"AttackUp", {{
+    {MummyLvl2AnimType::ATTACK_UP, {{
         {0.20f, mummyLvl2UV[15]},
     }, AnimationType::ONE_SHOT}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {MummyLvl2AnimType::HIT_MOVE_DOWN, {{
         {0.20f, mummyLvl2UV[16]},
         {0.20f, mummyLvl2UV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {MummyLvl2AnimType::HIT_MOVE_RIGHT, {{
         {0.20f, mummyLvl2UV[18]},
         {0.20f, mummyLvl2UV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {MummyLvl2AnimType::HIT_MOVE_LEFT, {{
         {0.20f, mummyLvl2UV[20]},
         {0.20f, mummyLvl2UV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {MummyLvl2AnimType::HIT_MOVE_UP, {{
         {0.20f, mummyLvl2UV[22]},
         {0.20f, mummyLvl2UV[23]},
-    }},
+    }}},
 
     // Hit Pre Attack
-    {"HitPreAttackDown", {
+    {MummyLvl2AnimType::HIT_PRE_ATTACK_DOWN, {{
         {0.20f, mummyLvl2UV[24]},
         {0.20f, mummyLvl2UV[17]},
-    }},
-    {"HitPreAttackRight", {
+    }}},
+    {MummyLvl2AnimType::HIT_PRE_ATTACK_RIGHT, {{
         {0.20f, mummyLvl2UV[25]},
         {0.20f, mummyLvl2UV[19]},
-    }},
-    {"HitPreAttackLeft", {
+    }}},
+    {MummyLvl2AnimType::HIT_PRE_ATTACK_LEFT, {{
         {0.20f, mummyLvl2UV[26]},
         {0.20f, mummyLvl2UV[21]},
-    }},
-    {"HitPreAttackUp", {
+    }}},
+    {MummyLvl2AnimType::HIT_PRE_ATTACK_UP, {{
         {0.20f, mummyLvl2UV[27]},
         {0.20f, mummyLvl2UV[23]},
-    }},
+    }}},
 
     // Hit Attack
-    {"HitAttackDown", {{
+    {MummyLvl2AnimType::HIT_ATTACK_DOWN, {{
         {1.00f, mummyLvl2UV[28]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackRight", {{
+    {MummyLvl2AnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, mummyLvl2UV[29]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackLeft", {{
+    {MummyLvl2AnimType::HIT_ATTACK_LEFT, {{
         {0.20f, mummyLvl2UV[30]},
     }, AnimationType::ONE_SHOT}},
-    {"HitAttackUp", {{
+    {MummyLvl2AnimType::HIT_ATTACK_UP, {{
         {0.20f, mummyLvl2UV[31]},
     }, AnimationType::ONE_SHOT}},
 });

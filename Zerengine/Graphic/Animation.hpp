@@ -2,22 +2,57 @@
 
 #include "Sprite.hpp"
 
-enum AnimType: bool {
+template <typename E>
+concept IsAnimationEnumConcept = [] -> bool {
+    static_assert(std::is_enum_v<E>, "IsAnimationEnumConcept: L'enum des frames d'animation n'est pas un \"enum\".");
+    static_assert(std::is_scoped_enum_v<E>, "IsAnimationEnumConcept: L'enum des frames d'animation n'est pas un \"enum class\".");
+    static_assert(std::is_same_v<std::underlying_type_t<E>, std::size_t>, "IsAnimationEnumConcept: L'enum des frames d'animation n'est pas de type \"std::size_t\".");
+    return true;
+}();
+
+enum class AnimType: bool {
     SCALED = false,
     UNSCALED = true
 };
 
 class Animation final {
-friend void animationSys(LateFixedSystem, World& world);
+friend void animationSys(LateUnscaledFixedSystem, World& world);
 public:
-    Animation(const AnimationAsset& newAnimations, const std::string& newAnim, AnimType newIsUnscaled = AnimType::SCALED) noexcept:
+    template <typename E> requires (IsAnimationEnumConcept<E>)
+    Animation(const AnimationAsset& newAnimations, const E& newAnimName, std::size_t newBegginingFrame, float animationSpeed = 1, AnimType newIsUnscaled = AnimType::SCALED) noexcept:
         animationAsset(newAnimations),
-        curFrame(newAnimations.anims.at(newAnim).size() - 1),
-        curTimer(newAnimations.anims.at(newAnim).at(curFrame).first),
-        curAnimName(newAnim),
+        curFrame(newBegginingFrame),
+        curTimer(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).at(curFrame).first),
+        curAnimName(static_cast<std::size_t>(newAnimName)),
         isUnscaled(newIsUnscaled),
         oneShotAnimationStop(false),
-        oneShotFirst(newAnimations.anims.at(newAnim).getAnimationType() == AnimationType::ONE_SHOT),
+        oneShotFirst(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).getAnimationType() == AnimationType::ONE_SHOT),
+        reverseMode(false),
+        speed(animationSpeed) {
+    }
+
+    template <typename E> requires (IsAnimationEnumConcept<E>)
+    Animation(const AnimationAsset& newAnimations, const E& newAnimName, float animationSpeed, AnimType newIsUnscaled = AnimType::SCALED) noexcept:
+        animationAsset(newAnimations),
+        curFrame(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).size() - 1),
+        curTimer(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).at(curFrame).first),
+        curAnimName(static_cast<std::size_t>(newAnimName)),
+        isUnscaled(newIsUnscaled),
+        oneShotAnimationStop(false),
+        oneShotFirst(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).getAnimationType() == AnimationType::ONE_SHOT),
+        reverseMode(false),
+        speed(animationSpeed) {
+    }
+
+    template <typename E> requires (IsAnimationEnumConcept<E>)
+    Animation(const AnimationAsset& newAnimations, const E& newAnimName, AnimType newIsUnscaled = AnimType::SCALED) noexcept:
+        animationAsset(newAnimations),
+        curFrame(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).size() - 1),
+        curTimer(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).at(curFrame).first),
+        curAnimName(static_cast<std::size_t>(newAnimName)),
+        isUnscaled(newIsUnscaled),
+        oneShotAnimationStop(false),
+        oneShotFirst(newAnimations.anims.at(static_cast<std::size_t>(newAnimName)).getAnimationType() == AnimationType::ONE_SHOT),
         reverseMode(false),
         speed(1) {
     }
@@ -26,7 +61,7 @@ public:
         if (!oneShotAnimationStop) {
             auto curAnimIt = animationAsset.anims.find(curAnimName);
             if (curAnimIt == animationAsset.anims.end()) {
-                printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
+                printf("Impossible de lancer l'animation: %zu\n", curAnimName);
                 return;
             }
 
@@ -77,7 +112,7 @@ public:
         if (!oneShotAnimationStop) {
             auto curAnimIt = animationAsset.anims.find(curAnimName);
             if (curAnimIt == animationAsset.anims.end()) {
-                printf("Impossible de lancer l'animation: %s\n", curAnimName.c_str());
+                printf("Impossible de lancer l'animation: %zu\n", curAnimName);
                 return;
             }
 
@@ -124,10 +159,11 @@ public:
         }
     }
 
-    void play(const std::string& newAnim) {
-        if (curAnimName != newAnim) {
-            if (auto newAnimIt = animationAsset.anims.find(newAnim); newAnimIt != animationAsset.anims.end()) {
-                curAnimName = newAnim;
+    template <typename E> requires (IsAnimationEnumConcept<E>)
+    void play(const E& newAnim) {
+        if (curAnimName != static_cast<std::size_t>(newAnim)) {
+            if (auto newAnimIt = animationAsset.anims.find(static_cast<std::size_t>(newAnim)); newAnimIt != animationAsset.anims.end()) {
+                curAnimName = static_cast<std::size_t>(newAnim);
                 curFrame = newAnimIt->second.size() - 1;
                 curTimer = newAnimIt->second.at(curFrame).first;
                 oneShotAnimationStop = false;
@@ -136,12 +172,42 @@ public:
                     oneShotFirst = true;
                 }
             } else {
-                printf("L'animation %s n'existe pas\n", newAnim.c_str());
+                printf("L'animation %zu n'existe pas\n", static_cast<std::size_t>(newAnim));
             }
         }
     }
 
-    [[nodiscard]] constexpr const std::string& getCurrentAnimationName() const noexcept {
+    [[nodiscard]] float getCurrentTimeOfTotalDuration() const noexcept {
+        float newCurTime = 0;
+
+        auto curAnimIt = animationAsset.anims.find(curAnimName);
+        if (curAnimIt == animationAsset.anims.end()) {
+            printf("Impossible de lancer l'animation: %zu\n", curAnimName);
+            return 0;
+        }
+
+        if (curAnimIt->second.getAnimationType() != AnimationType::BOOMERANG || reverseMode != true) {
+            for (std::size_t i = 0; i < curFrame; i++) {
+                newCurTime += curAnimIt->second.at(i).first;
+            }
+
+            newCurTime += curTimer;
+        } else {
+            for (std::size_t i = 0; i < curAnimIt->second.size(); i++) {
+                newCurTime += curAnimIt->second.at(i).first;
+            }
+
+            for (std::size_t i = curAnimIt->second.size() - 1; i > curFrame; i--) {
+                newCurTime += curAnimIt->second.at(i).first;
+            }
+
+            newCurTime += curTimer;
+        }
+
+        return newCurTime;
+    }
+
+    [[nodiscard]] constexpr std::size_t getCurrentAnimationName() const noexcept {
         return curAnimName;
     }
 
@@ -149,7 +215,7 @@ private:
     const AnimationAsset& animationAsset;
     std::size_t curFrame;
     float curTimer;
-    std::string curAnimName;
+    std::size_t curAnimName;
     AnimType isUnscaled;
     bool oneShotAnimationStop;
     bool oneShotFirst;
@@ -161,28 +227,20 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void animationSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
+void animationSys(LateUnscaledFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [_, anim, sprt]: world.view<Animation, Sprite>()) {
-        if (anim.isUnscaled)
+        if (anim.isUnscaled == AnimType::UNSCALED)
             anim.update(time.unscaledFixedDelta(), sprt);
         else
             anim.update(time.fixedDelta(), sprt);
     }
 
     for (auto [_, anim, ui]: world.view<Animation, UI>()) {
-        if (anim.isUnscaled)
+        if (anim.isUnscaled == AnimType::UNSCALED)
             anim.update(time.unscaledFixedDelta(), ui);
         else
             anim.update(time.fixedDelta(), ui);
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }

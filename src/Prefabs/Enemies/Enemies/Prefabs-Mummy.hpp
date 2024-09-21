@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateMummy(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -13,9 +14,9 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
         IsMummyMove(1.0f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(mummyUV),
-        Animation(mummyAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, mummyUV),
+        Animation(mummyAnim, MummyAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

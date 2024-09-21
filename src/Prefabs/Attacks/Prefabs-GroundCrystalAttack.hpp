@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateGroundCrystalAttack(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         GroundCrystalAttack(
             /*CrossDuration:*/ 0.75f,
@@ -14,9 +15,9 @@ Ent instantiateGroundCrystalAttack(World& world, const glm::vec2& position) {
         IsGroundCrystalAttackCross(0.75f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(groundCrystalAttackUV),
-        Animation(groundCrystalAttackAnim, "Cross"),
-        Transform(
+        Sprite(textureManager, groundCrystalAttackUV),
+        Animation(groundCrystalAttackAnim, GroundCrystalAttackAnimType::CROSS),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

@@ -3,7 +3,7 @@
 #include "Font.hpp"
 #include "Sprite.hpp"
 
-enum TextAlignementType: uint8_t {
+enum class TextAlignementType: uint8_t {
     ALIGN_LEFT,
     ALIGN_CENTER,
     ALIGN_RIGHT
@@ -697,20 +697,12 @@ public:
     TextAlignementType alignement;
 };
 
-void textUICreatorSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
+void textUICreatorSys(LateUnscaledFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [entUI, creator]: world.view<const TextUICreator>()) {
         world.add(entUI, TextUI(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.anchor, creator.textBoxSize, creator.alignement, creator.color));
         world.remove<TextUICreator>(entUI);
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -737,20 +729,12 @@ public:
     TextAlignementType alignement;
 };
 
-void textCreatorSys(LateFixedSystem, World& world) {
-#ifdef ZER_DEBUG_INTEGRITY
-    try {
-#endif
+void textCreatorSys(LateUnscaledFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [ent, creator]: world.view<const TextCreator>()) {
         world.add(ent, Text(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.textBoxSize, creator.alignement, creator.color));
         world.remove<TextCreator>(ent);
     }
-#ifdef ZER_DEBUG_INTEGRITY
-    } catch(const std::exception& except) {
-        printf("%s: %s\n", __func__, except.what());
-    }
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

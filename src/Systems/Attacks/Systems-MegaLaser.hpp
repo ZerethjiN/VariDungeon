@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void megaLaserRotationSys(MainFixedSystem, World& world) {
-    auto lasers = world.view<Transform, const MegaLaser>();
+    auto lasers = world.view<Transform2D, const MegaLaser>();
 
     auto [time] = world.resource<const Time>();
 

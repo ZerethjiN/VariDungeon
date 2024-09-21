@@ -6,12 +6,13 @@
 #include <Res.hpp>
 
 Ent instantiateWoodenBox(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        Breakable("NoHit", "Hit", "Destroyed"),
+        Breakable(),
         Life(1),
-        SpriteCreator(woodenBoxUV),
-        Animation(woodenBoxAnim, "NoHit"),
-        Transform(
+        Sprite(textureManager, woodenBoxUV),
+        Animation(woodenBoxAnim, WoodenBoxAnim::NO_HIT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -19,6 +20,24 @@ Ent instantiateWoodenBox(World& world, const glm::vec2& position) {
         Loots({
             {LOOT_TYPE_COIN, 2, 3},
             {LOOT_TYPE_HEART, 1, 1}
+        }),
+        OnBreakableHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(WoodenBoxAnim::HIT);
+            }
+        }),
+        OnBreakableNoHit([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(WoodenBoxAnim::NO_HIT);
+            }
+        }),
+        OnBreakableBreak([](World& world, Ent thisEnt) {
+            if (auto opt = world.get<Animation>(thisEnt)) {
+                auto [animation] = opt.value();
+                animation.play(WoodenBoxAnim::DESTROYED);
+            }
         }),
         ZIndex(0),
         Collider(-12 / 2, -12 / 2, 12, 12)

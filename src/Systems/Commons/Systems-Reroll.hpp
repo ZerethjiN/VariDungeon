@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void rerollSys(MainFixedSystem, World& world) {
-    if (vulkanEngine.window.isKeyDown(REROLL_BUTTON)) {
+    if (vulkanEngine.window.isKeyDown(ButtonNameType::REROLL_BUTTON)) {
         world.loadScene(testScene);
     }
 }

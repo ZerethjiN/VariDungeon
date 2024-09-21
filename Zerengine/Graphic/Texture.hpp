@@ -37,7 +37,7 @@ public:
         size(width, height),
         channels(newChannels) {
         createTextureImageFromBuffer(buffer);
-        createTextureImageViewRed();
+        createTextureImageView();
         createTextureSampler();
     }
 
@@ -57,8 +57,8 @@ public:
         VkDeviceSize imageSize = texWidth * texHeight * 4;
 
         if (!pixels) {
-            std::cerr << "Image Manquante: " << name << std::endl;
-            throw std::runtime_error("failed to load texture image!");
+            std::cerr << "failed to load texture image!: " << name << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         size = {texWidth, texHeight};
@@ -89,7 +89,8 @@ public:
         VkDeviceSize imageSize = size.x * size.y * channels;
 
         if (!buffer) {
-            throw std::runtime_error("failed to load texture image!");
+            std::cerr << "failed to load texture image!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         VkBuffer stagingBuffer;
@@ -101,11 +102,11 @@ public:
             memcpy(data, buffer, static_cast<size_t>(imageSize));
         vkUnmapMemory(vulkanEngine.device, stagingBufferMemory);
 
-        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, size.x, size.y, VK_FORMAT_R8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, size.x, size.y, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
 
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
             copyBufferToImage(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, stagingBuffer, textureImage, static_cast<uint32_t>(size.x), static_cast<uint32_t>(size.y));
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
         vkDestroyBuffer(vulkanEngine.device, stagingBuffer, nullptr);
         vkFreeMemory(vulkanEngine.device, stagingBufferMemory, nullptr);
@@ -113,10 +114,6 @@ public:
 
     void createTextureImageView() {
         textureImageView = createImageView(vulkanEngine.device, textureImage, VK_FORMAT_R8G8B8A8_SRGB);
-    }
-
-    void createTextureImageViewRed() {
-        textureImageView = createImageView(vulkanEngine.device, textureImage, VK_FORMAT_R8_SRGB);
     }
 
     void createTextureSampler() {
@@ -136,7 +133,8 @@ public:
         };
 
         if (vkCreateSampler(vulkanEngine.device, &samplerInfo, nullptr, &textureSampler) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create texture sampler!");
+            std::cerr << "failed to create texture sampler!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -161,7 +159,8 @@ private:
         };
 
         if (vkCreateImage(device, &imageInfo, nullptr, &image) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create image!");
+            std::cerr << "failed to create image!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         VkMemoryRequirements memRequirements;
@@ -174,7 +173,8 @@ private:
         };
 
         if (vkAllocateMemory(device, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate image memory!");
+            std::cerr << "failed to allocate image memory!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         vkBindImageMemory(device, image, imageMemory, 0);
@@ -215,7 +215,8 @@ private:
             sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
             destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
         } else {
-            throw std::invalid_argument("unsupported layout transition!");
+            std::cerr << "unsupported layout transition!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         vkCmdPipelineBarrier(
@@ -274,7 +275,8 @@ private:
 
         VkImageView imageView;
         if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create texture image view!");
+            std::cerr << "failed to create texture image view!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         return imageView;

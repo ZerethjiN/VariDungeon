@@ -15,20 +15,27 @@ static const ImageAsset particleEffectUV("Textures/ParticleEffect.png", {
     {{  8,  24,  8,  8}, {0.5f, 0.5f}}, //  6: Star Particle B
 });
 
-static const AnimationAsset particleEffectAnim({
-    {"FireParticle", {
+enum class ParticleEffectAnimType: std::size_t {
+    FIRE_PARTICLE,
+    STUN_PARTICLE,
+    FROST_PARTICLE,
+    STAR_PARTICLE,
+};
+
+static const AnimationAsset particleEffectAnim(animEnum<ParticleEffectAnimType>, {
+    {ParticleEffectAnimType::FIRE_PARTICLE, {{
         {0.15f, particleEffectUV[0]},
         {0.15f, particleEffectUV[1]},
-    }},
-    {"StunParticle", {
+    }}},
+    {ParticleEffectAnimType::STUN_PARTICLE, {{
         {0.15f, particleEffectUV[2]},
         {0.15f, particleEffectUV[3]},
-    }},
-    {"FrostParticle", {{
+    }}},
+    {ParticleEffectAnimType::FROST_PARTICLE, {{
         {0.15f, particleEffectUV[4]},
     }, AnimationType::ONE_SHOT}},
-    {"StarParticle", {
+    {ParticleEffectAnimType::STAR_PARTICLE, {{
         {0.15f, particleEffectUV[5]},
         {0.15f, particleEffectUV[6]},
-    }},
+    }}},
 });

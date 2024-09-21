@@ -12,16 +12,22 @@ static const ImageAsset turretUV("Textures/Turret.png", {
     {{  0,  64, 16, 32}, {0.5f, 0.5f}}, //  4: Turret Off
 });
 
-static const AnimationAsset turretAnim({
-    {"TurretCardinal", {
+enum class TurretAnimType: std::size_t {
+    CARDINAL,
+    DIAGONAL,
+    OFF,
+};
+
+static const AnimationAsset turretAnim(animEnum<TurretAnimType>, {
+    {TurretAnimType::CARDINAL, {{
         {1.00f, turretUV[0]},
         {1.00f, turretUV[1]},
-    }},
-    {"TurretDiagonal", {
+    }}},
+    {TurretAnimType::DIAGONAL, {{
         {1.00f, turretUV[2]},
         {1.00f, turretUV[3]},
-    }},
-    {"TurretOff", {{
+    }}},
+    {TurretAnimType::OFF, {{
         {1.00f, turretUV[4]},
     }, AnimationType::ONE_SHOT}},
 });

@@ -22,15 +22,15 @@ void rockBossRollSys(MainFixedSystem, World& world) {
                     world.add(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
-                            animation.play("StunRight");
+                            animation.play(RockBossAnimType::STUN_RIGHT);
                         } else {
-                            animation.play("StunLeft");
+                            animation.play(RockBossAnimType::STUN_LEFT);
                         }
                     } else {
                         if (orientation.y > 0) {
-                            animation.play("StunDown");
+                            animation.play(RockBossAnimType::STUN_DOWN);
                         } else {
-                            animation.play("StunUp");
+                            animation.play(RockBossAnimType::STUN_UP);
                         }
                     }
 
@@ -55,18 +55,18 @@ void rockBossRollSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                animation.play("RollRight");
+                animation.play(RockBossAnimType::ROLL_RIGHT);
                 velocity.vel.x += speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             } else {
-                animation.play("RollLeft");
+                animation.play(RockBossAnimType::ROLL_LEFT);
                 velocity.vel.x -= speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             }
         } else {
             if (orientation.y > 0) {
-                animation.play("RollDown");
+                animation.play(RockBossAnimType::ROLL_DOWN);
                 velocity.vel.y += speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             } else {
-                animation.play("RollUp");
+                animation.play(RockBossAnimType::ROLL_UP);
                 velocity.vel.y -= speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             }
         }
@@ -89,15 +89,15 @@ void rockBossRollP2Sys(MainFixedSystem, World& world) {
                     world.add(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
-                            animation.play("StunRight");
+                            animation.play(RockBossAnimType::STUN_RIGHT);
                         } else {
-                            animation.play("StunLeft");
+                            animation.play(RockBossAnimType::STUN_LEFT);
                         }
                     } else {
                         if (orientation.y > 0) {
-                            animation.play("StunDown");
+                            animation.play(RockBossAnimType::STUN_DOWN);
                         } else {
-                            animation.play("StunUp");
+                            animation.play(RockBossAnimType::STUN_UP);
                         }
                     }
 
@@ -122,18 +122,18 @@ void rockBossRollP2Sys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                animation.play("RollP2Right");
+                animation.play(RockBossAnimType::P2_ROLL_RIGHT);
                 velocity.vel.x += speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             } else {
-                animation.play("RollP2Left");
+                animation.play(RockBossAnimType::P2_ROLL_LEFT);
                 velocity.vel.x -= speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             }
         } else {
             if (orientation.y > 0) {
-                animation.play("RollP2Down");
+                animation.play(RockBossAnimType::P2_ROLL_DOWN);
                 velocity.vel.y += speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             } else {
-                animation.play("RollP2Up");
+                animation.play(RockBossAnimType::P2_ROLL_UP);
                 velocity.vel.y -= speed.speed * rockBoss.rollSpeedCoeff * time.fixedDelta();
             }
         }
@@ -141,7 +141,7 @@ void rockBossRollP2Sys(MainFixedSystem, World& world) {
 }
 
 void rockBossStunSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockBossStun, RockBoss, const Orientation, const Transform, const Life>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsRockBossStun, RockBoss, const Orientation, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -164,7 +164,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 
             switch (rand() % 2) {
                 case 0:
-                    for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                         for (int l = 0; l < 3; l++) {
                             for (int i = 0; i < 8; i++) {
                                 instantiateGroundCrystalAttack(world, roomTransform.getPosition() + glm::vec2(i * 16.f - 64.f,  l * 40.f - 48.f));
@@ -173,7 +173,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
                     }
                     break;
                 case 1:
-                    for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                         for (int l = 0; l < 3; l++) {
                             for (int i = 0; i < 6; i++) {
                                 instantiateGroundCrystalAttack(world, roomTransform.getPosition() + glm::vec2(l * 56.f - 64.f, i * 16.f - 48.f));
@@ -189,29 +189,29 @@ void rockBossStunSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitStunRight");
+                    animation.play(RockBossAnimType::HIT_STUN_RIGHT);
                 } else {
-                    animation.play("StunRight");
+                    animation.play(RockBossAnimType::STUN_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitStunLeft");
+                    animation.play(RockBossAnimType::HIT_STUN_LEFT);
                 } else {
-                    animation.play("StunLeft");
+                    animation.play(RockBossAnimType::STUN_RIGHT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitStunDown");
+                    animation.play(RockBossAnimType::HIT_STUN_DOWN);
                 } else {
-                    animation.play("StunDown");
+                    animation.play(RockBossAnimType::STUN_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitStunUp");
+                    animation.play(RockBossAnimType::HIT_STUN_UP);
                 } else {
-                    animation.play("StunUp");
+                    animation.play(RockBossAnimType::STUN_UP);
                 }
             }
         }
@@ -219,8 +219,8 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 }
 
 void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockBossGroundCrystals, RockBoss, Orientation, const Speed, const Transform, const Life>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsRockBossGroundCrystals, RockBoss, Orientation, const Speed, const Transform2D, const Life>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -244,18 +244,18 @@ void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(RockBossAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(RockBossAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(RockBossAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(RockBossAnimType::MOVE_UP);
             }
         }
     }
@@ -263,8 +263,8 @@ void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
 
 
 void rockBossGroundCrystalsP2Sys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockBossGroundCrystalsP2, RockBoss, Orientation, const Speed, const Transform, const Life>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsRockBossGroundCrystalsP2, RockBoss, Orientation, const Speed, const Transform2D, const Life>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -288,18 +288,18 @@ void rockBossGroundCrystalsP2Sys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveP2Right");
+                animation.play(RockBossAnimType::P2_MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveP2Left");
+                animation.play(RockBossAnimType::P2_MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveP2Down");
+                animation.play(RockBossAnimType::P2_MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveP2Up");
+                animation.play(RockBossAnimType::P2_MOVE_UP);
             }
         }
     }
@@ -313,7 +313,7 @@ void rockBossSmallCrystalThrowSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, rockBoss]: enemies) {
         if (rockBoss.canThrowSmallCrystal(time.fixedDelta())) {
             for (auto [smallCrystalEnt]: world.view(with<SmallCrystalRotation>)) {
-                for (auto [_, playerTransform, zindex]: world.view<const Transform, const ZIndex>(with<Player>)) {
+                for (auto [_, playerTransform, zindex]: world.view<const Transform2D, const ZIndex>(with<Player>)) {
                     world.remove<SmallCrystalRotation>(smallCrystalEnt);
                     world.add(smallCrystalEnt, SmallCrystalThrow(playerTransform.getPosition(), 64.f));
                     instantiateFloorCrossParticle(world, playerTransform.getPosition(), zindex);

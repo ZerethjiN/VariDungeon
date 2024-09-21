@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void enemyHitSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Transform, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<Unhittable, InvincibleFrame>);
+    auto enemies = world.view<Transform2D, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<Unhittable, InvincibleFrame>);
 
     for (auto [enemyEnt, enemyTransform, life, collisions, zindex, loots]: enemies) {
         for (auto othEnt: collisions) {
@@ -21,7 +21,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                 // Visual Effect:
                 world.add(enemyEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
-                if (auto opt = world.get<const Transform>(othEnt)) {
+                if (auto opt = world.get<const Transform2D>(othEnt)) {
                     auto [othTransform] = opt.value();
 
                     if (world.has<Velocity>(enemyEnt)) {
@@ -47,7 +47,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     world.appendChildren(enemyEnt, {
                         world.newEnt(
                             TextCreator(std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
-                            Transform(
+                            Transform2D(
                                 enemyTransform.getPosition(),
                                 0,
                                 glm::vec2(0.5, 0.5)
@@ -94,7 +94,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
                             world.destroy(bossHealthBarEnt);
                         }
-                        for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                        for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                             instantiateChest(world, roomTransform.getPosition() + glm::vec2(-8, -40));
                             // instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }

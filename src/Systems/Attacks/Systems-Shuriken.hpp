@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shurikenRotationSys(MainFixedSystem, World& world) {
-    auto shurikens = world.view<Transform, const Shuriken>();
+    auto shurikens = world.view<Transform2D, const Shuriken>();
 
     auto [time] = world.resource<const Time>();
 
@@ -15,7 +15,7 @@ void shurikenRotationSys(MainFixedSystem, World& world) {
         if (auto optParent = world.getParent(shurikenEnt)) {
             auto parentEnt = optParent.value();
 
-            if (auto opt = world.get<const Transform>(parentEnt)) {
+            if (auto opt = world.get<const Transform2D>(parentEnt)) {
                 auto [parentTransform] = opt.value();
 
                 auto diff = parentTransform.getPosition() - shurikenTransform.getPosition();

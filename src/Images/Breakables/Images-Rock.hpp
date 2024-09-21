@@ -8,14 +8,20 @@ static const ImageAsset rockUV("Textures/Rock.png", {
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: Rock Hit
 });
 
-static const AnimationAsset rockAnim({
-    {"NoHit", {{
+enum class RockAnimType: std::size_t {
+    NO_HIT,
+    HIT,
+    DESTROYED,
+};
+
+static const AnimationAsset rockAnim(animEnum<RockAnimType>, {
+    {RockAnimType::NO_HIT, {{
         {1.00f, rockUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"Hit", {{
+    {RockAnimType::HIT, {{
         {1.00f, rockUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"Destroyed", {{
+    {RockAnimType::DESTROYED, {{
         {1.00f, rockUV[1]},
     }, AnimationType::ONE_SHOT}},
 });

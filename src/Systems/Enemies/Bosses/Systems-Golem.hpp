@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void golemRockAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemRockAttack, Orientation, const Golem, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGolemRockAttack, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -47,7 +47,7 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                         });
                     }
 
-                    for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                         for (int i = 0; i < golem.nbRocks; i++) {
                             auto rndX = rand() % 8;
                             auto rndY = rand() % 6;
@@ -80,34 +80,34 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(GolemAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(GolemAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(GolemAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(GolemAnimType::MOVE_UP);
             }
         }
     }
 }
 
 void golemRockSys(MainFixedSystem, World& world) {
-    auto rocks = world.view<GolemRock, const Transform>(with<Breakable>, without<Player>);
+    auto rocks = world.view<GolemRock, const Transform2D>(with<Breakable>, without<Player>);
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [rockEnt, rock, transform]: rocks) {
         if (rock.canSpawn(time.fixedDelta())) {
             world.remove<GolemRock>(rockEnt);
             world.add(rockEnt,
-                SpriteCreator(rockUV),
-                Animation(rockAnim, "NoHit"),
+                Sprite(textureManager, rockUV),
+                Animation(rockAnim, RockAnimType::NO_HIT),
                 Collider(-12 / 2, -12 / 2, 12, 12)
             );
             instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
@@ -116,7 +116,7 @@ void golemRockSys(MainFixedSystem, World& world) {
 }
 
 void golemPreFootAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<const OnCollisionEnter, const Golem, const Transform, const ZIndex>(with<IsGolemRockAttack>, without<IsGolemFootAttack>);
+    auto enemies = world.view<const OnCollisionEnter, const Golem, const Transform2D, const ZIndex>(with<IsGolemRockAttack>, without<IsGolemFootAttack>);
 
     for (auto [enemyEnt, collisions, golem, transform, zindex]: enemies) {
         for (auto othEnt: collisions) {
@@ -146,7 +146,7 @@ void golemPreFootAttackSys(MainFixedSystem, World& world) {
 }
 
 void golemFootAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<IsGolemFootAttack, const Golem, const Transform, const ZIndex>();
+    auto enemies = world.view<IsGolemFootAttack, const Golem, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -164,7 +164,7 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
                 });
             }
 
-            for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < golem.nbRocks; i++) {
                     auto rndX = rand() % 8;
                     auto rndY = rand() % 6;
@@ -190,8 +190,8 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
 }
 
 void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -219,18 +219,18 @@ void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(GolemAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(GolemAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(GolemAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(GolemAnimType::MOVE_UP);
             }
         }
     }
@@ -238,8 +238,8 @@ void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
 
 
 void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -261,7 +261,7 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
             } else {
                 world.add(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
-                for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {
                         auto rndX = rand() % 8;
                         auto rndY = rand() % 6;
@@ -291,26 +291,26 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(GolemAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(GolemAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(GolemAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(GolemAnimType::MOVE_UP);
             }
         }
     }
 }
 
 void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -338,18 +338,18 @@ void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(GolemAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(GolemAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(GolemAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(GolemAnimType::MOVE_UP);
             }
         }
     }
@@ -357,8 +357,8 @@ void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
 
 
 void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -380,7 +380,7 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
             } else {
                 world.add(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
-                for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+                for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {
                         auto rndX = rand() % 8;
                         auto rndY = rand() % 6;
@@ -410,18 +410,18 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(GolemAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(GolemAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(GolemAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(GolemAnimType::MOVE_UP);
             }
         }
     }

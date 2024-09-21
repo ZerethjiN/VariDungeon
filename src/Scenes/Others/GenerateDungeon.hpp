@@ -108,6 +108,8 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
 }
 
 void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+    auto [textureManager] = world.resource<TextureManager>();
+    
     std::vector<Ent> subEnts;
 
     // Wall Collisions:
@@ -115,7 +117,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -127,8 +129,8 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             world.newEnt(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
                 IsDoorLock(),
-                SpriteCreator(doorUV, 0),
-                Transform(
+                Sprite(textureManager, doorUV, 0),
+                Transform2D(
                     position - glm::vec2(8, (16 * 7 / 2) + 8),
                     0,
                     glm::vec2(1, 1)
@@ -140,7 +142,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
                     0,
                     glm::vec2(1, 1)
@@ -164,7 +166,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -178,7 +180,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -190,8 +192,8 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             world.newEnt(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
                 IsDoorLock(),
-                SpriteCreator(doorUV, 0),
-                Transform(
+                Sprite(textureManager, doorUV, 0),
+                Transform2D(
                     position - glm::vec2((16 * 9 / 2) + 8, 8),
                     270,
                     glm::vec2(1, 1)
@@ -202,7 +204,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
                     0,
                     glm::vec2(1, 1)
@@ -227,7 +229,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -241,7 +243,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -253,8 +255,8 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             world.newEnt(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
                 IsDoorLock(),
-                SpriteCreator(doorUV, 0),
-                Transform(
+                Sprite(textureManager, doorUV, 0),
+                Transform2D(
                     position + glm::vec2((16 * 9 / 2) - 8, -8),
                     90,
                     glm::vec2(1, 1)
@@ -266,7 +268,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
                     0,
                     glm::vec2(1, 1)
@@ -290,7 +292,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -304,7 +306,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -316,8 +318,8 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             world.newEnt(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
                 IsDoorLock(),
-                SpriteCreator(doorUV, 0),
-                Transform(
+                Sprite(textureManager, doorUV, 0),
+                Transform2D(
                     position + glm::vec2(-8, (16 * 7 / 2) - 8),
                     180,
                     glm::vec2(1, 1)
@@ -329,7 +331,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
                     0,
                     glm::vec2(1, 1)
@@ -353,7 +355,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         subEnts.emplace_back(
             world.newEnt(
                 Wall(),
-                Transform(
+                Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
                     0,
                     glm::vec2(1, 1)
@@ -434,7 +436,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
         std::size_t primaryCell = rand() % (height * width);
         cellMat[primaryCell].isActive = true;
         cellMat[primaryCell].isPrimary = true;
-        checkGen = newGenCell(width, height, primaryCell, /*9*/ 1, /*5*/ 1, cellMat);
+        checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
     } while(!checkGen);
 
     // Instantiate Rooms:
@@ -465,7 +467,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     newChunkEnt
                 );
 
-                auto players = world.view<Transform>(with<Player>);
+                auto players = world.view<Transform2D>(with<Player>);
 
                 if (players.empty()) {
                     auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
@@ -480,7 +482,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                 if (cameras.empty()) {
                     auto cameraOrigin = world.newEnt(
-                        Transform(
+                        Transform2D(
                             glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                             0,
                             glm::vec2(1, 1)
@@ -490,7 +492,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     world.appendChildren(cameraOrigin, {
                         // Camera
                         world.newEnt(
-                            Transform(
+                            Transform2D(
                                 glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                                 0,
                                 glm::vec2(1, 1)
@@ -505,7 +507,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                 } else {
                     for (auto [curCameraEnt]: cameras) {
                         if (auto opt = world.getParent(curCameraEnt)) {
-                            if (auto optTransform = world.get<Transform>(opt.value())) {
+                            if (auto optTransform = world.get<Transform2D>(opt.value())) {
                                 auto [parentTransform] = optTransform.value();
                                 parentTransform.setPosition(glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0));
                             }

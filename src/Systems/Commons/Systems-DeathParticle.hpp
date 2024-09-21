@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void deathParticleSys(MainFixedSystem, World& world) {
-    auto generators = world.view<DeathParticleGenerator, const Transform, const ZIndex>();
+    auto generators = world.view<DeathParticleGenerator, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 

@@ -44,76 +44,95 @@ static const ImageAsset scorpionUV("Textures/Scorpion.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Scorpion Hit Attack Up B
 });
 
-static const AnimationAsset scorpionAnim({
+enum class ScorpionAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+};
+
+static const AnimationAsset scorpionAnim(animEnum<ScorpionAnimType>, {
     // Movements
-    {"MoveDown", {
+    {ScorpionAnimType::MOVE_DOWN, {{
         {0.50f, scorpionUV[0]},
         {0.50f, scorpionUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {ScorpionAnimType::MOVE_RIGHT, {{
         {0.50f, scorpionUV[2]},
         {0.50f, scorpionUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {ScorpionAnimType::MOVE_LEFT, {{
         {0.50f, scorpionUV[4]},
         {0.50f, scorpionUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {ScorpionAnimType::MOVE_UP, {{
         {0.50f, scorpionUV[6]},
         {0.50f, scorpionUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {ScorpionAnimType::ATTACK_DOWN, {{
         {0.50f, scorpionUV[8]},
         {0.50f, scorpionUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {ScorpionAnimType::ATTACK_RIGHT, {{
         {0.50f, scorpionUV[10]},
         {0.50f, scorpionUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {ScorpionAnimType::ATTACK_LEFT, {{
         {0.50f, scorpionUV[12]},
         {0.50f, scorpionUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {ScorpionAnimType::ATTACK_UP, {{
         {0.50f, scorpionUV[14]},
         {0.50f, scorpionUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {ScorpionAnimType::HIT_MOVE_DOWN, {{
         {0.50f, scorpionUV[16]},
         {0.50f, scorpionUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {ScorpionAnimType::HIT_MOVE_RIGHT, {{
         {0.50f, scorpionUV[18]},
         {0.50f, scorpionUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {ScorpionAnimType::HIT_MOVE_LEFT, {{
         {0.50f, scorpionUV[20]},
         {0.50f, scorpionUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {ScorpionAnimType::HIT_MOVE_UP, {{
         {0.50f, scorpionUV[22]},
         {0.50f, scorpionUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {ScorpionAnimType::HIT_ATTACK_DOWN, {{
         {0.50f, scorpionUV[24]},
         {0.50f, scorpionUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {ScorpionAnimType::HIT_ATTACK_RIGHT, {{
         {0.50f, scorpionUV[26]},
         {0.50f, scorpionUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {ScorpionAnimType::HIT_ATTACK_LEFT, {{
         {0.50f, scorpionUV[28]},
         {0.50f, scorpionUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {ScorpionAnimType::HIT_ATTACK_UP, {{
         {0.50f, scorpionUV[30]},
         {0.50f, scorpionUV[31]},
-    }},
+    }}},
 });

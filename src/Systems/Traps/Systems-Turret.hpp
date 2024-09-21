@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void turretCardinalSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTurretCardinal, Animation, const Transform, const Turret, const ZIndex>();
+    auto traps = world.view<IsTurretCardinal, Animation, const Transform2D, const Turret, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -15,9 +15,9 @@ void turretCardinalSys(MainFixedSystem, World& world) {
         if (isTurretCardinal.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
                 world.remove<Turret>(trapEnt);
-                animation.play("TurretOff");
+                animation.play(TurretAnimType::OFF);
             } else {
-                animation.play("TurretDiagonal");
+                animation.play(TurretAnimType::DIAGONAL);
                 world.remove<IsTurretCardinal>(trapEnt);
                 world.add(trapEnt, IsTurretDiagonal(turret.diagonalDuration, turret.diagonalPreShotDuration));
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, -1), 64.f);
@@ -44,7 +44,7 @@ void turretCardinalSys(MainFixedSystem, World& world) {
 }
 
 void turretDiagonalSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTurretDiagonal, Animation, const Transform, const Turret, const ZIndex>();
+    auto traps = world.view<IsTurretDiagonal, Animation, const Transform2D, const Turret, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -52,9 +52,9 @@ void turretDiagonalSys(MainFixedSystem, World& world) {
         if (isTurretDiagonal.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
                 world.remove<Turret>(trapEnt);
-                animation.play("TurretOff");
+                animation.play(TurretAnimType::OFF);
             } else {
-                animation.play("TurretCardinal");
+                animation.play(TurretAnimType::CARDINAL);
                 world.remove<IsTurretDiagonal>(trapEnt);
                 world.add(trapEnt, IsTurretCardinal(turret.cardinalDuration, turret.cardinalPreShotDuration));
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 0), 64.f);

@@ -18,7 +18,7 @@ void groundCrystalAttackCrossSys(MainFixedSystem, World& world) {
                 Trigger(-12 / 2, -12 / 2, 12, 12),
                 LifeTime(groundCrystalAttack.mineralDuration)
             );
-            animation.play("Crystal");
+            animation.play(GroundCrystalAttackAnimType::CRYSTAL);
         }
     }
 }

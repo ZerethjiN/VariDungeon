@@ -55,7 +55,7 @@ public:
     }
 
 protected:
-    void createGraphicsPipeline(const VkRenderPass& renderPass, const std::string& shaderVertName, const std::string& shaderFragName) {
+    void createGraphicsPipeline(const VkRenderPass& renderPass, const std::string& shaderVertName, const std::string& shaderFragName, std::size_t nbFragmentOut, const std::vector<VkPipelineColorBlendAttachmentState>& newColorBlendAttachments, uint32_t subpassId) {
         auto vertShaderCode = readFile(shaderVertName);
         auto fragShaderCode = readFile(shaderFragName);
 
@@ -112,23 +112,12 @@ protected:
             .sampleShadingEnable = VK_FALSE
         };
 
-        VkPipelineColorBlendAttachmentState colorBlendAttachment {
-            .blendEnable = VK_TRUE,
-            .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
-            .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
-            .colorBlendOp = VK_BLEND_OP_ADD,
-            .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE,
-            .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
-            .alphaBlendOp = VK_BLEND_OP_ADD,
-            .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
-        };
-
         VkPipelineColorBlendStateCreateInfo colorBlending {
             .sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO,
             .logicOpEnable = VK_FALSE,
             .logicOp = VK_LOGIC_OP_COPY,
-            .attachmentCount = 1,
-            .pAttachments = &colorBlendAttachment,
+            .attachmentCount = static_cast<uint32_t>(newColorBlendAttachments.size()),
+            .pAttachments = newColorBlendAttachments.data(),
             .blendConstants {
                 0.0f,
                 0.0f,
@@ -156,7 +145,8 @@ protected:
         };
 
         if (vkCreatePipelineLayout(engine.device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create pipeline layout!");
+            std::cerr << "failed to create pipeline layout!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         VkGraphicsPipelineCreateInfo pipelineInfo {
@@ -172,12 +162,13 @@ protected:
             .pDynamicState = &dynamicState,
             .layout = pipelineLayout,
             .renderPass = renderPass,
-            .subpass = 0,
+            .subpass = subpassId,
             .basePipelineHandle = VK_NULL_HANDLE
         };
 
         if (vkCreateGraphicsPipelines(engine.device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create graphics pipeline!");
+            std::cerr << "failed to create graphics pipeline!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         vkDestroyShaderModule(engine.device, fragShaderModule, nullptr);
@@ -193,7 +184,8 @@ protected:
 
         VkShaderModule shaderModule;
         if (vkCreateShaderModule(engine.device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create shader module!");
+            std::cerr << "failed to create shader module!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         return shaderModule;
@@ -217,7 +209,8 @@ protected:
         };
 
         if (vkCreateDescriptorSetLayout(engine.device, &layoutInfo, nullptr, &descriptorSetLayouts[setIndex]) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create descriptor set layout!");
+            std::cerr << "failed to create descriptor set layout!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -231,7 +224,8 @@ protected:
         };
 
         if (vkCreateDescriptorPool(engine.device, &poolInfo, nullptr, &descriptorPools[setIndex]) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create descriptor pool!");
+            std::cerr << "failed to create descriptor pool!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 
@@ -245,10 +239,9 @@ protected:
             .pSetLayouts = layouts.data()
         };
 
-        auto res = vkAllocateDescriptorSets(engine.device, &allocInfo, descriptorSets[setIndex].data());
-        if (res != VK_SUCCESS) {
-            printf("Res: %d\n", res);
-            throw std::runtime_error("failed to allocate descriptor sets!");
+        if (vkAllocateDescriptorSets(engine.device, &allocInfo, descriptorSets[setIndex].data()) != VK_SUCCESS) {
+            std::cerr << "failed to allocate descriptor sets!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
     }
 

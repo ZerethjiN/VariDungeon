@@ -7,29 +7,35 @@
 #include <Images.hpp>
 
 void breakableOnHitSys(MainFixedSystem, World& world) {
-    auto breakables = world.view<Animation, OnBreakableHit, const Breakable>();
+    auto breakables = world.view<Animation, OnBreakableHitDuration>(with<Breakable>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [breakableEnt, animation, onBreakableHit, breakable]: breakables) {
-        if (onBreakableHit.canSwitchState(time.fixedDelta())) {
-            animation.play(breakable.noHitAnimName);
-            world.remove<OnBreakableHit>(breakableEnt);
+    for (auto [breakableEnt, animation, onBreakableHitduration]: breakables) {
+        if (onBreakableHitduration.canSwitchState(time.fixedDelta())) {
+            // animation.play(breakable.noHitAnimName);
+            world.remove<OnBreakableHitDuration>(breakableEnt);
+
+            if (auto onNoHitOpt = world.get<const OnBreakableNoHit>(breakableEnt)) {
+                auto [onBreakableNoHit] = onNoHitOpt.value();
+
+                onBreakableNoHit.callback(world, breakableEnt);
+            }
         }
     }
 }
 
 void breakableHitSys(MainFixedSystem, World& world) {
-    auto breakables = world.view<Transform, Life, Animation, ZIndex, const OnCollisionEnter, const Transform, const Breakable, const Loots>(without<OnBreakableHit, InvincibleFrame>);
+    auto breakables = world.view<Transform2D, Life, Animation, ZIndex, const OnCollisionEnter, const Loots>(with<Breakable>, without<OnBreakableHitDuration, InvincibleFrame>);
 
-    for (auto [breakableEnt, transform, life, animation, zindex, collisions, breakableTransform, breakable, loots]: breakables) {
+    for (auto [breakableEnt, transform, life, animation, zindex, collisions, loots]: breakables) {
         for (auto othEnt: collisions) {
             if (world.has<PlayerWeapon>(othEnt) || world.has<EnemyWeaponForBreakables>(othEnt)) {
                 // Damage:
                 life -= 1;
 
                 // Visual Effect:
-                animation.play(breakable.onHitAnimName);
+                // animation.play(breakable.onHitAnimName);
                 world.add(breakableEnt,
                     InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f))
                 );
@@ -43,12 +49,12 @@ void breakableHitSys(MainFixedSystem, World& world) {
                     if (auto onBreakOpt = world.get<const OnBreakableBreak>(breakableEnt)) {
                         auto [onBreakableBreak] = onBreakOpt.value();
 
-                        onBreakableBreak.onBreak(world, breakableEnt);
+                        onBreakableBreak.callback(world, breakableEnt);
                     }
 
                     world.remove<Breakable, Life, Collider>(breakableEnt);
                     zindex = -3;
-                    animation.play(breakable.destroyedAnimName);
+                    // animation.play(breakable.destroyedAnimName);
 
                     std::vector<std::size_t> newLoots;
                     if (!loots.empty()) {
@@ -67,7 +73,13 @@ void breakableHitSys(MainFixedSystem, World& world) {
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
 
-                    world.add(breakableEnt, OnBreakableHit(0.25f));
+                    world.add(breakableEnt, OnBreakableHitDuration(0.25f));
+
+                    if (auto onHitOpt = world.get<const OnBreakableHit>(breakableEnt)) {
+                        auto [onBreakableHit] = onHitOpt.value();
+
+                        onBreakableHit.callback(world, breakableEnt);
+                    }
                 }
 
                 break;

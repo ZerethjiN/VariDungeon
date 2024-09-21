@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void dustParticleSys(MainFixedSystem, World& world) {
-    auto generators = world.view<DustParticleGenerator, const Transform, const ZIndex>();
+    auto generators = world.view<DustParticleGenerator, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 

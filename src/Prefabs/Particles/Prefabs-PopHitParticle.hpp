@@ -6,10 +6,11 @@
 #include <Res.hpp>
 
 Ent instantiatePopHitParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(popHitParticleUV),
-        Animation(popHitParticleAnim, "Default"),
-        Transform(
+        Sprite(textureManager, popHitParticleUV),
+        Animation(popHitParticleAnim, PopHitParticleAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

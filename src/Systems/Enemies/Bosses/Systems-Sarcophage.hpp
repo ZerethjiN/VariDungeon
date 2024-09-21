@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophageShadowMark, Orientation, const Sarcophage, const Speed, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsSarcophageShadowMark, Orientation, const Sarcophage, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -44,26 +44,26 @@ void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(SarcophageAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(SarcophageAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(SarcophageAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(SarcophageAnimType::MOVE_UP);
             }
         }
     }
 }
 
 void sarcophagePreLaserSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophagePreLaserAttack, Orientation, const Sarcophage, const Speed, const Transform>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsSarcophagePreLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -91,26 +91,26 @@ void sarcophagePreLaserSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(SarcophageAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(SarcophageAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(SarcophageAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(SarcophageAnimType::MOVE_UP);
             }
         }
     }
 }
 
 void sarcophageLaserSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophageLaserAttack, Orientation, const Sarcophage, const Speed, const Transform>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsSarcophageLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -118,7 +118,7 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
         if (isSarcophageLaserAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsSarcophageLaserAttack>(enemyEnt);
             world.add(enemyEnt, IsSarcophageObelisk(sarcophage.obeliskDuration));
-            for (auto [_, roomTransform]: world.view<const Transform>(with<ChunkInfos>)) {
+            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < 2; i++) {
                     auto rndX = rand() % 6;
                     auto rndY = rand() % 3;
@@ -137,18 +137,18 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                animation.play("MoveRight");
+                animation.play(SarcophageAnimType::MOVE_RIGHT);
             } else {
                 orientation = Orientation::WEST;
-                animation.play("MoveLeft");
+                animation.play(SarcophageAnimType::MOVE_LEFT);
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                animation.play("MoveDown");
+                animation.play(SarcophageAnimType::MOVE_DOWN);
             } else {
                 orientation = Orientation::NORTH;
-                animation.play("MoveUp");
+                animation.play(SarcophageAnimType::MOVE_UP);
             }
         }
     }
@@ -156,10 +156,10 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
 
 
 void sarcophageObeliskSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsSarcophageObelisk, const Orientation, const Sarcophage, const Speed, const Transform>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Animation, IsSarcophageObelisk, const Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [enemyEnt, animation, isSarcophageObelisk, orientation, sarcophage, speed, enemyTransform]: enemies) {
         if (isSarcophageObelisk.canSwitchState(time.fixedDelta())) {
@@ -171,8 +171,8 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
             world.appendChildren(enemyEnt, {
                 world.newEnt(
                     SarcophageShockwave(),
-                    SpriteCreator(levelUpShockwaveUV),
-                    Transform(
+                    Sprite(textureManager, levelUpShockwaveUV),
+                    Transform2D(
                         enemyTransform.getPosition(),
                         0,
                         glm::vec2(1, 1)
@@ -186,22 +186,22 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                animation.play("AttackRight");
+                animation.play(SarcophageAnimType::ATTACK_RIGHT);
             } else {
-                animation.play("AttackLeft");
+                animation.play(SarcophageAnimType::ATTACK_LEFT);
             }
         } else {
             if (orientation.y > 0) {
-                animation.play("AttackDown");
+                animation.play(SarcophageAnimType::ATTACK_DOWN);
             } else {
-                animation.play("AttackUp");
+                animation.play(SarcophageAnimType::ATTACK_UP);
             }
         }
     }
 }
 
 void sarcophageShockwaveSys(MainFixedSystem, World& world) {
-    auto preMenus = world.view<Transform>(with<SarcophageShockwave>);
+    auto preMenus = world.view<Transform2D>(with<SarcophageShockwave>);
 
     auto [time] = world.resource<Time>();
 

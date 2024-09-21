@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateSarcophage(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Boss(),
         Enemy(),
@@ -20,9 +21,9 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
         IsSarcophageShadowMark(1.5f, 3),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(sarcophageUV),
-        Animation(sarcophageAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, sarcophageUV),
+        Animation(sarcophageAnim, SarcophageAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -38,11 +39,12 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateSarcophageObelisk(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         SarcophageObelisk(),
-        SpriteCreator(obeliskUV),
-        Animation(obeliskAnim, "Default"),
-        Transform(
+        Sprite(textureManager, obeliskUV),
+        Animation(obeliskAnim, ObeliskAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

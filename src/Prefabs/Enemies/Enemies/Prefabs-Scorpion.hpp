@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateScorpion(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -16,9 +17,9 @@ Ent instantiateScorpion(World& world, const glm::vec2& position) {
         IsScorpionMove(1.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(scorpionUV),
-        Animation(scorpionAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, scorpionUV),
+        Animation(scorpionAnim, ScorpionAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

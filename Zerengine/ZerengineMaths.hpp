@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -69,6 +71,17 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+[[nodiscard]] std::array<glm::vec2, 4> applyTransformOnRect(const glm::vec4& rect, const glm::mat4& model) noexcept {
+    return {
+        glm::vec2(model * glm::vec4(rect.x, rect.y, 0, 1)),
+        glm::vec2(model * glm::vec4(rect.x, rect.y + rect.w, 0, 1)),
+        glm::vec2(model * glm::vec4(rect.x + rect.z, rect.y + rect.w, 0, 1)),
+        glm::vec2(model * glm::vec4(rect.x + rect.z, rect.y, 0, 1))
+    };
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
 [[nodiscard]] static glm::vec2 rotateAround(const glm::vec2& oldPos, const glm::vec2& point, float angle) noexcept {
     glm::mat3 model(1.0f);
     model = glm::translate(model, point);
@@ -85,7 +98,16 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+[[nodiscard]] float randomRangeFloat(float min, float max) noexcept {
+    return min + static_cast <float> (rand()) / ( static_cast <float>(RAND_MAX) /(max - min));
+}
 
+[[nodiscard]] float randomRangeFloat(const glm::vec2& minMax) noexcept {
+    return minMax[0] + static_cast <float> (rand()) / ( static_cast <float>(RAND_MAX) /(minMax[1] - minMax[0]));
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
 
 
 

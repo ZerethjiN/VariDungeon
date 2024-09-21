@@ -56,8 +56,17 @@ public:
             FT_Load_Char(ftFace, letter, FT_LOAD_RENDER);
 
             Texture* newTexture = nullptr;
+
             if (ftFace->glyph->bitmap.buffer != nullptr) {
-                newTexture = new Texture(ftFace->glyph->bitmap.buffer, ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows, 1);
+                std::vector<unsigned char> newBuffer(ftFace->glyph->bitmap.width * ftFace->glyph->bitmap.rows * 4);
+                for (std::size_t i = 0; i < ftFace->glyph->bitmap.width * ftFace->glyph->bitmap.rows * 4; i += 4) {
+                    newBuffer[i + 0] = ftFace->glyph->bitmap.buffer[(i / 4)];
+                    newBuffer[i + 1] = ftFace->glyph->bitmap.buffer[(i / 4)];
+                    newBuffer[i + 2] = ftFace->glyph->bitmap.buffer[(i / 4)];
+                    newBuffer[i + 3] = ftFace->glyph->bitmap.buffer[(i / 4)];
+                }
+
+                newTexture = new Texture(newBuffer.data(), ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows, 4);
             }
 
             glyphs.at(letter).emplace(

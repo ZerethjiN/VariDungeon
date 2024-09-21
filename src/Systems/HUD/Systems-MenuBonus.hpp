@@ -7,9 +7,9 @@
 #include <Images.hpp>
 
 void levelUpKnockbackSys(MainFixedSystem, World& world) {
-    auto preMenus = world.view<LevelUpKnockback, Transform>();
+    auto preMenus = world.view<LevelUpKnockback, Transform2D>();
 
-    auto [time] = world.resource<Time>();
+    auto [textureManager, time] = world.resource<TextureManager, Time>();
 
     for (auto [preMenuEnt, preMenuKnockback, transform]: preMenus) {
         if (preMenuKnockback.canSpawnPreMenu(time.fixedDelta())) {
@@ -18,10 +18,10 @@ void levelUpKnockbackSys(MainFixedSystem, World& world) {
             world.destroy(preMenuEnt);
 
             world.newEnt(
-                LevelUpPreMenu(levelUpAnim["Default"].getTotalDuration(), 8),
-                UICreator(levelUpUV, UIAnchor::CENTER_CENTER),
-                Animation(levelUpAnim, "Default", AnimType::UNSCALED),
-                Transform(
+                LevelUpPreMenu(levelUpAnim[LevelUpAnimType::DEFAULT].getTotalDuration(), 8),
+                UI(textureManager, levelUpUV, UIAnchor::CENTER_CENTER),
+                Animation(levelUpAnim, LevelUpAnimType::DEFAULT, AnimType::UNSCALED),
+                Transform2D(
                     glm::vec2(0, 0),
                     0,
                     glm::vec2(1, 1)
@@ -34,26 +34,26 @@ void levelUpKnockbackSys(MainFixedSystem, World& world) {
     }
 }
 
-void levelUpPreMenuSys(MainFixedSystem, World& world) {
+void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
     auto preMenus = world.view<LevelUpPreMenu>();
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [preMenuEnt, preMenu]: preMenus) {
         if (preMenu.canSpawnStar(time.unscaledFixedDelta())) {
             world.newEnt(
-                UICreator(fireworkUV, UIAnchor::CENTER_CENTER),
-                Animation(fireworkAnim, "Default", AnimType::UNSCALED),
-                Transform(
+                UI(textureManager, fireworkUV, UIAnchor::CENTER_CENTER),
+                Animation(fireworkAnim, FireworkAnimType::DEFAULT, AnimType::UNSCALED),
+                Transform2D(
                     glm::vec2((rand() % 8 - 4) * 16, (rand() % 6 - 3) * 16),
                     0,
                     glm::vec2(1, 1)
                 ),
                 ZIndex(9),
-                UnscaledLifeTime(fireworkAnim["Default"].getTotalDuration())
+                UnscaledLifeTime(fireworkAnim[FireworkAnimType::DEFAULT].getTotalDuration())
             );
         }
-        
+
         if (preMenu.canSpawnMenu(time.unscaledFixedDelta())) {
             world.destroy(preMenuEnt);
 
@@ -86,10 +86,10 @@ void levelUpPreMenuSys(MainFixedSystem, World& world) {
     }
 }
 
-void menuBonusTranslationSys(MainFixedSystem, World& world) {
-    auto menus = world.view<Transform, const MenuBonusTranslation>();
+void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
+    auto menus = world.view<Transform2D, const MenuBonusTranslation>();
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [menuEnt, transform, menuBonusTranslation]: menus) {
         if (glm::distance(transform.getPosition(), menuBonusTranslation.getFinalPosition()) <= 4.f) {
@@ -102,9 +102,9 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
             world.appendChildren(menuEnt, {
                 world.newEnt(
                     MenuBonusSelector(bonusesIdx.size()),
-                    UICreator(menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
-                    Animation(menuBonusHUDAnim, "MediumSelector", AnimType::UNSCALED),
-                    Transform(
+                    UI(textureManager, menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
+                    Animation(menuBonusHUDAnim, MenuBonusHUDAnimType::MEDIUM_SELECTOR, AnimType::UNSCALED),
+                    Transform2D(
                         menuBonusTranslation.getFinalPosition() + glm::vec2(8, 8),
                         0,
                         glm::vec2(1, 1)
@@ -128,8 +128,8 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
                 world.appendChildren(menuEnt, {
                     world.newEnt(
                         BonusRow(i, bonusVec[bonusIdx].type, bonusVec[bonusIdx].cost, bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback),
-                        UICreator(menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
-                        Transform(
+                        UI(textureManager, menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
+                        Transform2D(
                             menuBonusTranslation.getFinalPosition() + glm::vec2(16 + 16, 8 + i * 32 + 16),
                             0,
                             glm::vec2(1, 1)
@@ -138,7 +138,7 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
                     ),
                     world.newEnt(
                         TextUICreator(bonusVec[bonusIdx].name, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
-                        Transform(
+                        Transform2D(
                             menuBonusTranslation.getFinalPosition() + glm::vec2(48, 12 + i * 32),
                             0,
                             glm::vec2(1, 1)
@@ -151,7 +151,7 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
                     world.appendChildren(menuEnt, {
                         world.newEnt(
                             TextUICreator(std::to_string(bonusVec[bonusIdx].cost) + "$", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
-                            Transform(
+                            Transform2D(
                                 menuBonusTranslation.getFinalPosition() + glm::vec2(0, 12 + i * 32),
                                 0,
                                 glm::vec2(1, 1)
@@ -168,8 +168,8 @@ void menuBonusTranslationSys(MainFixedSystem, World& world) {
     }
 }
 
-void menuBonusReverseTranslationSys(MainFixedSystem, World& world) {
-    auto menus = world.view<Transform, const MenuBonusReverseTranslation>();
+void menuBonusReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
+    auto menus = world.view<Transform2D, const MenuBonusReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 
@@ -185,14 +185,14 @@ void menuBonusReverseTranslationSys(MainFixedSystem, World& world) {
     }
 }
 
-void menuBonusSelectorSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<MenuBonusSelector, const Transform>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
+void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
+    auto selectors = world.view<MenuBonusSelector, const Transform2D>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
-        if (vulkanEngine.window.isKeyDown(MOVE_DOWN)) {
+        if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
                 world.add(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
-                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
                     world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
@@ -203,10 +203,10 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                     }
                 }
             }
-        } else if (vulkanEngine.window.isKeyDown(MOVE_UP)) {
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
                 world.add(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
-                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
                     world.remove<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
@@ -217,7 +217,7 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                     }
                 }
             }
-        } else if (vulkanEngine.window.isKeyDown(VALIDATE)) {
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
             for (auto [_, bonusRow]: world.view<const BonusRow>()) {
                 if (bonusRow.id == selector.getCurElement()) {
                     bool canBuy = false;
@@ -253,15 +253,15 @@ void menuBonusSelectorSys(MainFixedSystem, World& world) {
                 }
             }
             world.remove<MenuBonusSelector>(selectorEnt);
-            for (auto [menuBonusEnt, menuBonusTransform]: world.view<const Transform>(with<MenuBonus>)) {
+            for (auto [menuBonusEnt, menuBonusTransform]: world.view<const Transform2D>(with<MenuBonus>)) {
                 world.add(menuBonusEnt, MenuBonusReverseTranslation(menuBonusTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
         }
     }
 }
 
-void menuBonusSelectorMoveDownSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<Transform, const MenuBonusSelectorMoveDown>();
+void menuBonusSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
+    auto selectors = world.view<Transform2D, const MenuBonusSelectorMoveDown>();
 
     auto [time] = world.resource<const Time>();
 
@@ -275,8 +275,8 @@ void menuBonusSelectorMoveDownSys(MainFixedSystem, World& world) {
     }
 }
 
-void menuBonusSelectorMoveUpSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<Transform, const MenuBonusSelectorMoveUp>();
+void menuBonusSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
+    auto selectors = world.view<Transform2D, const MenuBonusSelectorMoveUp>();
 
     auto [time] = world.resource<const Time>();
 
@@ -290,8 +290,8 @@ void menuBonusSelectorMoveUpSys(MainFixedSystem, World& world) {
     }
 }
 
-void MenuBonusCurSelectedRowScaleSys(MainFixedSystem, World& world) {
-    auto bonusRows = world.view<Transform, MenuBonusCurSelectedRow>(with<BonusRow>);
+void menuBonusCurSelectedRowScaleSys(MainUnscaledFixedSystem, World& world) {
+    auto bonusRows = world.view<Transform2D, MenuBonusCurSelectedRow>(with<BonusRow>);
 
     auto [time] = world.resource<const Time>();
 

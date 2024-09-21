@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void miniRockSpawnerSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, MiniRockSpawner, const Transform>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, MiniRockSpawner, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -19,16 +19,16 @@ void miniRockSpawnerSys(MainFixedSystem, World& world) {
         }
 
         if (world.has<InvincibleFrame>(enemyEnt)) {
-            animation.play("HitSpawner");
+            animation.play(MiniRockAnimType::HIT_SPAWNER);
         } else {
-            animation.play("Spawner");
+            animation.play(MiniRockAnimType::SPAWNER);
         }
     }
 }
 
 void miniRockMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Transform, const ZIndex>(with<MiniRock>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Transform2D, const ZIndex>(with<MiniRock>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -43,32 +43,32 @@ void miniRockMoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveRight");
+                    animation.play(MiniRockAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    animation.play("MoveRight");
+                    animation.play(MiniRockAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveLeft");
+                    animation.play(MiniRockAnimType::HIT_MOVE_LEFT);
                 } else {
-                    animation.play("MoveLeft");
+                    animation.play(MiniRockAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveDown");
+                    animation.play(MiniRockAnimType::HIT_MOVE_DOWN);
                 } else {
-                    animation.play("MoveDown");
+                    animation.play(MiniRockAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitMoveUp");
+                    animation.play(MiniRockAnimType::HIT_MOVE_UP);
                 } else {
-                    animation.play("MoveUp");
+                    animation.play(MiniRockAnimType::MOVE_UP);
                 }
             }
         }

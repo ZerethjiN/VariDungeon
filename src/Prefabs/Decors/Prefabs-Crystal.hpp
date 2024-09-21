@@ -8,10 +8,11 @@
 Ent instantiateParticleEffectStar(World&, const glm::vec2&);
 
 Ent instantiateBigCrystal(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(bigCrystalUV),
-        Animation(bigCrystalAnim, "Default"),
-        Transform(
+        Sprite(textureManager, bigCrystalUV),
+        Animation(bigCrystalAnim, BigCrystalAnimType::DEFAULT),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

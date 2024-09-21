@@ -14,9 +14,11 @@ void testScene(SceneSystem, World& world) {
     // fontManager.clear();
     // pipelineManager.clear();
 
+    auto [textureManager] = world.resource<TextureManager>();
+
     // AppState
     auto [appstate] = world.resource<AppState>();
-    appstate.state = APP_STATE_IN_GAME;
+    appstate = AppStateType::APP_STATE_IN_GAME;
 
     auto [spatialHashMap] = world.resource<SpatialHashMap>();
     spatialHashMap.clear();
@@ -78,7 +80,7 @@ void testScene(SceneSystem, World& world) {
         );
 
         // Spawn Player + Camera:
-        auto players = world.view<Transform>(with<Player>);
+        auto players = world.view<Transform2D>(with<Player>);
         if (players.empty()) {
             auto playerEnt = instantiateBarbarian(world, glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
             world.addDontDestroyOnLoad(playerEnt);
@@ -91,7 +93,7 @@ void testScene(SceneSystem, World& world) {
         auto cameras = world.view(with<CurCamera>);
         if (cameras.empty()) {
             auto cameraOrigin = world.newEnt(
-                Transform(
+                Transform2D(
                     glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                     0,
                     glm::vec2(1, 1)
@@ -101,7 +103,7 @@ void testScene(SceneSystem, World& world) {
             world.appendChildren(cameraOrigin, {
                 // Camera
                 world.newEnt(
-                    Transform(
+                    Transform2D(
                         glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                         0,
                         glm::vec2(1, 1)
@@ -116,7 +118,7 @@ void testScene(SceneSystem, World& world) {
         } else {
             for (auto [curCameraEnt]: cameras) {
                 if (auto opt = world.getParent(curCameraEnt)) {
-                    if (auto optTransform = world.get<Transform>(opt.value())) {
+                    if (auto optTransform = world.get<Transform2D>(opt.value())) {
                         auto [parentTransform] = optTransform.value();
                         parentTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0));
                     }
@@ -143,8 +145,8 @@ void testScene(SceneSystem, World& world) {
 
     world.appendChildren(
         world.newEnt(
-            UICreator(blackBackgroundUV, UIAnchor::CENTER_CENTER),
-            Transform(
+            UI(textureManager, blackBackgroundUV, UIAnchor::CENTER_CENTER),
+            Transform2D(
                 glm::vec2(-80, -72),
                 0,
                 glm::vec2(1, 1)
@@ -155,7 +157,7 @@ void testScene(SceneSystem, World& world) {
         {
             world.newEnt(
                 TextUICreator(std::string("Floor ") + std::to_string(curFloor), "Fonts/Zepto-Regular.ttf", 16, UIAnchor::BOTTOM_CENTER, glm::vec2(160, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
-                Transform(
+                Transform2D(
                     glm::vec2(-80, -88),
                     0,
                     glm::vec2(1, 1)

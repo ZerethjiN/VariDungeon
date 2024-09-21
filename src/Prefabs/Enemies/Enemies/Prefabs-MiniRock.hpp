@@ -6,13 +6,14 @@
 #include <Res.hpp>
 
 Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         MiniRockSpawner(3.0f, 1),
-        SpriteCreator(miniRockUV),
-        Animation(miniRockAnim, "Spawner"),
-        Transform(
+        Sprite(textureManager, miniRockUV),
+        Animation(miniRockAnim, MiniRockAnimType::SPAWNER),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -25,15 +26,16 @@ Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateMiniRock(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         MiniRock(),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(miniRockUV),
-        Animation(miniRockAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, miniRockUV),
+        Animation(miniRockAnim, MiniRockAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

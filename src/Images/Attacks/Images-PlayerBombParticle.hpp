@@ -7,9 +7,13 @@ static const ImageAsset playerBombUV("Textures/Bomb.png", {
     {{ 16,   0, 16, 16}, {0.5f, 0.5f}}, //  1: Bomb Particle B
 });
 
-static const AnimationAsset playerBombAnim({
-    {"Default", {
+enum class PlayerBombAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset playerBombAnim(animEnum<PlayerBombAnimType>, {
+    {PlayerBombAnimType::DEFAULT, {{
         {0.2f, playerBombUV[0]},
         {0.2f, playerBombUV[1]},
-    }},
+    }}},
 });

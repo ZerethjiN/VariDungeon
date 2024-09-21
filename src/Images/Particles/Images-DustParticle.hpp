@@ -7,9 +7,13 @@ static const ImageAsset dustParticleUV("Textures/DustParticle.png", {
     {{ 32,   0, 32, 32}, {0.5f, 0.5f}}, //  1: Dust Particle B
 });
 
-static const AnimationAsset dustParticleAnim({
-    {"Default", {
-        {0.10f, dustParticleUV[0]},
-        {0.10f, dustParticleUV[1]},
-    }},
+enum class DustParticleAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset dustParticleAnim(animEnum<DustParticleAnimType>, {
+    {DustParticleAnimType::DEFAULT, {{
+        {0.15f, dustParticleUV[0]},
+        {0.15f, dustParticleUV[1]},
+    }}},
 });

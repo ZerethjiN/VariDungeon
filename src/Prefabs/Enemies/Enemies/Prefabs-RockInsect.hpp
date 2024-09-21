@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateRockInsect(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -17,9 +18,9 @@ Ent instantiateRockInsect(World& world, const glm::vec2& position) {
         IsRockInsectMove(1.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(rockInsectUV),
-        Animation(rockInsectAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, rockInsectUV),
+        Animation(rockInsectAnim, RockInsectAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

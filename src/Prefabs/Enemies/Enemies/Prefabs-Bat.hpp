@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateBat(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -17,9 +18,9 @@ Ent instantiateBat(World& world, const glm::vec2& position) {
         IsBatMove(1.0f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(batUV),
-        Animation(batAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, batUV),
+        Animation(batAnim, BatAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

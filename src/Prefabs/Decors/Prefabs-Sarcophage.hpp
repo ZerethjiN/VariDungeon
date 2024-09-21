@@ -6,9 +6,10 @@
 #include <Res.hpp>
 
 Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(sarcophageDecorUV, 0),
-        Transform(
+        Sprite(textureManager, sarcophageDecorUV, 0),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -18,9 +19,10 @@ Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateSarcophageOpen(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(sarcophageDecorUV, 1),
-        Transform(
+        Sprite(textureManager, sarcophageDecorUV, 1),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

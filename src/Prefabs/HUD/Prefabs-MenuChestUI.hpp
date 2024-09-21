@@ -6,10 +6,12 @@
 #include <Res.hpp>
 
 Ent instantiateMenuChestUI(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
+        Menu(),
         MenuChest(),
-        UICreator(menuBonusHUDUV, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, menuBonusHUDUV, UIAnchor::CENTER_CENTER),
+        Transform2D(
             position,// + glm::vec2(0, 144),
             0,
             glm::vec2(1, 1)

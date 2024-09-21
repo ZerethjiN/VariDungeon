@@ -18,7 +18,7 @@ void shadowMarkPreExplosionSys(MainFixedSystem, World& world) {
                 IsShadowMarkExplosion(shadowMark.explosionDuration),
                 Trigger(-40 / 2, -40 / 2, 40, 40)
             );
-            animation.play("Explosion");
+            animation.play(ShadowMarkParticleAnimType::EXPLOSION);
         }
     }
 }

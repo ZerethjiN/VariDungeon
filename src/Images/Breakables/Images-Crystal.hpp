@@ -8,14 +8,20 @@ static const ImageAsset crystalUV("Textures/GroundCrystal.png", {
     {{ 32,   0, 16, 16}, {0.5f, 0.5f}}, //  2: Crystal Hit
 });
 
-static const AnimationAsset crystalAnim({
-    {"NoHit", {{
+enum class CrystalAnimType: std::size_t {
+    NO_HIT,
+    HIT,
+    DESTROYED,
+};
+
+static const AnimationAsset crystalAnim(animEnum<CrystalAnimType>, {
+    {CrystalAnimType::NO_HIT, {{
         {1.00f, crystalUV[0]},
     }, AnimationType::ONE_SHOT}},
-    {"Hit", {{
+    {CrystalAnimType::HIT, {{
         {1.00f, crystalUV[2]},
     }, AnimationType::ONE_SHOT}},
-    {"Destroyed", {{
+    {CrystalAnimType::DESTROYED, {{
         {1.00f, crystalUV[1]},
     }, AnimationType::ONE_SHOT}},
 });

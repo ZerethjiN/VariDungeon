@@ -53,7 +53,8 @@ protected:
 
         VkImageView imageView;
         if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create texture image view!");
+            std::cerr << "failed to create texture image view!" << std::endl;
+            std::exit(EXIT_FAILURE);
         }
 
         return imageView;

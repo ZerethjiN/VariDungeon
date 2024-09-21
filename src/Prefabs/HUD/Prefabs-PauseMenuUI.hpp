@@ -6,17 +6,17 @@
 #include <Res.hpp>
 
 Ent instantiatePauseMenuUI(World& world, const glm::vec2& position) {
-    auto backgroundEnt = world.newEnt(
+    auto [textureManager] = world.resource<TextureManager>();
+    return world.newEnt(
+        Menu(),
         PauseMenu(),
         PauseMenuTranslation(position, 512.f),
-        UICreator(menuBonusHUDUV, UIAnchor::CENTER_CENTER),
-        Transform(
+        UI(textureManager, menuBonusHUDUV, UIAnchor::CENTER_CENTER),
+        Transform2D(
             position + glm::vec2(0, 144),
             0,
             glm::vec2(1, 1)
         ),
         ZIndex(-1)
     );
-
-    return backgroundEnt;
 }

@@ -88,154 +88,190 @@ static const ImageAsset megaSlimeUV("Textures/MegaSlime.png", {
     {{ 96, 512, 32, 32}, {0.5f, 0.5f}}, // 65: Mega Slime P2 Hit Attack Up B
 });
 
-static const AnimationAsset megaSlimeAnim({
+enum class MegaSlimeAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+    SHADOW,
+    P2_MOVE_DOWN,
+    P2_MOVE_RIGHT,
+    P2_MOVE_LEFT,
+    P2_MOVE_UP,
+    P2_ATTACK_DOWN,
+    P2_ATTACK_RIGHT,
+    P2_ATTACK_LEFT,
+    P2_ATTACK_UP,
+    P2_HIT_MOVE_DOWN,
+    P2_HIT_MOVE_RIGHT,
+    P2_HIT_MOVE_LEFT,
+    P2_HIT_MOVE_UP,
+    P2_HIT_ATTACK_DOWN,
+    P2_HIT_ATTACK_RIGHT,
+    P2_HIT_ATTACK_LEFT,
+    P2_HIT_ATTACK_UP,
+};
+
+static const AnimationAsset megaSlimeAnim(animEnum<MegaSlimeAnimType>, {
     // Movements
-    {"MoveDown", {
+    {MegaSlimeAnimType::MOVE_DOWN, {{
         {0.20f, megaSlimeUV[0]},
         {0.20f, megaSlimeUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {MegaSlimeAnimType::MOVE_RIGHT, {{
         {0.20f, megaSlimeUV[2]},
         {0.20f, megaSlimeUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {MegaSlimeAnimType::MOVE_LEFT, {{
         {0.20f, megaSlimeUV[4]},
         {0.20f, megaSlimeUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {MegaSlimeAnimType::MOVE_UP, {{
         {0.20f, megaSlimeUV[6]},
         {0.20f, megaSlimeUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {MegaSlimeAnimType::ATTACK_DOWN, {{
         {0.40f, megaSlimeUV[8]},
         {0.40f, megaSlimeUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {MegaSlimeAnimType::ATTACK_RIGHT, {{
         {0.40f, megaSlimeUV[10]},
         {0.40f, megaSlimeUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {MegaSlimeAnimType::ATTACK_LEFT, {{
         {0.40f, megaSlimeUV[12]},
         {0.40f, megaSlimeUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {MegaSlimeAnimType::ATTACK_UP, {{
         {0.40f, megaSlimeUV[14]},
         {0.40f, megaSlimeUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {MegaSlimeAnimType::HIT_MOVE_DOWN, {{
         {0.20f, megaSlimeUV[16]},
         {0.20f, megaSlimeUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {MegaSlimeAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, megaSlimeUV[18]},
         {0.20f, megaSlimeUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {MegaSlimeAnimType::HIT_MOVE_LEFT, {{
         {0.20f, megaSlimeUV[20]},
         {0.20f, megaSlimeUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {MegaSlimeAnimType::HIT_MOVE_UP, {{
         {0.20f, megaSlimeUV[22]},
         {0.20f, megaSlimeUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {MegaSlimeAnimType::HIT_ATTACK_DOWN, {{
         {0.40f, megaSlimeUV[24]},
         {0.40f, megaSlimeUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {MegaSlimeAnimType::HIT_ATTACK_RIGHT, {{
         {0.40f, megaSlimeUV[26]},
         {0.40f, megaSlimeUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {MegaSlimeAnimType::HIT_ATTACK_LEFT, {{
         {0.40f, megaSlimeUV[28]},
         {0.40f, megaSlimeUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {MegaSlimeAnimType::HIT_ATTACK_UP, {{
         {0.40f, megaSlimeUV[30]},
         {0.40f, megaSlimeUV[31]},
-    }},
+    }}},
 
     // Shadow:
-    {"Shadow", {
+    {MegaSlimeAnimType::SHADOW, {{
         {0.50f, megaSlimeUV[32]},
         {0.50f, megaSlimeUV[33]},
-    }},
+    }}},
 
     // P2 Movements
-    {"P2MoveDown", {
+    {MegaSlimeAnimType::P2_MOVE_DOWN, {{
         {0.20f, megaSlimeUV[34]},
         {0.20f, megaSlimeUV[35]},
-    }},
-    {"P2MoveRight", {
+    }}},
+    {MegaSlimeAnimType::P2_MOVE_RIGHT, {{
         {0.20f, megaSlimeUV[36]},
         {0.20f, megaSlimeUV[37]},
-    }},
-    {"P2MoveLeft", {
+    }}},
+    {MegaSlimeAnimType::P2_MOVE_LEFT, {{
         {0.20f, megaSlimeUV[38]},
         {0.20f, megaSlimeUV[39]},
-    }},
-    {"P2MoveUp", {
+    }}},
+    {MegaSlimeAnimType::P2_MOVE_UP, {{
         {0.20f, megaSlimeUV[40]},
         {0.20f, megaSlimeUV[41]},
-    }},
+    }}},
 
     // P2 Attacks
-    {"P2AttackDown", {
+    {MegaSlimeAnimType::P2_ATTACK_DOWN, {{
         {0.40f, megaSlimeUV[42]},
         {0.40f, megaSlimeUV[43]},
-    }},
-    {"P2AttackRight", {
+    }}},
+    {MegaSlimeAnimType::P2_ATTACK_RIGHT, {{
         {0.40f, megaSlimeUV[44]},
         {0.40f, megaSlimeUV[45]},
-    }},
-    {"P2AttackLeft", {
+    }}},
+    {MegaSlimeAnimType::P2_ATTACK_LEFT, {{
         {0.40f, megaSlimeUV[46]},
         {0.40f, megaSlimeUV[47]},
-    }},
-    {"P2AttackUp", {
+    }}},
+    {MegaSlimeAnimType::P2_ATTACK_UP, {{
         {0.40f, megaSlimeUV[48]},
         {0.40f, megaSlimeUV[49]},
-    }},
+    }}},
 
     // P2 Hit Movements
-    {"P2HitMoveDown", {
+    {MegaSlimeAnimType::P2_HIT_MOVE_DOWN, {{
         {0.20f, megaSlimeUV[50]},
         {0.20f, megaSlimeUV[51]},
-    }},
-    {"P2HitMoveRight", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_MOVE_RIGHT, {{
         {0.20f, megaSlimeUV[52]},
         {0.20f, megaSlimeUV[53]},
-    }},
-    {"P2HitMoveLeft", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_MOVE_LEFT, {{
         {0.20f, megaSlimeUV[54]},
         {0.20f, megaSlimeUV[55]},
-    }},
-    {"P2HitMoveUp", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_MOVE_UP, {{
         {0.20f, megaSlimeUV[56]},
         {0.20f, megaSlimeUV[57]},
-    }},
+    }}},
 
     // P2 Hit Attacks
-    {"P2HitAttackDown", {
+    {MegaSlimeAnimType::P2_HIT_ATTACK_DOWN, {{
         {0.40f, megaSlimeUV[58]},
         {0.40f, megaSlimeUV[59]},
-    }},
-    {"P2HitAttackRight", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_ATTACK_RIGHT, {{
         {0.40f, megaSlimeUV[60]},
         {0.40f, megaSlimeUV[61]},
-    }},
-    {"P2HitAttackLeft", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_ATTACK_LEFT, {{
         {0.40f, megaSlimeUV[62]},
         {0.40f, megaSlimeUV[63]},
-    }},
-    {"P2HitAttackUp", {
+    }}},
+    {MegaSlimeAnimType::P2_HIT_ATTACK_UP, {{
         {0.40f, megaSlimeUV[64]},
         {0.40f, megaSlimeUV[65]},
-    }},
+    }}},
 });

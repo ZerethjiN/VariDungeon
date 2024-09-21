@@ -64,112 +64,139 @@ static const ImageAsset rockBossUV("Textures/RockBoss.png", {
     {{ 32, 608, 32, 32}, {0.5f, 0.5f}}, // 47: Rock Boss Roll P2 Up B
 });
 
-static const AnimationAsset rockBossAnim({
+enum class RockBossAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ROLL_DOWN,
+    ROLL_RIGHT,
+    ROLL_LEFT,
+    ROLL_UP,
+    STUN_DOWN,
+    STUN_RIGHT,
+    STUN_LEFT,
+    STUN_UP,
+    HIT_STUN_DOWN,
+    HIT_STUN_RIGHT,
+    HIT_STUN_LEFT,
+    HIT_STUN_UP,
+    P2_MOVE_DOWN,
+    P2_MOVE_RIGHT,
+    P2_MOVE_LEFT,
+    P2_MOVE_UP,
+    P2_ROLL_DOWN,
+    P2_ROLL_RIGHT,
+    P2_ROLL_LEFT,
+    P2_ROLL_UP,
+};
+
+static const AnimationAsset rockBossAnim(animEnum<RockBossAnimType>, {
     // Movements
-    {"MoveDown", {
+    {RockBossAnimType::MOVE_DOWN, {{
         {0.20f, rockBossUV[0]},
         {0.20f, rockBossUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {RockBossAnimType::MOVE_RIGHT, {{
         {0.20f, rockBossUV[2]},
         {0.20f, rockBossUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {RockBossAnimType::MOVE_LEFT, {{
         {0.20f, rockBossUV[4]},
         {0.20f, rockBossUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {RockBossAnimType::MOVE_UP, {{
         {0.20f, rockBossUV[6]},
         {0.20f, rockBossUV[7]},
-    }},
+    }}},
 
     // Rolls
-    {"RollDown", {
+    {RockBossAnimType::ROLL_DOWN, {{
         {0.20f, rockBossUV[8]},
         {0.20f, rockBossUV[9]},
-    }},
-    {"RollRight", {
+    }}},
+    {RockBossAnimType::ROLL_RIGHT, {{
         {0.20f, rockBossUV[10]},
         {0.20f, rockBossUV[11]},
-    }},
-    {"RollLeft", {
+    }}},
+    {RockBossAnimType::ROLL_LEFT, {{
         {0.20f, rockBossUV[12]},
         {0.20f, rockBossUV[13]},
-    }},
-    {"RollUp", {
+    }}},
+    {RockBossAnimType::ROLL_UP, {{
         {0.20f, rockBossUV[14]},
         {0.20f, rockBossUV[15]},
-    }},
+    }}},
 
     // Stuns
-    {"StunDown", {
+    {RockBossAnimType::STUN_DOWN, {{
         {0.20f, rockBossUV[16]},
         {0.20f, rockBossUV[17]},
-    }},
-    {"StunRight", {
+    }}},
+    {RockBossAnimType::STUN_RIGHT, {{
         {0.20f, rockBossUV[18]},
         {0.20f, rockBossUV[19]},
-    }},
-    {"StunLeft", {
+    }}},
+    {RockBossAnimType::STUN_LEFT, {{
         {0.20f, rockBossUV[20]},
         {0.20f, rockBossUV[21]},
-    }},
-    {"StunUp", {
+    }}},
+    {RockBossAnimType::STUN_UP, {{
         {0.20f, rockBossUV[22]},
         {0.20f, rockBossUV[23]},
-    }},
+    }}},
 
     // Hit Stuns
-    {"HitStunDown", {
+    {RockBossAnimType::HIT_STUN_DOWN, {{
         {0.20f, rockBossUV[24]},
         {0.20f, rockBossUV[25]},
-    }},
-    {"HitStunRight", {
+    }}},
+    {RockBossAnimType::HIT_STUN_RIGHT, {{
         {0.20f, rockBossUV[26]},
         {0.20f, rockBossUV[27]},
-    }},
-    {"HitStunLeft", {
+    }}},
+    {RockBossAnimType::HIT_STUN_LEFT, {{
         {0.20f, rockBossUV[28]},
         {0.20f, rockBossUV[29]},
-    }},
-    {"HitStunUp", {
+    }}},
+    {RockBossAnimType::HIT_STUN_UP, {{
         {0.20f, rockBossUV[30]},
         {0.20f, rockBossUV[31]},
-    }},
+    }}},
 
     // Move P2
-    {"MoveP2Down", {
+    {RockBossAnimType::P2_MOVE_DOWN, {{
         {0.20f, rockBossUV[32]},
         {0.20f, rockBossUV[33]},
-    }},
-    {"MoveP2Right", {
+    }}},
+    {RockBossAnimType::P2_MOVE_RIGHT, {{
         {0.20f, rockBossUV[34]},
         {0.20f, rockBossUV[35]},
-    }},
-    {"MoveP2Left", {
+    }}},
+    {RockBossAnimType::P2_MOVE_LEFT, {{
         {0.20f, rockBossUV[36]},
         {0.20f, rockBossUV[37]},
-    }},
-    {"MoveP2Up", {
+    }}},
+    {RockBossAnimType::P2_MOVE_UP, {{
         {0.20f, rockBossUV[38]},
         {0.20f, rockBossUV[39]},
-    }},
+    }}},
 
     // Roll P2
-    {"RollP2Down", {
+    {RockBossAnimType::P2_ROLL_DOWN, {{
         {0.20f, rockBossUV[40]},
         {0.20f, rockBossUV[41]},
-    }},
-    {"RollP2Right", {
+    }}},
+    {RockBossAnimType::P2_ROLL_RIGHT, {{
         {0.20f, rockBossUV[42]},
         {0.20f, rockBossUV[43]},
-    }},
-    {"RollP2Left", {
+    }}},
+    {RockBossAnimType::P2_ROLL_LEFT, {{
         {0.20f, rockBossUV[44]},
         {0.20f, rockBossUV[45]},
-    }},
-    {"RollP2Up", {
+    }}},
+    {RockBossAnimType::P2_ROLL_UP, {{
         {0.20f, rockBossUV[46]},
         {0.20f, rockBossUV[47]},
-    }},
+    }}},
 });

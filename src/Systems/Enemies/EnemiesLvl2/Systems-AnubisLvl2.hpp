@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void anubisLvl2AttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsAnubisLvl2Attack, Orientation, AnubisLvl2, const Transform>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsAnubisLvl2Attack, Orientation, AnubisLvl2, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -24,15 +24,15 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
 
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
-                        animation.play("VanishRight");
+                        animation.play(AnubisLvl2AnimType::VANISH_RIGHT);
                     } else {
-                        animation.play("VanishLeft");
+                        animation.play(AnubisLvl2AnimType::VANISH_LEFT);
                     }
                 } else {
                     if (orientation.y > 0) {
-                        animation.play("VanishDown");
+                        animation.play(AnubisLvl2AnimType::VANISH_DOWN);
                     } else {
-                        animation.play("VanishUp");
+                        animation.play(AnubisLvl2AnimType::VANISH_UP);
                     }
                 }
             } else {
@@ -47,29 +47,29 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackRight");
+                    animation.play(AnubisLvl2AnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    animation.play("AttackRight");
+                    animation.play(AnubisLvl2AnimType::ATTACK_RIGHT);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackLeft");
+                    animation.play(AnubisLvl2AnimType::HIT_ATTACK_LEFT);
                 } else {
-                    animation.play("AttackLeft");
+                    animation.play(AnubisLvl2AnimType::ATTACK_LEFT);
                 }
             }
         } else {
             if (orientation.y > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackDown");
+                    animation.play(AnubisLvl2AnimType::HIT_ATTACK_DOWN);
                 } else {
-                    animation.play("AttackDown");
+                    animation.play(AnubisLvl2AnimType::ATTACK_DOWN);
                 }
             } else {
                 if (world.has<InvincibleFrame>(enemyEnt)) {
-                    animation.play("HitAttackUp");
+                    animation.play(AnubisLvl2AnimType::HIT_ATTACK_UP);
                 } else {
-                    animation.play("AttackUp");
+                    animation.play(AnubisLvl2AnimType::ATTACK_UP);
                 }
             }
         }
@@ -77,8 +77,8 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
 }
 
 void anubisLvl2VanishSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsAnubisLvl2Vanish, Orientation, const Speed, const AnubisLvl2, const Transform, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform>(with<Player>);
+    auto enemies = world.view<Velocity, Animation, IsAnubisLvl2Vanish, Orientation, const Speed, const AnubisLvl2, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

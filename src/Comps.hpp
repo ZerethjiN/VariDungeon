@@ -86,6 +86,7 @@
 #include "Comps/HUD/Comps-HomeMenu.hpp"
 #include "Comps/HUD/Comps-InventoryBar.hpp"
 #include "Comps/HUD/Comps-MapMenu.hpp"
+#include "Comps/HUD/Comps-Menu.hpp"
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 #include "Comps/HUD/Comps-MenuChest.hpp"
 #include "Comps/HUD/Comps-PauseMenu.hpp"

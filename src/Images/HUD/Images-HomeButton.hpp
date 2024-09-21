@@ -9,9 +9,13 @@ static const ImageAsset homeButtonUV("Textures/HomeButton.png", {
     {{128, 144, 128, 16}, {0.5f, 0.5f}}, //  2: Light Selector
 });
 
-static const AnimationAsset homeButtonAnim({
-    {"LightSelector", {
+enum class HomeButtonAnimType: std::size_t {
+    LIGHT_SELECTOR,
+};
+
+static const AnimationAsset homeButtonAnim(animEnum<HomeButtonAnimType>, {
+    {HomeButtonAnimType::LIGHT_SELECTOR, {{
         {0.5f, homeButtonUV[1]},
         {0.5f, homeButtonUV[2]},
-    }},
+    }}},
 });

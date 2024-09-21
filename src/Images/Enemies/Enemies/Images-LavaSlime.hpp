@@ -56,76 +56,95 @@ static const ImageAsset lavaSlimeUV("Textures/LavaSlime.png", {
     {{ 48, 112, 16, 16}, {0.5f, 0.5f}}, // 31: Lava Slime Hit Pre Attack Up B
 });
 
-static const AnimationAsset lavaSlimeAnim({
+enum class LavaSlimeAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    PRE_ATTACK_DOWN,
+    PRE_ATTACK_RIGHT,
+    PRE_ATTACK_LEFT,
+    PRE_ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_PRE_ATTACK_DOWN,
+    HIT_PRE_ATTACK_RIGHT,
+    HIT_PRE_ATTACK_LEFT,
+    HIT_PRE_ATTACK_UP,
+};
+
+static const AnimationAsset lavaSlimeAnim(animEnum<LavaSlimeAnimType>, {
     // Movements
-    {"MoveDown", {
+    {LavaSlimeAnimType::MOVE_DOWN, {{
         {0.20f, lavaSlimeUV[0]},
         {0.20f, lavaSlimeUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {LavaSlimeAnimType::MOVE_RIGHT, {{
         {0.20f, lavaSlimeUV[2]},
         {0.20f, lavaSlimeUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {LavaSlimeAnimType::MOVE_LEFT, {{
         {0.20f, lavaSlimeUV[4]},
         {0.20f, lavaSlimeUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {LavaSlimeAnimType::MOVE_UP, {{
         {0.20f, lavaSlimeUV[6]},
         {0.20f, lavaSlimeUV[7]},
-    }},
+    }}},
 
     // Pre Attacks
-    {"PreAttackDown", {
+    {LavaSlimeAnimType::PRE_ATTACK_DOWN, {{
         {0.20f, lavaSlimeUV[8]},
         {0.20f, lavaSlimeUV[9]},
-    }},
-    {"PreAttackRight", {
+    }}},
+    {LavaSlimeAnimType::PRE_ATTACK_RIGHT, {{
         {0.20f, lavaSlimeUV[10]},
         {0.20f, lavaSlimeUV[11]},
-    }},
-    {"PreAttackLeft", {
+    }}},
+    {LavaSlimeAnimType::PRE_ATTACK_LEFT, {{
         {0.20f, lavaSlimeUV[12]},
         {0.20f, lavaSlimeUV[13]},
-    }},
-    {"PreAttackUp", {
+    }}},
+    {LavaSlimeAnimType::PRE_ATTACK_UP, {{
         {0.20f, lavaSlimeUV[14]},
         {0.20f, lavaSlimeUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {LavaSlimeAnimType::HIT_MOVE_DOWN, {{
         {0.20f, lavaSlimeUV[16]},
         {0.20f, lavaSlimeUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {LavaSlimeAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, lavaSlimeUV[18]},
         {0.20f, lavaSlimeUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {LavaSlimeAnimType::HIT_MOVE_LEFT, {{
         {0.20f, lavaSlimeUV[20]},
         {0.20f, lavaSlimeUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {LavaSlimeAnimType::HIT_MOVE_UP, {{
         {0.20f, lavaSlimeUV[22]},
         {0.20f, lavaSlimeUV[23]},
-    }},
+    }}},
 
     // Hit Pre Attacks
-    {"HitPreAttackDown", {
+    {LavaSlimeAnimType::HIT_PRE_ATTACK_DOWN, {{
         {0.20f, lavaSlimeUV[24]},
         {0.20f, lavaSlimeUV[25]},
-    }},
-    {"HitPreAttackRight", {
+    }}},
+    {LavaSlimeAnimType::HIT_PRE_ATTACK_RIGHT, {{
         {0.20f, lavaSlimeUV[26]},
         {0.20f, lavaSlimeUV[27]},
-    }},
-    {"HitPreAttackLeft", {
+    }}},
+    {LavaSlimeAnimType::HIT_PRE_ATTACK_LEFT, {{
         {0.20f, lavaSlimeUV[28]},
         {0.20f, lavaSlimeUV[29]},
-    }},
-    {"HitPreAttackUp", {
+    }}},
+    {LavaSlimeAnimType::HIT_PRE_ATTACK_UP, {{
         {0.20f, lavaSlimeUV[30]},
         {0.20f, lavaSlimeUV[31]},
-    }},
+    }}},
 });

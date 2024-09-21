@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLFW_INCLUDE_VULKAN
+
 #include "Graphic/VulkanEngine.hpp"
 #include "Graphic/IGraphicsPipeline.hpp"
 #include "Graphic/ImageAsset.hpp"

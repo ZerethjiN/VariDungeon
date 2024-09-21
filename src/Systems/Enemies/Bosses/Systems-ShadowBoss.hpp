@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shadowBossHubMovementSys(MainFixedSystem, World& world) {
-    auto bosses = world.view<Velocity, ShadowBossHubPattern, const Speed, const Transform>();
+    auto bosses = world.view<Velocity, ShadowBossHubPattern, const Speed, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
@@ -16,7 +16,7 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
             shadowBoss.curPoint++;
             if (shadowBoss.curPoint >= shadowBoss.movePoints.size()) {
                 world.destroy(bossEnt);
-                for (auto [kingEnt, kingTransform]: world.view<const Transform>(with<King>)) {
+                for (auto [kingEnt, kingTransform]: world.view<const Transform2D>(with<King>)) {
                     instantiateWarp(world, kingTransform.getPosition());
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(-24, 24));
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(24, 40));
@@ -27,7 +27,7 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
                 appliedCameraShake(world, 0.5f, 128.f, 2);
                 appliedCurCameraAberation(world, 4, 0.1);
                 for (auto [torchEnt, torchAnimation]: world.view<Animation>(with<TorchDecor, ParticleGenerator>)) {
-                    torchAnimation.play("Off");
+                    torchAnimation.play(TorchAnimType::OFF);
                     world.remove<ParticleGenerator>(torchEnt);
                 }
             }

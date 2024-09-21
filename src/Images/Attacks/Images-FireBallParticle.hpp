@@ -7,9 +7,13 @@ static const ImageAsset fireBallParticleUV("Textures/FireBallParticle.png", {
     {{ 16,   0, 16, 16}, {0.5f, 0.5f}}, //  1: Fire Ball Particle B
 });
 
-static const AnimationAsset fireBallParticleAnim({
-    {"Default", {
+enum class FireBallParticleAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset fireBallParticleAnim(animEnum<FireBallParticleAnimType>, {
+    {FireBallParticleAnimType::DEFAULT, {{
         {0.1f, fireBallParticleUV[0]},
         {0.1f, fireBallParticleUV[1]},
-    }},
+    }}},
 });

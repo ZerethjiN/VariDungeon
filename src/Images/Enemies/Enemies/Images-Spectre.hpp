@@ -58,96 +58,119 @@ static const ImageAsset spectreUV("Textures/Spectre.png", {
     {{ 32, 112, 16, 16}, {0.5f, 0.5f}}, // 43: Spectre Vanish Up C
 });
 
-static const AnimationAsset spectreAnim({
+enum class SpectreAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    ATTACK_DOWN,
+    ATTACK_RIGHT,
+    ATTACK_LEFT,
+    ATTACK_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+    HIT_ATTACK_DOWN,
+    HIT_ATTACK_RIGHT,
+    HIT_ATTACK_LEFT,
+    HIT_ATTACK_UP,
+    VANISH_DOWN,
+    VANISH_RIGHT,
+    VANISH_LEFT,
+    VANISH_UP,
+};
+
+static const AnimationAsset spectreAnim(animEnum<SpectreAnimType>, {
     // Movements
-    {"MoveDown", {
+    {SpectreAnimType::MOVE_DOWN, {{
         {0.20f, spectreUV[0]},
         {0.20f, spectreUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {SpectreAnimType::MOVE_RIGHT, {{
         {0.20f, spectreUV[2]},
         {0.20f, spectreUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {SpectreAnimType::MOVE_LEFT, {{
         {0.20f, spectreUV[4]},
         {0.20f, spectreUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {SpectreAnimType::MOVE_UP, {{
         {0.20f, spectreUV[6]},
         {0.20f, spectreUV[7]},
-    }},
+    }}},
 
     // Attacks
-    {"AttackDown", {
+    {SpectreAnimType::ATTACK_DOWN, {{
         {0.20f, spectreUV[8]},
         {0.20f, spectreUV[9]},
-    }},
-    {"AttackRight", {
+    }}},
+    {SpectreAnimType::ATTACK_RIGHT, {{
         {0.20f, spectreUV[10]},
         {0.20f, spectreUV[11]},
-    }},
-    {"AttackLeft", {
+    }}},
+    {SpectreAnimType::ATTACK_LEFT, {{
         {0.20f, spectreUV[12]},
         {0.20f, spectreUV[13]},
-    }},
-    {"AttackUp", {
+    }}},
+    {SpectreAnimType::ATTACK_UP, {{
         {0.20f, spectreUV[14]},
         {0.20f, spectreUV[15]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {SpectreAnimType::HIT_MOVE_DOWN, {{
         {0.20f, spectreUV[16]},
         {0.20f, spectreUV[17]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {SpectreAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, spectreUV[18]},
         {0.20f, spectreUV[19]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {SpectreAnimType::HIT_MOVE_LEFT, {{
         {0.20f, spectreUV[20]},
         {0.20f, spectreUV[21]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {SpectreAnimType::HIT_MOVE_UP, {{
         {0.20f, spectreUV[22]},
         {0.20f, spectreUV[23]},
-    }},
+    }}},
 
     // Hit Attacks
-    {"HitAttackDown", {
+    {SpectreAnimType::HIT_ATTACK_DOWN, {{
         {0.20f, spectreUV[24]},
         {0.20f, spectreUV[25]},
-    }},
-    {"HitAttackRight", {
+    }}},
+    {SpectreAnimType::HIT_ATTACK_RIGHT, {{
         {0.20f, spectreUV[26]},
         {0.20f, spectreUV[27]},
-    }},
-    {"HitAttackLeft", {
+    }}},
+    {SpectreAnimType::HIT_ATTACK_LEFT, {{
         {0.20f, spectreUV[28]},
         {0.20f, spectreUV[29]},
-    }},
-    {"HitAttackUp", {
+    }}},
+    {SpectreAnimType::HIT_ATTACK_UP, {{
         {0.20f, spectreUV[30]},
         {0.20f, spectreUV[31]},
-    }},
+    }}},
 
     // Vanish
-    {"VanishDown", {{
+    {SpectreAnimType::VANISH_DOWN, {{
         {0.20f, spectreUV[32]},
         {0.20f, spectreUV[33]},
         {1.00f, spectreUV[34]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishRight", {{
+    {SpectreAnimType::VANISH_RIGHT, {{
         {0.20f, spectreUV[35]},
         {0.20f, spectreUV[36]},
         {1.00f, spectreUV[37]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishLeft", {{
+    {SpectreAnimType::VANISH_LEFT, {{
         {0.20f, spectreUV[38]},
         {0.20f, spectreUV[39]},
         {1.00f, spectreUV[40]},
     }, AnimationType::ONE_SHOT}},
-    {"VanishUp", {{
+    {SpectreAnimType::VANISH_UP, {{
         {0.20f, spectreUV[41]},
         {0.20f, spectreUV[42]},
         {1.00f, spectreUV[43]},

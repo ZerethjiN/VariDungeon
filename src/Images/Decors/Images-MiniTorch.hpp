@@ -7,9 +7,13 @@ static const ImageAsset miniTorchUV("Textures/MiniTorch.png", {
     {{ 16,   0, 16, 16}, {0.5f, 0.5f}}, //  1: MIni Torch B
 });
 
-static const AnimationAsset miniTorchAnim({
-    {"Default", {
+enum class MiniTorchAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset miniTorchAnim(animEnum<MiniTorchAnimType>, {
+    {MiniTorchAnimType::DEFAULT, {{
         {1.0f, miniTorchUV[0]},
         {1.00f, miniTorchUV[1]},
-    }},
+    }}},
 });

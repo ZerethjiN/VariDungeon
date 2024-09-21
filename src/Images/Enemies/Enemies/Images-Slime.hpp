@@ -30,40 +30,51 @@ static const ImageAsset slimeUV("Textures/Slime.png", {
     {{ 48,  48, 16, 16}, {0.5f, 0.5f}}, // 15: Slime Hit Move Up B
 });
 
-static const AnimationAsset slimeAnim({
+enum class SlimeAnimType: std::size_t {
+    MOVE_DOWN,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_UP,
+    HIT_MOVE_DOWN,
+    HIT_MOVE_RIGHT,
+    HIT_MOVE_LEFT,
+    HIT_MOVE_UP,
+};
+
+static const AnimationAsset slimeAnim(animEnum<SlimeAnimType>, {
     // Movements
-    {"MoveDown", {
+    {SlimeAnimType::MOVE_DOWN, {{
         {0.20f, slimeUV[0]},
         {0.20f, slimeUV[1]},
-    }},
-    {"MoveRight", {
+    }}},
+    {SlimeAnimType::MOVE_RIGHT, {{
         {0.20f, slimeUV[2]},
         {0.20f, slimeUV[3]},
-    }},
-    {"MoveLeft", {
+    }}},
+    {SlimeAnimType::MOVE_LEFT, {{
         {0.20f, slimeUV[4]},
         {0.20f, slimeUV[5]},
-    }},
-    {"MoveUp", {
+    }}},
+    {SlimeAnimType::MOVE_UP, {{
         {0.20f, slimeUV[6]},
         {0.20f, slimeUV[7]},
-    }},
+    }}},
 
     // Hit Movements
-    {"HitMoveDown", {
+    {SlimeAnimType::HIT_MOVE_DOWN, {{
         {0.20f, slimeUV[8]},
         {0.20f, slimeUV[9]},
-    }},
-    {"HitMoveRight", {
+    }}},
+    {SlimeAnimType::HIT_MOVE_RIGHT, {{
         {0.20f, slimeUV[10]},
         {0.20f, slimeUV[11]},
-    }},
-    {"HitMoveLeft", {
+    }}},
+    {SlimeAnimType::HIT_MOVE_LEFT, {{
         {0.20f, slimeUV[12]},
         {0.20f, slimeUV[13]},
-    }},
-    {"HitMoveUp", {
+    }}},
+    {SlimeAnimType::HIT_MOVE_UP, {{
         {0.20f, slimeUV[14]},
         {0.20f, slimeUV[15]},
-    }},
+    }}},
 });

@@ -7,9 +7,13 @@ static const ImageAsset deathParticleUV("Textures/DeathParticle.png", {
     {{ 32,   0, 32, 32}, {0.5f, 0.5f}}, //  1: Death Particle B
 });
 
-static const AnimationAsset deathParticleAnim({
-    {"Default", {
-        {0.10f, deathParticleUV[0]},
-        {0.10f, deathParticleUV[1]},
-    }},
+enum class DeathParticleAnimType: std::size_t {
+    DEFAULT,
+};
+
+static const AnimationAsset deathParticleAnim(animEnum<DeathParticleAnimType>, {
+    {DeathParticleAnimType::DEFAULT, {{
+        {0.15f, deathParticleUV[0]},
+        {0.15f, deathParticleUV[1]},
+    }}},
 });

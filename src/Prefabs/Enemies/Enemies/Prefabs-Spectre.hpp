@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateSpectre(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -17,9 +18,9 @@ Ent instantiateSpectre(World& world, const glm::vec2& position) {
         IsSpectreMove(1.5f),
         EnemyWeapon(),
         Damage(1),
-        SpriteCreator(spectreUV),
-        Animation(spectreAnim, "MoveDown"),
-        Transform(
+        Sprite(textureManager, spectreUV),
+        Animation(spectreAnim, SpectreAnimType::MOVE_DOWN),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void torchIdleSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTorchIdle, Animation, Orientation, const Transform, const Torch, const ZIndex>();
+    auto traps = world.view<IsTorchIdle, Animation, Orientation, const Transform2D, const Torch, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -15,12 +15,12 @@ void torchIdleSys(MainFixedSystem, World& world) {
         if (isTorchIdle.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
                 world.remove<Torch, ParticleGenerator>(trapEnt);
-                animation.play("Off");
+                animation.play(TorchAnimType::OFF);
             } else {
                 world.remove<IsTorchIdle>(trapEnt);
                 world.add(trapEnt, IsTorchCast(torch.castDuration));
                 glm::vec2 newdirection;
-                for (auto [_, playerTransform]: world.view<const Transform>(with<Player>)) {
+                for (auto [_, playerTransform]: world.view<const Transform2D>(with<Player>)) {
                     newdirection = glm::normalize(playerTransform.getPosition() - transform.getPosition());
                     for (int i = 1; i < 7; i++) {
                         if (fabs(newdirection.x) > fabs(newdirection.y)) {
@@ -56,7 +56,7 @@ void torchIdleSys(MainFixedSystem, World& world) {
 }
 
 void torchCastSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTorchCast, Animation, const Transform, const Orientation, const Torch>();
+    auto traps = world.view<IsTorchCast, Animation, const Transform2D, const Orientation, const Torch>();
 
     auto [time] = world.resource<const Time>();
 
@@ -64,7 +64,7 @@ void torchCastSys(MainFixedSystem, World& world) {
         if (isTorchCast.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
                 world.remove<Torch, ParticleGenerator>(trapEnt);
-                animation.play("Off");
+                animation.play(TorchAnimType::OFF);
             } else {
                 world.remove<IsTorchCast>(trapEnt);
                 world.add(trapEnt, IsTorchIdle(torch.idleDuration));

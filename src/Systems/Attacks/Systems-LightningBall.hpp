@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerLightningBallSys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerLightningBall, const Transform>();
+    auto players = world.view<PlayerLightningBall, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
@@ -15,7 +15,7 @@ void playerLightningBallSys(MainFixedSystem, World& world) {
         if (playerDagger.canSpawnLightningBall(time.fixedDelta()) && !world.view(with<Enemy>).empty()) {
             glm::vec2 minDirection;
             float minDistance = std::numeric_limits<float>::max();
-            for (auto [_, enemyTransform]: world.view<const Transform>(with<Enemy>)) {
+            for (auto [_, enemyTransform]: world.view<const Transform2D>(with<Enemy>)) {
                 auto newDistance = glm::distance(enemyTransform.getPosition(), playerTransform.getPosition());
                 if (newDistance < minDistance) {
                     minDistance = newDistance;
@@ -39,7 +39,7 @@ void lightballMovementSys(MainFixedSystem, World& world) {
 }
 
 void lightningBallHitSys(MainFixedSystem, World& world) {
-    auto balls = world.view<const OnCollisionEnter, const Transform>(with<LightningBall>);
+    auto balls = world.view<const OnCollisionEnter, const Transform2D>(with<LightningBall>);
 
     for (auto [ballEnt, collisions, transform]: balls) {
         for (auto othEnt: collisions) {

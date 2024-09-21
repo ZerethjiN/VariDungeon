@@ -6,10 +6,11 @@
 #include <Res.hpp>
 
 Ent instantiateParticleEffectFire(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(particleEffectUV),
-        Animation(particleEffectAnim, "FireParticle"),
-        Transform(
+        Sprite(textureManager, particleEffectUV),
+        Animation(particleEffectAnim, ParticleEffectAnimType::FIRE_PARTICLE),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -20,10 +21,11 @@ Ent instantiateParticleEffectFire(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateParticleEffectStun(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(particleEffectUV),
-        Animation(particleEffectAnim, "StunParticle"),
-        Transform(
+        Sprite(textureManager, particleEffectUV),
+        Animation(particleEffectAnim, ParticleEffectAnimType::STUN_PARTICLE),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -34,10 +36,11 @@ Ent instantiateParticleEffectStun(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateParticleEffectFrost(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(particleEffectUV),
-        Animation(particleEffectAnim, "FrostParticle"),
-        Transform(
+        Sprite(textureManager, particleEffectUV),
+        Animation(particleEffectAnim, ParticleEffectAnimType::FROST_PARTICLE),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)
@@ -48,10 +51,11 @@ Ent instantiateParticleEffectFrost(World& world, const glm::vec2& position) {
 }
 
 Ent instantiateParticleEffectStar(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
-        SpriteCreator(particleEffectUV),
-        Animation(particleEffectAnim, "StarParticle"),
-        Transform(
+        Sprite(textureManager, particleEffectUV),
+        Animation(particleEffectAnim, ParticleEffectAnimType::STAR_PARTICLE),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

@@ -6,6 +6,7 @@
 #include <Res.hpp>
 
 Ent instantiateShadowMarkParticle(World& world, const glm::vec2& position) {
+    auto [textureManager] = world.resource<TextureManager>();
     return world.newEnt(
         EnemyWeapon(),
         Damage(1),
@@ -14,9 +15,9 @@ Ent instantiateShadowMarkParticle(World& world, const glm::vec2& position) {
             /*ExplosionDuration:*/ 0.5f
         ),
         IsShadowMarkPreExplosion(1.0f),
-        SpriteCreator(shadowMarkParticleUV),
-        Animation(shadowMarkParticleAnim, "PreExplosion"),
-        Transform(
+        Sprite(textureManager, shadowMarkParticleUV),
+        Animation(shadowMarkParticleAnim, ShadowMarkParticleAnimType::PRE_EXPLOSION),
+        Transform2D(
             position,
             0,
             glm::vec2(1, 1)

@@ -12,82 +12,61 @@
 #include <Pipelines.hpp>
 #include <FrameBuffers.hpp>
 
-void renderSys(LateSystem, World& world) {
+static float renderTimePoint = 0;
+
+inline void renderSys(LateSystem, World& world) {
     auto [pipelineManager, frameBufferManager] = world.resource<PipelineManager, FrameBufferManager>();
-    auto [inGameView, uiView] = world.resource<InGameView, UIView>();
+    auto [time, inGameView, uiView] = world.resource<const Time, InGameView, UIView>();
+    auto [textureManager] = world.resource<TextureManager>();
 
-    auto tileMapsNoIndexes = world.view<const TileMap, Transform>(without<ZIndex>);
-    auto tileMapsIndexes = world.view<const TileMap, Transform, const ZIndex>();
-    auto spriteNoIndexes = world.view<const Sprite, Transform>(without<ZIndex>);
-    auto spriteIndexes = world.view<const Sprite, Transform, const ZIndex>();
-    auto textNoIndexes = world.view<Text, Transform>(without<ZIndex>);
-    auto textIndexes = world.view<Text, Transform, const ZIndex>();
-    auto lights = world.view<const PointLight, const Transform>();
-    auto uiNoIndexes = world.view<const UI, Transform>(without<ZIndex>);
-    auto uiIndexes = world.view<const UI, Transform, const ZIndex>();
-    auto textUINoIndexes = world.view<TextUI, Transform>(without<ZIndex>);
-    auto textUIIndexes = world.view<TextUI, Transform, const ZIndex>();
+    auto tileMapsNoIndexes = world.view<const TileMap, Transform2D>(without<ZIndex>);
+    auto tileMapsIndexes = world.view<const TileMap, Transform2D, const ZIndex>();
+    auto spriteNoIndexes = world.view<const Sprite, Transform2D>(without<ZIndex>);
+    auto spriteIndexes = world.view<const Sprite, Transform2D, const ZIndex>();
+    auto textNoIndexes = world.view<Text, Transform2D>(without<ZIndex>);
+    auto textIndexes = world.view<Text, Transform2D, const ZIndex>();
+    auto lights = world.view<const PointLight, Transform2D>();
+    // auto shockwaves = world.view<const Shockwave, const Transform2D>();
+    auto uiNoIndexes = world.view<const UI, Transform2D>(without<ZIndex>);
+    auto uiIndexes = world.view<const UI, Transform2D, const ZIndex>();
+    auto textUINoIndexes = world.view<TextUI, Transform2D>(without<ZIndex>);
+    auto textUIIndexes = world.view<TextUI, Transform2D, const ZIndex>();
 
-    auto& mainFrameBuffer = frameBufferManager.get<MainFrameBuffer>(vulkanEngine);
     auto& offscreenFrameBuffer = frameBufferManager.get<OffscreenFrameBuffer>(vulkanEngine);
+    auto& mainFrameBuffer = frameBufferManager.get<MainFrameBuffer>(vulkanEngine);
 
     auto& spriteBatchPipeline = pipelineManager.get<SpriteBatchPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
-    auto& textBatchPipeline = pipelineManager.get<TextBatchPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
-    auto& uiBatchPipeline = pipelineManager.get<UIBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
-    auto& textUiBatchPipeline = pipelineManager.get<TextUIBatchPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
-    auto& aberationPipeline = pipelineManager.get<AberationPipeline>(vulkanEngine, mainFrameBuffer.renderPass);
+    auto& lightBatchPipeline = pipelineManager.get<LightBatchPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
+    auto& uiBatchPipeline = pipelineManager.get<UIBatchPipeline>(vulkanEngine, mainFrameBuffer.offscreenRenderPass);
+    auto& backgroundPipeline = pipelineManager.get<BackgroundPipeline>(vulkanEngine, offscreenFrameBuffer.offscreenRenderPass);
+    auto& aberationPipeline = pipelineManager.get<AberationPipeline>(vulkanEngine, mainFrameBuffer.offscreenRenderPass);
 
 //// Preparation des donnees: //////////////////////////////////////////////////////////////////////////////////
 
     vulkanEngine.drawFrameBegin();
 
-    //// Affichage des sprites/tilemaps: ////
+    // AmbientLight
+    glm::vec4 ambientLight(255, 255, 255, 255);
+    for (auto [_, ambient]: world.view<const AmbientLight>()) {
+        ambientLight = ambient.color;
+    }
 
-    std::map<int, std::map<float, std::vector<std::tuple<Ent, const Sprite&, Transform&>>>> orderedSprites;
-    std::map<int, std::map<float, std::vector<std::tuple<Ent, const TileMap&, Transform&>>>> orderedTilemaps;
+    // Screen Rect
+    const glm::vec4 screenRect {
+        -inGameView.getSize().x * 0.5f,
+        -inGameView.getSize().y * 0.5f,
+        inGameView.getSize().x,
+        inGameView.getSize().y,
+    };
+    const auto screenModel = glm::translate(glm::mat4(1.0f), glm::vec3(inGameView.getCenter(), 0));
+    const auto screenRectVerticesWithTransform = applyTransformOnRect(screenRect, screenModel);
+
+    //// Affichage des sprites/tilemaps: ////
+    std::size_t nbSprites = 0;
+    std::map<int, std::map<float, std::vector<SpriteBatchPipeline::StorageBufferObject>>> orderedSprites;
 
     // Tilemaps
     for (auto [ent, tileMap, transform]: tileMapsNoIndexes) {
-        auto orderedSpritesIt0 = orderedTilemaps.find(0);
-        if (orderedSpritesIt0 == orderedTilemaps.end()) {
-            orderedSpritesIt0 = orderedTilemaps.emplace(
-                std::piecewise_construct,
-                std::forward_as_tuple(0),
-                std::forward_as_tuple()
-            ).first;
-        }
-        auto orderedSpritesIt1 = orderedSpritesIt0->second.find(transform.getPosition().y);
-        if (orderedSpritesIt1 == orderedSpritesIt0->second.end()) {
-            orderedSpritesIt1 = orderedSpritesIt0->second.emplace(
-                std::piecewise_construct,
-                std::forward_as_tuple(transform.getPosition().y),
-                std::forward_as_tuple()
-            ).first;
-        }
-        orderedSpritesIt1->second.emplace_back(ent, tileMap, transform);
-    }
-    for (auto [ent, tileMap, transform, index]: tileMapsIndexes) {
-        auto orderedSpritesIt0 = orderedTilemaps.find(index.layer);
-        if (orderedSpritesIt0 == orderedTilemaps.end()) {
-            orderedSpritesIt0 = orderedTilemaps.emplace(
-                std::piecewise_construct,
-                std::forward_as_tuple(index.layer),
-                std::forward_as_tuple()
-            ).first;
-        }
-        auto orderedSpritesIt1 = orderedSpritesIt0->second.find(transform.getPosition().y);
-        if (orderedSpritesIt1 == orderedSpritesIt0->second.end()) {
-            orderedSpritesIt1 = orderedSpritesIt0->second.emplace(
-                std::piecewise_construct,
-                std::forward_as_tuple(transform.getPosition().y),
-                std::forward_as_tuple()
-            ).first;
-        }
-        orderedSpritesIt1->second.emplace_back(ent, tileMap, transform);
-    }
-
-    // Sprites
-    for (auto [ent, sprt, transform]: spriteNoIndexes) {
         auto orderedSpritesIt0 = orderedSprites.find(0);
         if (orderedSpritesIt0 == orderedSprites.end()) {
             orderedSpritesIt0 = orderedSprites.emplace(
@@ -104,9 +83,31 @@ void renderSys(LateSystem, World& world) {
                 std::forward_as_tuple()
             ).first;
         }
-        orderedSpritesIt1->second.emplace_back(ent, sprt, transform);
+        for (const auto& tile: tileMap.tiles) {
+            const std::array<glm::vec2, 4> sprtRectVerticesWithTransform {
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[0].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[1].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[2].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[3].position, 0, 1))
+            };
+
+            if (computeProjection(screenRectVerticesWithTransform, sprtRectVerticesWithTransform)) {
+                orderedSpritesIt1->second.emplace_back(
+                    tile.second,
+                    transform.getModel(),
+                    tileMap.color / 255.f,
+                    spriteBatchPipeline.getTextureIdx(textureManager[tile.first.getCurImage().filename]),
+                    static_cast<int>(world.has<IsUnlit>(ent)),
+                    0,
+                    0,
+                    tileMap.tileSize,
+                    glm::vec2(0, 0)
+                );
+                nbSprites++;
+            }
+        }
     }
-    for (auto [ent, sprt, transform, index]: spriteIndexes) {
+    for (auto [ent, tileMap, transform, index]: tileMapsIndexes) {
         auto orderedSpritesIt0 = orderedSprites.find(index.layer);
         if (orderedSpritesIt0 == orderedSprites.end()) {
             orderedSpritesIt0 = orderedSprites.emplace(
@@ -123,41 +124,113 @@ void renderSys(LateSystem, World& world) {
                 std::forward_as_tuple()
             ).first;
         }
-        orderedSpritesIt1->second.emplace_back(ent, sprt, transform);
+        for (const auto& tile: tileMap.tiles) {
+            const std::array<glm::vec2, 4> sprtRectVerticesWithTransform {
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[0].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[1].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[2].position, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(tile.second[3].position, 0, 1))
+            };
+
+            if (computeProjection(screenRectVerticesWithTransform, sprtRectVerticesWithTransform)) {
+                orderedSpritesIt1->second.emplace_back(
+                    tile.second,
+                    transform.getModel(),
+                    tileMap.color / 255.f,
+                    spriteBatchPipeline.getTextureIdx(textureManager[tile.first.getCurImage().filename]),
+                    static_cast<int>(world.has<IsUnlit>(ent)),
+                    0,
+                    0,
+                    tileMap.tileSize,
+                    glm::vec2(0, 0)
+                );
+                nbSprites++;
+            }
+        }
     }
 
-    spriteBatchPipeline.beginSprite(spriteNoIndexes.size() + spriteIndexes.size());
-        for (const auto& pair: orderedTilemaps) {
-            for (const auto& sprtHeightpair: pair.second) {
-                for (const auto& sprtTransPair: sprtHeightpair.second) {
-                    spriteBatchPipeline.addTileMap(std::get<1>(sprtTransPair), std::get<2>(sprtTransPair));
-                }
-            }
-        }
-        for (const auto& pair: orderedSprites) {
-            for (const auto& sprtHeightpair: pair.second) {
-                for (const auto& sprtTransPair: sprtHeightpair.second) {
-                    spriteBatchPipeline.addSprite(std::get<1>(sprtTransPair), std::get<2>(sprtTransPair));
-                }
-            }
-        }
+    // Sprites
+    for (auto [ent, sprt, transform]: spriteNoIndexes) {
+        const std::array<glm::vec2, 4> sprtRectVerticesWithTransform {
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[0].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[1].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[2].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[3].position, 0, 1))
+        };
 
-        spriteBatchPipeline.beginLight(lights.size());
-        for (auto [_, light, transform]: lights) {
-            spriteBatchPipeline.addLight(light, transform);
+        if (computeProjection(screenRectVerticesWithTransform, sprtRectVerticesWithTransform)) {
+            auto orderedSpritesIt0 = orderedSprites.find(0);
+            if (orderedSpritesIt0 == orderedSprites.end()) {
+                orderedSpritesIt0 = orderedSprites.emplace(
+                    std::piecewise_construct,
+                    std::forward_as_tuple(0),
+                    std::forward_as_tuple()
+                ).first;
+            }
+            auto orderedSpritesIt1 = orderedSpritesIt0->second.find(transform.getPosition().y);
+            if (orderedSpritesIt1 == orderedSpritesIt0->second.end()) {
+                orderedSpritesIt1 = orderedSpritesIt0->second.emplace(
+                    std::piecewise_construct,
+                    std::forward_as_tuple(transform.getPosition().y),
+                    std::forward_as_tuple()
+                ).first;
+            }
+            orderedSpritesIt1->second.emplace_back(
+                sprt.vertices,
+                transform.getModel(),
+                sprt.color / 255.f,
+                spriteBatchPipeline.getTextureIdx(sprt.texture),
+                static_cast<int>(world.has<IsUnlit>(ent)),
+                0,
+                0,
+                glm::uvec2(sprt.textureRect.z, sprt.textureRect.w),
+                glm::vec2(0, 0)
+            );
+            nbSprites++;
         }
+    }
+    for (auto [ent, sprt, transform, index]: spriteIndexes) {
+        const std::array<glm::vec2, 4> sprtRectVerticesWithTransform {
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[0].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[1].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[2].position, 0, 1)),
+            glm::vec2(transform.getModel() * glm::vec4(sprt.vertices[3].position, 0, 1))
+        };
 
-        glm::vec4 ambientLight(255, 255, 255, 255);
-        for (auto [_, ambient]: world.view<const AmbientLight>()) {
-            ambientLight = ambient.color;
+        if (computeProjection(screenRectVerticesWithTransform, sprtRectVerticesWithTransform)) {
+            auto orderedSpritesIt0 = orderedSprites.find(index.layer);
+            if (orderedSpritesIt0 == orderedSprites.end()) {
+                orderedSpritesIt0 = orderedSprites.emplace(
+                    std::piecewise_construct,
+                    std::forward_as_tuple(index.layer),
+                    std::forward_as_tuple()
+                ).first;
+            }
+            auto orderedSpritesIt1 = orderedSpritesIt0->second.find(transform.getPosition().y);
+            if (orderedSpritesIt1 == orderedSpritesIt0->second.end()) {
+                orderedSpritesIt1 = orderedSpritesIt0->second.emplace(
+                    std::piecewise_construct,
+                    std::forward_as_tuple(transform.getPosition().y),
+                    std::forward_as_tuple()
+                ).first;
+            }
+            orderedSpritesIt1->second.emplace_back(
+                sprt.vertices,
+                transform.getModel(),
+                sprt.color / 255.f,
+                spriteBatchPipeline.getTextureIdx(sprt.texture),
+                static_cast<int>(world.has<IsUnlit>(ent)),
+                0,
+                0,
+                glm::uvec2(sprt.textureRect.z, sprt.textureRect.w),
+                glm::vec2(0, 0)
+            );
+            nbSprites++;
         }
-        spriteBatchPipeline.addAmbientColor(ambientLight);
-        spriteBatchPipeline.addView(inGameView.getModel());    
-    spriteBatchPipeline.end();
+    }
 
     //// Affichage des Textes: ////
-
-    std::map<int, std::vector<std::pair<Text&, Transform&>>> orderedTexts;
+    std::map<int, std::vector<std::pair<Text&, Transform2D&>>> orderedTexts;
 
     for (auto [_, text, trans]: textNoIndexes) {
         auto orderedTextsIt = orderedTexts.find(0);
@@ -182,19 +255,60 @@ void renderSys(LateSystem, World& world) {
         orderedTextsIt->second.emplace_back(text, trans);
     }
 
-    textBatchPipeline.beginText(textIndexes.size() + textNoIndexes.size());
-        for (const auto& pair: orderedTexts) {
-            for (const auto& pairTextTrans: pair.second) {
-                textBatchPipeline.addText(pairTextTrans.first, pairTextTrans.second);
+    /////////////////////////////////
+    //// Creation du SpriteBatch ////
+    /////////////////////////////////
+
+    renderTimePoint += time.unscaledDelta();
+
+    if (renderTimePoint >= 1.0f) {
+        renderTimePoint -= 1.0f;
+        std::println("Nb Entities: {}", world.getTotalEntities());
+        std::println("Nb Sprites: {}", nbSprites);
+        std::println("Nb Lights: {}", lights.size());
+    }
+
+    spriteBatchPipeline.beginSprite(nbSprites);
+        // Ajout des sprites
+        for (const auto& pair: orderedSprites) {
+            for (const auto& sprtHeightpair: pair.second) {
+                for (const auto& sprtTransPair: sprtHeightpair.second) {
+                    spriteBatchPipeline.addSprite(sprtTransPair);
+                }
             }
         }
 
-        textBatchPipeline.addView(inGameView.getModel());
-    textBatchPipeline.endText();
+        // Ajout des textes
+        for (const auto& pair: orderedTexts) {
+            for (const auto& pairTextTrans: pair.second) {
+                spriteBatchPipeline.addText(pairTextTrans.first, pairTextTrans.second);
+            }
+        }
+
+        spriteBatchPipeline.addView(inGameView.getModel());
+    spriteBatchPipeline.end();
+
+    //// Preparation de Light Batch ////
+    lightBatchPipeline.beginLight(lights.size());
+        for (auto [_, light, transform]: lights) {
+            const std::array<glm::vec2, 4> lightRectVerticesWithTransform {
+                glm::vec2(transform.getModel() * glm::vec4(glm::vec2(-1, -1) * light.radius, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(glm::vec2(-1, +1) * light.radius, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(glm::vec2(+1, -1) * light.radius, 0, 1)),
+                glm::vec2(transform.getModel() * glm::vec4(glm::vec2(+1, +1) * light.radius, 0, 1))
+            };
+
+            if (computeProjection(screenRectVerticesWithTransform, lightRectVerticesWithTransform)) {
+                lightBatchPipeline.addLight(light, transform);
+            }
+        }
+
+        lightBatchPipeline.addView(inGameView.getModel());
+    lightBatchPipeline.end();
 
     //// Affichage Ui: ////
 
-    std::map<int, std::vector<std::pair<const UI&, Transform&>>> orderedUISprites;
+    std::map<int, std::vector<std::pair<const UI&, Transform2D&>>> orderedUISprites;
 
     for (auto [_, ui, transform]: uiNoIndexes) {
         auto orderedUISpritesIT = orderedUISprites.find(0);
@@ -219,19 +333,8 @@ void renderSys(LateSystem, World& world) {
         orderedUISpritesIT->second.emplace_back(ui, transform);
     }
 
-    uiBatchPipeline.beginUI(uiNoIndexes.size() + uiIndexes.size());
-        for (const auto& pair: orderedUISprites) {
-            for (const auto& sprtTransPair: pair.second) {
-                uiBatchPipeline.addUI(sprtTransPair.first, sprtTransPair.second, uiView);
-            }
-        }
-
-        uiBatchPipeline.addView(uiView.getModel());
-    uiBatchPipeline.end();
-
     //// Affichage TextUI: ////
-
-    std::map<int, std::vector<std::pair<TextUI&, Transform&>>> orderedTextsUI;
+    std::map<int, std::vector<std::pair<TextUI&, Transform2D&>>> orderedTextsUI;
 
     for (auto [_, ui, trans]: textUINoIndexes) {
         auto orderedTextsIt = orderedTextsUI.find(0);
@@ -256,15 +359,38 @@ void renderSys(LateSystem, World& world) {
         orderedTextsIt->second.emplace_back(ui, trans);
     }
 
-    textUiBatchPipeline.beginUI(textUIIndexes.size() + textUINoIndexes.size());
-        for (const auto& pair: orderedTextsUI) {
-            for (const auto& pairTextTrans: pair.second) {
-                textUiBatchPipeline.addUI(pairTextTrans.first, pairTextTrans.second, uiView);
+    ///////////////////////////////
+    //// Creation de l'UIBatch ////
+    ///////////////////////////////
+
+    uiBatchPipeline.beginUI();
+        // Ajout des Sprites
+        for (const auto& pair: orderedUISprites) {
+            for (const auto& sprtTransPair: pair.second) {
+                uiBatchPipeline.addUI(sprtTransPair.first, sprtTransPair.second, uiView);
             }
         }
 
-        textUiBatchPipeline.addView(uiView.getModel());
-    textUiBatchPipeline.end();
+        // Ajout des Textes
+        for (const auto& pair: orderedTextsUI) {
+            for (const auto& pairTextTrans: pair.second) {
+                uiBatchPipeline.addTextUI(pairTextTrans.first, pairTextTrans.second, uiView);
+            }
+        }
+
+        uiBatchPipeline.addView(uiView.getModel());
+    uiBatchPipeline.end();
+
+    //// background ////
+
+    backgroundPipeline.updateFragmentPushConstant(
+        ambientLight
+    );
+    backgroundPipeline.updateTexture(
+        offscreenFrameBuffer.offscreenImageViews[vulkanEngine.imageIndex],
+        offscreenFrameBuffer.unlitImageViews[vulkanEngine.imageIndex],
+        offscreenFrameBuffer.lightImageViews[vulkanEngine.imageIndex]
+    );
 
     //// preparation de l'aberation ////
     float aberationOffset = 0;
@@ -274,19 +400,16 @@ void renderSys(LateSystem, World& world) {
         aberationDirection = aberation.direction;
     }
 
-    glm::vec2 cameraPos(0, 0);
-    for (auto [_, transform]: world.view<const Transform>(with<Camera, CurCamera>)) {
-        cameraPos = transform.getPosition();
-    }
-
-    aberationPipeline.addView(inGameView.getModel(), cameraPos);
-
     aberationPipeline.updateFragmentPushConstant(
         glm::ivec2(vulkanEngine.swapChainExtent.width, vulkanEngine.swapChainExtent.height),
+        aberationDirection,
         aberationOffset,
-        aberationDirection
+        randomRangeFloat(128.0f, 256.0f)
     );
-    aberationPipeline.updateTexture(offscreenFrameBuffer.sampler, offscreenFrameBuffer.offscreenImageViews[vulkanEngine.imageIndex]);
+    aberationPipeline.updateTexture(
+        offscreenFrameBuffer.sampler,
+        offscreenFrameBuffer.finalImageViews[vulkanEngine.imageIndex]
+    );
 
 //// Debut Draw: //////////////////////////////////////////////////////////////////////////////////
 
@@ -298,10 +421,10 @@ void renderSys(LateSystem, World& world) {
     };
 
     if (vkBeginCommandBuffer(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], &beginInfo) != VK_SUCCESS) {
-        throw std::runtime_error("failed to begin recording command buffer!");
+        std::cerr << "failed to begin recording command buffer!" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
-    VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
     VkViewport viewport {
         .x = 0.0f,
         .y = 0.0f,
@@ -316,6 +439,12 @@ void renderSys(LateSystem, World& world) {
     };
 
     {
+        std::array<VkClearValue, 3> clearColors {
+            VkClearValue{{{0.0f, 0.0f, 0.0f, 1.0f}}},
+            VkClearValue{{{0.0f, 0.0f, 0.0f, 1.0f}}},
+            VkClearValue{{{0.0f, 0.0f, 0.0f, 1.0f}}},
+        };
+
         VkRenderPassBeginInfo renderPassInfo {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
             .pNext = nullptr,
@@ -325,8 +454,8 @@ void renderSys(LateSystem, World& world) {
                 .offset = {0, 0},
                 .extent = vulkanEngine.swapChainExtent
             },
-            .clearValueCount = 1,
-            .pClearValues = &clearColor
+            .clearValueCount = static_cast<uint32_t>(clearColors.size()),
+            .pClearValues = clearColors.data()
         };
 
         vkCmdBeginRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
@@ -334,22 +463,33 @@ void renderSys(LateSystem, World& world) {
             vkCmdSetScissor(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], 0, 1, &scissor);
 
             spriteBatchPipeline.draw();
-            textBatchPipeline.draw();
+
+            vkCmdNextSubpass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], VK_SUBPASS_CONTENTS_INLINE);
+
+            lightBatchPipeline.draw();
+
+            vkCmdNextSubpass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], VK_SUBPASS_CONTENTS_INLINE);
+
+            backgroundPipeline.draw();
         vkCmdEndRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]);
     }
 
     {
+        std::array<VkClearValue, 1> clearColors {
+            VkClearValue{{{0.0f, 0.0f, 0.0f, 1.0f}}},
+        };
+
         VkRenderPassBeginInfo renderPassInfo {
             .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
             .pNext = nullptr,
-            .renderPass = mainFrameBuffer.renderPass,
-            .framebuffer = mainFrameBuffer.frameBuffers[vulkanEngine.imageIndex],
+            .renderPass = mainFrameBuffer.offscreenRenderPass,
+            .framebuffer = mainFrameBuffer.offscreenFrameBuffers[vulkanEngine.imageIndex],
             .renderArea {
                 .offset = {0, 0},
                 .extent = vulkanEngine.swapChainExtent
             },
-            .clearValueCount = 1,
-            .pClearValues = &clearColor
+            .clearValueCount = static_cast<uint32_t>(clearColors.size()),
+            .pClearValues = clearColors.data()
         };
 
         vkCmdBeginRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
@@ -358,12 +498,12 @@ void renderSys(LateSystem, World& world) {
 
             aberationPipeline.draw();
             uiBatchPipeline.draw();
-            textUiBatchPipeline.draw();
         vkCmdEndRenderPass(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]);
     }
 
     if (vkEndCommandBuffer(vulkanEngine.commandBuffers[vulkanEngine.currentFrame]) != VK_SUCCESS) {
-        throw std::runtime_error("failed to record command buffer!");
+        std::cerr << "failed to record command buffer!" << std::endl;
+        std::exit(EXIT_FAILURE);
     }
 
     vulkanEngine.drawFrameEnd();
