@@ -10,6 +10,6 @@ void laserBonusCallbackLvl1(World& world) {
     auto players = world.view(with<Player>, without<PlayerLaser>);
 
     for (auto [playerEnt]: players) {
-        world.add(playerEnt, PlayerLaser(0.75f));
+        world.add_component(playerEnt, PlayerLaser(0.75f));
     }
 }

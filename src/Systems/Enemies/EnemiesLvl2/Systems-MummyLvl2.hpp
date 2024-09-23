@@ -16,8 +16,8 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
         if (isMummyMove.canTick(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= mummy.attackRadius) {
-                    world.remove<IsMummyLvl2Move>(enemyEnt);
-                    world.add(enemyEnt, IsMummyLvl2PreAttack(mummy.preAttackDuration));
+                    world.remove_component<IsMummyLvl2Move>(enemyEnt);
+                    world.add_component(enemyEnt, IsMummyLvl2PreAttack(mummy.preAttackDuration));
 
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
@@ -112,8 +112,8 @@ void mummyLvl2PreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyPreAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyPreAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMummyLvl2PreAttack>(enemyEnt);
-            world.add(enemyEnt, IsMummyLvl2Attack(mummy.attackDuration));
+            world.remove_component<IsMummyLvl2PreAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsMummyLvl2Attack(mummy.attackDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition() + glm::vec2(16, 0));
@@ -168,8 +168,8 @@ void mummyLvl2AttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMummyLvl2Attack>(enemyEnt);
-            world.add(enemyEnt, IsMummyLvl2Move(mummy.moveDuration));
+            world.remove_component<IsMummyLvl2Attack>(enemyEnt);
+            world.add_component(enemyEnt, IsMummyLvl2Move(mummy.moveDuration));
         }
 
         if (fabs(orientation.x) > fabs(orientation.y)) {

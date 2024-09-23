@@ -9,7 +9,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             Unerasable(),
             Player(),
             Barbarian(),
@@ -39,7 +39,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 PlayerAttractor(),
                 Transform2D(
                     position,
@@ -55,7 +55,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
 
 Ent instantiateBarbarianPersistence(World& world, const glm::vec2& position, const BarbareAnimType& animationType, std::size_t zindex) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, barbareUV),
         Animation(barbareAnim, animationType),
         Transform2D(

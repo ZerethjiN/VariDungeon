@@ -17,7 +17,7 @@ void playerAttackWeightSys(MainFixedSystem, World& world) {
             velocity.vel += playerAttackWeight.getDirection() * playerAttackWeight.getSpeed() * time.fixedDelta();
         } else {
             if (playerAttackWeight.canStopBackward(time.fixedDelta())) {
-                world.remove<PlayerAttackWeight>(playerEnt);
+                world.remove_component<PlayerAttackWeight>(playerEnt);
             }
             velocity.vel -= playerAttackWeight.getDirection() * playerAttackWeight.getSpeed() * time.fixedDelta();
         }

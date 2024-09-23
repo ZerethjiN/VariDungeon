@@ -7,7 +7,7 @@
 
 Ent instantiateVoidSphere(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         VoidSphere(1.5f, 1.5f, 32.f),
         IsVoidSphereOff(1.5f),
         Sprite(textureManager, voidSphereUV),

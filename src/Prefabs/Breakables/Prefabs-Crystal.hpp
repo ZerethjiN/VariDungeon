@@ -9,7 +9,7 @@ Ent instantiateParticleEffectStar(World&, const glm::vec2&);
 
 Ent instantiateCrystal(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Breakable(),
         Life(1),
         Sprite(textureManager, crystalUV),
@@ -38,7 +38,7 @@ Ent instantiateCrystal(World& world, const glm::vec2& position) {
         }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
             if (world.has<ParticleGenerator>(thisEnt)) {
-                world.remove<ParticleGenerator>(thisEnt);
+                world.remove_component<ParticleGenerator>(thisEnt);
             }
             if (auto opt = world.get<Animation>(thisEnt)) {
                 auto [animation] = opt.value();

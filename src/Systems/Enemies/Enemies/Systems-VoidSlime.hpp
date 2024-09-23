@@ -14,8 +14,8 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isVoidSlimeMove, orientation, speed, voidSlime, enemyTransform, zindex]: enemies) {
         if (isVoidSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsVoidSlimeMove>(enemyEnt);
-            world.add(enemyEnt, IsVoidSlimeAttract(voidSlime.attractDuration));
+            world.remove_component<IsVoidSlimeMove>(enemyEnt);
+            world.add_component(enemyEnt, IsVoidSlimeAttract(voidSlime.attractDuration));
 
             world.appendChildren(enemyEnt, {
                 instantiateAttractParticle(world, enemyTransform.getPosition(), zindex + 1, voidSlime.attractDuration)
@@ -73,8 +73,8 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isVoidSlimeAttract, orientation, voidSlime, enemyTransform]: enemies) {
         if (isVoidSlimeAttract.canSwitchState(time.fixedDelta())) {
-            world.remove<IsVoidSlimeAttract>(enemyEnt);
-            world.add(enemyEnt, IsVoidSlimeMove(voidSlime.moveDuration));
+            world.remove_component<IsVoidSlimeAttract>(enemyEnt);
+            world.add_component(enemyEnt, IsVoidSlimeMove(voidSlime.moveDuration));
             continue;
         }
 

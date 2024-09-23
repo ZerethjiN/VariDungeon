@@ -15,20 +15,20 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
         if (glm::distance(transform.getPosition(), shadowBoss.movePoints[shadowBoss.curPoint]) <= 4.f) {
             shadowBoss.curPoint++;
             if (shadowBoss.curPoint >= shadowBoss.movePoints.size()) {
-                world.destroy(bossEnt);
+                world.delete_entity(bossEnt);
                 for (auto [kingEnt, kingTransform]: world.view<const Transform2D>(with<King>)) {
                     instantiateWarp(world, kingTransform.getPosition());
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(-24, 24));
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(24, 40));
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(-40, 72));
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(56, 8));
-                    world.destroy(kingEnt);
+                    world.delete_entity(kingEnt);
                 }
                 appliedCameraShake(world, 0.5f, 128.f, 2);
                 appliedCurCameraAberation(world, 4, 0.1);
                 for (auto [torchEnt, torchAnimation]: world.view<Animation>(with<TorchDecor, ParticleGenerator>)) {
                     torchAnimation.play(TorchAnimType::OFF);
-                    world.remove<ParticleGenerator>(torchEnt);
+                    world.remove_component<ParticleGenerator>(torchEnt);
                 }
             }
         } else {

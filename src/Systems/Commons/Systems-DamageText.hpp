@@ -17,7 +17,7 @@ void damageTextSys(MainFixedSystem, World& world) {
         transform.scale(glm::vec2(text.maxScale, text.maxScale) / text.duration * time.fixedDelta());
 
         if (text.canDestroyText(time.fixedDelta())) {
-            world.destroy(textEnt);
+            world.delete_entity(textEnt);
         }
     }
 }

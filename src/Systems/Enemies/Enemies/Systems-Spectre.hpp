@@ -15,10 +15,10 @@ void spectreMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreMove, orientation, speed, spectre, enemyTransform]: enemies) {
         if (isSpectreMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSpectreMove>(enemyEnt);
+            world.remove_component<IsSpectreMove>(enemyEnt);
             switch (rand() % 2) {
                 case 0:
-                    world.add(enemyEnt, IsSpectreVanish(spectre.vanishDuration));
+                    world.add_component(enemyEnt, IsSpectreVanish(spectre.vanishDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
                             animation.play(SpectreAnimType::VANISH_RIGHT);
@@ -32,11 +32,11 @@ void spectreMoveSys(MainFixedSystem, World& world) {
                             animation.play(SpectreAnimType::VANISH_UP);
                         }
                     }
-                    world.remove<Collider>(enemyEnt);
+                    world.remove_component<Collider>(enemyEnt);
                     break;
 
                 case 1:
-                    world.add(enemyEnt, IsSpectreCast(spectre.castDuration));
+                    world.add_component(enemyEnt, IsSpectreCast(spectre.castDuration));
                     for (auto [_, playerTransform]: players) {
                         instantiateShadowMarkParticle(world, playerTransform.getPosition());
                     }
@@ -97,9 +97,9 @@ void spectreVanishSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreVanish, orientation, spectre, speed, enemyTransform]: enemies) {
         if (isSpectreVanish.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSpectreVanish>(enemyEnt);
-            world.add(enemyEnt, IsSpectreMove(spectre.moveDuration));
-            world.add(enemyEnt, Collider(-12 / 2, -12 / 2, 12, 12));
+            world.remove_component<IsSpectreVanish>(enemyEnt);
+            world.add_component(enemyEnt, IsSpectreMove(spectre.moveDuration));
+            world.add_component(enemyEnt, Collider(-12 / 2, -12 / 2, 12, 12));
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, -1), 32.f);
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, +1), 32.f);
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, -1), 32.f);
@@ -138,8 +138,8 @@ void spectreCastSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreCast, orientation, speed, spectre, enemyTransform]: enemies) {
         if (isSpectreCast.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSpectreCast>(enemyEnt);
-            world.add(enemyEnt, IsSpectreMove(spectre.moveDuration));
+            world.remove_component<IsSpectreCast>(enemyEnt);
+            world.add_component(enemyEnt, IsSpectreMove(spectre.moveDuration));
 
             continue;
         }

@@ -144,7 +144,7 @@ public:
 //                 break;
 //             }
 //             if (particleSystem.canSpawnANewParticle(time.fixedDelta())) {
-//                 world.newEnt(
+//                 world.create_entity(
 //                     SpriteCreator(particleSystem.imageAsset, particleSystem.particleColors[rand() % particleSystem.particleColors.size()]),
 //                     Transform2D(
 //                         transform.getPosition(),

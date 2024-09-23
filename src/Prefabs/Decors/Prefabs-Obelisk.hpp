@@ -7,7 +7,7 @@
 
 Ent instantiateObelisk(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, obeliskUV),
         Animation(obeliskAnim, ObeliskAnimType::DEFAULT),
         Transform2D(

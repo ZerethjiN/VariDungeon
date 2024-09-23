@@ -9,7 +9,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             UI(textureManager, inventoryBarUV, UIAnchor::BOTTOM_CENTER),
             Transform2D(
                 position,
@@ -21,7 +21,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
         // Children
         {
             // Life Icon
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, HUDElementsUV, 2, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(0, 0),
@@ -31,7 +31,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Life Inner Bar
-            world.newEnt(
+            world.create_entity(
                 PlayerLifeBarInner(56),
                 UI(textureManager, HUDElementsUV, 1, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
@@ -42,7 +42,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Life Outer Bar
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, HUDElementsUV, 0, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(8, 0),
@@ -52,7 +52,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(2)
             ),
             // Life Text
-            world.newEnt(
+            world.create_entity(
                 PlayerLifeText(),
                 TextUICreator("HP 5/5", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::BOTTOM_CENTER, glm::vec2(56, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                 Transform2D(
@@ -62,7 +62,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 )
             ),
             // Xp Icon
-            world.newEnt(
+            world.create_entity(
                 XpIconInventoryBar(),
                 UI(textureManager, HUDElementsUV, 4, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
@@ -73,7 +73,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Xp Inner Bar
-            world.newEnt(
+            world.create_entity(
                 PlayerXpBarInner(56),
                 UI(textureManager, HUDElementsUV, 1, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
@@ -84,7 +84,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Xp Outer Bar
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, HUDElementsUV, 0, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(8, 8),
@@ -94,7 +94,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(2)
             ),
             // Xp Text
-            world.newEnt(
+            world.create_entity(
                 PlayerXpText(),
                 TextUICreator("XP 0/25", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::BOTTOM_CENTER, glm::vec2(56, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                 Transform2D(
@@ -106,7 +106,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
 
             // Bottom Bar Spell A
             // Frame
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, bottomBarUV, 0, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(80, 0),
@@ -116,7 +116,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Icon
-            world.newEnt(
+            world.create_entity(
                 ButtonAIconInventoryBar(),
                 UI(textureManager, bottomBarUV, 1, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
@@ -128,7 +128,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
             ),
             // Bottom Bar Spell B
             // Frame
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, bottomBarUV, 0, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(104, 0),
@@ -138,7 +138,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 ZIndex(1)
             ),
             // Icon
-            world.newEnt(
+            world.create_entity(
                 ButtonBIconInventoryBar(),
                 UI(textureManager, bottomBarUV, 2, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
@@ -150,7 +150,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
             ),
 
             // Coin Text
-            world.newEnt(
+            world.create_entity(
                 PlayerCoinText(),
                 TextUICreator("0", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::BOTTOM_CENTER, glm::vec2(24, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
                 Transform2D(
@@ -160,7 +160,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                 )
             ),
             // Coin Icon
-            world.newEnt(
+            world.create_entity(
                 CoinIconInventoryBar(),
                 UI(textureManager, HUDElementsUV, 5, UIAnchor::BOTTOM_CENTER),
                 Transform2D(

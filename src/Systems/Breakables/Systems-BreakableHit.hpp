@@ -14,7 +14,7 @@ void breakableOnHitSys(MainFixedSystem, World& world) {
     for (auto [breakableEnt, animation, onBreakableHitduration]: breakables) {
         if (onBreakableHitduration.canSwitchState(time.fixedDelta())) {
             // animation.play(breakable.noHitAnimName);
-            world.remove<OnBreakableHitDuration>(breakableEnt);
+            world.remove_component<OnBreakableHitDuration>(breakableEnt);
 
             if (auto onNoHitOpt = world.get<const OnBreakableNoHit>(breakableEnt)) {
                 auto [onBreakableNoHit] = onNoHitOpt.value();
@@ -36,7 +36,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
 
                 // Visual Effect:
                 // animation.play(breakable.onHitAnimName);
-                world.add(breakableEnt,
+                world.add_component(breakableEnt,
                     InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f))
                 );
                 transform.scale(-0.2f, -0.2f);
@@ -52,7 +52,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                         onBreakableBreak.callback(world, breakableEnt);
                     }
 
-                    world.remove<Breakable, Life, Collider>(breakableEnt);
+                    world.remove_component<Breakable, Life, Collider>(breakableEnt);
                     zindex = -3;
                     // animation.play(breakable.destroyedAnimName);
 
@@ -66,14 +66,14 @@ void breakableHitSys(MainFixedSystem, World& world) {
                         }
                     }
 
-                    world.add(breakableEnt,
+                    world.add_component(breakableEnt,
                         DustParticleGenerator(false, 0.2, 2),
                         EnemyDropLoots(newLoots, 0.2, 1)
                     );
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
 
-                    world.add(breakableEnt, OnBreakableHitDuration(0.25f));
+                    world.add_component(breakableEnt, OnBreakableHitDuration(0.25f));
 
                     if (auto onHitOpt = world.get<const OnBreakableHit>(breakableEnt)) {
                         auto [onBreakableHit] = onHitOpt.value();

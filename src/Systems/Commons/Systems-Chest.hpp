@@ -45,7 +45,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
 
                 for (auto bonusIdx: bonusesIdx) {
                     world.appendChildren(menuChest, {
-                        world.newEnt(
+                        world.create_entity(
                             UI(textureManager, menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
                             Transform2D(
                                 glm::vec2(0, -32),
@@ -54,7 +54,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
                             ),
                             ZIndex(1)
                         ),
-                        world.newEnt(
+                        world.create_entity(
                             UI(textureManager, menuBonusHUDUV, 5, UIAnchor::CENTER_CENTER),
                             Animation(menuBonusHUDAnim, MenuBonusHUDAnimType::SMALL_SELECTOR, AnimType::UNSCALED),
                             Transform2D(
@@ -64,7 +64,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
                             ),
                             ZIndex(1)
                         ),
-                        world.newEnt(
+                        world.create_entity(
                             TextUICreator(bonusVec[bonusIdx].name, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(64, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                             Transform2D(
                                 glm::vec2(-32, -16),
@@ -85,7 +85,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
                 }
 
                 instantiateWarp(world, chestTransform.getPosition() + glm::vec2(0, 32));
-                world.destroy(chestEnt);
+                world.delete_entity(chestEnt);
             }
         }
     }

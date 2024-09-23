@@ -7,7 +7,7 @@
 
 Ent instantiateVoidSlime(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         VoidSlime(1.5f, 1.5f, 20.f, 32.f),

@@ -7,7 +7,7 @@
 
 Ent instantiateSlime(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Slime(0.5f),

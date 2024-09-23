@@ -7,7 +7,7 @@
 
 Ent instantiateEnemyExplosionAttackParticle(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         EnemyWeapon(),
         Damage(1),
         Sprite(textureManager, explosionParticleUV),
@@ -25,7 +25,7 @@ Ent instantiateEnemyExplosionAttackParticle(World& world, const glm::vec2& posit
 
 Ent instantiateEnemyBigExplosionAttackParticle(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         EnemyWeapon(),
         Damage(2),
         Sprite(textureManager, explosionParticleUV),
@@ -43,7 +43,7 @@ Ent instantiateEnemyBigExplosionAttackParticle(World& world, const glm::vec2& po
 
 Ent instantiatePlayerExplosionAttackParticle(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         PlayerWeapon(),
         Damage(1),
         Sprite(textureManager, explosionParticleUV),
@@ -61,7 +61,7 @@ Ent instantiatePlayerExplosionAttackParticle(World& world, const glm::vec2& posi
 
 Ent instantiatePlayerEnemyExplosionAttackParticle(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         EnemyWeapon(),
         PlayerWeapon(),
         Damage(1),

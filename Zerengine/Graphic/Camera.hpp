@@ -35,11 +35,11 @@ void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
             if (transform.getPosition().x >= originTransform.getPosition().x + camShake.distance) {
                 camShake.curShake++;
                 if (camShake.curShake >= camShake.nbShake) {
-                    world.remove<CameraShake, CameraShakeRight>(entCam);
+                    world.remove_component<CameraShake, CameraShakeRight>(entCam);
                     transform.setPosition(originTransform.getPosition());
                 } else {
-                    world.remove<CameraShakeRight>(entCam);
-                    world.add(entCam, CameraShakeLeft());
+                    world.remove_component<CameraShakeRight>(entCam);
+                    world.add_component(entCam, CameraShakeLeft());
                 }
             } else {
                 transform.moveX(camShake.speed * time.fixedDelta());
@@ -58,11 +58,11 @@ void cameraShakeLeftSys(ThreadedFixedSystem, World& world) noexcept {
             if (transform.getPosition().x <= originTransform.getPosition().x - camShake.distance) {
                 camShake.curShake++;
                 if (camShake.curShake >= camShake.nbShake) {
-                    world.remove<CameraShake, CameraShakeLeft>(entCam);
+                    world.remove_component<CameraShake, CameraShakeLeft>(entCam);
                     transform.setPosition(originTransform.getPosition());
                 } else {
-                    world.remove<CameraShakeLeft>(entCam);
-                    world.add(entCam, CameraShakeRight());
+                    world.remove_component<CameraShakeLeft>(entCam);
+                    world.add_component(entCam, CameraShakeRight());
                 }
             } else {
                 transform.moveX(-camShake.speed * time.fixedDelta());

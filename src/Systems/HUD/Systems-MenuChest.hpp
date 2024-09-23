@@ -11,7 +11,7 @@ void menuChestValidateSys(MainUnscaledFixedSystem, World& world) {
         for (auto [menuEnt]: world.view(with<MenuChest>)) {
             auto [time] = world.resource<Time>();
             time.setTimeScale(1);
-            world.destroy(menuEnt);
+            world.delete_entity(menuEnt);
         }
     }
 }

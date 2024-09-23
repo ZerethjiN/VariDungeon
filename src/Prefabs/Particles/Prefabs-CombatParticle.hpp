@@ -7,7 +7,7 @@
 
 Ent instantiateRepulseCombatParticle(World& world, const glm::vec2& position, int baseZIndex) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, combatParticleUV),
         Animation(combatParticleAnim, CombatParticleAnimType::DEFAULT),
         Transform2D(
@@ -22,7 +22,7 @@ Ent instantiateRepulseCombatParticle(World& world, const glm::vec2& position, in
 
 Ent instantiateSmallCombatParticle(World& world, const glm::vec2& position, int baseZIndex) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, swordImpactUV, 2),
         Animation(swordImpactAnim, SwordImpactAnimType::SMALL),
         Transform2D(

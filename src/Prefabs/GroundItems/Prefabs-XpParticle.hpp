@@ -9,7 +9,7 @@ Ent instantiateXpParticle(World& world, const glm::vec2& position, float spreadD
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             XpGroundItem(1.f),
             Sprite(textureManager, xpParticleUV),
             Animation(xpParticleAnim, XpParticleAnimType::DEFAULT),
@@ -25,7 +25,7 @@ Ent instantiateXpParticle(World& world, const glm::vec2& position, float spreadD
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 Sprite(textureManager, shadowUV),
                 Animation(shadowAnim, ShadowAnimType::SMALL),
                 Transform2D(

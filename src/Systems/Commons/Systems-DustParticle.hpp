@@ -14,9 +14,9 @@ void dustParticleSys(MainFixedSystem, World& world) {
     for (auto [generatorEnt, generator, transform, zindex]: generators) {
         if (generator.canStop(time.fixedDelta())) {
             if (generator.getNeedDestroy()) {
-                world.destroy(generatorEnt);
+                world.delete_entity(generatorEnt);
             } else {
-                world.remove<DustParticleGenerator>(generatorEnt);
+                world.remove_component<DustParticleGenerator>(generatorEnt);
             }
         }
 

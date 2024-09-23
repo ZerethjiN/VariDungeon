@@ -14,8 +14,8 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isLavaSlimeMove, orientation, speed, lavaSlime, enemyTransform, zindex]: enemies) {
         if (isLavaSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsLavaSlimeMove>(enemyEnt);
-            world.add(enemyEnt, IsLavaSlimePreAttack(lavaSlime.preAttackDuration));
+            world.remove_component<IsLavaSlimeMove>(enemyEnt);
+            world.add_component(enemyEnt, IsLavaSlimePreAttack(lavaSlime.preAttackDuration));
 
             world.appendChildren(enemyEnt, {
                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
@@ -80,8 +80,8 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isLavaSlimePreAttack, orientation, lavaSlime, enemyTransform]: enemies) {
         if (isLavaSlimePreAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsLavaSlimePreAttack>(enemyEnt);
-            world.add(enemyEnt, IsLavaSlimeMove(lavaSlime.moveDuration));
+            world.remove_component<IsLavaSlimePreAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsLavaSlimeMove(lavaSlime.moveDuration));
 
             world.appendChildren(enemyEnt, {
                 instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition())

@@ -14,7 +14,7 @@ void fireBallHitSys(MainFixedSystem, World& world) {
             if (world.has<Wall>(othEnt)) {
                 appliedCameraShake(world, 2.0f, 64.f, 2);
                 instantiatePopHitParticle(world, transform.getPosition());
-                world.destroy(fireballEnt);
+                world.delete_entity(fireballEnt);
                 break;
             }
         }

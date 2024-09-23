@@ -7,7 +7,7 @@
 
 Ent instantiateMummy(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Mummy(1.0f, 0.75f, 0.5f, 32.f),

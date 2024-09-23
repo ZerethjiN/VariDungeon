@@ -9,7 +9,7 @@ Ent instantiateHeartParticle(World& world, const glm::vec2& position, float spre
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             LifeGroundItem(1.f),
             Sprite(textureManager, heartParticleUV),
             Animation(heartParticleAnim, HeartParticleAnimType::DEFAULT),
@@ -25,7 +25,7 @@ Ent instantiateHeartParticle(World& world, const glm::vec2& position, float spre
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 Sprite(textureManager, shadowUV),
                 Animation(shadowAnim, ShadowAnimType::SMALL),
                 Transform2D(

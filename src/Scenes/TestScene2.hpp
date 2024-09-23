@@ -27,12 +27,12 @@ void testScene2(SceneSystem, World& world) {
     auto [time] = world.resource<Time>();
     time.setTimeScale(1.0f);
 
-    world.newEnt(
+    world.create_entity(
         AmbientLight(Color(255, 255, 255, 255))
     );
 
     // Camera
-    auto cameraOrigin = world.newEnt(
+    auto cameraOrigin = world.create_entity(
         Transform2D(
             glm::vec2(0, 0),// + glm::vec2(160 * 2, 144 * 2),
             0,
@@ -42,7 +42,7 @@ void testScene2(SceneSystem, World& world) {
 
     world.appendChildren(cameraOrigin, {
         // Camera
-        world.newEnt(
+        world.create_entity(
             Transform2D(
                 glm::vec2(0, 0),// + glm::vec2(160 * 2, 144 * 2),
                 0,
@@ -54,7 +54,7 @@ void testScene2(SceneSystem, World& world) {
     });
 
     // Background
-    world.newEnt(
+    world.create_entity(
         UI(textureManager, homeBackgroundUV, UIAnchor::CENTER_CENTER),
         Transform2D(
             glm::vec2(0, 0),
@@ -66,7 +66,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     // Logo
-    world.newEnt(
+    world.create_entity(
         UI(textureManager, logoUV, UIAnchor::CENTER_CENTER),
         Transform2D(
             glm::vec2(0, -44),
@@ -77,7 +77,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     // Play Button
-    world.newEnt(
+    world.create_entity(
         UI(textureManager, homeButtonUV, 0, UIAnchor::CENTER_CENTER),
         Transform2D(
             glm::vec2(0, 0),
@@ -92,7 +92,7 @@ void testScene2(SceneSystem, World& world) {
         })
     );
 
-    world.newEnt(
+    world.create_entity(
         TextUICreator("Play", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
         Transform2D(
             glm::vec2(-70, -8),
@@ -103,7 +103,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     // Settings Button
-    world.newEnt(
+    world.create_entity(
         UI(textureManager, homeButtonUV, 0, UIAnchor::CENTER_CENTER),
         Transform2D(
             glm::vec2(0, 40),
@@ -114,7 +114,7 @@ void testScene2(SceneSystem, World& world) {
         HomeMenuButtonId(1)
     );
 
-    world.newEnt(
+    world.create_entity(
         TextUICreator("Settings", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
         Transform2D(
             glm::vec2(-70, 32),
@@ -125,7 +125,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     // Selector
-    world.newEnt(
+    world.create_entity(
         UI(textureManager, homeButtonUV, 1, UIAnchor::CENTER_CENTER),
         Animation(homeButtonAnim, HomeButtonAnimType::LIGHT_SELECTOR),
         Transform2D(
@@ -140,7 +140,7 @@ void testScene2(SceneSystem, World& world) {
     // Version Text
     auto [buildVersion] = world.resource<const BuildVersion>();
 
-    world.newEnt(
+    world.create_entity(
         TextUICreator(std::string("Version ") + buildVersion.version, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
         Transform2D(
             glm::vec2(-16, 60),

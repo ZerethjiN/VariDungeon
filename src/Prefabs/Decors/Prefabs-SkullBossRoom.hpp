@@ -7,7 +7,7 @@
 
 Ent instantiateSkullBossRoom(World& world, const glm::vec2& position, float rotation) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, skullBossRoomUV),
         Transform2D(
             position,

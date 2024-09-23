@@ -7,7 +7,7 @@
 
 Ent instantiateAttractParticle(World& world, const glm::vec2& position, std::size_t newZIndex, float newLifeTime) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, attractParticleUV),
         Animation(attractParticleAnim, AttractParticleAnimType::DEFAULT),
         Transform2D(

@@ -13,14 +13,14 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isAnubisAttack, orientation, anubis, enemyTransform]: enemies) {
         if (isAnubisAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsAnubisLvl2Attack>(enemyEnt);
+            world.remove_component<IsAnubisLvl2Attack>(enemyEnt);
 
             if (auto oth = world.get<const Collider>(enemyEnt)) {
                 auto [collider] = oth.value();
                 anubis.tmpCol = collider.col;
-                world.remove<Collider>(enemyEnt);
+                world.remove_component<Collider>(enemyEnt);
 
-                world.add(enemyEnt, IsAnubisLvl2Vanish(anubis.vanishDuration));
+                world.add_component(enemyEnt, IsAnubisLvl2Vanish(anubis.vanishDuration));
 
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
@@ -84,11 +84,11 @@ void anubisLvl2VanishSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isAnubisMove, orientation, speed, anubis, enemyTransform, zindex]: enemies) {
         if (isAnubisMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsAnubisLvl2Vanish>(enemyEnt);
-            world.add(enemyEnt, IsAnubisLvl2Attack(anubis.attackDuration));
+            world.remove_component<IsAnubisLvl2Vanish>(enemyEnt);
+            world.add_component(enemyEnt, IsAnubisLvl2Attack(anubis.attackDuration));
 
             if (!world.has<Collider>(enemyEnt)) {
-                world.add(enemyEnt, Collider(anubis.tmpCol));
+                world.add_component(enemyEnt, Collider(anubis.tmpCol));
             }
 
             for (int i = 1; i < 7; i++) {

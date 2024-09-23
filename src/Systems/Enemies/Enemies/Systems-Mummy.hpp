@@ -17,8 +17,8 @@ void mummyMoveSys(MainFixedSystem, World& world) {
         if (isMummyMove.canSwitchState(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= mummy.attackRadius) {
-                    world.remove<IsMummyMove>(enemyEnt);
-                    world.add(enemyEnt, IsMummyPreAttack(mummy.preAttackDuration));
+                    world.remove_component<IsMummyMove>(enemyEnt);
+                    world.add_component(enemyEnt, IsMummyPreAttack(mummy.preAttackDuration));
 
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
@@ -109,8 +109,8 @@ void mummyPreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyPreAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyPreAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMummyPreAttack>(enemyEnt);
-            world.add(enemyEnt, IsMummyAttack(mummy.attackDuration));
+            world.remove_component<IsMummyPreAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsMummyAttack(mummy.attackDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition() + glm::vec2(16, 0));
@@ -166,8 +166,8 @@ void mummyAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isMummyAttack, orientation, mummy, enemyTransform]: enemies) {
         if (isMummyAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMummyAttack>(enemyEnt);
-            world.add(enemyEnt, IsMummyMove(mummy.moveDuration));
+            world.remove_component<IsMummyAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsMummyMove(mummy.moveDuration));
         }
 
         if (fabs(orientation.x) > fabs(orientation.y)) {

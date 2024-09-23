@@ -7,7 +7,7 @@
 
 Ent instantiatePlayerBombParticle(World& world, const glm::vec2& position, std::size_t newZIndex, const glm::vec2& spreadDirection) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Bomb(1.f),
         PlayerWeapon(),
         Damage(1),

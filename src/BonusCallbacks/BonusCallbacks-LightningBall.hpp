@@ -10,6 +10,6 @@ void lightningBallBonusCallbackLvl1(World& world) {
     auto players = world.view(with<Player>, without<PlayerLightningBall>);
 
     for (auto [playerEnt]: players) {
-        world.add(playerEnt, PlayerLightningBall(2.5f));
+        world.add_component(playerEnt, PlayerLightningBall(2.5f));
     }
 }

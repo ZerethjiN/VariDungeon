@@ -16,8 +16,8 @@ void batMoveSys(MainFixedSystem, World& world) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= bat.attackRadius) {
-                    world.remove<IsBatMove>(enemyEnt);
-                    world.add(enemyEnt, IsBatAttack(bat.attackDuration));
+                    world.remove_component<IsBatMove>(enemyEnt);
+                    world.add_component(enemyEnt, IsBatAttack(bat.attackDuration));
 
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
@@ -114,8 +114,8 @@ void batAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsBatAttack>(enemyEnt);
-            world.add(enemyEnt, IsBatMove(bat.moveDuration));
+            world.remove_component<IsBatAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsBatMove(bat.moveDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.appendChildren(enemyEnt, {

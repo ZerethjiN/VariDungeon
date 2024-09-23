@@ -2163,7 +2163,7 @@ public:
     }
 
     template <typename... Comps> requires ((std::copy_constructible<Comps> && ...) && (IsFinalConcept<Comps> && ...) && IsNotSameConcept<Comps...>)
-    auto newEnt(const Comps&... comps) noexcept -> const Ent {
+    auto create_entity(const Comps&... comps) noexcept -> const Ent {
         return lateUpgrade.newEnt(
             reg.getEntToken(),
             {{typeid(Comps).hash_code(), std::make_any<Comps>(comps)}...}
@@ -2171,7 +2171,7 @@ public:
     }
 
     template <typename Comp, typename... Comps> requires ((std::copy_constructible<Comp>) && (IsFinalConcept<Comp>) && IsNotSameConcept<Comps...>)
-    auto add(const Ent& ent, const Comp& comp, const Comps&... comps) noexcept -> std::optional<std::tuple<Comp&, Comps&...>> {
+    auto add_component(const Ent& ent, const Comp& comp, const Comps&... comps) noexcept -> std::optional<std::tuple<Comp&, Comps&...>> {
         if (reg.exist(ent)) {
             lateUpgrade.add(
                 reg,
@@ -2182,8 +2182,8 @@ public:
                 }
             );
         } else {
-            std::println("World::add(): Impossible d'ajouter sur une entitée qui n'existe pas [type: {}]", typeid(Comp).name());
-            (std::println("World::add(): Impossible d'ajouter sur une entitée qui n'existe pas [type: {}]", typeid(Comps).name()), ...);
+            std::println("World::add_component(): Impossible d'ajouter sur une entitée qui n'existe pas [type: {}]", typeid(Comp).name());
+            (std::println("World::add_component(): Impossible d'ajouter sur une entitée qui n'existe pas [type: {}]", typeid(Comps).name()), ...);
             return std::nullopt;
         }
 
@@ -2191,23 +2191,23 @@ public:
     }
 
     template <typename T, typename... Ts>
-    void remove(const Ent& ent) noexcept {
+    void remove_component(const Ent& ent) noexcept {
         if (reg.has(ent, {typeid(T).hash_code()})) {
             lateUpgrade.remove(ent, typeid(T).hash_code());
         } else {
-            std::println("World::remove(): Impossible de supprimer un composant qui n'existe pas - {}", typeid(T).name());
+            std::println("World::remove_component(): Impossible de supprimer un composant qui n'existe pas - {}", typeid(T).name());
         }
 
         if constexpr (sizeof...(Ts) > 0) {
-            remove<Ts...>(ent);
+            remove_component<Ts...>(ent);
         }
     }
 
-    void destroy(const Ent& ent) noexcept {
+    void delete_entity(const Ent& ent) noexcept {
         if (reg.exist(ent)) {
             lateUpgrade.destroy(ent);
         } else {
-            std::println("World::destroy(): Impossible de supprimer une entitée qui n'existe pas");
+            std::println("World::delete_entity(): Impossible de supprimer une entitée qui n'existe pas");
         }
     }
 

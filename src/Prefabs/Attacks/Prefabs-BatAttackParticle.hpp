@@ -7,7 +7,7 @@
 
 Ent instantiateBatAttackParticle(World& world, const glm::vec2& position, float rotation) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         EnemyWeapon(),
         Damage(1),
         Sprite(textureManager, batAttackParticleUV),

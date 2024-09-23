@@ -572,7 +572,7 @@ void lifeTimeSys(MainFixedSystem, World& world) {
 
     for (auto [ent, lifeTime]: world.view<LifeTime>()) {
         if (lifeTime.isEndDuration(time.fixedDelta())) {
-            world.destroy(ent);
+            world.delete_entity(ent);
         }
     }
 }
@@ -604,7 +604,7 @@ void unscaledLifeTimeSys(MainUnscaledFixedSystem, World& world) {
 
     for (auto [ent, lifeTime]: world.view<UnscaledLifeTime>()) {
         if (lifeTime.isEndDuration(time.unscaledFixedDelta())) {
-            world.destroy(ent);
+            world.delete_entity(ent);
         }
     }
 }

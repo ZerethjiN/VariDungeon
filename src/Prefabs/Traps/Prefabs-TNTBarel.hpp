@@ -9,7 +9,7 @@ Ent instantiatePlayerEnemyExplosionAttackParticle(World&, const glm::vec2&);
 
 Ent instantiateTNTBarel(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Breakable(),
         OnBreakableHit([](World& world, Ent thisEnt) {
             if (auto opt = world.get<Animation>(thisEnt)) {

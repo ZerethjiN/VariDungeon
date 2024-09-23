@@ -18,8 +18,8 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) < roboboule.preAttackRadius) {
-                world.remove<IsRobobouleMove>(enemyEnt);
-                world.add(enemyEnt, IsRoboboulePreAttack(roboboule.preAttackDuration));
+                world.remove_component<IsRobobouleMove>(enemyEnt);
+                world.add_component(enemyEnt, IsRoboboulePreAttack(roboboule.preAttackDuration));
 
                 // world.appendChildren(enemyEnt, {
                 //     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
@@ -81,7 +81,7 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isRoboboulePreAttack, orientation, speed, roboboule, enemyTransform]: enemies) {
         if (isRoboboulePreAttack.canSwitchState(time.fixedDelta())) {
-            world.destroy(enemyEnt);
+            world.delete_entity(enemyEnt);
             instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition());
         }
 
@@ -90,8 +90,8 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) >= roboboule.preAttackRadius) {
-                world.remove<IsRoboboulePreAttack>(enemyEnt);
-                world.add(enemyEnt, IsRobobouleMove());
+                world.remove_component<IsRoboboulePreAttack>(enemyEnt);
+                world.add_component(enemyEnt, IsRobobouleMove());
                 continue;
             }
         }

@@ -115,7 +115,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
     // Wall Collisions:
     if (isDoorOpenUp) {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -126,7 +126,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
                 IsDoorLock(),
                 Sprite(textureManager, doorUV, 0),
@@ -140,7 +140,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
@@ -164,7 +164,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         );
     } else {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, -8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -178,7 +178,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
 
     if (isDoorOpenLeft) {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -189,7 +189,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
                 IsDoorLock(),
                 Sprite(textureManager, doorUV, 0),
@@ -202,7 +202,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
@@ -227,7 +227,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         );
     } else {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(-8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -241,7 +241,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
 
     if (isDoorOpenRight) {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -252,7 +252,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
                 IsDoorLock(),
                 Sprite(textureManager, doorUV, 0),
@@ -266,7 +266,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(0, 80),
@@ -290,7 +290,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         );
     } else {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(16 * 9 + 8, 0) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -304,7 +304,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
 
     if (isDoorOpenDown) {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -315,7 +315,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
                 IsDoorLock(),
                 Sprite(textureManager, doorUV, 0),
@@ -329,7 +329,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2) + glm::vec2(96, 0),
@@ -353,7 +353,7 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
         );
     } else {
         subEnts.emplace_back(
-            world.newEnt(
+            world.create_entity(
                 Wall(),
                 Transform2D(
                     position + glm::vec2(0, 16 * 7 + 8) - glm::vec2(16 * 10 / 2, 16 * 8 / 2),
@@ -418,9 +418,9 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
     auto chunkTables = world.view<const ChunkTable>();
     for (auto [chunkTableEnt, chunkTable]: chunkTables) {
         for (const auto& chunkPair: chunkTable) {
-            world.destroy(chunkPair.second);
+            world.delete_entity(chunkPair.second);
         }
-        world.destroy(chunkTableEnt);
+        world.delete_entity(chunkTableEnt);
     }
 
     // Create New Table:
@@ -481,7 +481,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                 auto cameras = world.view(with<CurCamera>);
 
                 if (cameras.empty()) {
-                    auto cameraOrigin = world.newEnt(
+                    auto cameraOrigin = world.create_entity(
                         Transform2D(
                             glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                             0,
@@ -491,7 +491,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                     world.appendChildren(cameraOrigin, {
                         // Camera
-                        world.newEnt(
+                        world.create_entity(
                             Transform2D(
                                 glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                                 0,
@@ -516,13 +516,13 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                     for (auto [cameraEnt]: world.view(with<CameraShake>)) {
                         if (world.has<CameraShake>(cameraEnt)) {
-                            world.remove<CameraShake>(cameraEnt);
+                            world.remove_component<CameraShake>(cameraEnt);
                         }
                         if (world.has<CameraShakeLeft>(cameraEnt)) {
-                            world.remove<CameraShakeLeft>(cameraEnt);
+                            world.remove_component<CameraShakeLeft>(cameraEnt);
                         }
                         if (world.has<CameraShakeRight>(cameraEnt)) {
-                            world.remove<CameraShakeRight>(cameraEnt);
+                            world.remove_component<CameraShakeRight>(cameraEnt);
                         }
                     }
                 }
@@ -595,7 +595,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
     }
 
     // ChunkTable recreation:
-    world.newEnt(
+    world.create_entity(
         ChunkTable(width, height, newTables),
         ChunkExploration(width, height, roomTypes)
     );

@@ -7,7 +7,7 @@
 
 Ent instantiateColumn(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, columnUV, 0),
         Transform2D(
             position,
@@ -20,7 +20,7 @@ Ent instantiateColumn(World& world, const glm::vec2& position) {
 
 Ent instantiateColumnBanner(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, columnUV, 1),
         Transform2D(
             position,

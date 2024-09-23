@@ -18,8 +18,8 @@ void rockBossRollSys(MainFixedSystem, World& world) {
             bool isHit = false;
             for (auto othEnt: collisions) {
                 if (world.has<Collider>(othEnt)) {
-                    world.remove<IsRockBossRoll, Unhittable>(enemyEnt);
-                    world.add(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
+                    world.remove_component<IsRockBossRoll, Unhittable>(enemyEnt);
+                    world.add_component(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
                             animation.play(RockBossAnimType::STUN_RIGHT);
@@ -37,7 +37,7 @@ void rockBossRollSys(MainFixedSystem, World& world) {
                     if (auto childrenOpt = world.getChildren(enemyEnt)) {
                         for (auto childrenEnt: childrenOpt.value().get()) {
                             if (world.has<SmallCrystalRotation>(childrenEnt)) {
-                                world.destroy(childrenEnt);
+                                world.delete_entity(childrenEnt);
                             }
                         }
                     }
@@ -85,8 +85,8 @@ void rockBossRollP2Sys(MainFixedSystem, World& world) {
             bool isHit = false;
             for (auto othEnt: collisions) {
                 if (world.has<Collider>(othEnt)) {
-                    world.remove<IsRockBossRollP2, Unhittable>(enemyEnt);
-                    world.add(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
+                    world.remove_component<IsRockBossRollP2, Unhittable>(enemyEnt);
+                    world.add_component(enemyEnt, IsRockBossStun(rockBoss.stunDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
                             animation.play(RockBossAnimType::STUN_RIGHT);
@@ -104,7 +104,7 @@ void rockBossRollP2Sys(MainFixedSystem, World& world) {
                     if (auto childrenOpt = world.getChildren(enemyEnt)) {
                         for (auto childrenEnt: childrenOpt.value().get()) {
                             if (world.has<SmallCrystalRotation>(childrenEnt)) {
-                                world.destroy(childrenEnt);
+                                world.delete_entity(childrenEnt);
                             }
                         }
                     }
@@ -147,11 +147,11 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isRockBossStun, rockBoss, orientation, enemyTransform, life]: enemies) {
         if (isRockBossStun.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockBossStun>(enemyEnt);
+            world.remove_component<IsRockBossStun>(enemyEnt);
             if (life.getCurNbLife() <= life.getNbLife() / 2) {
-                world.add(enemyEnt, IsRockBossGroundCrystalsP2(rockBoss.groundCrystalsCooldownP2), Unhittable());
+                world.add_component(enemyEnt, IsRockBossGroundCrystalsP2(rockBoss.groundCrystalsCooldownP2), Unhittable());
             } else {
-                world.add(enemyEnt, IsRockBossGroundCrystals(rockBoss.groundCrystalsCooldown), Unhittable());
+                world.add_component(enemyEnt, IsRockBossGroundCrystals(rockBoss.groundCrystalsCooldown), Unhittable());
             }
             
 
@@ -226,11 +226,11 @@ void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isRockBossGroundCrystals, rockBoss, orientation, speed, enemyTransform, life]: enemies) {
         if (isRockBossGroundCrystals.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockBossGroundCrystals>(enemyEnt);
+            world.remove_component<IsRockBossGroundCrystals>(enemyEnt);
             if (life.getCurNbLife() <= life.getNbLife() / 2) {
-                world.add(enemyEnt, IsRockBossRollP2());
+                world.add_component(enemyEnt, IsRockBossRollP2());
             } else {
-                world.add(enemyEnt, IsRockBossRoll());
+                world.add_component(enemyEnt, IsRockBossRoll());
             }
             continue;
         }
@@ -270,11 +270,11 @@ void rockBossGroundCrystalsP2Sys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isRockBossGroundCrystals, rockBoss, orientation, speed, enemyTransform, life]: enemies) {
         if (isRockBossGroundCrystals.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockBossGroundCrystalsP2>(enemyEnt);
+            world.remove_component<IsRockBossGroundCrystalsP2>(enemyEnt);
             if (life.getCurNbLife() <= life.getNbLife() / 2) {
-                world.add(enemyEnt, IsRockBossRollP2());
+                world.add_component(enemyEnt, IsRockBossRollP2());
             } else {
-                world.add(enemyEnt, IsRockBossRoll());
+                world.add_component(enemyEnt, IsRockBossRoll());
             }
             continue;
         }
@@ -314,8 +314,8 @@ void rockBossSmallCrystalThrowSys(MainFixedSystem, World& world) {
         if (rockBoss.canThrowSmallCrystal(time.fixedDelta())) {
             for (auto [smallCrystalEnt]: world.view(with<SmallCrystalRotation>)) {
                 for (auto [_, playerTransform, zindex]: world.view<const Transform2D, const ZIndex>(with<Player>)) {
-                    world.remove<SmallCrystalRotation>(smallCrystalEnt);
-                    world.add(smallCrystalEnt, SmallCrystalThrow(playerTransform.getPosition(), 64.f));
+                    world.remove_component<SmallCrystalRotation>(smallCrystalEnt);
+                    world.add_component(smallCrystalEnt, SmallCrystalThrow(playerTransform.getPosition(), 64.f));
                     instantiateFloorCrossParticle(world, playerTransform.getPosition(), zindex);
                 }
                 break;

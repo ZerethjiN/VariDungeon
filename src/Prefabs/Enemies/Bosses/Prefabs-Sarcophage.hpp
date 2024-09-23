@@ -7,7 +7,7 @@
 
 Ent instantiateSarcophage(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Boss(),
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
@@ -40,7 +40,7 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
 
 Ent instantiateSarcophageObelisk(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         SarcophageObelisk(),
         Sprite(textureManager, obeliskUV),
         Animation(obeliskAnim, ObeliskAnimType::DEFAULT),

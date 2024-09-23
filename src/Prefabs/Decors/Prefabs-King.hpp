@@ -7,7 +7,7 @@
 
 Ent instantiateKing(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         King(),
         Sprite(textureManager, kingUV),
         Transform2D(

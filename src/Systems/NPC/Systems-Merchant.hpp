@@ -50,7 +50,7 @@ void merchantOpenCloseSys(MainFixedSystem, World& world) {
                             }
 
                             for (auto [merchantEnt]: world.view(with<Merchant>)) {
-                                world.add(merchantEnt, MerchantBonus(typeToIdx, bonusesIdx));
+                                world.add_component(merchantEnt, MerchantBonus(typeToIdx, bonusesIdx));
                             }
                         } else {
                             for (auto [merchantEnt, merchantBonus]: merchantBonuses) {

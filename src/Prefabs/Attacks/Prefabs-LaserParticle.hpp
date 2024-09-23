@@ -7,7 +7,7 @@
 
 Ent instantiateLaserParticle(World& world, const glm::vec2& position, const glm::vec2& direction, float rotation, float speed) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Laser(direction),
         PlayerWeapon(),
         Damage(1),

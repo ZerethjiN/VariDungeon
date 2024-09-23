@@ -9,7 +9,7 @@ Ent instantiateBossHealthBarUI(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             BossHealthBar(),
             UI(textureManager, bossHealthBarUV, 0, UIAnchor::TOP_CENTER),
             Transform2D(
@@ -21,7 +21,7 @@ Ent instantiateBossHealthBarUI(World& world, const glm::vec2& position) {
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 UI(textureManager, bossHealthBarUV, 1, UIAnchor::TOP_CENTER),
                 Transform2D(
                     position + glm::vec2(-48, 0),
@@ -30,7 +30,7 @@ Ent instantiateBossHealthBarUI(World& world, const glm::vec2& position) {
                 ),
                 ZIndex(8)
             ),
-            world.newEnt(
+            world.create_entity(
                 BossHealthBarInner(88),
                 UI(textureManager, bossHealthBarUV, 2, UIAnchor::TOP_CENTER),
                 Transform2D(
@@ -40,7 +40,7 @@ Ent instantiateBossHealthBarUI(World& world, const glm::vec2& position) {
                 ),
                 ZIndex(9)
             ),
-            world.newEnt(
+            world.create_entity(
                 BossHealthBarInner(88),
                 UI(textureManager, bossHealthBarUV, 2, UIAnchor::TOP_CENTER),
                 Transform2D(
@@ -50,7 +50,7 @@ Ent instantiateBossHealthBarUI(World& world, const glm::vec2& position) {
                 ),
                 ZIndex(9)
             ),
-            // world.newEnt(
+            // world.create_entity(
             //     BossHealthBarText(),
             //     TextUI("HP 0/0", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::TOP_CENTER, glm::vec2(88, 8), glm::vec4(173, 157, 115, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
             //     Transform2D(

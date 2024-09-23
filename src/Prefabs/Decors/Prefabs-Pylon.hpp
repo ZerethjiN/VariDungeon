@@ -9,7 +9,7 @@ Ent instantiateParticleEffectStar(World&, const glm::vec2&);
 
 Ent instantiatePylon(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, pylonUV),
         Animation(pylonAnim, PylonAnimType::DEFAULT),
         Transform2D(

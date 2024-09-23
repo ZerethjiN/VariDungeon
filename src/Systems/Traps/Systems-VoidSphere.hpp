@@ -14,10 +14,10 @@ void voidSphereOffSys(MainFixedSystem, World& world) {
     for (auto [sphereEnt, isVoidSphereOff, animation, voidSphere, zindex, transform]: spheres) {
         if (isVoidSphereOff.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove<VoidSphere>(sphereEnt);
+                world.remove_component<VoidSphere>(sphereEnt);
             } else {
-                world.remove<IsVoidSphereOff>(sphereEnt);
-                world.add(sphereEnt, IsVoidSphereOn(voidSphere.voidSphereOnDuration));
+                world.remove_component<IsVoidSphereOff>(sphereEnt);
+                world.add_component(sphereEnt, IsVoidSphereOn(voidSphere.voidSphereOnDuration));
                 world.appendChildren(sphereEnt, {
                     instantiateAttractParticle(world, transform.getPosition(), zindex + 1, voidSphere.voidSphereOnDuration)
                 });
@@ -36,10 +36,10 @@ void voidSphereOnSys(MainFixedSystem, World& world) {
     for (auto [sphereEnt, isVoidSphereOn, animation, voidSphere, enemyTransform]: spheres) {
         if (isVoidSphereOn.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove<VoidSphere>(sphereEnt);
+                world.remove_component<VoidSphere>(sphereEnt);
             } else {
-                world.remove<IsVoidSphereOn>(sphereEnt);
-                world.add(sphereEnt, IsVoidSphereOff(voidSphere.voidSphereOffDuration));
+                world.remove_component<IsVoidSphereOn>(sphereEnt);
+                world.add_component(sphereEnt, IsVoidSphereOff(voidSphere.voidSphereOffDuration));
             }
             animation.play(VoidSphereAnimType::OFF);
             continue;

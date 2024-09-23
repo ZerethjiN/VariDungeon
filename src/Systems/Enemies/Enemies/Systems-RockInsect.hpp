@@ -14,8 +14,8 @@ void rockInsectMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isRockInsectMove, orientation, speed, rockInsect, enemyTransform, zindex]: enemies) {
         if (isRockInsectMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockInsectMove>(enemyEnt);
-            world.add(enemyEnt, IsRockInsectPreCast(rockInsect.preCastDuration));
+            world.remove_component<IsRockInsectMove>(enemyEnt);
+            world.add_component(enemyEnt, IsRockInsectPreCast(rockInsect.preCastDuration));
 
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -93,8 +93,8 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isRockInsectPreCast, orientation, rockInsect, enemyTransform]: enemies) {
         if (isRockInsectPreCast.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockInsectPreCast>(enemyEnt);
-            world.add(enemyEnt, IsRockInsectCast(rockInsect.castDuration));
+            world.remove_component<IsRockInsectPreCast>(enemyEnt);
+            world.add_component(enemyEnt, IsRockInsectCast(rockInsect.castDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.appendChildren(enemyEnt, {
@@ -159,8 +159,8 @@ void rockInsectCastSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isRockInsectCast, orientation, rockInsect, enemyTransform]: enemies) {
         if (isRockInsectCast.canSwitchState(time.fixedDelta())) {
-            world.remove<IsRockInsectCast>(enemyEnt);
-            world.add(enemyEnt, IsRockInsectMove(rockInsect.moveDuration));
+            world.remove_component<IsRockInsectCast>(enemyEnt);
+            world.add_component(enemyEnt, IsRockInsectMove(rockInsect.moveDuration));
             continue;
         }
 

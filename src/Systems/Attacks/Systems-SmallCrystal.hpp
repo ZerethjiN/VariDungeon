@@ -39,7 +39,7 @@ void smallCrystalThrowSys(MainFixedSystem, World& world) {
         velocity.vel += glm::normalize(crystal.lastPlayerPosition - transform.getPosition()) * crystal.speed * time.fixedDelta();
     
         if (glm::distance(crystal.lastPlayerPosition, transform.getPosition()) < 8.f) {
-            world.destroy(crystalEnt);
+            world.delete_entity(crystalEnt);
         }
     }
 }

@@ -13,8 +13,8 @@ void shadowMarkPreExplosionSys(MainFixedSystem, World& world) {
 
     for (auto [markEnt, animation, preExplosion, shadowMark]: marks) {
         if (preExplosion.canSwitchState(time.fixedDelta())) {
-            world.remove<IsShadowMarkPreExplosion>(markEnt);
-            world.add(markEnt,
+            world.remove_component<IsShadowMarkPreExplosion>(markEnt);
+            world.add_component(markEnt,
                 IsShadowMarkExplosion(shadowMark.explosionDuration),
                 Trigger(-40 / 2, -40 / 2, 40, 40)
             );
@@ -30,7 +30,7 @@ void shadowMarkExplosionSys(MainFixedSystem, World& world) {
 
     for (auto [markEnt, explosion]: marks) {
         if (explosion.canSwitchState(time.fixedDelta())) {
-            world.destroy(markEnt);
+            world.delete_entity(markEnt);
         }
     }
 }

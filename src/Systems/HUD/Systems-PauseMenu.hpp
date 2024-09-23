@@ -18,7 +18,7 @@ void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
             }
         } else if (!world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
             for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
-                world.add(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                world.add_component(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
         }
     }
@@ -33,11 +33,11 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
         if (glm::distance(transform.getPosition(), pauseMenuTranslation.getFinalPosition()) <= 4.f) {
             transform.setPositionGlobal(pauseMenuTranslation.getFinalPosition());
 
-            world.remove<PauseMenuTranslation>(menuEnt);
+            world.remove_component<PauseMenuTranslation>(menuEnt);
 
             // Title:
             world.appendChildren(menuEnt, {
-                world.newEnt(
+                world.create_entity(
                     TextUICreator("Pause:", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
                         glm::vec2(-60, -64),
@@ -50,7 +50,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
 
             // Key:
             world.appendChildren(menuEnt, {
-                world.newEnt(
+                world.create_entity(
                     TextUICreator("[esc]", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
                         glm::vec2(48, -64),
@@ -63,7 +63,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
 
             world.appendChildren(menuEnt, {
                 // Selector
-                world.newEnt(
+                world.create_entity(
                     PauseMenuSelector(2),
                     UI(textureManager, menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
                     Animation(menuBonusHUDAnim, MenuBonusHUDAnimType::MEDIUM_SELECTOR, AnimType::UNSCALED),
@@ -75,7 +75,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                     ZIndex(1)
                 ),
                 // Text Continue
-                world.newEnt(
+                world.create_entity(
                     TextUICreator("Continue", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                     Transform2D(
                         pauseMenuTranslation.getFinalPosition() + glm::vec2(48, 12),
@@ -87,12 +87,12 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                         auto pauseMenus = world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuReverseTranslation>);
 
                         for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
-                            world.add(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                            world.add_component(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
                         }
                     })
                 ),
                 // Text Exit
-                world.newEnt(
+                world.create_entity(
                     TextUICreator("Exit", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                     Transform2D(
                         pauseMenuTranslation.getFinalPosition() + glm::vec2(48, 44),
@@ -117,11 +117,11 @@ void pauseMenuSelectorSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
-                world.add(selectorEnt, PauseMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
+                world.add_component(selectorEnt, PauseMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
-                world.add(selectorEnt, PauseMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
+                world.add_component(selectorEnt, PauseMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
             }
         }
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
@@ -185,7 +185,7 @@ void pauseMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
         if (glm::distance(transform.getPosition(), pauseMenuTranslation.getFinalPosition()) <= 4.f) {
             transform.setPositionGlobal(pauseMenuTranslation.getFinalPosition());
 
-            world.destroy(menuEnt);
+            world.delete_entity(menuEnt);
             printf("Fermeture Menu Pause: %zu\n", menuEnt);
             time.setTimeScale(1.0f);
         } else {
@@ -202,7 +202,7 @@ void pauseMenuSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, pauseMenuSelectorMoveDown]: selectors) {
         if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveDown.getDestination()) <= 4.f) {
             transform.setPosition(pauseMenuSelectorMoveDown.getDestination());
-            world.remove<PauseMenuSelectorMoveDown>(selectorEnt);
+            world.remove_component<PauseMenuSelectorMoveDown>(selectorEnt);
         } else {
             transform.moveY(pauseMenuSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
         }
@@ -217,7 +217,7 @@ void pauseMenuSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, pauseMenuSelectorMoveUp]: selectors) {
         if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveUp.getDestination()) <= 4.f) {
             transform.setPosition(pauseMenuSelectorMoveUp.getDestination());
-            world.remove<PauseMenuSelectorMoveUp>(selectorEnt);
+            world.remove_component<PauseMenuSelectorMoveUp>(selectorEnt);
         } else {
             transform.moveY(-pauseMenuSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
         }

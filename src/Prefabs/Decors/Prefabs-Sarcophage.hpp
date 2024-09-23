@@ -7,7 +7,7 @@
 
 Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, sarcophageDecorUV, 0),
         Transform2D(
             position,
@@ -20,7 +20,7 @@ Ent instantiateSarcophageClose(World& world, const glm::vec2& position) {
 
 Ent instantiateSarcophageOpen(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, sarcophageDecorUV, 1),
         Transform2D(
             position,

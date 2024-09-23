@@ -16,8 +16,8 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
         if (isGolemRockAttack.canSwitchState(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(enemyTransform.getPosition(), playerTransform.getPosition()) < 48.f) {
-                    world.remove<IsGolemRockAttack>(enemyEnt);
-                    world.add(enemyEnt, IsGolemFootAttack(golem.footDuration));
+                    world.remove_component<IsGolemRockAttack>(enemyEnt);
+                    world.add_component(enemyEnt, IsGolemFootAttack(golem.footDuration));
 
                     world.appendChildren(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-24, -24), zindex),
@@ -35,8 +35,8 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                     });
                 } else {
                     // isGolemRockAttack.resetStateTimer();
-                    world.remove<IsGolemRockAttack>(enemyEnt);
-                    world.add(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
+                    world.remove_component<IsGolemRockAttack>(enemyEnt);
+                    world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
 
                     for (int i = 1; i < 7; i++) {
                         world.appendChildren(enemyEnt, {
@@ -104,8 +104,8 @@ void golemRockSys(MainFixedSystem, World& world) {
 
     for (auto [rockEnt, rock, transform]: rocks) {
         if (rock.canSpawn(time.fixedDelta())) {
-            world.remove<GolemRock>(rockEnt);
-            world.add(rockEnt,
+            world.remove_component<GolemRock>(rockEnt);
+            world.add_component(rockEnt,
                 Sprite(textureManager, rockUV),
                 Animation(rockAnim, RockAnimType::NO_HIT),
                 Collider(-12 / 2, -12 / 2, 12, 12)
@@ -121,8 +121,8 @@ void golemPreFootAttackSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, collisions, golem, transform, zindex]: enemies) {
         for (auto othEnt: collisions) {
             if (world.has<Collider, GolemRock>(othEnt)) {
-                world.remove<IsGolemRockAttack>(enemyEnt);
-                world.add(enemyEnt, IsGolemFootAttack(golem.footDuration));
+                world.remove_component<IsGolemRockAttack>(enemyEnt);
+                world.add_component(enemyEnt, IsGolemFootAttack(golem.footDuration));
 
                 world.appendChildren(enemyEnt, {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-24, -24), zindex),
@@ -152,8 +152,8 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, isGolemFootAttack, golem, transform, zindex]: enemies) {
         if (isGolemFootAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGolemFootAttack>(enemyEnt);
-            world.add(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
+            world.remove_component<IsGolemFootAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
 
             for (int i = 1; i < 7; i++) {
                 world.appendChildren(enemyEnt, {
@@ -181,7 +181,7 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
                 }
             }
 
-            world.add(
+            world.add_component(
                 instantiateEnemyBigExplosionAttackParticle(world, transform.getPosition()),
                 EnemyWeaponForBreakables()
             );
@@ -197,8 +197,8 @@ void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGolemPreLaserAttackCardinal, orientation, golem, speed, enemyTransform, zindex]: enemies) {
         if (isGolemPreLaserAttackCardinal.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGolemPreLaserAttackCardinal>(enemyEnt);
-            world.add(enemyEnt, IsGolemLaserAttackCardinal(golem.laserDuration, isGolemPreLaserAttackCardinal.curLasers));
+            world.remove_component<IsGolemPreLaserAttackCardinal>(enemyEnt);
+            world.add_component(enemyEnt, IsGolemLaserAttackCardinal(golem.laserDuration, isGolemPreLaserAttackCardinal.curLasers));
 
             world.appendChildren(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),   0, golem.laserDuration, 0),
@@ -245,10 +245,10 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGolemLaserAttackCardinal, orientation, golem, speed, enemyTransform, zindex]: enemies) {
         if (isGolemLaserAttackCardinal.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGolemLaserAttackCardinal>(enemyEnt);
+            world.remove_component<IsGolemLaserAttackCardinal>(enemyEnt);
             
             if (isGolemLaserAttackCardinal.curLasers < golem.nbLasers) {
-                world.add(enemyEnt, IsGolemPreLaserAttackDiagonal(golem.preLaserDuration, isGolemLaserAttackCardinal.curLasers + 1));
+                world.add_component(enemyEnt, IsGolemPreLaserAttackDiagonal(golem.preLaserDuration, isGolemLaserAttackCardinal.curLasers + 1));
 
                 for (int i = 1; i < 7; i++) {
                     world.appendChildren(enemyEnt, {
@@ -259,7 +259,7 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
                     });
                 }
             } else {
-                world.add(enemyEnt, IsGolemRockAttack(golem.rockDuration));
+                world.add_component(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
                 for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {
@@ -316,8 +316,8 @@ void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGolemPreLaserAttackDiagonal, orientation, golem, speed, enemyTransform, zindex]: enemies) {
         if (isGolemPreLaserAttackDiagonal.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGolemPreLaserAttackDiagonal>(enemyEnt);
-            world.add(enemyEnt, IsGolemLaserAttackDiagonal(golem.laserDuration, isGolemPreLaserAttackDiagonal.curLasers));
+            world.remove_component<IsGolemPreLaserAttackDiagonal>(enemyEnt);
+            world.add_component(enemyEnt, IsGolemLaserAttackDiagonal(golem.laserDuration, isGolemPreLaserAttackDiagonal.curLasers));
 
             world.appendChildren(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),  45, golem.laserDuration, 0),
@@ -364,10 +364,10 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGolemLaserAttackDiagonal, orientation, golem, speed, enemyTransform, zindex]: enemies) {
         if (isGolemLaserAttackDiagonal.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGolemLaserAttackDiagonal>(enemyEnt);
+            world.remove_component<IsGolemLaserAttackDiagonal>(enemyEnt);
             
             if (isGolemLaserAttackDiagonal.curLasers < golem.nbLasers) {
-                world.add(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, isGolemLaserAttackDiagonal.curLasers + 1));
+                world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, isGolemLaserAttackDiagonal.curLasers + 1));
 
                 for (int i = 1; i < 7; i++) {
                     world.appendChildren(enemyEnt, {
@@ -378,7 +378,7 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
                     });
                 }
             } else {
-                world.add(enemyEnt, IsGolemRockAttack(golem.rockDuration));
+                world.add_component(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
                 for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {

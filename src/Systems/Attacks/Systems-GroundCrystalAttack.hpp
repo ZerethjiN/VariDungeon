@@ -13,8 +13,8 @@ void groundCrystalAttackCrossSys(MainFixedSystem, World& world) {
 
     for (auto [crystalEnt, isGroundCrystalAttackCross, animation, groundCrystalAttack]: crystals) {
         if (isGroundCrystalAttackCross.canSwitchState(time.fixedDelta())) {
-            world.remove<IsGroundCrystalAttackCross, Animation>(crystalEnt);
-            world.add(crystalEnt,
+            world.remove_component<IsGroundCrystalAttackCross, Animation>(crystalEnt);
+            world.add_component(crystalEnt,
                 Trigger(-12 / 2, -12 / 2, 12, 12),
                 LifeTime(groundCrystalAttack.mineralDuration)
             );

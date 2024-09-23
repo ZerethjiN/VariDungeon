@@ -20,8 +20,8 @@ void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
         }
 
         if (isSarcophageShadowMark.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSarcophageShadowMark>(enemyEnt);
-            world.add(enemyEnt, IsSarcophagePreLaserAttack(sarcophage.preLaserDuration));
+            world.remove_component<IsSarcophageShadowMark>(enemyEnt);
+            world.add_component(enemyEnt, IsSarcophagePreLaserAttack(sarcophage.preLaserDuration));
 
             for (int i = 1; i < 7; i++) {
                 world.appendChildren(enemyEnt, {
@@ -69,8 +69,8 @@ void sarcophagePreLaserSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSarcophagePreLaserAttack, orientation, sarcophage, speed, enemyTransform]: enemies) {
         if (isSarcophagePreLaserAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSarcophagePreLaserAttack>(enemyEnt);
-            world.add(enemyEnt, IsSarcophageLaserAttack(sarcophage.laserDuration));
+            world.remove_component<IsSarcophagePreLaserAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsSarcophageLaserAttack(sarcophage.laserDuration));
 
             world.appendChildren(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),   0, sarcophage.laserDuration, 32.f),
@@ -116,8 +116,8 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSarcophageLaserAttack, orientation, sarcophage, speed, enemyTransform]: enemies) {
         if (isSarcophageLaserAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSarcophageLaserAttack>(enemyEnt);
-            world.add(enemyEnt, IsSarcophageObelisk(sarcophage.obeliskDuration));
+            world.remove_component<IsSarcophageLaserAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsSarcophageObelisk(sarcophage.obeliskDuration));
             for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < 2; i++) {
                     auto rndX = rand() % 6;
@@ -163,13 +163,13 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isSarcophageObelisk, orientation, sarcophage, speed, enemyTransform]: enemies) {
         if (isSarcophageObelisk.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSarcophageObelisk>(enemyEnt);
-            world.add(enemyEnt, IsSarcophageShadowMark(sarcophage.shadowMarkDuration, sarcophage.nbShadowMark));
+            world.remove_component<IsSarcophageObelisk>(enemyEnt);
+            world.add_component(enemyEnt, IsSarcophageShadowMark(sarcophage.shadowMarkDuration, sarcophage.nbShadowMark));
             for (auto [obeliskEnt]: world.view(with<SarcophageObelisk>)) {
-                world.destroy(obeliskEnt);
+                world.delete_entity(obeliskEnt);
             }
             world.appendChildren(enemyEnt, {
-                world.newEnt(
+                world.create_entity(
                     SarcophageShockwave(),
                     Sprite(textureManager, levelUpShockwaveUV),
                     Transform2D(

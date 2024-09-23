@@ -18,8 +18,8 @@ void lootSpreadSys(MainFixedSystem, World& world) {
             for (auto [playerEnt]: players) {
                 newPlayerEnt = playerEnt;
             }
-            world.remove<LootSpread, Collider>(lootEnt);
-            world.add(lootEnt,
+            world.remove_component<LootSpread, Collider>(lootEnt);
+            world.add_component(lootEnt,
                 // Lootable(),
                 Trigger(collider.col),
                 // InnerMovement(0.5f, 4.f),

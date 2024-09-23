@@ -14,14 +14,14 @@ void slimeLvl2MoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSlimeLvl2Move, orientation, slime, speed, enemyTransform]: enemies) {
         if (isSlimeLvl2Move.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSlimeLvl2Move>(enemyEnt);
-            world.add(enemyEnt, IsSlimeLvl2Jump(slime.jumpDuration));
+            world.remove_component<IsSlimeLvl2Move>(enemyEnt);
+            world.add_component(enemyEnt, IsSlimeLvl2Jump(slime.jumpDuration));
             animation.play(SlimeLvl2AnimType::SHADOW);
 
             if (auto opt = world.get<const Collider>(enemyEnt)) {
                 auto [collider] = opt.value();
                 slime.tmpCollider = collider.col;
-                world.remove<Collider>(enemyEnt);
+                world.remove_component<Collider>(enemyEnt);
             }
 
             continue;
@@ -77,11 +77,11 @@ void slimeLvl2JumpSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSlimeLvl2Jump, orientation, speed, enemyTransform, slime]: enemies) {
         if (isSlimeLvl2Jump.canSwitchState(time.fixedDelta())) {
-            world.remove<IsSlimeLvl2Jump>(enemyEnt);
-            world.add(enemyEnt, IsSlimeLvl2Move(slime.moveDuration));
+            world.remove_component<IsSlimeLvl2Jump>(enemyEnt);
+            world.add_component(enemyEnt, IsSlimeLvl2Move(slime.moveDuration));
 
             if (!world.has<Collider>(enemyEnt)) {
-                world.add(enemyEnt, Collider(slime.tmpCollider));
+                world.add_component(enemyEnt, Collider(slime.tmpCollider));
             }
 
             instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition());

@@ -16,8 +16,8 @@ void batLvl2MoveSys(MainFixedSystem, World& world) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= bat.attackRadius) {
-                    world.remove<IsBatLvl2Move>(enemyEnt);
-                    world.add(enemyEnt, IsBatLvl2Attack(bat.attackDuration));
+                    world.remove_component<IsBatLvl2Move>(enemyEnt);
+                    world.add_component(enemyEnt, IsBatLvl2Attack(bat.attackDuration));
 
                     world.appendChildren(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, +16), zindex),
@@ -84,8 +84,8 @@ void batLvl2AttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsBatLvl2Attack>(enemyEnt);
-            world.add(enemyEnt, IsBatLvl2Move(bat.moveDuration));
+            world.remove_component<IsBatLvl2Attack>(enemyEnt);
+            world.add_component(enemyEnt, IsBatLvl2Move(bat.moveDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.appendChildren(enemyEnt, {

@@ -7,7 +7,7 @@
 
 Ent instantiateGroundCrystalAttack(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         GroundCrystalAttack(
             /*CrossDuration:*/ 0.75f,
             /*MineralDuration:*/ 1.0f

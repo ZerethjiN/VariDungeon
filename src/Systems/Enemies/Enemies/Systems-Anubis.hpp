@@ -14,8 +14,8 @@ void anubisMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isAnubisMove, orientation, speed, anubis, enemyTransform, zindex]: enemies) {
         if (isAnubisMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsAnubisMove>(enemyEnt);
-            world.add(enemyEnt, IsAnubisAttack(anubis.attackDuration));
+            world.remove_component<IsAnubisMove>(enemyEnt);
+            world.add_component(enemyEnt, IsAnubisAttack(anubis.attackDuration));
 
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -93,8 +93,8 @@ void anubisAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isAnubisAttack, orientation, anubis, enemyTransform]: enemies) {
         if (isAnubisAttack.canSwitchState(time.fixedDelta())) {
-            world.remove<IsAnubisAttack>(enemyEnt);
-            world.add(enemyEnt, IsAnubisMove(anubis.moveDuration));
+            world.remove_component<IsAnubisAttack>(enemyEnt);
+            world.add_component(enemyEnt, IsAnubisMove(anubis.moveDuration));
             instantiateFireBallParticle(world, enemyTransform.getPosition(), orientation.orientation, 128.f);
         }
 

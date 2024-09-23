@@ -7,7 +7,7 @@
 
 Ent instantiateAnubis(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Anubis(1.5f, 0.75f),

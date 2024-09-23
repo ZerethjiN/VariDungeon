@@ -7,7 +7,7 @@
 
 Ent instantiateSpike(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         EnemyWeapon(),
         Damage(1),
         Spike(1.0f, 1.0f),

@@ -7,7 +7,7 @@
 
 Ent instantiateParticleEffectFire(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, particleEffectUV),
         Animation(particleEffectAnim, ParticleEffectAnimType::FIRE_PARTICLE),
         Transform2D(
@@ -22,7 +22,7 @@ Ent instantiateParticleEffectFire(World& world, const glm::vec2& position) {
 
 Ent instantiateParticleEffectStun(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, particleEffectUV),
         Animation(particleEffectAnim, ParticleEffectAnimType::STUN_PARTICLE),
         Transform2D(
@@ -37,7 +37,7 @@ Ent instantiateParticleEffectStun(World& world, const glm::vec2& position) {
 
 Ent instantiateParticleEffectFrost(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, particleEffectUV),
         Animation(particleEffectAnim, ParticleEffectAnimType::FROST_PARTICLE),
         Transform2D(
@@ -52,7 +52,7 @@ Ent instantiateParticleEffectFrost(World& world, const glm::vec2& position) {
 
 Ent instantiateParticleEffectStar(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, particleEffectUV),
         Animation(particleEffectAnim, ParticleEffectAnimType::STAR_PARTICLE),
         Transform2D(

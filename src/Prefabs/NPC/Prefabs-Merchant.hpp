@@ -9,7 +9,7 @@ Ent instantiateMerchant(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             Merchant(),
             Sprite(textureManager, merchantUV),
             Animation(merchantAnim, MerchantAnimType::DEFAULT),
@@ -22,7 +22,7 @@ Ent instantiateMerchant(World& world, const glm::vec2& position) {
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 MerchantRadius(),
                     Transform2D(
                     position,

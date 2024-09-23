@@ -9,7 +9,7 @@ Ent instantiateCoinParticle(World& world, const glm::vec2& position, float sprea
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             CoinGroundItem(1.f),
             Sprite(textureManager, coinParticleUV),
             Animation(coinParticleAnim, CoinParticleAnimType::DEFAULT),
@@ -25,7 +25,7 @@ Ent instantiateCoinParticle(World& world, const glm::vec2& position, float sprea
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 Sprite(textureManager, shadowUV),
                 Animation(shadowAnim, ShadowAnimType::SMALL),
                 Transform2D(

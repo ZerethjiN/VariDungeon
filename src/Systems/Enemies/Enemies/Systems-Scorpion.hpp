@@ -14,8 +14,8 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isScorpionMove, orientation, speed, scorpion, transform, zindex]: enemies) {
         if (isScorpionMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsScorpionMove>(enemyEnt);
-            world.add(enemyEnt, IsScorpionCast(scorpion.castDuration));
+            world.remove_component<IsScorpionMove>(enemyEnt);
+            world.add_component(enemyEnt, IsScorpionCast(scorpion.castDuration));
 
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -101,8 +101,8 @@ void scorpionAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isScorpionCast, enemyTransform, orientation, scorpion]: enemies) {
         if (isScorpionCast.canSwitchState(time.fixedDelta())) {
-            world.remove<IsScorpionCast>(enemyEnt);
-            world.add(enemyEnt, IsScorpionMove(scorpion.moveDuration));
+            world.remove_component<IsScorpionCast>(enemyEnt);
+            world.add_component(enemyEnt, IsScorpionMove(scorpion.moveDuration));
 
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {

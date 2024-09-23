@@ -20,13 +20,13 @@ void playerHitSys(MainFixedSystem, World& world) {
                 }
 
                 // Visual Effect:
-                world.add(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
+                world.add_component(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
                 playerTransform.scale(-0.2f, -0.2f);
 
                 if (auto opt = world.get<const Transform2D>(othEnt)) {
                     auto [enemyTransform] = opt.value();
 
-                    world.add(playerEnt,
+                    world.add_component(playerEnt,
                         Knockback(0.15f, -glm::normalize(enemyTransform.getPosition() - playerTransform.getPosition()), 192.f),
                         CombatParticleGenerator(0.15f, 3, 2)
                     );
@@ -45,7 +45,7 @@ void playerHitSys(MainFixedSystem, World& world) {
 
                 // IsDead:
                 if (life.isDead()) {
-                    world.destroy(playerEnt);
+                    world.delete_entity(playerEnt);
                     world.loadScene(hubScene);
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);

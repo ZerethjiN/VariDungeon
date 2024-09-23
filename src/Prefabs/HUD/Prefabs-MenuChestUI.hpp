@@ -7,7 +7,7 @@
 
 Ent instantiateMenuChestUI(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Menu(),
         MenuChest(),
         UI(textureManager, menuBonusHUDUV, UIAnchor::CENTER_CENTER),

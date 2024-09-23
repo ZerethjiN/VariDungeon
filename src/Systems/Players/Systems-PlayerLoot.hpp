@@ -12,8 +12,8 @@ void playerLootSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, collisions]: players) {
         for (auto othEnt: collisions) {
             if (world.has<Lootable>(othEnt)) {
-                world.remove<Lootable>(othEnt);
-                world.add(othEnt,
+                world.remove_component<Lootable>(othEnt);
+                world.add_component(othEnt,
                     LootAttract(128.f, playerEnt)
                 );
                 if (auto opt = world.get<Transform2D>(othEnt)) {
@@ -34,7 +34,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
         Ent targetEnt = lootAttract.getTargetEnt();
 
         if (!world.exist(targetEnt)) {
-            world.destroy(lootEnt);
+            world.delete_entity(lootEnt);
             continue;
         }
 
@@ -47,7 +47,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                 // Visual Effect:
                 instantiateItemFeedbackParticle(world, lootTransform.getPosition());
                 world.appendChildren(targetEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         TextCreator("+" + std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
                         Transform2D(
                             othTransform.getPosition(),
@@ -74,7 +74,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         playerXp.addXp(xpGroundItem.getAmount());
                         if (playerXp.isLevelUp()) {
                             world.appendChildren(targetEnt, {
-                                world.newEnt(
+                                world.create_entity(
                                     PlayerWeapon(),
                                     Damage(1),
                                     LevelUpKnockback(0.25f),
@@ -105,7 +105,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         for (auto [xpIconEnt, xpIconTransform]: world.view<Transform2D>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
                             if (!world.has<ShrinkIcon>(xpIconEnt)) {
                                 xpIconTransform.scale(-0.2f, -0.2f);
-                                world.add(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                                world.add_component(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }
                         }
                     }
@@ -148,14 +148,14 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         for (auto [coinIconEnt, coinIconTransform]: world.view<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
                             if (!world.has<ShrinkIcon>(coinIconEnt)) {
                                 coinIconTransform.scale(-0.2f, -0.2f);
-                                world.add(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                                world.add_component(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }
                         }
                     }
                 }
 
                 // Destroy:
-                world.destroy(lootEnt);
+                world.delete_entity(lootEnt);
             }
         }
     }

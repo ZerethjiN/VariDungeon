@@ -9,7 +9,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.appendChildren(
         // Parent
-        world.newEnt(
+        world.create_entity(
             BonusSphere(),
             Sprite(textureManager, bonusSphereUV),
             Animation(bonusSphereAnim, BonusSphereAnimType::DEFAULT),
@@ -27,7 +27,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
         ),
         // Children
         {
-            world.newEnt(
+            world.create_entity(
                 Sprite(textureManager, shadowUV),
                 Animation(shadowAnim, ShadowAnimType::SMALL),
                 Transform2D(

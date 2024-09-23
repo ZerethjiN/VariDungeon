@@ -7,7 +7,7 @@
 
 Ent instantiateSwordImpact(World& world, const glm::vec2& position, int baseZIndex) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Sprite(textureManager, swordImpactUV),
         Animation(swordImpactAnim, SwordImpactAnimType::DEFAULT),
         Transform2D(

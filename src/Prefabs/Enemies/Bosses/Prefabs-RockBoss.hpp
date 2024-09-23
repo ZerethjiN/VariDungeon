@@ -9,7 +9,7 @@ Ent instantiateSmallCrystalParticle(World&, const glm::vec2&, float, const glm::
 
 Ent instantiateRockBoss(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    auto bossEnt = world.newEnt(
+    auto bossEnt = world.create_entity(
         Boss(),
         Enemy(),
         EnemyPreSpawn(0.5f, 2),

@@ -7,7 +7,7 @@
 
 Ent instantiateShurikenParticle(World& world, const glm::vec2& position, float rotationSpeed, const glm::vec2& offset) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Unerasable(),
         Shuriken(rotationSpeed, offset),
         PlayerWeapon(),

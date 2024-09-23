@@ -14,7 +14,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
             for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform2D>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
                 if (!world.has<ShrinkIcon>(buttonBIconEnt)) {
                     buttonBIconTransform.scale(-0.1f, -0.1f);
-                    world.add(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
+                    world.add_component(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
                 }
             }
 
@@ -24,7 +24,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 newDirection = glm::vec2(1, 0);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_RIGHT, zindex.layer - 1);
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -41,7 +41,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 newDirection = glm::vec2(-1, 0);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_LEFT, zindex.layer - 1);
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -58,7 +58,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 newDirection = glm::vec2(0, 1);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_DOWN, zindex.layer - 1);
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -75,7 +75,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 newDirection = glm::vec2(0, -1);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_UP, zindex.layer - 1);
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -90,11 +90,11 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             }
 
-            world.add(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f, 0.1f));
+            world.add_component(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f, 0.1f));
             // appliedCurCameraAberation(world, 8, 10, newDirection);
 
             if (!world.has<Unhittable>(playerEnt)) {
-                world.add(playerEnt, Unhittable());
+                world.add_component(playerEnt, Unhittable());
             }
         }
     }
@@ -107,9 +107,9 @@ void barbarianStopDashSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianDash, orientation, transform, zindex]: players) {
         if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(ButtonNameType::B_BUTTON)) {
-            world.remove<IsBarbarianDash>(playerEnt);
+            world.remove_component<IsBarbarianDash>(playerEnt);
             if (world.has<Unhittable>(playerEnt)) {
-                world.remove<Unhittable>(playerEnt);
+                world.remove_component<Unhittable>(playerEnt);
             }
             continue;
         }
@@ -259,7 +259,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
             for (auto [buttonAIconEnt, buttonAIconTransform]: world.view<Transform2D>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
                 if (!world.has<ShrinkIcon>(buttonAIconEnt)) {
                     buttonAIconTransform.scale(-0.1f, -0.1f);
-                    world.add(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
+                    world.add_component(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
                 }
             }
 
@@ -277,10 +277,10 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
+                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -307,10 +307,10 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
+                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -337,10 +337,10 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
+                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -367,10 +367,10 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     }
                 }
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
+                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
                 }
                 world.appendChildren(playerEnt, {
-                    world.newEnt(
+                    world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
                         Transform2D(
@@ -384,7 +384,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     )
                 });
             }
-            world.add(playerEnt, IsBarbarianAttack(playerAttackCooldown.getAttackCooldown()));
+            world.add_component(playerEnt, IsBarbarianAttack(playerAttackCooldown.getAttackCooldown()));
         }
     }
 }
@@ -396,7 +396,7 @@ void barbarianStopAttackSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianAttack]: players) {
         if (isBarbarianAttack.canStopAttack(time.fixedDelta())) {
-            world.remove<IsBarbarianAttack>(playerEnt);
+            world.remove_component<IsBarbarianAttack>(playerEnt);
         }
     }
 }

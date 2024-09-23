@@ -36,7 +36,7 @@ void bombSpreadSys(MainFixedSystem, World& world) {
 
     for (auto [bombEnt, velocity, bombSpread, collider]: bombs) {
         if (bombSpread.canStopSpreading(time.fixedDelta())) {
-            world.remove<BombSpread, Collider>(bombEnt);
+            world.remove_component<BombSpread, Collider>(bombEnt);
         }
 
         velocity += bombSpread.direction * bombSpread.speed * time.fixedDelta();
@@ -51,7 +51,7 @@ void playerBombExplosionSys(MainFixedSystem, World& world) {
     for (auto [bombEnt, bomb, transform]: bombs) {
         if (bomb.canExplode(time.fixedDelta())) {
             instantiatePlayerExplosionAttackParticle(world, transform.getPosition());
-            world.destroy(bombEnt);
+            world.delete_entity(bombEnt);
         }
     }
 }

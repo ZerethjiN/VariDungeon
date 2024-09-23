@@ -7,7 +7,7 @@
 
 Ent instantiateTurret(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Turret(2.0f, 2.0f, 0.75f, 0.75f),
         IsTurretCardinal(2.0f, 0.75f),
         Sprite(textureManager, turretUV),

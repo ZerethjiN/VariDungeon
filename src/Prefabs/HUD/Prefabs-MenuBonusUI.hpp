@@ -7,7 +7,7 @@
 
 Ent instantiateMenuBonusUI(World& world, const glm::vec2& position, const std::unordered_set<std::size_t>& bonusesIdx) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Menu(),
         MenuBonus(),
         MenuBonusTranslation(position, 512.f, bonusesIdx),
@@ -23,7 +23,7 @@ Ent instantiateMenuBonusUI(World& world, const glm::vec2& position, const std::u
 
 Ent instantiateMenuBonusMerchantUI(World& world, const glm::vec2& position, const std::unordered_set<std::size_t>& bonusesIdx) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         Menu(),
         MenuBonus(),
         MenuBonusMerchant(),

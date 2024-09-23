@@ -9,7 +9,7 @@
 Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     auto [textureManager] = world.resource<TextureManager>();
     
-    auto chunkHolderEnt = world.newEnt(
+    auto chunkHolderEnt = world.create_entity(
         ChunkInfos(chunkIdx),
         Transform2D(
             position,
@@ -72,7 +72,7 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
 
     world.appendChildren(chunkHolderEnt, {
         // Background + Foregound:
-        world.newEnt(
+        world.create_entity(
             TileMap(textureManager, backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
             ZIndex(-50),
             Transform2D(
@@ -81,7 +81,7 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
                 glm::vec2(1, 1)
             )
         ),
-        world.newEnt(
+        world.create_entity(
             TileMap(textureManager, foregroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
             ZIndex(-49),
             Transform2D(

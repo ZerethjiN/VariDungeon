@@ -13,8 +13,8 @@ void openDoorSys(MainFixedSystem, World& world) {
         auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger>);
 
         for (auto [doorEnt]: doors) {
-            world.remove<Sprite, Collider, IsDoorLock>(doorEnt);
-            world.add(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
+            world.remove_component<Sprite, Collider, IsDoorLock>(doorEnt);
+            world.add_component(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
         }
     }
 }
@@ -30,17 +30,17 @@ void doorCameraMovementSys(MainFixedSystem, World& world) {
 
             if (glm::distance(nextTransform.getPosition() + glm::vec2(-8, 0), cameraTransform.getPosition()) < 8) {
                 cameraTransform.setPosition(nextTransform.getPosition() + glm::vec2(-8, 0));
-                world.remove<ChunkCameraMovement>(cameraEnt);
+                world.remove_component<ChunkCameraMovement>(cameraEnt);
                 world.setInactive(chunkCameraMovement.getOldRoomEnt());
 
                 for (auto [playerEnt]: world.view(with<Player, Unmoveable>)) {
-                    world.remove<Unmoveable>(playerEnt);
+                    world.remove_component<Unmoveable>(playerEnt);
                 }
             } else {
                 cameraTransform.move(glm::normalize(nextTransform.getPosition() + glm::vec2(-8, 0) - cameraTransform.getPosition()) * chunkCameraMovement.getCameraSpeed() * time.fixedDelta());
             }
         } else {
-            world.remove<ChunkCameraMovement>(cameraEnt);
+            world.remove_component<ChunkCameraMovement>(cameraEnt);
         }
     }
 }
@@ -67,7 +67,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                     if (auto optParent = world.getParent(cameraEnt)) {
                         auto cameraParentEnt = optParent.value();
                         if (curRoomEnt != 0 && nextRoomEnt != 0) {
-                            world.add(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
+                            world.add_component(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
                         }
                         // if (auto optCameraParent = world.get<Transform2D>(cameraParentEnt)) {
                         //     auto [cameraParentTransform] = optCameraParent.value();
@@ -97,7 +97,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                     };
                 }
 
-                world.add(othEnt, Unmoveable());
+                world.add_component(othEnt, Unmoveable());
 
                 if (curRoomEnt != 0 && nextRoomEnt != 0) {
                     world.setActive(nextRoomEnt);

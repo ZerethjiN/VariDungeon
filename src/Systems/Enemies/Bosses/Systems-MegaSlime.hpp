@@ -14,7 +14,7 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMegaSlimeMove, orientation, megaSlime, speed, enemyTransform, life]: enemies) {
         if (isMegaSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMegaSlimeMove>(enemyEnt);
+            world.remove_component<IsMegaSlimeMove>(enemyEnt);
             unsigned int rnd;
             do {
                 rnd = rand() % 3;
@@ -24,14 +24,14 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
                 case 0:
                     animation.play(MegaSlimeAnimType::SHADOW);
                     if (world.has<Collider>(enemyEnt)) {
-                        world.remove<Collider>(enemyEnt);
+                        world.remove_component<Collider>(enemyEnt);
                     }
-                    world.add(enemyEnt, IsMegaSlimeBounce(megaSlime.bounceDuration, megaSlime.bounceCooldownLvl1, megaSlime.bounceCooldownLvl2, megaSlime.bounceGroundDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+                    world.add_component(enemyEnt, IsMegaSlimeBounce(megaSlime.bounceDuration, megaSlime.bounceCooldownLvl1, megaSlime.bounceCooldownLvl2, megaSlime.bounceGroundDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
                     break;
                 case 1:
-                    world.add(enemyEnt, IsMegaSlimeFireball(megaSlime.fireballDuration, megaSlime.fireballCooldownLvl1, megaSlime.fireballCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife()));
+                    world.add_component(enemyEnt, IsMegaSlimeFireball(megaSlime.fireballDuration, megaSlime.fireballCooldownLvl1, megaSlime.fireballCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife()));
                     break;
-                case 2: world.add(enemyEnt, IsMegaSlimeSpawn(megaSlime.spawnDuration, megaSlime.spawnCooldownLvl1, megaSlime.spawnCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife())); break;
+                case 2: world.add_component(enemyEnt, IsMegaSlimeSpawn(megaSlime.spawnDuration, megaSlime.spawnCooldownLvl1, megaSlime.spawnCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife())); break;
             }
             megaSlime.lastState = rnd;
             continue;
@@ -119,8 +119,8 @@ void megaSlimeFireballSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMegaSlimeFireball, orientation, megaSlime, transform, life, zindex]: enemies) {
         if (isMegaSlimeFireball.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMegaSlimeFireball>(enemyEnt);
-            world.add(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+            world.remove_component<IsMegaSlimeFireball>(enemyEnt);
+            world.add_component(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
             continue;
         }
 
@@ -231,11 +231,11 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMegaSlimeBounce, orientation, megaSlime, transform, life]: enemies) {
         if (isMegaSlimeBounce.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMegaSlimeBounce>(enemyEnt);
-            world.add(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+            world.remove_component<IsMegaSlimeBounce>(enemyEnt);
+            world.add_component(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
             if (!world.has<Collider>(enemyEnt)) {
                 appliedCameraShake(world, 0.5f, 128.f, 2);
-                world.add(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
+                world.add_component(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
                 instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, -1), 48.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, -1), 48.f);
@@ -253,12 +253,12 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
             if (isMegaSlimeBounce.isJump()) {
                 animation.play(MegaSlimeAnimType::SHADOW);
                 if (world.has<Collider>(enemyEnt)) {
-                    world.remove<Collider>(enemyEnt);
+                    world.remove_component<Collider>(enemyEnt);
                 }
             } else {
                 appliedCameraShake(world, 0.5f, 128.f, 2);
                 if (!world.has<Collider>(enemyEnt)) {
-                    world.add(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
+                    world.add_component(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
                 }
                 instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, -1), 48.f);
@@ -357,8 +357,8 @@ void megaSlimeSpawnSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isMegaSlimeSpawn, orientation, megaSlime, speed, transform, life]: enemies) {
         if (isMegaSlimeSpawn.canSwitchState(time.fixedDelta())) {
-            world.remove<IsMegaSlimeSpawn>(enemyEnt);
-            world.add(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+            world.remove_component<IsMegaSlimeSpawn>(enemyEnt);
+            world.add_component(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
             // instantiateSlimeSlimeBoss(world, transform.getPosition() + glm::vec2(8, 0));
             for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(40, -40));

@@ -7,7 +7,7 @@
 
 Ent instantiateMegaLaserParticle(World& world, const glm::vec2& position, float rotation, float newLifeTime, float rotationSpeed) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.newEnt(
+    return world.create_entity(
         MegaLaser(rotationSpeed),
         EnemyWeapon(),
         Damage(1),

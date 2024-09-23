@@ -27,7 +27,7 @@ void testScene(SceneSystem, World& world) {
     auto [time] = world.resource<Time>();
     time.setTimeScale(1.0f);
 
-    world.newEnt(
+    world.create_entity(
         AmbientLight(Color(255, 255, 255, 255))
     );
 
@@ -74,7 +74,7 @@ void testScene(SceneSystem, World& world) {
         }
 
         // ChunkTable recreation:
-        world.newEnt(
+        world.create_entity(
             ChunkTable(width, height, newTables),
             ChunkExploration(width, height, roomTypes)
         );
@@ -92,7 +92,7 @@ void testScene(SceneSystem, World& world) {
 
         auto cameras = world.view(with<CurCamera>);
         if (cameras.empty()) {
-            auto cameraOrigin = world.newEnt(
+            auto cameraOrigin = world.create_entity(
                 Transform2D(
                     glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                     0,
@@ -102,7 +102,7 @@ void testScene(SceneSystem, World& world) {
 
             world.appendChildren(cameraOrigin, {
                 // Camera
-                world.newEnt(
+                world.create_entity(
                     Transform2D(
                         glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
                         0,
@@ -127,13 +127,13 @@ void testScene(SceneSystem, World& world) {
 
             for (auto [cameraEnt]: world.view(with<CameraShake>)) {
                 if (world.has<CameraShake>(cameraEnt)) {
-                    world.remove<CameraShake>(cameraEnt);
+                    world.remove_component<CameraShake>(cameraEnt);
                 }
                 if (world.has<CameraShakeLeft>(cameraEnt)) {
-                    world.remove<CameraShakeLeft>(cameraEnt);
+                    world.remove_component<CameraShakeLeft>(cameraEnt);
                 }
                 if (world.has<CameraShakeRight>(cameraEnt)) {
-                    world.remove<CameraShakeRight>(cameraEnt);
+                    world.remove_component<CameraShakeRight>(cameraEnt);
                 }
             }
         }
@@ -144,7 +144,7 @@ void testScene(SceneSystem, World& world) {
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
     world.appendChildren(
-        world.newEnt(
+        world.create_entity(
             UI(textureManager, blackBackgroundUV, UIAnchor::CENTER_CENTER),
             Transform2D(
                 glm::vec2(-80, -72),
@@ -155,7 +155,7 @@ void testScene(SceneSystem, World& world) {
             ZIndex(999)
         ),
         {
-            world.newEnt(
+            world.create_entity(
                 TextUICreator(std::string("Floor ") + std::to_string(curFloor), "Fonts/Zepto-Regular.ttf", 16, UIAnchor::BOTTOM_CENTER, glm::vec2(160, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
                 Transform2D(
                     glm::vec2(-80, -88),
