@@ -18,36 +18,16 @@ public:
     const float attractStrength;
 };
 
-class IsVoidSlimeMove final {
+class IsVoidSlimeMove final: public IIsStateDuration {
 public:
     IsVoidSlimeMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsVoidSlimeAttract final {
+class IsVoidSlimeAttract final: public IIsStateDuration {
 public:
     IsVoidSlimeAttract(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

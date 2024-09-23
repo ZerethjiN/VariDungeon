@@ -11,76 +11,30 @@ public:
         rollSpeedCoeff(newRollSpeedCoeff) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getPreAttackDuration() const {
-        return preAttackDuration;
-    }
-
-    float getAttackDuration() const {
-        return attackDuration;
-    }
-
-    float getRollSpeedCoeff() const {
-        return rollSpeedCoeff;
-    }
-
-private:
+public:
     const float moveDuration;
     const float preAttackDuration;
     const float attackDuration;
     const float rollSpeedCoeff;
 };
 
-class IsGasterolcanMove final {
+class IsGasterolcanMove final: public IIsStateDuration {
 public:
     IsGasterolcanMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsGasterolcanPreAttack final {
+class IsGasterolcanPreAttack final: public IIsStateDuration {
 public:
     IsGasterolcanPreAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsGasterolcanAttack final {
+class IsGasterolcanAttack final: public IIsStateDuration {
 public:
     IsGasterolcanAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

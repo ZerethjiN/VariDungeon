@@ -9,49 +9,21 @@ public:
         preAttackDuration(newPreAttackDuration) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getPreAttackDuration() const {
-        return preAttackDuration;
-    }
-
-private:
+public:
     const float moveDuration;
     const float preAttackDuration;
 };
 
-class IsLavaSlimeMove final {
+class IsLavaSlimeMove final: public IIsStateDuration {
 public:
     IsLavaSlimeMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsLavaSlimePreAttack final {
+class IsLavaSlimePreAttack final: public IIsStateDuration {
 public:
     IsLavaSlimePreAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

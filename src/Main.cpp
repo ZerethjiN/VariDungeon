@@ -31,6 +31,7 @@ void pollEventsSys(MainUnscaledFixedSystem, World& world) {
 
 int main() {
     ZerEngine()
+        .useMultithreading(false)
         .setFixedTimeStep(0.02f)
         .addResource<BuildVersion>("0.0.1R")
         .addResource<PipelineManager>()
@@ -185,7 +186,7 @@ int main() {
                 auto [appstate] = world.resource<const AppState>();
                 return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Insect>).empty();
             },
-            {insectMoveSys, insectAttackSys}
+            {insectChangeDirectionSys, insectMoveSys, insectAttackSys}
         )
         .addSystems(
             mainFixedSystem, // Gasterolcan Threads

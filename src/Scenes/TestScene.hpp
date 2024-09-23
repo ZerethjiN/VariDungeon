@@ -28,7 +28,7 @@ void testScene(SceneSystem, World& world) {
     time.setTimeScale(1.0f);
 
     world.newEnt(
-        AmbientLight(glm::vec4(255, 255, 255, 255))
+        AmbientLight(Color(255, 255, 255, 255))
     );
 
     std::size_t curFloor = 0;

@@ -19,14 +19,14 @@ public:
 
 class Sprite final {
 public:
-    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
         color(newColor),
         isMirror(false) {
         setTextureRect(newImageAsset[imageDataIndex]);
     }
 
-    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+    Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
         color(newColor),
         isMirror(false) {
@@ -43,11 +43,11 @@ public:
         setTextureRect(imageData.spriteRect);
     }
 
-    void setColor(const glm::vec4& newColor) noexcept {
+    void setColor(const Color& newColor) noexcept {
         color = newColor;
     }
 
-    [[nodiscard]] const glm::vec4& getColor() const noexcept {
+    [[nodiscard]] const Color& getColor() const noexcept {
         return color;
     }
 
@@ -161,7 +161,7 @@ public:
     const Texture& texture;
     glm::uvec4 textureRect;
     glm::vec2 origin;
-    glm::vec4 color;
+    Color color;
     bool isMirror;
 };
 
@@ -181,14 +181,14 @@ enum class UIAnchor: uint8_t {
 
 class UI final  {
 public:
-    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const UIAnchor newAnchor, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
         color(newColor),
         anchor(newAnchor) {
         setTextureRect(newImageAsset[imageDataIndex]);
     }
 
-    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, const UIAnchor newAnchor, const glm::vec4& newColor = glm::ivec4(255, 255, 255, 255)):
+    UI(TextureManager& textureManager, const ImageAsset& newImageAsset, const UIAnchor newAnchor, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
         color(newColor),
         anchor(newAnchor) {
@@ -232,7 +232,7 @@ public:
         };
     }
 
-    void setColor(const glm::vec4& newColor) {
+    void setColor(const Color& newColor) {
         color = newColor;
     }
 
@@ -240,7 +240,7 @@ public:
     std::array<SSBOVertex, 4> vertices;
     glm::uvec4 textureRect;
     glm::vec2 origin;
-    glm::vec4 color;
+    Color color;
     const Texture& texture;
 
 public:

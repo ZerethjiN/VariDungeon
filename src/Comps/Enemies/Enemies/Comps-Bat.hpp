@@ -16,36 +16,16 @@ public:
     const float attackRadius;
 };
 
-class IsBatMove final {
+class IsBatMove final: public IIsStateDuration {
 public:
     IsBatMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsBatAttack final {
+class IsBatAttack final: public IIsStateDuration {
 public:
     IsBatAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

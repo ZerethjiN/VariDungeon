@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 
+#include "Graphic/Common.hpp"
 #include "Graphic/VulkanEngine.hpp"
 #include "Graphic/IGraphicsPipeline.hpp"
 #include "Graphic/ImageAsset.hpp"

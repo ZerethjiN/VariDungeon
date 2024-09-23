@@ -14,20 +14,11 @@ void insectMoveSys(MainFixedSystem, World& world) {
 
     for (auto [insectEnt, velocity, animation, isInsectMove, orientation, speed, insect, transform, zindex]: insects) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
-            world.remove<IsInsectMove>(insectEnt);
-            world.add(insectEnt, IsInsectAttack(insect.getAttackDuration()));
+            world.remove<IsInsectMove, IsInsectChangeDirection>(insectEnt);
+            world.add(insectEnt, IsInsectAttack(insect.attackDuration));
             world.appendChildren(insectEnt, {
                 instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex)
             });
-        }
-
-        if (isInsectMove.canChangeDirection(time.fixedDelta())) {
-            switch (rand() % 4) {
-                case 0: orientation = Orientation::NORTH; break;
-                case 1: orientation = Orientation::SOUTH; break;
-                case 2: orientation = Orientation::EAST; break;
-                case 3: orientation = Orientation::WEST; break;
-            }
         }
 
         velocity += orientation.orientation * speed.speed * time.fixedDelta();
@@ -63,6 +54,23 @@ void insectMoveSys(MainFixedSystem, World& world) {
     }
 }
 
+void insectChangeDirectionSys(MainFixedSystem, World& world) {
+    auto insects = world.view<IsInsectChangeDirection, Orientation>(with<Insect>, without<Unmoveable, EnemyPreSpawn>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [_, isInsectChangeDirection, orientation]: insects) {
+        if (isInsectChangeDirection.canTick(time.fixedDelta())) {
+            switch (rand() % 4) {
+                case 0: orientation = Orientation::NORTH; break;
+                case 1: orientation = Orientation::SOUTH; break;
+                case 2: orientation = Orientation::EAST; break;
+                case 3: orientation = Orientation::WEST; break;
+            }
+        }
+    }
+}
+
 // Run With: [insectMoveSys, insectAttackSys]
 void insectAttackSys(MainFixedSystem, World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform2D, const Insect>(without<EnemyPreSpawn>);
@@ -73,7 +81,10 @@ void insectAttackSys(MainFixedSystem, World& world) {
     for (auto [insectEnt, velocity, animation, isInsectAttack, orientation, speed, insectTransform, insect]: insects) {
         if (isInsectAttack.canSwitchState(time.fixedDelta())) {
             world.remove<IsInsectAttack>(insectEnt);
-            world.add(insectEnt, IsInsectMove(insect.getMoveDuration(), insect.getDirectionCooldown()));
+            world.add(insectEnt,
+                IsInsectMove(insect.moveDuration),
+                IsInsectChangeDirection(insect.directionCooldown)
+            );
         }
 
         glm::vec2 newdirection;
@@ -81,7 +92,7 @@ void insectAttackSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - insectTransform.getPosition());
         }
 
-        velocity += newdirection * speed.speed * insect.getAttackSpeedCoeff() * time.fixedDelta();
+        velocity += newdirection * speed.speed * insect.attackSpeedCoeff * time.fixedDelta();
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;

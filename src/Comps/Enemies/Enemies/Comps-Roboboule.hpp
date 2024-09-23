@@ -9,34 +9,16 @@ public:
         preAttackRadius(newPreAttackRadius) {
     }
 
-    float getPreAttackDuration() const {
-        return preAttackDuration;
-    }
-
-    float getPreAttackRadius() const {
-        return preAttackRadius;
-    }
-
-private:
+public:
     const float preAttackDuration;
     const float preAttackRadius;
 };
 
 class IsRobobouleMove final {};
 
-class IsRoboboulePreAttack final {
+class IsRoboboulePreAttack final: public IIsStateDuration {
 public:
     IsRoboboulePreAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

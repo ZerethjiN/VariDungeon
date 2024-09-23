@@ -12,7 +12,7 @@ void slimeMoveSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [slimeEnt, velocity, animation, orientation, slime, speed]: slimes) {
-        if (slime.canChangeDirection(time.fixedDelta())) {
+        if (slime.canTick(time.fixedDelta())) {
             switch (rand() % 4) {
                 case 0: orientation = Orientation::NORTH; break;
                 case 1: orientation = Orientation::SOUTH; break;

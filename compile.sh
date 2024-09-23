@@ -19,14 +19,14 @@ glslc -O --target-env=vulkan1.3 shaders/LightBatchShader.frag -o shaders/LightBa
 clang++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
     -I Lib -I src -I Zerengine\
     -I /usr/include/freetype2\
-    -Ofast -s -pipe -std=c++2c\
-    -m64 -march=x86-64-v3\
+    -Ofast -g -pipe -std=c++2c\
     -fno-exceptions\
     -lvulkan\
     -lfreetype\
     -lglfw
     # -static-libgcc\
     # -static-libstdc++\
+    # -m64 -march=x86-64-v3\
 
 #-fsanitize=address -fsanitize-address-use-after-scope -fsanitize=leak -fsanitize=undefined\
 #-Wl,-Bdynamic -lvulkan\

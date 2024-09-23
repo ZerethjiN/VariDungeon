@@ -14,36 +14,16 @@ public:
     const float castDuration;
 };
 
-class IsScorpionMove final {
+class IsScorpionMove final: public IIsStateDuration {
 public:
     IsScorpionMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsScorpionCast final  {
+class IsScorpionCast final: public IIsStateDuration {
 public:
     IsScorpionCast(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

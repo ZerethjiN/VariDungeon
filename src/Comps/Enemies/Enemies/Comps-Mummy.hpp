@@ -18,53 +18,23 @@ public:
     const float attackRadius;
 };
 
-class IsMummyMove final {
+class IsMummyMove final: public IIsStateDuration {
 public:
     IsMummyMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsMummyPreAttack final {
+class IsMummyPreAttack final: public IIsStateDuration {
 public:
     IsMummyPreAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsMummyAttack final {
+class IsMummyAttack final: public IIsStateDuration {
 public:
     IsMummyAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

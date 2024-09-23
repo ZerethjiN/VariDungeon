@@ -2,23 +2,9 @@
 
 #include <Zerengine.hpp>
 
-class Slime final {
+class Slime final: public IIsTickDuration {
 public:
     Slime(float newDirectionCooldown):
-        directionCooldown(newDirectionCooldown),
-        curDirectionCooldown(0) {
+        IIsTickDuration(newDirectionCooldown) {
     }
-
-    bool canChangeDirection(float delta) {
-        curDirectionCooldown += delta;
-        if (curDirectionCooldown >= directionCooldown) {
-            curDirectionCooldown -= directionCooldown;
-            return true;
-        }
-        return false;
-    }
-
-private:
-    const float directionCooldown;
-    float curDirectionCooldown;
 };

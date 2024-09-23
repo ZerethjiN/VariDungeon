@@ -3,21 +3,15 @@
 class IIsStateDuration {
 protected:
     [[nodiscard]] constexpr IIsStateDuration(float newDuration) noexcept:
-        duration(newDuration),
-        curTime(0) {
+        curTime(newDuration) {
     }
 
 public:
     [[nodiscard]] constexpr bool canSwitchState(float delta) noexcept {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-    constexpr void resetStateTimer() noexcept {
-        curTime = 0;
+        curTime -= delta;
+        return curTime <= 0;
     }
 
 private:
-    const float duration;
     float curTime;
 };

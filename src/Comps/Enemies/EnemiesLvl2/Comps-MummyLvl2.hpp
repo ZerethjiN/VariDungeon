@@ -18,8 +18,8 @@ public:
     const float attackRadius;
 };
 
-struct IsMummyLvl2Move final: public IIsStateDuration {
-    IsMummyLvl2Move(float newDuration): IIsStateDuration(newDuration) {}
+struct IsMummyLvl2Move final: public IIsTickDuration {
+    IsMummyLvl2Move(float newDuration): IIsTickDuration(newDuration) {}
 };
 
 struct IsMummyLvl2PreAttack final: public IIsStateDuration {

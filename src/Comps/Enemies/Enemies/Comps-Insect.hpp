@@ -11,73 +11,30 @@ public:
         attackSpeedCoeff(newAttackSpeedCoeff) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getDirectionCooldown() const {
-        return directionCooldown;
-    }
-
-    float getAttackDuration() const {
-        return attackDuration;
-    }
-
-    float getAttackSpeedCoeff() const {
-        return attackSpeedCoeff;
-    }
-
-private:
+public:
     const float moveDuration;
     const float directionCooldown;
     const float attackDuration;
     const float attackSpeedCoeff;
 };
 
-class IsInsectMove final {
+class IsInsectChangeDirection final: public IIsTickDuration {
 public:
-    IsInsectMove(float newDuration, float newDirectionCooldown):
-        duration(newDuration),
-        curTime(0),
-        directionCooldown(newDirectionCooldown),
-        curDirectionCooldown(directionCooldown) {
+    IsInsectChangeDirection(float newDirectionCooldown):
+        IIsTickDuration(newDirectionCooldown) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-    bool canChangeDirection(float delta) {
-        curDirectionCooldown += delta;
-        if (curDirectionCooldown >= directionCooldown) {
-            curDirectionCooldown -= directionCooldown;
-            return true;
-        }
-        return false;
-    }
-
-private:
-    const float duration;
-    float curTime;
-
-    const float directionCooldown;
-    float curDirectionCooldown;
 };
 
-class IsInsectAttack final {
+class IsInsectMove final: public IIsStateDuration {
+public:
+    IsInsectMove(float newDuration):
+        IIsStateDuration(newDuration) {
+    }
+};
+
+class IsInsectAttack final: public IIsStateDuration {
 public:
     IsInsectAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

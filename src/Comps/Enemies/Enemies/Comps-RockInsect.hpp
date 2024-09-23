@@ -16,53 +16,23 @@ public:
     const float castDuration;
 };
 
-class IsRockInsectMove final {
+class IsRockInsectMove final: public IIsStateDuration {
 public:
     IsRockInsectMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsRockInsectPreCast final {
+class IsRockInsectPreCast final: public IIsStateDuration {
 public:
     IsRockInsectPreCast(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsRockInsectCast final {
+class IsRockInsectCast final: public IIsStateDuration {
 public:
     IsRockInsectCast(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

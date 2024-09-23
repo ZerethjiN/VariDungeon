@@ -9,49 +9,21 @@ public:
         attackDuration(newAttackDuration) {
     }
 
-    float getMoveDuration() const {
-        return moveDuration;
-    }
-
-    float getAttackDuration() const {
-        return attackDuration;
-    }
-
-private:
+public:
     const float moveDuration;
     const float attackDuration;
 };
 
-class IsAnubisMove final {
+class IsAnubisMove final: public IIsStateDuration {
 public:
     IsAnubisMove(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };
 
-class IsAnubisAttack final {
+class IsAnubisAttack final: public IIsStateDuration {
 public:
     IsAnubisAttack(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+        IIsStateDuration(newDuration) {
     }
-
-    bool canSwitchState(float delta) {
-        curTime += delta;
-        return curTime >= duration;
-    }
-
-private:
-    const float duration;
-    float curTime;
 };

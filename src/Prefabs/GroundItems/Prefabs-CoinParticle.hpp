@@ -18,7 +18,7 @@ Ent instantiateCoinParticle(World& world, const glm::vec2& position, float sprea
                 0,
                 glm::vec2(1, 1)
             ),
-            ZIndex(-1),
+            ZIndex(25),
             Velocity(),
             Collider(-8 / 2, -8 / 2, 8, 8),
             LootSpread(spreadDuration, spreadDirection, spreadSpeed)

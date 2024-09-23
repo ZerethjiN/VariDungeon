@@ -1692,10 +1692,10 @@ private:
     }
 
     void runFixed(World& world) noexcept {
-        for (const auto& mainFunc: mainFixedSystems) {
-            if (mainFunc.first == nullptr || mainFunc.first(world)) {
-                for (const auto& mainRow: mainFunc.second) {
-                    mainRow(mainFixedSystem, world);
+        for (const auto& [condition, systems]: mainFixedSystems) {
+            if (condition == nullptr || condition(world)) {
+                for (const auto& system: systems) {
+                    system(mainFixedSystem, world);
                 }
             }
         }
@@ -2221,6 +2221,10 @@ public:
 
     [[nodiscard]] constexpr auto getTotalEntities() const noexcept -> std::size_t {
         return reg.entArch.size();
+    }
+
+    [[nodiscard]] constexpr auto getTotalArchetypes() const noexcept -> std::size_t {
+        return reg.archs.size();
     }
 
     void addDontDestroyOnLoad(const Ent& ent) noexcept {

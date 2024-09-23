@@ -13,7 +13,7 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, velocity, animation, isMummyMove, orientation, speed, mummy, enemyTransform, zindex]: enemies) {
-        if (isMummyMove.canSwitchState(time.fixedDelta())) {
+        if (isMummyMove.canTick(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= mummy.attackRadius) {
                     world.remove<IsMummyLvl2Move>(enemyEnt);
@@ -55,7 +55,7 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
 
                     continue;
                 } else {
-                    isMummyMove.resetStateTimer();
+                    isMummyMove.resetTick();
                     instantiateShadowMarkParticle(world, playerTransform.getPosition());
 
                     continue;
