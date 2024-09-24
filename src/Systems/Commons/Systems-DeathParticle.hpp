@@ -22,11 +22,11 @@ void deathParticleSys(MainFixedSystem, World& world) {
 
         if (generator.canSpawnParticle(time.fixedDelta())) {
             if (generator.getCurNbParticle() % 2 == 0) {
-                world.appendChildren(generatorEnt, {
+                world.append_children(generatorEnt, {
                     instantiateDeathParticle(world, transform.getPosition() + glm::vec2(8, 8), zindex)
                 });
             } else {
-                world.appendChildren(generatorEnt, {
+                world.append_children(generatorEnt, {
                     instantiateDeathParticle(world, transform.getPosition() + glm::vec2(-8, -8), zindex)
                 });
             }

@@ -2040,7 +2040,7 @@ public:
         return reg.getChildren(parentEnt);
     }
 
-    constexpr auto appendChildren(const Ent& parentEnt, const std::vector<Ent>& childrenEnt) noexcept -> Ent {
+    constexpr auto append_children(const Ent& parentEnt, const std::vector<Ent>& childrenEnt) noexcept -> Ent {
         lateUpgrade.appendChildren(parentEnt, childrenEnt);
         return parentEnt;
     }

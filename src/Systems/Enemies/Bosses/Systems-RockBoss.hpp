@@ -155,7 +155,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
             }
             
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateSmallCrystalParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16), 0.f, 16.f, glm::vec2(0, -16)),
                 instantiateSmallCrystalParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16), +180.f, 16.f, glm::vec2(0, 16)),
                 instantiateSmallCrystalParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 0), -90.f, 16.f, glm::vec2(-16, 0)),

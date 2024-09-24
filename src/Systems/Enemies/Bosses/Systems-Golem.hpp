@@ -19,7 +19,7 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                     world.remove_component<IsGolemRockAttack>(enemyEnt);
                     world.add_component(enemyEnt, IsGolemFootAttack(golem.footDuration));
 
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-24, -24), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-8, -24), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, -24), zindex),
@@ -39,7 +39,7 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                     world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
 
                     for (int i = 1; i < 7; i++) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 0), zindex),
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16 * i), zindex),
@@ -124,7 +124,7 @@ void golemPreFootAttackSys(MainFixedSystem, World& world) {
                 world.remove_component<IsGolemRockAttack>(enemyEnt);
                 world.add_component(enemyEnt, IsGolemFootAttack(golem.footDuration));
 
-                world.appendChildren(enemyEnt, {
+                world.append_children(enemyEnt, {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-24, -24), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-8, -24), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(8, -24), zindex),
@@ -156,7 +156,7 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
             world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, 0));
 
             for (int i = 1; i < 7; i++) {
-                world.appendChildren(enemyEnt, {
+                world.append_children(enemyEnt, {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, -16 * i), zindex),
@@ -200,7 +200,7 @@ void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
             world.remove_component<IsGolemPreLaserAttackCardinal>(enemyEnt);
             world.add_component(enemyEnt, IsGolemLaserAttackCardinal(golem.laserDuration, isGolemPreLaserAttackCardinal.curLasers));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),   0, golem.laserDuration, 0),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),  90, golem.laserDuration, 0),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 180, golem.laserDuration, 0),
@@ -251,7 +251,7 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
                 world.add_component(enemyEnt, IsGolemPreLaserAttackDiagonal(golem.preLaserDuration, isGolemLaserAttackCardinal.curLasers + 1));
 
                 for (int i = 1; i < 7; i++) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 16 * i), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 16 * i), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, -16 * i), zindex),
@@ -319,7 +319,7 @@ void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
             world.remove_component<IsGolemPreLaserAttackDiagonal>(enemyEnt);
             world.add_component(enemyEnt, IsGolemLaserAttackDiagonal(golem.laserDuration, isGolemPreLaserAttackDiagonal.curLasers));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),  45, golem.laserDuration, 0),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 135, golem.laserDuration, 0),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 225, golem.laserDuration, 0),
@@ -370,7 +370,7 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
                 world.add_component(enemyEnt, IsGolemPreLaserAttackCardinal(golem.preLaserDuration, isGolemLaserAttackDiagonal.curLasers + 1));
 
                 for (int i = 1; i < 7; i++) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 0), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16 * i), zindex),

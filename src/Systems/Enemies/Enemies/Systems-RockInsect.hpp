@@ -20,21 +20,21 @@ void rockInsectMoveSys(MainFixedSystem, World& world) {
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 0), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 0), zindex)
                         });
                     }
                 } else {
                     if (orientation.y > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16 * i), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16 * i), zindex)
                         });
                     }
@@ -97,21 +97,21 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
             world.add_component(enemyEnt, IsRockInsectCast(rockInsect.castDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 0, 0.75f, 0)
                     });
                 } else {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 180, 0.75f, 0)
                     });
                 }
             } else {
                 if (orientation.y > 0) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 90, 0.75f, 0)
                     });
                 } else {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 270, 0.75f, 0)
                     });
                 }

@@ -36,7 +36,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
             world.remove_component<MapMenuTranslation>(menuEnt);
 
             // Title:
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 world.create_entity(
                     TextUICreator("Map:", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
@@ -49,7 +49,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
             });
 
             // Key:
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 world.create_entity(
                     TextUICreator("[m]", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
@@ -66,7 +66,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                     for (int x = 0; x < exploration.width; x++) {
                         switch (exploration.roomTypes.at(y).at(x)) {
                             case ChunkExploration::ROOM_EXPLORATION_PLAYER:
-                                world.appendChildren(menuEnt, {
+                                world.append_children(menuEnt, {
                                     world.create_entity(
                                         UI(textureManager, mapAssetUV, 2, UIAnchor::CENTER_CENTER),
                                         Transform2D(
@@ -79,7 +79,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                                 });
                                 break;
                             case ChunkExploration::ROOM_EXPLORATION_UNKNOW:
-                                world.appendChildren(menuEnt, {
+                                world.append_children(menuEnt, {
                                     world.create_entity(
                                         UI(textureManager, mapAssetUV, 0, UIAnchor::CENTER_CENTER),
                                         Transform2D(
@@ -92,7 +92,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                                 });
                                 break;
                             case ChunkExploration::ROOM_EXPLORATION_KNOW:
-                                world.appendChildren(menuEnt, {
+                                world.append_children(menuEnt, {
                                     world.create_entity(
                                         UI(textureManager, mapAssetUV, 1, UIAnchor::CENTER_CENTER),
                                         Transform2D(
@@ -105,7 +105,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                                 });
                                 break;
                             default:
-                                world.appendChildren(menuEnt, {
+                                world.append_children(menuEnt, {
                                     world.create_entity(
                                         UI(textureManager, mapAssetUV, 0, UIAnchor::CENTER_CENTER),
                                         Transform2D(

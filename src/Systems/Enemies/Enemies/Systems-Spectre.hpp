@@ -16,7 +16,7 @@ void spectreMoveSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, velocity, animation, isSpectreMove, orientation, speed, spectre, enemyTransform]: enemies) {
         if (isSpectreMove.canSwitchState(time.fixedDelta())) {
             world.remove_component<IsSpectreMove>(enemyEnt);
-            switch (rand() % 2) {
+            switch (rand() % 3) {
                 case 0:
                     world.add_component(enemyEnt, IsSpectreVanish(spectre.vanishDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -36,6 +36,7 @@ void spectreMoveSys(MainFixedSystem, World& world) {
                     break;
 
                 case 1:
+                case 2:
                     world.add_component(enemyEnt, IsSpectreCast(spectre.castDuration));
                     for (auto [_, playerTransform]: players) {
                         instantiateShadowMarkParticle(world, playerTransform.getPosition());

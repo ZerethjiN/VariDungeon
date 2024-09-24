@@ -16,7 +16,7 @@ void insectMoveSys(MainFixedSystem, World& world) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
             world.remove_component<IsInsectMove, IsInsectChangeDirection>(insectEnt);
             world.add_component(insectEnt, IsInsectAttack(insect.attackDuration));
-            world.appendChildren(insectEnt, {
+            world.append_children(insectEnt, {
                 instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex)
             });
         }

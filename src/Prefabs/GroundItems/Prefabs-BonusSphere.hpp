@@ -7,7 +7,7 @@
 
 Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.appendChildren(
+    return world.append_children(
         // Parent
         world.create_entity(
             BonusSphere(),
@@ -19,7 +19,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
                 glm::vec2(1, 1)
             ),
             ZIndex(-1),
-            InnerMovement(1, 2),
+            InnerMovement(/*Duration:*/ 1, /*Speed:*/ 2),
             InnerMovementUp(),
             Lootable(),
             Velocity(),

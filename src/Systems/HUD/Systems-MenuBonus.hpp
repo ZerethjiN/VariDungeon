@@ -99,7 +99,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
 
             world.remove_component<MenuBonusTranslation>(menuEnt);
 
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 world.create_entity(
                     MenuBonusSelector(bonusesIdx.size()),
                     UI(textureManager, menuBonusHUDUV, 1, UIAnchor::CENTER_CENTER),
@@ -125,7 +125,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
                     continue;
                 }
 
-                world.appendChildren(menuEnt, {
+                world.append_children(menuEnt, {
                     world.create_entity(
                         BonusRow(i, bonusVec[bonusIdx].type, bonusVec[bonusIdx].cost, bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback),
                         UI(textureManager, menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
@@ -148,7 +148,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
                 });
 
                 if (world.has<MenuBonusMerchant>(menuEnt)) {
-                    world.appendChildren(menuEnt, {
+                    world.append_children(menuEnt, {
                         world.create_entity(
                             TextUICreator(std::to_string(bonusVec[bonusIdx].cost) + "$", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
                             Transform2D(

@@ -18,7 +18,7 @@ void voidSphereOffSys(MainFixedSystem, World& world) {
             } else {
                 world.remove_component<IsVoidSphereOff>(sphereEnt);
                 world.add_component(sphereEnt, IsVoidSphereOn(voidSphere.voidSphereOnDuration));
-                world.appendChildren(sphereEnt, {
+                world.append_children(sphereEnt, {
                     instantiateAttractParticle(world, transform.getPosition(), zindex + 1, voidSphere.voidSphereOnDuration)
                 });
                 animation.play(VoidSphereAnimType::ON);

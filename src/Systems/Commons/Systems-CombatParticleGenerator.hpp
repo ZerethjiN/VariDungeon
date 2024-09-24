@@ -22,11 +22,11 @@ void combatParticleGeneratorSys(MainFixedSystem, World& world) {
 
         if (generator.canSpawnSmallParticle(time.fixedDelta())) {
             if (generator.getCurSmallParticle() % 2 == 0) {
-                world.appendChildren(generatorEnt, {
+                world.append_children(generatorEnt, {
                     instantiateSmallCombatParticle(world, transform.getPosition() + glm::vec2(8, 8), zindex)
                 });
             } else {
-                world.appendChildren(generatorEnt, {
+                world.append_children(generatorEnt, {
                     instantiateSmallCombatParticle(world, transform.getPosition() + glm::vec2(-8, -8), zindex)
                 });
             }

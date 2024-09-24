@@ -44,7 +44,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     }
                     instantiateSwordImpact(world, othTransform.getPosition(), zindex);
 
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         world.create_entity(
                             TextCreator(std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
                             Transform2D(

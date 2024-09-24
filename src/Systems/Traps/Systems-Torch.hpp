@@ -26,24 +26,24 @@ void torchIdleSys(MainFixedSystem, World& world) {
                         if (fabs(newdirection.x) > fabs(newdirection.y)) {
                             if (newdirection.x > 0) {
                                 orientation = Orientation::EAST;
-                                world.appendChildren(trapEnt, {
+                                world.append_children(trapEnt, {
                                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 0), zindex)
                                 });
                             } else {
                                 orientation = Orientation::WEST;
-                                world.appendChildren(trapEnt, {
+                                world.append_children(trapEnt, {
                                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 0), zindex)
                                 });
                             }
                         } else {
                             if (newdirection.y > 0) {
                                 orientation = Orientation::SOUTH;
-                                world.appendChildren(trapEnt, {
+                                world.append_children(trapEnt, {
                                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, 16 * i), zindex)
                                 });
                             } else {
                                 orientation = Orientation::NORTH;
-                                world.appendChildren(trapEnt, {
+                                world.append_children(trapEnt, {
                                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, -16 * i), zindex)
                                 });
                             }

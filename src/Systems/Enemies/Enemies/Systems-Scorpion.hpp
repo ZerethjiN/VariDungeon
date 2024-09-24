@@ -20,13 +20,13 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 0), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, -16 * i), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, -16 * i), zindex)
@@ -34,13 +34,13 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
                     }
                 } else {
                     if (orientation.y > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, 16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 16 * i), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, -16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, -16 * i), zindex),
                             instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, -16 * i), zindex)

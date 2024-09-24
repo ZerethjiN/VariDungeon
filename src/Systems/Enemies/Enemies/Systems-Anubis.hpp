@@ -20,21 +20,21 @@ void anubisMoveSys(MainFixedSystem, World& world) {
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 0), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 0), zindex)
                         });
                     }
                 } else {
                     if (orientation.y > 0) {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16 * i), zindex)
                         });
                     } else {
-                        world.appendChildren(enemyEnt, {
+                        world.append_children(enemyEnt, {
                             instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, -16 * i), zindex)
                         });
                     }

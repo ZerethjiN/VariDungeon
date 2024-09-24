@@ -7,7 +7,7 @@
 
 Ent instantiateXpParticle(World& world, const glm::vec2& position, float spreadDuration, const glm::vec2& spreadDirection, float spreadSpeed) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.appendChildren(
+    return world.append_children(
         // Parent
         world.create_entity(
             XpGroundItem(1.f),

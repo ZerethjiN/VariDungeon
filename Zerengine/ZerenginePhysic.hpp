@@ -521,6 +521,10 @@ inline void updatePositionSys(LateUnscaledFixedSystem, World& world) {
             updateVelocityRec(world, ent, trans.diffPosition);
             trans.diffPosition = glm::vec2(0, 0);
             trans.needUpdatePosition = false;
+        } else if (trans.needUpdatePositionGlobal) {
+            trans.moveVelocity(trans.diffPosition);
+            trans.diffPosition = glm::vec2(0, 0);
+            trans.needUpdatePositionGlobal = false;
         }
     }
 }

@@ -21,7 +21,7 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
                 world.remove_component<IsRobobouleMove>(enemyEnt);
                 world.add_component(enemyEnt, IsRoboboulePreAttack(roboboule.preAttackDuration));
 
-                // world.appendChildren(enemyEnt, {
+                // world.append_children(enemyEnt, {
                 //     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
                 //     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 0), zindex),
                 //     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16), zindex),

@@ -19,8 +19,8 @@ enum class ShadowMarkParticleAnimType: std::size_t {
 
 static const AnimationAsset shadowMarkParticleAnim(animEnum<ShadowMarkParticleAnimType>, {
     {ShadowMarkParticleAnimType::PRE_EXPLOSION, {{
-        {0.25f, shadowMarkParticleUV[0]},
-        {0.25f, shadowMarkParticleUV[1]},
+        {0.50f, shadowMarkParticleUV[0]},
+        {0.50f, shadowMarkParticleUV[1]},
     }}},
     {ShadowMarkParticleAnimType::EXPLOSION, {{
         {0.25f, shadowMarkParticleUV[2]},

@@ -46,7 +46,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
             if (glm::distance(othTransform.getPosition(), lootTransform.getPosition()) < 8) {
                 // Visual Effect:
                 instantiateItemFeedbackParticle(world, lootTransform.getPosition());
-                world.appendChildren(targetEnt, {
+                world.append_children(targetEnt, {
                     world.create_entity(
                         TextCreator("+" + std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
                         Transform2D(
@@ -73,7 +73,7 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
 
                         playerXp.addXp(xpGroundItem.getAmount());
                         if (playerXp.isLevelUp()) {
-                            world.appendChildren(targetEnt, {
+                            world.append_children(targetEnt, {
                                 world.create_entity(
                                     PlayerWeapon(),
                                     Damage(1),

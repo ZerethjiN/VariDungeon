@@ -100,7 +100,7 @@ void testScene(SceneSystem, World& world) {
                 )
             );
 
-            world.appendChildren(cameraOrigin, {
+            world.append_children(cameraOrigin, {
                 // Camera
                 world.create_entity(
                     Transform2D(
@@ -143,7 +143,7 @@ void testScene(SceneSystem, World& world) {
 
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
-    world.appendChildren(
+    world.append_children(
         world.create_entity(
             UI(textureManager, blackBackgroundUV, UIAnchor::CENTER_CENTER),
             Transform2D(

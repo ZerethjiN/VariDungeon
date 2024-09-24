@@ -17,7 +17,7 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
             world.remove_component<IsVoidSlimeMove>(enemyEnt);
             world.add_component(enemyEnt, IsVoidSlimeAttract(voidSlime.attractDuration));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateAttractParticle(world, enemyTransform.getPosition(), zindex + 1, voidSlime.attractDuration)
             });
             continue;
@@ -82,7 +82,7 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
             playerVelocity.vel += glm::normalize(enemyTransform.getPosition() - playerTransform.getPosition()) * voidSlime.attractStrength * time.fixedDelta();
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= voidSlime.attractRadius) {
-                world.appendChildren(enemyEnt, {
+                world.append_children(enemyEnt, {
                     instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition())
                 });
             }

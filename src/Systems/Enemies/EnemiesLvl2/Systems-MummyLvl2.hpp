@@ -21,14 +21,14 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
 
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
-                            world.appendChildren(enemyEnt, {
+                            world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, -8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, 8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(24, -8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(24, 8), zindex)
                             });
                         } else {
-                            world.appendChildren(enemyEnt, {
+                            world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-24, -8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-24, 8), zindex),
@@ -37,14 +37,14 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
                         }
                     } else {
                         if (orientation.y > 0) {
-                            world.appendChildren(enemyEnt, {
+                            world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, 8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 24), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, 24), zindex)
                             });
                         } else {
-                            world.appendChildren(enemyEnt, {
+                            world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-8, -24), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, -8), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(8, -24), zindex),

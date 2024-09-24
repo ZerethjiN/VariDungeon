@@ -44,7 +44,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
                 auto menuChest = instantiateMenuChestUI(world, glm::vec2(-72, -64));
 
                 for (auto bonusIdx: bonusesIdx) {
-                    world.appendChildren(menuChest, {
+                    world.append_children(menuChest, {
                         world.create_entity(
                             UI(textureManager, menuBonusIconsUV, bonusVec[bonusIdx].imgIconIdx, UIAnchor::CENTER_CENTER),
                             Transform2D(

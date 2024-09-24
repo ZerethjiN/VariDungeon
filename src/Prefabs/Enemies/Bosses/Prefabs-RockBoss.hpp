@@ -40,7 +40,7 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
         Collider(-24 / 2, -24 / 2, 24, 24)
     );
 
-    // world.appendChildren(bossEnt, {
+    // world.append_children(bossEnt, {
     //     instantiateSmallCrystalParticle(world, position + glm::vec2(-16, -16), 16.f, glm::vec2(-16, -16)),
     //     instantiateSmallCrystalParticle(world, position + glm::vec2(16, -16), 16.f, glm::vec2(16, -16)),
     //     instantiateSmallCrystalParticle(world, position + glm::vec2(-16, 16), 16.f, glm::vec2(-16, 16)),

@@ -24,7 +24,7 @@ void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
             world.add_component(enemyEnt, IsSarcophagePreLaserAttack(sarcophage.preLaserDuration));
 
             for (int i = 1; i < 7; i++) {
-                world.appendChildren(enemyEnt, {
+                world.append_children(enemyEnt, {
                     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16 * i), zindex),
@@ -72,7 +72,7 @@ void sarcophagePreLaserSys(MainFixedSystem, World& world) {
             world.remove_component<IsSarcophagePreLaserAttack>(enemyEnt);
             world.add_component(enemyEnt, IsSarcophageLaserAttack(sarcophage.laserDuration));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),   0, sarcophage.laserDuration, 32.f),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(),  90, sarcophage.laserDuration, 32.f),
                 instantiateMegaLaserParticle(world, enemyTransform.getPosition(), 180, sarcophage.laserDuration, 32.f),
@@ -168,7 +168,7 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
             for (auto [obeliskEnt]: world.view(with<SarcophageObelisk>)) {
                 world.delete_entity(obeliskEnt);
             }
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 world.create_entity(
                     SarcophageShockwave(),
                     Sprite(textureManager, levelUpShockwaveUV),

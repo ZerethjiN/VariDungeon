@@ -12,7 +12,7 @@ Ent instantiateShadowMarkParticle(World& world, const glm::vec2& position) {
         Damage(1),
         ShadowMark(
             /*PreExplosionDuration:*/ 1.0f,
-            /*ExplosionDuration:*/ 0.5f
+            /*ExplosionDuration:*/ shadowMarkParticleAnim[ShadowMarkParticleAnimType::EXPLOSION].getTotalDuration()
         ),
         IsShadowMarkPreExplosion(1.0f),
         Sprite(textureManager, shadowMarkParticleUV),
@@ -22,6 +22,6 @@ Ent instantiateShadowMarkParticle(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
-        ZIndex(-10)
+        ZIndex(25)
     );
 }

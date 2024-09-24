@@ -70,7 +70,7 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         foregroundTiles[75] = foregroundTiles[0];
     }
 
-    world.appendChildren(chunkHolderEnt, {
+    world.append_children(chunkHolderEnt, {
         // Background + Foregound:
         world.create_entity(
             TileMap(textureManager, backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
@@ -100,7 +100,7 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         // Tests:
         // instantiateAnubisLvl2(world, position + glm::vec2(-48, 0)),
         // instantiateAnubisLvl2(world, position + glm::vec2(32, 0)),
-        instantiateInsect(world, position + glm::vec2(-56, 0)),
+        instantiateMummy(world, position + glm::vec2(-56, 0)),
 
         // instantiateSarcophage(world, position + glm::vec2(-48, 0)),
         // instantiateSpike(world, position + glm::vec2(48, -48)),

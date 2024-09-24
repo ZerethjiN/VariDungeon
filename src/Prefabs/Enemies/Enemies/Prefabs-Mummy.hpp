@@ -10,7 +10,12 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
     return world.create_entity(
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
-        Mummy(1.0f, 0.75f, 0.5f, 32.f),
+        Mummy(
+            /*MoveDuration:*/ 1.0f,
+            /*PreAttackDuration:*/ 0.75f,
+            /*AttackDuration:*/ 0.5f,
+            /*AttackRadius:*/ 32.f
+        ),
         IsMummyMove(1.0f),
         EnemyWeapon(),
         Damage(1),

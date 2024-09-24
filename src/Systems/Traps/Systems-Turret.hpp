@@ -28,7 +28,7 @@ void turretCardinalSys(MainFixedSystem, World& world) {
         }
         if (isTurretCardinal.canPreShot(time.fixedDelta())) {
             for (int i = 1; i < 7; i++) {
-                world.appendChildren(trapEnt, {
+                world.append_children(trapEnt, {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, -16 * i), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 16 * i), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, -16 * i), zindex),
@@ -65,7 +65,7 @@ void turretDiagonalSys(MainFixedSystem, World& world) {
         }
         if (isTurretDiagonal.canPreShot(time.fixedDelta())) {
             for (int i = 1; i < 7; i++) {
-                world.appendChildren(trapEnt, {
+                world.append_children(trapEnt, {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(-16 * i, 0), zindex),
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, 16 * i), zindex),

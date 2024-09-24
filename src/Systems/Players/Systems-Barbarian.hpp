@@ -23,7 +23,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
             if (orientation.x > 0) {
                 newDirection = glm::vec2(1, 0);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_RIGHT, zindex.layer - 1);
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -40,7 +40,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
             } else if (orientation.x < 0) {
                 newDirection = glm::vec2(-1, 0);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_LEFT, zindex.layer - 1);
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -57,7 +57,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
             } else if (orientation.y > 0) {
                 newDirection = glm::vec2(0, 1);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_DOWN, zindex.layer - 1);
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -74,7 +74,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
             } else if (orientation.y < 0) {
                 newDirection = glm::vec2(0, -1);
                 instantiateBarbarianPersistence(world, transform.getPosition(), BarbareAnimType::PERSISTENCE_UP, zindex.layer - 1);
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -279,7 +279,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
                     world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
                 }
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -309,7 +309,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
                     world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
                 }
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -339,7 +339,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
                     world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
                 }
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),
@@ -369,7 +369,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                 if (!world.has<PlayerAttackWeight>(playerEnt)) {
                     world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
                 }
-                world.appendChildren(playerEnt, {
+                world.append_children(playerEnt, {
                     world.create_entity(
                         PlayerWeapon(),
                         Damage(playerDamage),

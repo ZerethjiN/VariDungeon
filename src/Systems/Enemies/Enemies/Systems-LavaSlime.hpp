@@ -17,7 +17,7 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
             world.remove_component<IsLavaSlimeMove>(enemyEnt);
             world.add_component(enemyEnt, IsLavaSlimePreAttack(lavaSlime.preAttackDuration));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 0), zindex),
                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16), zindex),
@@ -83,7 +83,7 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
             world.remove_component<IsLavaSlimePreAttack>(enemyEnt);
             world.add_component(enemyEnt, IsLavaSlimeMove(lavaSlime.moveDuration));
 
-            world.appendChildren(enemyEnt, {
+            world.append_children(enemyEnt, {
                 instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition())
             });
         }

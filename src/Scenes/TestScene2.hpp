@@ -40,7 +40,7 @@ void testScene2(SceneSystem, World& world) {
         )
     );
 
-    world.appendChildren(cameraOrigin, {
+    world.append_children(cameraOrigin, {
         // Camera
         world.create_entity(
             Transform2D(

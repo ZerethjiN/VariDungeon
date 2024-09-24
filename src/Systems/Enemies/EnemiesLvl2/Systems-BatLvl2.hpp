@@ -19,7 +19,7 @@ void batLvl2MoveSys(MainFixedSystem, World& world) {
                     world.remove_component<IsBatLvl2Move>(enemyEnt);
                     world.add_component(enemyEnt, IsBatLvl2Attack(bat.attackDuration));
 
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, +16), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0,   0), zindex),
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16), zindex),
@@ -88,24 +88,24 @@ void batLvl2AttackSys(MainFixedSystem, World& world) {
             world.add_component(enemyEnt, IsBatLvl2Move(bat.moveDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 90),
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 270)
                     });
                 } else {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 90),
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 270)
                     });
                 }
             } else {
                 if (orientation.y > 0) {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 180),
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 0)
                     });
                 } else {
-                    world.appendChildren(enemyEnt, {
+                    world.append_children(enemyEnt, {
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 180),
                         instantiateBatAttackParticle(world, enemyTransform.getPosition(), 0)
                     });

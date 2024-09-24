@@ -70,7 +70,7 @@ Ent instantiateDesertBonusRoom(World& world, const glm::vec2& position, std::siz
         foregroundTiles[75] = foregroundTiles[0];
     }
 
-    world.appendChildren(chunkHolderEnt, {
+    world.append_children(chunkHolderEnt, {
         // Background + Foregound:
         world.create_entity(
             TileMap(textureManager, backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
@@ -98,7 +98,7 @@ Ent instantiateDesertBonusRoom(World& world, const glm::vec2& position, std::siz
         instantiatePylon(world, position + glm::vec2(48, 24)),
 
         // BonusSphere:
-        instantiateBonusSphere(world, position),
+        instantiateBonusSphere(world, position + glm::vec2(0, -8)),
 
         // Breakables:
         instantiateJar(world, position + glm::vec2(-48, -48)),

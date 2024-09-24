@@ -36,7 +36,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
             world.remove_component<PauseMenuTranslation>(menuEnt);
 
             // Title:
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 world.create_entity(
                     TextUICreator("Pause:", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
@@ -49,7 +49,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
             });
 
             // Key:
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 world.create_entity(
                     TextUICreator("[esc]", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(8, 8), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_LEFT),
                     Transform2D(
@@ -61,7 +61,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                 )
             });
 
-            world.appendChildren(menuEnt, {
+            world.append_children(menuEnt, {
                 // Selector
                 world.create_entity(
                     PauseMenuSelector(2),

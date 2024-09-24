@@ -7,7 +7,7 @@
 
 Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
-    return world.appendChildren(
+    return world.append_children(
         // Parent
         world.create_entity(
             UI(textureManager, inventoryBarUV, UIAnchor::BOTTOM_CENTER),

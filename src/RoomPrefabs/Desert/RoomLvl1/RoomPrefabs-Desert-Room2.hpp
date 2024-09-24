@@ -70,7 +70,7 @@ Ent instantiateDesertRoom2(World& world, const glm::vec2& position, std::size_t 
         foregroundTiles[75] = foregroundTiles[0];
     }
 
-    world.appendChildren(chunkHolderEnt, {
+    world.append_children(chunkHolderEnt, {
         // Background + Foregound:
         world.create_entity(
             TileMap(textureManager, backgroundTiles, glm::uvec2(10, 8), glm::uvec2(16, 16)),
