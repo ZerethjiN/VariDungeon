@@ -168,6 +168,19 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
     }
 }
 
+void menuBonusPreReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
+    auto menus = world.view<MenuBonusPreReverseTranslation, const Transform2D>();
+
+    auto [time] = world.resource<Time>();
+
+    for (auto [menuBonusEnt, menuBonusPreReverse, transform]: menus) {
+        if (menuBonusPreReverse.canSwitchState(time.unscaledFixedDelta())) {
+            world.remove_component<MenuBonusPreReverseTranslation>(menuBonusEnt);
+            world.add_component(menuBonusEnt, MenuBonusReverseTranslation(transform.getPosition() + glm::vec2(0, 144), 512.f));
+        }
+    }
+}
+
 void menuBonusReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
     auto menus = world.view<Transform2D, const MenuBonusReverseTranslation>();
 
@@ -187,6 +200,8 @@ void menuBonusReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
 
 void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
     auto selectors = world.view<MenuBonusSelector, const Transform2D>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
+
+    auto [textureManager] = world.resource<TextureManager>();
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
@@ -218,7 +233,7 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                 }
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
-            for (auto [_, bonusRow]: world.view<const BonusRow>()) {
+            for (auto [bonusRowEnt, bonusRowIconTransform, bonusRow]: world.view<Transform2D, const BonusRow>()) {
                 if (bonusRow.id == selector.getCurElement()) {
                     bool canBuy = false;
                     if (!world.view(with<MenuBonusMerchant>).empty()) {
@@ -248,13 +263,30 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                         if (bonusRow.hasCallback()) {
                             bonusRow(world);
                         }
+                        world.remove_component<MenuBonusCurSelectedRow>(bonusRowEnt);
+                        bonusRowIconTransform.setScale(0.75f, 0.75f);
+                        if (auto optSelectorParent = world.getParent(selectorEnt)) {
+                            auto parentMenuEnt = optSelectorParent.value();
+                            world.append_children(parentMenuEnt, {
+                                world.create_entity(
+                                    UI(textureManager, menuBonusHUDUV, 7, UIAnchor::CENTER_CENTER),
+                                    Animation(menuBonusHUDAnim, MenuBonusHUDAnimType::VALIDATION_MOTIF, AnimType::UNSCALED),
+                                    Transform2D(
+                                        selectorTransform.getPosition(),
+                                        0,
+                                        glm::vec2(1, 1)
+                                    ),
+                                    ZIndex(-1)
+                                )
+                            });
+                        }
                     }
                     break;
                 }
             }
-            world.remove_component<MenuBonusSelector>(selectorEnt);
-            for (auto [menuBonusEnt, menuBonusTransform]: world.view<const Transform2D>(with<MenuBonus>)) {
-                world.add_component(menuBonusEnt, MenuBonusReverseTranslation(menuBonusTransform.getPosition() + glm::vec2(0, 144), 512.f));
+            world.remove_component<MenuBonusSelector, UI, Animation>(selectorEnt);
+            for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
+                world.add_component(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
             }
         }
     }

@@ -53,6 +53,13 @@ private:
 class MenuBonus final {};
 class MenuBonusMerchant final {};
 
+class MenuBonusPreReverseTranslation final: public IIsStateDuration {
+public:
+    MenuBonusPreReverseTranslation(float duration):
+        IIsStateDuration(duration) {
+    }
+};
+
 class MenuBonusReverseTranslation final {
 public:
     MenuBonusReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):

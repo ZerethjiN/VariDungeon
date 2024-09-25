@@ -17,7 +17,7 @@ Ent instantiateMenuBonusUI(World& world, const glm::vec2& position, const std::u
             0,
             glm::vec2(1, 1)
         ),
-        ZIndex(-1)
+        ZIndex(-2)
     );
 }
 
@@ -34,6 +34,6 @@ Ent instantiateMenuBonusMerchantUI(World& world, const glm::vec2& position, cons
             0,
             glm::vec2(1, 1)
         ),
-        ZIndex(-1)
+        ZIndex(-2)
     );
 }

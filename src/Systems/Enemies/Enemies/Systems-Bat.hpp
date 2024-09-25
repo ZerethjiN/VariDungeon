@@ -23,7 +23,6 @@ void batMoveSys(MainFixedSystem, World& world) {
                         if (orientation.x > 0) {
                             world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, +16), zindex),
-                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0,   0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 0, -16), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1, +16), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * 1,   0), zindex),
@@ -32,7 +31,6 @@ void batMoveSys(MainFixedSystem, World& world) {
                         } else {
                             world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, +16), zindex),
-                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0,   0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 0, -16), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1, +16), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16 * 1,   0), zindex),
@@ -43,7 +41,6 @@ void batMoveSys(MainFixedSystem, World& world) {
                         if (orientation.y > 0) {
                             world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 0), zindex),
-                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, 16 * 0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, 16 * 1), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, 16 * 1), zindex),
@@ -52,7 +49,6 @@ void batMoveSys(MainFixedSystem, World& world) {
                         } else {
                             world.append_children(enemyEnt, {
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 0), zindex),
-                                instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16 * 0), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(+16, -16 * 1), zindex),
                                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(  0, -16 * 1), zindex),
@@ -108,11 +104,12 @@ void batMoveSys(MainFixedSystem, World& world) {
 }
 
 void batAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsBatAttack, Orientation, const Bat, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsBatAttack, Orientation, Velocity, const Speed, const Bat, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
+    for (auto [enemyEnt, animation, isBatAttack, orientation, velocity, speed, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
             world.remove_component<IsBatAttack>(enemyEnt);
             world.add_component(enemyEnt, IsBatMove(bat.moveDuration));
@@ -138,7 +135,13 @@ void batAttackSys(MainFixedSystem, World& world) {
                 }
             }
         }
+        
+        glm::vec2 newdirection;
+        for (auto [_, playerTransform]: players) {
+            newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
+        }
 
+        velocity += newdirection * speed.speed * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has<InvincibleFrame>(enemyEnt)) {

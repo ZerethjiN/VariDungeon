@@ -13,12 +13,17 @@ static const ImageAsset menuBonusHUDUV("Textures/MenuBonusHUD.png", {
 
     {{128, 112,  32,  32}, {0.0f, 0.0f}}, //  5: Small Selector A
     {{128, 144,  32,  32}, {0.0f, 0.0f}}, //  6: Small Selector B
+
+    {{  0, 272, 128,  32}, {0.0f, 0.0f}}, //  7: Validation Motif A
+    {{  0, 304, 128,  32}, {0.0f, 0.0f}}, //  8: Validation Motif B
+    {{  0, 336, 128,  32}, {0.0f, 0.0f}}, //  9: Validation Motif C
 });
 
 enum class MenuBonusHUDAnimType: std::size_t {
     MEDIUM_SELECTOR,
     LARGE_SELECTOR,
     SMALL_SELECTOR,
+    VALIDATION_MOTIF,
 };
 
 static const AnimationAsset menuBonusHUDAnim(animEnum<MenuBonusHUDAnimType>, {
@@ -34,4 +39,9 @@ static const AnimationAsset menuBonusHUDAnim(animEnum<MenuBonusHUDAnimType>, {
         {0.50f, menuBonusHUDUV[5]},
         {0.50f, menuBonusHUDUV[6]},
     }}},
+    {MenuBonusHUDAnimType::VALIDATION_MOTIF, {{
+        {0.05f, menuBonusHUDUV[7]},
+        {0.05f, menuBonusHUDUV[8]},
+        {0.05f, menuBonusHUDUV[9]},
+    }, AnimationType::ONE_SHOT}},
 });

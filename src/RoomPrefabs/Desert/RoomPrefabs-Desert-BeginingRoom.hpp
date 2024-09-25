@@ -100,7 +100,7 @@ Ent instantiateDesertBegininggRoom(World& world, const glm::vec2& position, std:
         // Tests:
         // instantiateAnubisLvl2(world, position + glm::vec2(-48, 0)),
         // instantiateAnubisLvl2(world, position + glm::vec2(32, 0)),
-        instantiateMummy(world, position + glm::vec2(-56, 0)),
+        instantiateInsect(world, position + glm::vec2(-56, 0)),
 
         // instantiateSarcophage(world, position + glm::vec2(-48, 0)),
         // instantiateSpike(world, position + glm::vec2(48, -48)),

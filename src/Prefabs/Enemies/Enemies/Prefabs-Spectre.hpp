@@ -27,7 +27,7 @@ Ent instantiateSpectre(World& world, const glm::vec2& position) {
         ),
         Loots({{LOOT_TYPE_XP, 2, 3}}),
         ZIndex(0),
-        Life(3),
+        Life(5),
         Velocity(),
         Speed(16),
         Orientation(Orientation::SOUTH),

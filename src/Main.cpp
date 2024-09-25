@@ -157,7 +157,7 @@ int main() {
                 return appstate == AppStateType::APP_STATE_IN_GAME && (!world.view(with<LevelUpPreMenu>).empty() || !world.view(with<MenuBonus>).empty());
             },
             {
-                levelUpPreMenuSys, menuBonusTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys,
+                levelUpPreMenuSys, menuBonusTranslationSys, menuBonusPreReverseTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys,
                 menuBonusSelectorMoveDownSys, menuBonusSelectorMoveUpSys, menuBonusCurSelectedRowScaleSys,
             }
         )

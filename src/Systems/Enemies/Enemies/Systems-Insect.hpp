@@ -10,14 +10,25 @@
 void insectMoveSys(MainFixedSystem, World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
 
-    auto [time] = world.resource<const Time>();
+    auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
     for (auto [insectEnt, velocity, animation, isInsectMove, orientation, speed, insect, transform, zindex]: insects) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
             world.remove_component<IsInsectMove, IsInsectChangeDirection>(insectEnt);
             world.add_component(insectEnt, IsInsectAttack(insect.attackDuration));
             world.append_children(insectEnt, {
-                instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex)
+                instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex),
+                world.create_entity(
+                    Sprite(textureManager, shadowUV),
+                    Animation(shadowAnim, ShadowAnimType::SMALL),
+                    Transform2D(
+                        transform.getPosition() + glm::vec2(0, 2),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-2),
+                    LifeTime(insect.attackDuration)
+                )
             });
         }
 
