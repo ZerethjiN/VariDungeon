@@ -14,8 +14,8 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isScorpionMove, orientation, speed, scorpion, transform, zindex]: enemies) {
         if (isScorpionMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsScorpionMove>(enemyEnt);
-            world.add_component(enemyEnt, IsScorpionCast(scorpion.castDuration));
+            world.remove_components<IsScorpionMove>(enemyEnt);
+            world.add_components(enemyEnt, IsScorpionCast(scorpion.castDuration));
 
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -61,14 +61,14 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(ScorpionAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(ScorpionAnimType::MOVE_LEFT);
@@ -77,14 +77,14 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(ScorpionAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(ScorpionAnimType::MOVE_UP);
@@ -101,8 +101,8 @@ void scorpionAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isScorpionCast, enemyTransform, orientation, scorpion]: enemies) {
         if (isScorpionCast.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsScorpionCast>(enemyEnt);
-            world.add_component(enemyEnt, IsScorpionMove(scorpion.moveDuration));
+            world.remove_components<IsScorpionCast>(enemyEnt);
+            world.add_components(enemyEnt, IsScorpionMove(scorpion.moveDuration));
 
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
@@ -131,13 +131,13 @@ void scorpionAttackSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(ScorpionAnimType::ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(ScorpionAnimType::ATTACK_LEFT);
@@ -145,13 +145,13 @@ void scorpionAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(ScorpionAnimType::ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(ScorpionAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(ScorpionAnimType::ATTACK_UP);

@@ -16,17 +16,17 @@ glslc -O --target-env=vulkan1.3 shaders/LightBatchShader.frag -o shaders/LightBa
 
 # Utilisation d'x86_64v3: AVX2 dispo sur Intel (haswell) 4000 et AMD (Excavatore) 15h gen 4
 
-clang++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
+clang++ -D DEBUG -o VariDungeon.out src/Main.cpp\
     -I Lib -I src -I Zerengine\
     -I /usr/include/freetype2\
     -O0 -pipe -std=c++2c\
     -fno-exceptions\
+    -m64 -march=x86-64-v3\
     -lvulkan\
     -lfreetype\
     -lglfw
     # -static-libgcc\
     # -static-libstdc++\
-    # -m64 -march=x86-64-v3\
 
 #-fsanitize=address -fsanitize-address-use-after-scope -fsanitize=leak -fsanitize=undefined\
 #-Wl,-Bdynamic -lvulkan\

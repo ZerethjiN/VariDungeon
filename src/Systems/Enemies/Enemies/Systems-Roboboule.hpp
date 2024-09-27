@@ -18,8 +18,8 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) < roboboule.preAttackRadius) {
-                world.remove_component<IsRobobouleMove>(enemyEnt);
-                world.add_component(enemyEnt, IsRoboboulePreAttack(roboboule.preAttackDuration));
+                world.remove_components<IsRobobouleMove>(enemyEnt);
+                world.add_components(enemyEnt, IsRoboboulePreAttack(roboboule.preAttackDuration));
 
                 // world.append_children(enemyEnt, {
                 //     instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
@@ -40,14 +40,14 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(RobobouleAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(RobobouleAnimType::MOVE_LEFT);
@@ -56,14 +56,14 @@ void robobouleMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(RobobouleAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(RobobouleAnimType::MOVE_UP);
@@ -90,8 +90,8 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
             newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
 
             if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) >= roboboule.preAttackRadius) {
-                world.remove_component<IsRoboboulePreAttack>(enemyEnt);
-                world.add_component(enemyEnt, IsRobobouleMove());
+                world.remove_components<IsRoboboulePreAttack>(enemyEnt);
+                world.add_components(enemyEnt, IsRobobouleMove());
                 continue;
             }
         }
@@ -100,14 +100,14 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
                     animation.play(RobobouleAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
                     animation.play(RobobouleAnimType::PRE_ATTACK_LEFT);
@@ -116,14 +116,14 @@ void roboboulePreAttackSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
                     animation.play(RobobouleAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(RobobouleAnimType::HIT_PRE_ATTACK_UP);
                 } else {
                     animation.play(RobobouleAnimType::PRE_ATTACK_UP);

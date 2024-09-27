@@ -4,9 +4,10 @@
 layout(set = 0, binding = 1) uniform sampler2D texSampler[];
 
 layout(location = 0) in UIData {
+    flat vec4 color;
     flat int textureIdx;
     smooth vec2 fragTexCoord;
-    flat vec4 color;
+    flat int isText;
 } uiData;
 
 layout(location = 0) out vec4 outColor;

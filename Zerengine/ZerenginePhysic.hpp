@@ -17,11 +17,11 @@
 
 class Collider final {
 public:
-    constexpr Collider(float x, float y, float z, float w) noexcept:
+    [[nodiscard]] constexpr Collider(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
     }
 
-    constexpr Collider(const glm::vec4& newCol) noexcept:
+    [[nodiscard]] constexpr Collider(const glm::vec4& newCol) noexcept:
         col(newCol) {
     }
 
@@ -31,11 +31,11 @@ public:
 
 class Trigger final {
 public:
-    constexpr Trigger(float x, float y, float z, float w) noexcept:
+    [[nodiscard]] constexpr Trigger(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
     }
 
-    constexpr Trigger(const glm::vec4& newCol) noexcept:
+    [[nodiscard]] constexpr Trigger(const glm::vec4& newCol) noexcept:
         col(newCol) {
     }
 
@@ -49,12 +49,12 @@ class OnCollisionEnter final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
-    OnCollisionEnter() noexcept:
+    [[nodiscard]] OnCollisionEnter() noexcept:
         othCols(),
         oldOthCols() {
     }
 
-    OnCollisionEnter(const std::initializer_list<Ent>& newList) noexcept:
+    [[nodiscard]] OnCollisionEnter(const std::initializer_list<Ent>& newList) noexcept:
         othCols(newList),
         oldOthCols() {
     }
@@ -77,12 +77,12 @@ class OnCollisionStay final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
-    OnCollisionStay() noexcept:
+    [[nodiscard]] OnCollisionStay() noexcept:
         othCols(),
         oldOthCols() {
     }
 
-    OnCollisionStay(const std::initializer_list<Ent>& newList) noexcept:
+    [[nodiscard]] OnCollisionStay(const std::initializer_list<Ent>& newList) noexcept:
         othCols(newList),
         oldOthCols() {
     }
@@ -105,12 +105,12 @@ class OnCollisionExit final {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
-    OnCollisionExit() noexcept:
+    [[nodiscard]] OnCollisionExit() noexcept:
         othCols(),
         oldOthCols() {
     }
 
-    OnCollisionExit(const std::initializer_list<Ent>& newList) noexcept:
+    [[nodiscard]] OnCollisionExit(const std::initializer_list<Ent>& newList) noexcept:
         othCols(newList),
         oldOthCols() {
     }
@@ -134,7 +134,7 @@ private:
 class LayerCollision final {
 public:
     template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
-    constexpr LayerCollision(const E& newLayer) noexcept:
+    [[nodiscard]] constexpr LayerCollision(const E& newLayer) noexcept:
         layer(static_cast<std::size_t>(newLayer)) {
     }
 
@@ -194,7 +194,7 @@ public:
         }
     }
 
-    bool isSameLayer(const LayerCollision& layerA, const LayerCollision& layerB) const {
+    [[nodiscard]] bool isSameLayer(const LayerCollision& layerA, const LayerCollision& layerB) const {
         auto exclusionMatrixTypeAIt = exclusionMatrix.find(layerA.layer);
         if (exclusionMatrixTypeAIt == exclusionMatrix.end()) {
             return true;
@@ -491,9 +491,9 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////
 
 inline void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
-    if (auto childrenOpt = world.getChildren(ent)) {
+    if (auto childrenOpt = world.get_children(ent)) {
         for (const auto childEnt: childrenOpt.value().get()) {
-            if (auto opt = world.get<Transform2D>(childEnt)) {
+            if (auto opt = world.get_components<Transform2D>(childEnt)) {
                 auto [childTrans] = opt.value();
                 childTrans.moveVelocity(vel);
             }
@@ -569,23 +569,23 @@ inline void collisionSys(LateFixedSystem, World& world) {
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
             auto [dynCollisionEnter] = onCollisionEnterOpt.value();
             for (const auto oldEnt: dynCollisionEnter.oldOthCols) {
-                if (world.exist(oldEnt)) {
+                if (world.entity_exists(oldEnt)) {
                     if (!list.contains(oldEnt)) {
                         if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [dynCollisionExit] = onCollisionExitOpt.value();
                             dynCollisionExit.othCols.emplace(oldEnt);
                         } else {
-                            world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                            world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                         }
                         if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [oldCollisionExit] = onCollisionExitOpt.value();
                             oldCollisionExit.othCols.emplace(dynEnt);
                         } else {
-                            world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                            world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
                         if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
-                            if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
+                            if (world.has_components<Collider>(oldEnt) || world.has_components<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
                                 if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
@@ -610,13 +610,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
-                                            world.add_component(dynEnt, OnCollisionStay({oldEnt}));
+                                            world.add_components(dynEnt, OnCollisionStay({oldEnt}));
                                         }
                                         if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
-                                            world.add_component(oldEnt, OnCollisionStay({dynEnt}));
+                                            world.add_components(oldEnt, OnCollisionStay({dynEnt}));
                                         }
                                     }
                                 } else {
@@ -624,13 +624,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
-                                        world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                                        world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                                     }
                                     if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
-                                        world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                                        world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                                     }
                                 }
                             }
@@ -644,23 +644,23 @@ inline void collisionSys(LateFixedSystem, World& world) {
         if (auto dynCollisionStayOpt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
             auto [dynCollisionStay] = dynCollisionStayOpt.value();
             for (const auto oldEnt: dynCollisionStay.oldOthCols) {
-                if (world.exist(oldEnt)) {
+                if (world.entity_exists(oldEnt)) {
                     if (!list.contains(oldEnt)) {
                         if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [onCollisionExitDyn] = opt.value();
                             onCollisionExitDyn.othCols.emplace(oldEnt);
                         } else {
-                            world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                            world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                         }
                         if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [onCollisionExitOld] = opt.value();
                             onCollisionExitOld.othCols.emplace(dynEnt);
                         } else {
-                            world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                            world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
                         if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
-                            if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
+                            if (world.has_components<Collider>(oldEnt) || world.has_components<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
                                 if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
@@ -685,13 +685,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
-                                            world.add_component(dynEnt, OnCollisionStay({oldEnt}));
+                                            world.add_components(dynEnt, OnCollisionStay({oldEnt}));
                                         }
                                         if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
-                                            world.add_component(oldEnt, OnCollisionStay({dynEnt}));
+                                            world.add_components(oldEnt, OnCollisionStay({dynEnt}));
                                         }
                                     }
                                 } else {
@@ -699,13 +699,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
-                                        world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                                        world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                                     }
                                     if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
-                                        world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                                        world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                                     }
                                 }
                             }
@@ -718,7 +718,7 @@ inline void collisionSys(LateFixedSystem, World& world) {
 
         for (const auto othEnt: list) {
             if (auto oldTransformOpt = world.getThisFrame<Transform2D>(othEnt)) {
-                if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
+                if (world.has_components<Collider>(othEnt) || world.has_components<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
                     if (auto opt = world.getThisFrame<const Collider>(othEnt)) {
@@ -743,13 +743,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                 auto [onCollisionEnterDyn] = opt.value();
                                 onCollisionEnterDyn.othCols.emplace(othEnt);
                             } else {
-                                world.add_component(dynEnt, OnCollisionEnter({othEnt}));
+                                world.add_components(dynEnt, OnCollisionEnter({othEnt}));
                             }
                             if (auto opt = world.getThisFrame<OnCollisionEnter>(othEnt)) {
                                 auto [onCollisionEnterOth] = opt.value();
                                 onCollisionEnterOth.othCols.emplace(dynEnt);
                             } else {
-                                world.add_component(othEnt, OnCollisionEnter({dynEnt}));
+                                world.add_components(othEnt, OnCollisionEnter({dynEnt}));
                             }
                         }
                     }
@@ -764,23 +764,23 @@ inline void collisionSys(LateFixedSystem, World& world) {
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
             auto [dynCollisionEnter] = onCollisionEnterOpt.value();
             for (const auto oldEnt: dynCollisionEnter.oldOthCols) {
-                if (world.exist(oldEnt)) {
+                if (world.entity_exists(oldEnt)) {
                     if (!list.contains(oldEnt)) {
                         if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [dynCollisionExit] = onCollisionExitOpt.value();
                             dynCollisionExit.othCols.emplace(oldEnt);
                         } else {
-                            world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                            world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                         }
                         if (auto onCollisionExitOpt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [oldCollisionExit] = onCollisionExitOpt.value();
                             oldCollisionExit.othCols.emplace(dynEnt);
                         } else {
-                            world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                            world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
                         if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
-                            if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
+                            if (world.has_components<Collider>(oldEnt) || world.has_components<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
                                 if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
@@ -806,19 +806,19 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
-                                            world.add_component(dynEnt, OnCollisionStay({oldEnt}));
+                                            world.add_components(dynEnt, OnCollisionStay({oldEnt}));
                                         }
                                         if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
-                                            world.add_component(oldEnt, OnCollisionStay({dynEnt}));
+                                            world.add_components(oldEnt, OnCollisionStay({dynEnt}));
                                         }
-                                        if (world.has<Collider>(oldEnt)) {
+                                        if (world.has_components<Collider>(oldEnt)) {
                                             // glm::vec2 antiVel = collisionResolution(dynTrans.getPosition(), dynCol.col, dynTrans.getScale(), oldTransform.getPosition(), col, oldTransform.getScale());
                                             glm::vec2 antiVel = intersectWithMTVRes.second;
                                             dynTrans.moveVelocity(antiVel);
-                                            if (world.hasChildren(dynEnt)) {
+                                            if (world.has_children(dynEnt)) {
                                                 updateVelocityRec(world, dynEnt, antiVel);
                                             }
                                         }
@@ -828,13 +828,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
-                                        world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                                        world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                                     }
                                     if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
-                                        world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                                        world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                                     }
                                 }
                             }
@@ -848,23 +848,23 @@ inline void collisionSys(LateFixedSystem, World& world) {
         if (auto dynCollisionStayOpt = world.getThisFrame<OnCollisionStay>(dynEnt)) {
             auto [dynCollisionStay] = dynCollisionStayOpt.value();
             for (const auto oldEnt: dynCollisionStay.oldOthCols) {
-                if (world.exist(oldEnt)) {
+                if (world.entity_exists(oldEnt)) {
                     if (!list.contains(oldEnt)) {
                         if (auto opt = world.getThisFrame<OnCollisionExit>(dynEnt)) {
                             auto [onCollisionExitDyn] = opt.value();
                             onCollisionExitDyn.othCols.emplace(oldEnt);
                         } else {
-                            world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                            world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                         }
                         if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                             auto [onCollisionExitOld] = opt.value();
                             onCollisionExitOld.othCols.emplace(dynEnt);
                         } else {
-                            world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                            world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                         }
                     } else {
                         if (auto oldTransformOpt = world.getThisFrame<Transform2D>(oldEnt)) {
-                            if (world.has<Collider>(oldEnt) || world.has<Trigger>(oldEnt)) {
+                            if (world.has_components<Collider>(oldEnt) || world.has_components<Trigger>(oldEnt)) {
                                 auto [oldTransform] = oldTransformOpt.value();
                                 glm::vec4 col(0, 0, 0, 0);
                                 if (auto opt = world.getThisFrame<const Collider>(oldEnt)) {
@@ -890,19 +890,19 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                             auto [dynCollisionStay] = opt.value();
                                             dynCollisionStay.othCols.emplace(oldEnt);
                                         } else {
-                                            world.add_component(dynEnt, OnCollisionStay({oldEnt}));
+                                            world.add_components(dynEnt, OnCollisionStay({oldEnt}));
                                         }
                                         if (auto opt = world.getThisFrame<OnCollisionStay>(oldEnt)) {
                                             auto [oldCollisionStay] = opt.value();
                                             oldCollisionStay.othCols.emplace(dynEnt);
                                         } else {
-                                            world.add_component(oldEnt, OnCollisionStay({dynEnt}));
+                                            world.add_components(oldEnt, OnCollisionStay({dynEnt}));
                                         }
-                                        if (world.has<Collider>(oldEnt)) {
+                                        if (world.has_components<Collider>(oldEnt)) {
                                             // glm::vec2 antiVel = collisionResolution(dynTrans.getPosition(), dynCol.col, dynTrans.getScale(), oldTransform.getPosition(), col, oldTransform.getScale());
                                             glm::vec2 antiVel = intersectWithMTVRes.second;
                                             dynTrans.moveVelocity(antiVel);
-                                            if (world.hasChildren(dynEnt)) {
+                                            if (world.has_children(dynEnt)) {
                                                 updateVelocityRec(world, dynEnt, antiVel);
                                             }
                                         }
@@ -912,13 +912,13 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                         auto [onCollisionExitDyn] = opt.value();
                                         onCollisionExitDyn.othCols.emplace(oldEnt);
                                     } else {
-                                        world.add_component(dynEnt, OnCollisionExit({oldEnt}));
+                                        world.add_components(dynEnt, OnCollisionExit({oldEnt}));
                                     }
                                     if (auto opt = world.getThisFrame<OnCollisionExit>(oldEnt)) {
                                         auto [onCollisionExitOld] = opt.value();
                                         onCollisionExitOld.othCols.emplace(dynEnt);
                                     } else {
-                                        world.add_component(oldEnt, OnCollisionExit({dynEnt}));
+                                        world.add_components(oldEnt, OnCollisionExit({dynEnt}));
                                     }
                                 }
                             }
@@ -931,7 +931,7 @@ inline void collisionSys(LateFixedSystem, World& world) {
 
         for (const auto othEnt: list) {
             if (auto oldTransformOpt = world.getThisFrame<Transform2D>(othEnt)) {
-                if (world.has<Collider>(othEnt) || world.has<Trigger>(othEnt)) {
+                if (world.has_components<Collider>(othEnt) || world.has_components<Trigger>(othEnt)) {
                     auto [othTransform] = oldTransformOpt.value();
                     glm::vec4 col(0, 0, 0, 0);
                     if (auto opt = world.getThisFrame<const Collider>(othEnt)) {
@@ -957,19 +957,19 @@ inline void collisionSys(LateFixedSystem, World& world) {
                                 auto [onCollisionEnterDyn] = opt.value();
                                 onCollisionEnterDyn.othCols.emplace(othEnt);
                             } else {
-                                world.add_component(dynEnt, OnCollisionEnter({othEnt}));
+                                world.add_components(dynEnt, OnCollisionEnter({othEnt}));
                             }
                             if (auto opt = world.getThisFrame<OnCollisionEnter>(othEnt)) {
                                 auto [onCollisionEnterOth] = opt.value();
                                 onCollisionEnterOth.othCols.emplace(dynEnt);
                             } else {
-                                world.add_component(othEnt, OnCollisionEnter({dynEnt}));
+                                world.add_components(othEnt, OnCollisionEnter({dynEnt}));
                             }
-                            if (world.has<Collider>(othEnt)) {
+                            if (world.has_components<Collider>(othEnt)) {
                                 // glm::vec2 antiVel = collisionResolution(dynTrans.getPosition(), dynCol.col, dynTrans.getScale(), othTransform.getPosition(), col, othTransform.getScale());
                                 glm::vec2 antiVel = intersectWithMTVRes.second;
                                 dynTrans.moveVelocity(antiVel);
-                                if (world.hasChildren(dynEnt)) {
+                                if (world.has_children(dynEnt)) {
                                     updateVelocityRec(world, dynEnt, antiVel);
                                 }
                             }
@@ -983,19 +983,19 @@ inline void collisionSys(LateFixedSystem, World& world) {
     // Purge Empty Collisions
     for (auto [entCollision, collision]: world.view<OnCollisionEnter>()) {
         if (collision.othCols.empty()) {
-            world.remove_component<OnCollisionEnter>(entCollision);
+            world.remove_components<OnCollisionEnter>(entCollision);
         }
     }
 
     for (auto [entCollision, collision]: world.view<OnCollisionStay>()) {
         if (collision.othCols.empty()) {
-            world.remove_component<OnCollisionStay>(entCollision);
+            world.remove_components<OnCollisionStay>(entCollision);
         }
     }
 
     for (auto [entCollision, collision]: world.view<OnCollisionExit>()) {
         if (collision.othCols.empty()) {
-            world.remove_component<OnCollisionExit>(entCollision);
+            world.remove_components<OnCollisionExit>(entCollision);
         }
     }
 }
@@ -1007,7 +1007,7 @@ inline void purgeCollisionSys(LateUnscaledFixedSystem, World& world) {
 
     for (const auto othEnt: world.getDestroyedEnts()) {
         spatialHashMap.erase(othEnt);
-        if (world.has<OnCollisionEnter>(othEnt) || world.has<OnCollisionStay>(othEnt) || world.has<OnCollisionExit>(othEnt)) {
+        if (world.has_components<OnCollisionEnter>(othEnt) || world.has_components<OnCollisionStay>(othEnt) || world.has_components<OnCollisionExit>(othEnt)) {
             for (auto [_, collision]: world.view<OnCollisionEnter>()) {
                 // if (collision.othCols.contains(othEnt)) {
                     // printf("Purge Enter: [%zu]\n", othEnt);

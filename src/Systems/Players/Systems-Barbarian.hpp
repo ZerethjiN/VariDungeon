@@ -12,9 +12,9 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, transform, orientation, playerDamage, zindex]: players) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::B_BUTTON)) {
             for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform2D>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
-                if (!world.has<ShrinkIcon>(buttonBIconEnt)) {
+                if (!world.has_components<ShrinkIcon>(buttonBIconEnt)) {
                     buttonBIconTransform.scale(-0.1f, -0.1f);
-                    world.add_component(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
+                    world.add_components(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
                 }
             }
 
@@ -90,11 +90,11 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
                 });
             }
 
-            world.add_component(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f, 0.1f));
+            world.add_components(playerEnt, IsBarbarianDash(0.25f, newDirection, 2.f, 0.1f));
             // appliedCurCameraAberation(world, 8, 10, newDirection);
 
-            if (!world.has<Unhittable>(playerEnt)) {
-                world.add_component(playerEnt, Unhittable());
+            if (!world.has_components<Unhittable>(playerEnt)) {
+                world.add_components(playerEnt, Unhittable());
             }
         }
     }
@@ -107,9 +107,9 @@ void barbarianStopDashSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianDash, orientation, transform, zindex]: players) {
         if (isBarbarianDash.canStopDash(time.fixedDelta()) || vulkanEngine.window.isKeyUp(ButtonNameType::B_BUTTON)) {
-            world.remove_component<IsBarbarianDash>(playerEnt);
-            if (world.has<Unhittable>(playerEnt)) {
-                world.remove_component<Unhittable>(playerEnt);
+            world.remove_components<IsBarbarianDash>(playerEnt);
+            if (world.has_components<Unhittable>(playerEnt)) {
+                world.remove_components<Unhittable>(playerEnt);
             }
             continue;
         }
@@ -148,7 +148,7 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
             newVelocity.x = speed * time.fixedDelta();
         }
 
-        if (auto opt = world.get<IsBarbarianDash>(playerEnt)) {
+        if (auto opt = world.get_components<IsBarbarianDash>(playerEnt)) {
             auto [isBarbarianDash] = opt.value();
             newVelocity = isBarbarianDash.getDirection() * isBarbarianDash.getSpeedCoeff() * speed.speed * time.fixedDelta();
         }
@@ -156,15 +156,15 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
         velocity = newVelocity;
 
         if (newVelocity.x > 0) {
-            if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (world.has<IsBarbarianDash>(playerEnt)) {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+            if (!world.has_components<IsBarbarianAttack>(playerEnt)) {
+                if (world.has_components<IsBarbarianDash>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_DASH_RIGHT);
                     } else {
                         animation.play(BarbareAnimType::DASH_RIGHT);
                     }
                 } else {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_MOVE_RIGHT);
                     } else {
                         animation.play(BarbareAnimType::MOVE_RIGHT);
@@ -173,15 +173,15 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
             }
             orientation = Orientation::EAST;
         } else if (newVelocity.x < 0) {
-            if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (world.has<IsBarbarianDash>(playerEnt)) {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+            if (!world.has_components<IsBarbarianAttack>(playerEnt)) {
+                if (world.has_components<IsBarbarianDash>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_DASH_LEFT);
                     } else {
                         animation.play(BarbareAnimType::DASH_LEFT);
                     }
                 } else {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_MOVE_LEFT);
                     } else {
                         animation.play(BarbareAnimType::MOVE_LEFT);
@@ -190,15 +190,15 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
             }
             orientation = Orientation::WEST;
         } else if (newVelocity.y > 0) {
-            if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (world.has<IsBarbarianDash>(playerEnt)) {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+            if (!world.has_components<IsBarbarianAttack>(playerEnt)) {
+                if (world.has_components<IsBarbarianDash>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_DASH_DOWN);
                     } else {
                         animation.play(BarbareAnimType::DASH_DOWN);
                     }
                 } else {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_MOVE_DOWN);
                     } else {
                         animation.play(BarbareAnimType::MOVE_DOWN);
@@ -207,15 +207,15 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
             }
             orientation = Orientation::SOUTH;
         } else if (newVelocity.y < 0) {
-            if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (world.has<IsBarbarianDash>(playerEnt)) {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+            if (!world.has_components<IsBarbarianAttack>(playerEnt)) {
+                if (world.has_components<IsBarbarianDash>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_DASH_UP);
                     } else {
                         animation.play(BarbareAnimType::DASH_UP);
                     }
                 } else {
-                    if (world.has<InvincibleFrame>(playerEnt)) {
+                    if (world.has_components<InvincibleFrame>(playerEnt)) {
                         animation.play(BarbareAnimType::HIT_MOVE_UP);
                     } else {
                         animation.play(BarbareAnimType::MOVE_UP);
@@ -224,8 +224,8 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
             }
             orientation = Orientation::NORTH;
         } else {
-            if (!world.has<IsBarbarianAttack>(playerEnt)) {
-                if (world.has<InvincibleFrame>(playerEnt)) {
+            if (!world.has_components<IsBarbarianAttack>(playerEnt)) {
+                if (world.has_components<InvincibleFrame>(playerEnt)) {
                     if (orientation.x > 0) {
                         animation.play(BarbareAnimType::HIT_IDLE_RIGHT);
                     } else if (orientation.x < 0) {
@@ -257,27 +257,27 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
     for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::A_BUTTON)) {
             for (auto [buttonAIconEnt, buttonAIconTransform]: world.view<Transform2D>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
-                if (!world.has<ShrinkIcon>(buttonAIconEnt)) {
+                if (!world.has_components<ShrinkIcon>(buttonAIconEnt)) {
                     buttonAIconTransform.scale(-0.1f, -0.1f);
-                    world.add_component(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
+                    world.add_components(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
                 }
             }
 
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(playerEnt)) {
+                if (world.has_components<InvincibleFrame>(playerEnt)) {
                     animation.play(BarbareAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(BarbareAnimType::ATTACK_RIGHT);
                 }
-                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                if (auto optLaser = world.get_components<PlayerLaser>(playerEnt)) {
                     auto [playerLaser] = optLaser.value();
                     if (playerLaser.canShot()) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(1, 0), 90, 256.f);
                     }
                 }
-                if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
+                if (!world.has_components<PlayerAttackWeight>(playerEnt)) {
+                    world.add_components(playerEnt, PlayerAttackWeight(glm::vec2(2, 0), 16.f, 0.075f));
                 }
                 world.append_children(playerEnt, {
                     world.create_entity(
@@ -294,20 +294,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     )
                 });
             } else if (orientation.x < 0) {
-                if (world.has<InvincibleFrame>(playerEnt)) {
+                if (world.has_components<InvincibleFrame>(playerEnt)) {
                     animation.play(BarbareAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(BarbareAnimType::ATTACK_LEFT);
                 }
-                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                if (auto optLaser = world.get_components<PlayerLaser>(playerEnt)) {
                     auto [playerLaser] = optLaser.value();
                     if (playerLaser.canShot()) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(-1, 0), 270, 256.f);
                     }
                 }
-                if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
+                if (!world.has_components<PlayerAttackWeight>(playerEnt)) {
+                    world.add_components(playerEnt, PlayerAttackWeight(glm::vec2(-2, 0), 16.f, 0.075f));
                 }
                 world.append_children(playerEnt, {
                     world.create_entity(
@@ -324,20 +324,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     )
                 });
             } else if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(playerEnt)) {
+                if (world.has_components<InvincibleFrame>(playerEnt)) {
                     animation.play(BarbareAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(BarbareAnimType::ATTACK_DOWN);
                 }
-                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                if (auto optLaser = world.get_components<PlayerLaser>(playerEnt)) {
                     auto [playerLaser] = optLaser.value();
                     if (playerLaser.canShot()) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, 1), 180, 256.f);
                     }
                 }
-                if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
+                if (!world.has_components<PlayerAttackWeight>(playerEnt)) {
+                    world.add_components(playerEnt, PlayerAttackWeight(glm::vec2(0, 2), 16.f, 0.075f));
                 }
                 world.append_children(playerEnt, {
                     world.create_entity(
@@ -354,20 +354,20 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     )
                 });
             } else if (orientation.y < 0) {
-                if (world.has<InvincibleFrame>(playerEnt)) {
+                if (world.has_components<InvincibleFrame>(playerEnt)) {
                     animation.play(BarbareAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(BarbareAnimType::ATTACK_UP);
                 }
-                if (auto optLaser = world.get<PlayerLaser>(playerEnt)) {
+                if (auto optLaser = world.get_components<PlayerLaser>(playerEnt)) {
                     auto [playerLaser] = optLaser.value();
                     if (playerLaser.canShot()) {
                         playerLaser.resetCurTime();
                         instantiateLaserParticle(world, transform.getPosition(), glm::vec2(0, -1), 0, 256.f);
                     }
                 }
-                if (!world.has<PlayerAttackWeight>(playerEnt)) {
-                    world.add_component(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
+                if (!world.has_components<PlayerAttackWeight>(playerEnt)) {
+                    world.add_components(playerEnt, PlayerAttackWeight(glm::vec2(0, -2), 16.f, 0.075f));
                 }
                 world.append_children(playerEnt, {
                     world.create_entity(
@@ -384,7 +384,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
                     )
                 });
             }
-            world.add_component(playerEnt, IsBarbarianAttack(playerAttackCooldown.getAttackCooldown()));
+            world.add_components(playerEnt, IsBarbarianAttack(playerAttackCooldown.getAttackCooldown()));
         }
     }
 }
@@ -396,7 +396,7 @@ void barbarianStopAttackSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, isBarbarianAttack]: players) {
         if (isBarbarianAttack.canStopAttack(time.fixedDelta())) {
-            world.remove_component<IsBarbarianAttack>(playerEnt);
+            world.remove_components<IsBarbarianAttack>(playerEnt);
         }
     }
 }

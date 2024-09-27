@@ -14,8 +14,8 @@ void anubisMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isAnubisMove, orientation, speed, anubis, enemyTransform, zindex]: enemies) {
         if (isAnubisMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsAnubisMove>(enemyEnt);
-            world.add_component(enemyEnt, IsAnubisAttack(anubis.attackDuration));
+            world.remove_components<IsAnubisMove>(enemyEnt);
+            world.add_components(enemyEnt, IsAnubisAttack(anubis.attackDuration));
 
             for (int i = 1; i < 7; i++) {
                 if (fabs(orientation.x) > fabs(orientation.y)) {
@@ -53,14 +53,14 @@ void anubisMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(AnubisAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(AnubisAnimType::MOVE_LEFT);
@@ -69,14 +69,14 @@ void anubisMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(AnubisAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(AnubisAnimType::MOVE_UP);
@@ -93,20 +93,20 @@ void anubisAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isAnubisAttack, orientation, anubis, enemyTransform]: enemies) {
         if (isAnubisAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsAnubisAttack>(enemyEnt);
-            world.add_component(enemyEnt, IsAnubisMove(anubis.moveDuration));
+            world.remove_components<IsAnubisAttack>(enemyEnt);
+            world.add_components(enemyEnt, IsAnubisMove(anubis.moveDuration));
             instantiateFireBallParticle(world, enemyTransform.getPosition(), orientation.orientation, 128.f);
         }
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(AnubisAnimType::ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(AnubisAnimType::ATTACK_LEFT);
@@ -114,13 +114,13 @@ void anubisAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(AnubisAnimType::ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(AnubisAnimType::ATTACK_UP);

@@ -30,16 +30,16 @@ void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        if (auto opt = world.get<const Transform2D>(camShake.originEnt)) {
+        if (auto opt = world.get_components<const Transform2D>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x >= originTransform.getPosition().x + camShake.distance) {
                 camShake.curShake++;
                 if (camShake.curShake >= camShake.nbShake) {
-                    world.remove_component<CameraShake, CameraShakeRight>(entCam);
+                    world.remove_components<CameraShake, CameraShakeRight>(entCam);
                     transform.setPosition(originTransform.getPosition());
                 } else {
-                    world.remove_component<CameraShakeRight>(entCam);
-                    world.add_component(entCam, CameraShakeLeft());
+                    world.remove_components<CameraShakeRight>(entCam);
+                    world.add_components(entCam, CameraShakeLeft());
                 }
             } else {
                 transform.moveX(camShake.speed * time.fixedDelta());
@@ -53,16 +53,16 @@ void cameraShakeLeftSys(ThreadedFixedSystem, World& world) noexcept {
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {
-        if (auto opt = world.get<const Transform2D>(camShake.originEnt)) {
+        if (auto opt = world.get_components<const Transform2D>(camShake.originEnt)) {
             auto [originTransform] = opt.value();
             if (transform.getPosition().x <= originTransform.getPosition().x - camShake.distance) {
                 camShake.curShake++;
                 if (camShake.curShake >= camShake.nbShake) {
-                    world.remove_component<CameraShake, CameraShakeLeft>(entCam);
+                    world.remove_components<CameraShake, CameraShakeLeft>(entCam);
                     transform.setPosition(originTransform.getPosition());
                 } else {
-                    world.remove_component<CameraShakeLeft>(entCam);
-                    world.add_component(entCam, CameraShakeRight());
+                    world.remove_components<CameraShakeLeft>(entCam);
+                    world.add_components(entCam, CameraShakeRight());
                 }
             } else {
                 transform.moveX(-camShake.speed * time.fixedDelta());

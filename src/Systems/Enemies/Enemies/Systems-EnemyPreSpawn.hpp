@@ -15,8 +15,8 @@ void enemyPreSpawnSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, enemyPreSpawn, transform, zindex]: enemies) {
         if (enemyPreSpawn.canRemovePreSpawn(time.fixedDelta())) {
-            world.remove_component<EnemyPreSpawn>(enemyEnt);
-            if (noHealthBar && world.has<Boss>(enemyEnt) && world.view(with<BossHealthBar>).empty()) {
+            world.remove_components<EnemyPreSpawn>(enemyEnt);
+            if (noHealthBar && world.has_components<Boss>(enemyEnt) && world.view(with<BossHealthBar>).empty()) {
                 instantiateBossHealthBarUI(world, glm::vec2(0, 0));
                 noHealthBar = false;
             }

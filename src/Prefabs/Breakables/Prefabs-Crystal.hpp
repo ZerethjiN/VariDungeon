@@ -25,22 +25,22 @@ Ent instantiateCrystal(World& world, const glm::vec2& position) {
         }),
         ParticleGenerator(instantiateParticleEffectStar, 1.5f, 8.f),
         OnBreakableHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(CrystalAnimType::HIT);
             }
         }),
         OnBreakableNoHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(CrystalAnimType::NO_HIT);
             }
         }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
-            if (world.has<ParticleGenerator>(thisEnt)) {
-                world.remove_component<ParticleGenerator>(thisEnt);
+            if (world.has_components<ParticleGenerator>(thisEnt)) {
+                world.remove_components<ParticleGenerator>(thisEnt);
             }
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(CrystalAnimType::DESTROYED);
             }

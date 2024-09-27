@@ -93,7 +93,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     world.create_entity(
-        TextUICreator("Play", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
+        TextUICreator("Play", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
         Transform2D(
             glm::vec2(-70, -8),
             0,
@@ -115,7 +115,7 @@ void testScene2(SceneSystem, World& world) {
     );
 
     world.create_entity(
-        TextUICreator("Settings", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
+        TextUICreator("Settings", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_CENTER),
         Transform2D(
             glm::vec2(-70, 32),
             0,
@@ -141,7 +141,7 @@ void testScene2(SceneSystem, World& world) {
     auto [buildVersion] = world.resource<const BuildVersion>();
 
     world.create_entity(
-        TextUICreator(std::string("Version ") + buildVersion.version, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(255, 255, 255, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
+        TextUICreator(std::string("Version ") + buildVersion.version, "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(96, 16), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
         Transform2D(
             glm::vec2(-16, 60),
             0,

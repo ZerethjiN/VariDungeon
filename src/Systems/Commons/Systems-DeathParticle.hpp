@@ -16,7 +16,7 @@ void deathParticleSys(MainFixedSystem, World& world) {
             if (generator.getNeedDestroy()) {
                 world.delete_entity(generatorEnt);
             } else {
-                world.remove_component<DeathParticleGenerator>(generatorEnt);
+                world.remove_components<DeathParticleGenerator>(generatorEnt);
             }
         }
 

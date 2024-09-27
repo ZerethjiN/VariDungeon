@@ -13,7 +13,7 @@ void cameraAberationSys(MainFixedSystem, World& world) {
 
     for (auto [aberationEnt, aberation]: aberations) {
         if (aberation.canStopAberation(time.fixedDelta())) {
-            world.remove_component<CameraAberation>(aberationEnt);
+            world.remove_components<CameraAberation>(aberationEnt);
         }
     }
 }

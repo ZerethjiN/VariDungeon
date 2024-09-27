@@ -125,8 +125,8 @@ void hubScene(SceneSystem, World& world) {
         world.addDontDestroyOnLoad(cameraOrigin);
     } else {
         for (auto [curCameraEnt]: cameras) {
-            if (auto opt = world.getParent(curCameraEnt)) {
-                if (auto optTransform = world.get<Transform2D>(opt.value())) {
+            if (auto opt = world.get_parent(curCameraEnt)) {
+                if (auto optTransform = world.get_components<Transform2D>(opt.value())) {
                     auto [parentTransform] = optTransform.value();
                     parentTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0));
                 }
@@ -134,14 +134,14 @@ void hubScene(SceneSystem, World& world) {
         }
 
         for (auto [cameraEnt]: world.view(with<CameraShake>)) {
-            if (world.has<CameraShake>(cameraEnt)) {
-                world.remove_component<CameraShake>(cameraEnt);
+            if (world.has_components<CameraShake>(cameraEnt)) {
+                world.remove_components<CameraShake>(cameraEnt);
             }
-            if (world.has<CameraShakeLeft>(cameraEnt)) {
-                world.remove_component<CameraShakeLeft>(cameraEnt);
+            if (world.has_components<CameraShakeLeft>(cameraEnt)) {
+                world.remove_components<CameraShakeLeft>(cameraEnt);
             }
-            if (world.has<CameraShakeRight>(cameraEnt)) {
-                world.remove_component<CameraShakeRight>(cameraEnt);
+            if (world.has_components<CameraShakeRight>(cameraEnt)) {
+                world.remove_components<CameraShakeRight>(cameraEnt);
             }
         }
     }

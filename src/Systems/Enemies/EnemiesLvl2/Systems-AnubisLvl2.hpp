@@ -13,14 +13,14 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isAnubisAttack, orientation, anubis, enemyTransform]: enemies) {
         if (isAnubisAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsAnubisLvl2Attack>(enemyEnt);
+            world.remove_components<IsAnubisLvl2Attack>(enemyEnt);
 
-            if (auto oth = world.get<const Collider>(enemyEnt)) {
+            if (auto oth = world.get_components<const Collider>(enemyEnt)) {
                 auto [collider] = oth.value();
                 anubis.tmpCol = collider.col;
-                world.remove_component<Collider>(enemyEnt);
+                world.remove_components<Collider>(enemyEnt);
 
-                world.add_component(enemyEnt, IsAnubisLvl2Vanish(anubis.vanishDuration));
+                world.add_components(enemyEnt, IsAnubisLvl2Vanish(anubis.vanishDuration));
 
                 if (fabs(orientation.x) > fabs(orientation.y)) {
                     if (orientation.x > 0) {
@@ -46,13 +46,13 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisLvl2AnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(AnubisLvl2AnimType::ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisLvl2AnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(AnubisLvl2AnimType::ATTACK_LEFT);
@@ -60,13 +60,13 @@ void anubisLvl2AttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisLvl2AnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(AnubisLvl2AnimType::ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(AnubisLvl2AnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(AnubisLvl2AnimType::ATTACK_UP);
@@ -84,11 +84,11 @@ void anubisLvl2VanishSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isAnubisMove, orientation, speed, anubis, enemyTransform, zindex]: enemies) {
         if (isAnubisMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsAnubisLvl2Vanish>(enemyEnt);
-            world.add_component(enemyEnt, IsAnubisLvl2Attack(anubis.attackDuration));
+            world.remove_components<IsAnubisLvl2Vanish>(enemyEnt);
+            world.add_components(enemyEnt, IsAnubisLvl2Attack(anubis.attackDuration));
 
-            if (!world.has<Collider>(enemyEnt)) {
-                world.add_component(enemyEnt, Collider(anubis.tmpCol));
+            if (!world.has_components<Collider>(enemyEnt)) {
+                world.add_components(enemyEnt, Collider(anubis.tmpCol));
             }
 
             for (int i = 1; i < 7; i++) {

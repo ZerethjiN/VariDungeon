@@ -36,7 +36,7 @@ void bombSpreadSys(MainFixedSystem, World& world) {
 
     for (auto [bombEnt, velocity, bombSpread, collider]: bombs) {
         if (bombSpread.canStopSpreading(time.fixedDelta())) {
-            world.remove_component<BombSpread, Collider>(bombEnt);
+            world.remove_components<BombSpread, Collider>(bombEnt);
         }
 
         velocity += bombSpread.direction * bombSpread.speed * time.fixedDelta();

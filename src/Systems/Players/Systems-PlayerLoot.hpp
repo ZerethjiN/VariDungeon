@@ -11,12 +11,12 @@ void playerLootSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, collisions]: players) {
         for (auto othEnt: collisions) {
-            if (world.has<Lootable>(othEnt)) {
-                world.remove_component<Lootable>(othEnt);
-                world.add_component(othEnt,
+            if (world.has_components<Lootable>(othEnt)) {
+                world.remove_components<Lootable>(othEnt);
+                world.add_components(othEnt,
                     LootAttract(128.f, playerEnt)
                 );
-                if (auto opt = world.get<Transform2D>(othEnt)) {
+                if (auto opt = world.get_components<Transform2D>(othEnt)) {
                     auto [othTransform] = opt.value();
                     othTransform.scale(0.1f, 0.1f);
                 }
@@ -33,12 +33,12 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
     for (auto [lootEnt, velocity, lootTransform, lootAttract]: loots) {
         Ent targetEnt = lootAttract.getTargetEnt();
 
-        if (!world.exist(targetEnt)) {
+        if (!world.entity_exists(targetEnt)) {
             world.delete_entity(lootEnt);
             continue;
         }
 
-        if (auto opt = world.get<const Transform2D>(targetEnt)) {
+        if (auto opt = world.get_components<const Transform2D>(targetEnt)) {
             auto [othTransform] = opt.value();
 
             velocity += glm::normalize(othTransform.getPosition() - lootTransform.getPosition()) * lootAttract.getSpeed() * time.fixedDelta();
@@ -50,25 +50,25 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                     world.create_entity(
                         TextCreator("+" + std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
                         Transform2D(
-                            othTransform.getPosition(),
+                            othTransform.getPosition() - glm::vec2(8, 0),
                             0,
                             glm::vec2(0.5, 0.5)
                         ),
                         DamageText(
                             /*Direction:*/ -glm::normalize(glm::vec2(0, 16)),
-                            /*Duration:*/ 0.2,
-                            /*MaxScale:*/ 1.0,
-                            /*Speed:*/ 128
+                            /*Duration:*/ 0.5,
+                            /*MaxScale:*/ 1.5,
+                            /*Speed:*/ 64
                         ),
                         Velocity()
                     )
                 });
 
                 // If XP
-                if (auto optXp = world.get<const XpGroundItem>(lootEnt)) {
+                if (auto optXp = world.get_components<const XpGroundItem>(lootEnt)) {
                     auto [xpGroundItem] = optXp.value();
 
-                    if (auto optPlayerXp = world.get<PlayerXp>(targetEnt)) {
+                    if (auto optPlayerXp = world.get_components<PlayerXp>(targetEnt)) {
                         auto [playerXp] = optPlayerXp.value();
 
                         playerXp.addXp(xpGroundItem.getAmount());
@@ -103,19 +103,19 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         }
 
                         for (auto [xpIconEnt, xpIconTransform]: world.view<Transform2D>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
-                            if (!world.has<ShrinkIcon>(xpIconEnt)) {
+                            if (!world.has_components<ShrinkIcon>(xpIconEnt)) {
                                 xpIconTransform.scale(-0.2f, -0.2f);
-                                world.add_component(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                                world.add_components(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }
                         }
                     }
                 }
 
                 // If Life
-                if (auto optLife = world.get<const LifeGroundItem>(lootEnt)) {
+                if (auto optLife = world.get_components<const LifeGroundItem>(lootEnt)) {
                     auto [lifeGroundItem] = optLife.value();
 
-                    if (auto optPlayerLife = world.get<Life>(targetEnt)) {
+                    if (auto optPlayerLife = world.get_components<Life>(targetEnt)) {
                         auto [playerLife] = optPlayerLife.value();
 
                         playerLife += lifeGroundItem.getAmount();
@@ -133,10 +133,10 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                 }
 
                 // If Coin
-                if (auto optCoin = world.get<const CoinGroundItem>(lootEnt)) {
+                if (auto optCoin = world.get_components<const CoinGroundItem>(lootEnt)) {
                     auto [coinGroundItem] = optCoin.value();
 
-                    if (auto optPlayerCoin = world.get<PlayerCoin>(targetEnt)) {
+                    if (auto optPlayerCoin = world.get_components<PlayerCoin>(targetEnt)) {
                         auto [playerCoin] = optPlayerCoin.value();
 
                         playerCoin += coinGroundItem.getAmount();
@@ -146,9 +146,9 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
                         }
 
                         for (auto [coinIconEnt, coinIconTransform]: world.view<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
-                            if (!world.has<ShrinkIcon>(coinIconEnt)) {
+                            if (!world.has_components<ShrinkIcon>(coinIconEnt)) {
                                 coinIconTransform.scale(-0.2f, -0.2f);
-                                world.add_component(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                                world.add_components(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
                             }
                         }
                     }

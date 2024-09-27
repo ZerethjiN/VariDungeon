@@ -14,12 +14,12 @@ void turretCardinalSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTurretCardinal, animation, transform, turret, zindex]: traps) {
         if (isTurretCardinal.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove_component<Turret>(trapEnt);
+                world.remove_components<Turret>(trapEnt);
                 animation.play(TurretAnimType::OFF);
             } else {
                 animation.play(TurretAnimType::DIAGONAL);
-                world.remove_component<IsTurretCardinal>(trapEnt);
-                world.add_component(trapEnt, IsTurretDiagonal(turret.diagonalDuration, turret.diagonalPreShotDuration));
+                world.remove_components<IsTurretCardinal>(trapEnt);
+                world.add_components(trapEnt, IsTurretDiagonal(turret.diagonalDuration, turret.diagonalPreShotDuration));
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, -1), 64.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 1), 64.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 1), 64.f);
@@ -51,12 +51,12 @@ void turretDiagonalSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTurretDiagonal, animation, transform, turret, zindex]: traps) {
         if (isTurretDiagonal.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove_component<Turret>(trapEnt);
+                world.remove_components<Turret>(trapEnt);
                 animation.play(TurretAnimType::OFF);
             } else {
                 animation.play(TurretAnimType::CARDINAL);
-                world.remove_component<IsTurretDiagonal>(trapEnt);
-                world.add_component(trapEnt, IsTurretCardinal(turret.cardinalDuration, turret.cardinalPreShotDuration));
+                world.remove_components<IsTurretDiagonal>(trapEnt);
+                world.add_components(trapEnt, IsTurretCardinal(turret.cardinalDuration, turret.cardinalPreShotDuration));
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 0), 64.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 0), 64.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, 1), 64.f);

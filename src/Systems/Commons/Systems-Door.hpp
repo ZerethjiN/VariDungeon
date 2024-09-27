@@ -13,8 +13,8 @@ void openDoorSys(MainFixedSystem, World& world) {
         auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger>);
 
         for (auto [doorEnt]: doors) {
-            world.remove_component<Sprite, Collider, IsDoorLock>(doorEnt);
-            world.add_component(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
+            world.remove_components<Sprite, Collider, IsDoorLock>(doorEnt);
+            world.add_components(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
         }
     }
 }
@@ -25,22 +25,22 @@ void doorCameraMovementSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [cameraEnt, cameraTransform, chunkCameraMovement]: cameras) {
-        if (auto opt = world.get<const Transform2D>(chunkCameraMovement.getNextRoomEnt())) {
+        if (auto opt = world.get_components<const Transform2D>(chunkCameraMovement.getNextRoomEnt())) {
             auto [nextTransform] = opt.value();
 
             if (glm::distance(nextTransform.getPosition() + glm::vec2(-8, 0), cameraTransform.getPosition()) < 8) {
                 cameraTransform.setPosition(nextTransform.getPosition() + glm::vec2(-8, 0));
-                world.remove_component<ChunkCameraMovement>(cameraEnt);
+                world.remove_components<ChunkCameraMovement>(cameraEnt);
                 world.setInactive(chunkCameraMovement.getOldRoomEnt());
 
                 for (auto [playerEnt]: world.view(with<Player, Unmoveable>)) {
-                    world.remove_component<Unmoveable>(playerEnt);
+                    world.remove_components<Unmoveable>(playerEnt);
                 }
             } else {
                 cameraTransform.move(glm::normalize(nextTransform.getPosition() + glm::vec2(-8, 0) - cameraTransform.getPosition()) * chunkCameraMovement.getCameraSpeed() * time.fixedDelta());
             }
         } else {
-            world.remove_component<ChunkCameraMovement>(cameraEnt);
+            world.remove_components<ChunkCameraMovement>(cameraEnt);
         }
     }
 }
@@ -50,7 +50,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
 
     for (auto [_, collisions, doorTrigger]: doors) {
         for (auto othEnt: collisions) {
-            if (world.has<Player, Transform2D>(othEnt)) {
+            if (world.has_components<Player, Transform2D>(othEnt)) {
                 Ent nextRoomEnt = 0;
                 for (auto [_, exploration, chunkTable]: world.view<ChunkExploration, const ChunkTable>()) {
                     nextRoomEnt = chunkTable.getChunkById(doorTrigger.getNextRoomIdx());
@@ -64,14 +64,14 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                 }
 
                 for (auto [cameraEnt]: world.view(with<CurCamera>)) {
-                    if (auto optParent = world.getParent(cameraEnt)) {
+                    if (auto optParent = world.get_parent(cameraEnt)) {
                         auto cameraParentEnt = optParent.value();
                         if (curRoomEnt != 0 && nextRoomEnt != 0) {
-                            world.add_component(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
+                            world.add_components(cameraParentEnt, ChunkCameraMovement(curRoomEnt, nextRoomEnt, 384.f));
                         }
-                        // if (auto optCameraParent = world.get<Transform2D>(cameraParentEnt)) {
+                        // if (auto optCameraParent = world.get_components<Transform2D>(cameraParentEnt)) {
                         //     auto [cameraParentTransform] = optCameraParent.value();
-                        //     if (auto opt = world.get<const Transform2D>(nextRoomEnt)) {
+                        //     if (auto opt = world.get_components<const Transform2D>(nextRoomEnt)) {
                         //         auto [nextRoomTransform] = opt.value();
                         //         cameraParentTransform.setPosition(nextRoomTransform.getPosition());
                         //     }
@@ -79,7 +79,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                     }
                 }
 
-                if (auto opt = world.get<Transform2D>(othEnt)) {
+                if (auto opt = world.get_components<Transform2D>(othEnt)) {
                     auto [playerTransform] = opt.value();
                     switch (doorTrigger.getOrientation()) {
                         case DoorTrigger::DOOR_TRIGGER_NORTH:
@@ -97,7 +97,7 @@ void doorTriggerSys(MainFixedSystem, World& world) {
                     };
                 }
 
-                world.add_component(othEnt, Unmoveable());
+                world.add_components(othEnt, Unmoveable());
 
                 if (curRoomEnt != 0 && nextRoomEnt != 0) {
                     world.setActive(nextRoomEnt);

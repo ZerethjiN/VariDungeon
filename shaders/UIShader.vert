@@ -24,9 +24,10 @@ layout(std430, set = 0, binding = 0) readonly buffer ObjectBuffer {
 };
 
 layout(location = 0) out UIData {
+    flat vec4 color;
     flat int textureIdx;
     smooth vec2 fragTexCoord;
-    flat vec4 color;
+    flat int isText;
 } uiData;
 
 void main() {
@@ -35,4 +36,5 @@ void main() {
     // uiData.worldPos = (spritesData[gl_InstanceIndex].model * vec4(spritesData[gl_InstanceIndex].vertices[gl_VertexIndex].position.xy, 0, 1)).xy;
     uiData.textureIdx = spritesData[gl_InstanceIndex].textureIdx;
     uiData.color = spritesData[gl_InstanceIndex].color;
+    uiData.isText = spritesData[gl_InstanceIndex].isText;
 }

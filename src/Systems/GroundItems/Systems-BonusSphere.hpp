@@ -11,7 +11,7 @@ void getBonusSphereSys(MainFixedSystem, World& world) {
 
     for (auto [sphereEnt, collisions]: spheres) {
         for (auto othEnt: collisions) {
-            if (world.has<Player>(othEnt)) {
+            if (world.has_components<Player>(othEnt)) {
                 world.delete_entity(sphereEnt);
 
                 // Stop Time:

@@ -15,7 +15,7 @@ void playerFrenzySys(MainFixedSystem, World& world) {
         if (playerFrenzy.canStop(time.fixedDelta())) {
             playerAttackSpeed /= 1.25f;
             playerSpeed.speed /= 1.5f;
-            world.remove_component<PlayerFrenzy>(playerEnt);
+            world.remove_components<PlayerFrenzy>(playerEnt);
         }
     }
 }

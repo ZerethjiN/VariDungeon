@@ -13,7 +13,7 @@ void chestOpenSys(MainFixedSystem, World& world) {
 
     for (auto [chestEnt, chestTransform, collisions]: chests) {
         for (auto othEnt: collisions) {
-            if (world.has<Player>(othEnt)) {
+            if (world.has_components<Player>(othEnt)) {
                 auto [time] = world.resource<Time>();
                 time.setTimeScale(0);
 

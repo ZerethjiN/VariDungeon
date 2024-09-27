@@ -11,22 +11,22 @@ void playerHitSys(MainFixedSystem, World& world) {
 
     for (auto [playerEnt, playerTransform, life, collisions]: players) {
         for (auto othEnt: collisions) {
-            if (world.has<EnemyWeapon, Damage>(othEnt)) {
+            if (world.has_components<EnemyWeapon, Damage>(othEnt)) {
                 // Damage:
-                if (auto opt = world.get<const Damage>(othEnt)) {
+                if (auto opt = world.get_components<const Damage>(othEnt)) {
                     auto [damage] = opt.value();
 
                     life -= damage;
                 }
 
                 // Visual Effect:
-                world.add_component(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
+                world.add_components(playerEnt, InvincibleFrame(0.5f, glm::vec2(-0.2f, -0.2f)));
                 playerTransform.scale(-0.2f, -0.2f);
 
-                if (auto opt = world.get<const Transform2D>(othEnt)) {
+                if (auto opt = world.get_components<const Transform2D>(othEnt)) {
                     auto [enemyTransform] = opt.value();
 
-                    world.add_component(playerEnt,
+                    world.add_components(playerEnt,
                         Knockback(0.15f, -glm::normalize(enemyTransform.getPosition() - playerTransform.getPosition()), 192.f),
                         CombatParticleGenerator(0.15f, 3, 2)
                     );

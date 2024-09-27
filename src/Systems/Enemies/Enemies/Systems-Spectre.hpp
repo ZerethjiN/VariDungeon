@@ -15,10 +15,10 @@ void spectreMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreMove, orientation, speed, spectre, enemyTransform]: enemies) {
         if (isSpectreMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsSpectreMove>(enemyEnt);
+            world.remove_components<IsSpectreMove>(enemyEnt);
             switch (rand() % 3) {
                 case 0:
-                    world.add_component(enemyEnt, IsSpectreVanish(spectre.vanishDuration));
+                    world.add_components(enemyEnt, IsSpectreVanish(spectre.vanishDuration));
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
                             animation.play(SpectreAnimType::VANISH_RIGHT);
@@ -32,12 +32,12 @@ void spectreMoveSys(MainFixedSystem, World& world) {
                             animation.play(SpectreAnimType::VANISH_UP);
                         }
                     }
-                    world.remove_component<Collider>(enemyEnt);
+                    world.remove_components<Collider>(enemyEnt);
                     break;
 
                 case 1:
                 case 2:
-                    world.add_component(enemyEnt, IsSpectreCast(spectre.castDuration));
+                    world.add_components(enemyEnt, IsSpectreCast(spectre.castDuration));
                     for (auto [_, playerTransform]: players) {
                         instantiateShadowMarkParticle(world, playerTransform.getPosition());
                     }
@@ -56,14 +56,14 @@ void spectreMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(SpectreAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(SpectreAnimType::MOVE_LEFT);
@@ -72,14 +72,14 @@ void spectreMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(SpectreAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(SpectreAnimType::MOVE_UP);
@@ -98,9 +98,9 @@ void spectreVanishSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreVanish, orientation, spectre, speed, enemyTransform]: enemies) {
         if (isSpectreVanish.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsSpectreVanish>(enemyEnt);
-            world.add_component(enemyEnt, IsSpectreMove(spectre.moveDuration));
-            world.add_component(enemyEnt, Collider(-12 / 2, -12 / 2, 12, 12));
+            world.remove_components<IsSpectreVanish>(enemyEnt);
+            world.add_components(enemyEnt, IsSpectreMove(spectre.moveDuration));
+            world.add_components(enemyEnt, Collider(-12 / 2, -12 / 2, 12, 12));
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, -1), 32.f);
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(-1, +1), 32.f);
             // instantiateFireBallParticle(world, enemyTransform.getPosition(), glm::vec2(+1, -1), 32.f);
@@ -139,8 +139,8 @@ void spectreCastSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isSpectreCast, orientation, speed, spectre, enemyTransform]: enemies) {
         if (isSpectreCast.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsSpectreCast>(enemyEnt);
-            world.add_component(enemyEnt, IsSpectreMove(spectre.moveDuration));
+            world.remove_components<IsSpectreCast>(enemyEnt);
+            world.add_components(enemyEnt, IsSpectreMove(spectre.moveDuration));
 
             continue;
         }
@@ -154,14 +154,14 @@ void spectreCastSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(SpectreAnimType::ATTACK_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(SpectreAnimType::ATTACK_LEFT);
@@ -170,14 +170,14 @@ void spectreCastSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(SpectreAnimType::ATTACK_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(SpectreAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(SpectreAnimType::ATTACK_UP);

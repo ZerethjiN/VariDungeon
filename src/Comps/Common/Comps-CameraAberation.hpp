@@ -74,8 +74,8 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
             cameraEffect.aberationDistance = newDistance;
             cameraEffect.aberationDuration = newDuration;
             cameraEffect.aberationDirection = newAberationDirection;
-            // if (!world.has<CameraAberation>(curCameraEnt)) {
-            //     world.add_component(curCameraEnt, CameraAberation(newDistance, newDuration));
+            // if (!world.has_components<CameraAberation>(curCameraEnt)) {
+            //     world.add_components(curCameraEnt, CameraAberation(newDistance, newDuration));
             // }
         }
     }
@@ -89,10 +89,10 @@ void appliedCameraShake(World& world, float distance, float speed, unsigned int 
         cameraEffect.shakeSpeed = speed;
         cameraEffect.shakeDistance = distance;
         cameraEffect.nbShake = nbShake;
-        // if (!world.has<CameraShake>(entCam)) {
-        //     if (auto parentOpt = world.getParent(entCam)) {
+        // if (!world.has_components<CameraShake>(entCam)) {
+        //     if (auto parentOpt = world.get_parent(entCam)) {
         //         auto parentEnt = parentOpt.value();
-        //         world.add_component(
+        //         world.add_components(
         //             entCam,
         //             CameraShake(
         //                 /*OriginEnt:*/ parentEnt,

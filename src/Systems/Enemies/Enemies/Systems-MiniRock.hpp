@@ -18,7 +18,7 @@ void miniRockSpawnerSys(MainFixedSystem, World& world) {
             }
         }
 
-        if (world.has<InvincibleFrame>(enemyEnt)) {
+        if (world.has_components<InvincibleFrame>(enemyEnt)) {
             animation.play(MiniRockAnimType::HIT_SPAWNER);
         } else {
             animation.play(MiniRockAnimType::SPAWNER);
@@ -42,14 +42,14 @@ void miniRockMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(MiniRockAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(MiniRockAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(MiniRockAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(MiniRockAnimType::MOVE_LEFT);
@@ -58,14 +58,14 @@ void miniRockMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(MiniRockAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(MiniRockAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(MiniRockAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(MiniRockAnimType::MOVE_UP);

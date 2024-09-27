@@ -12,23 +12,23 @@ Ent instantiateTNTBarel(World& world, const glm::vec2& position) {
     return world.create_entity(
         Breakable(),
         OnBreakableHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(TntBarelAnimType::HIT);
             }
         }),
         OnBreakableNoHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(TntBarelAnimType::NO_HIT);
             }
         }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<const Transform2D>(thisEnt)) {
+            if (auto opt = world.get_components<const Transform2D>(thisEnt)) {
                 auto [transform] = opt.value();
                 instantiatePlayerEnemyExplosionAttackParticle(world, transform.getPosition());
             }
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(TntBarelAnimType::DESTROYED);
             }

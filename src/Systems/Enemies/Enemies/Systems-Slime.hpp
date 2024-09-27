@@ -24,13 +24,13 @@ void slimeMoveSys(MainFixedSystem, World& world) {
         velocity += orientation.orientation * speed.speed * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(slimeEnt)) {
+                if (world.has_components<InvincibleFrame>(slimeEnt)) {
                     animation.play(SlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(SlimeAnimType::MOVE_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(slimeEnt)) {
+                if (world.has_components<InvincibleFrame>(slimeEnt)) {
                     animation.play(SlimeAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(SlimeAnimType::MOVE_LEFT);
@@ -38,13 +38,13 @@ void slimeMoveSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(slimeEnt)) {
+                if (world.has_components<InvincibleFrame>(slimeEnt)) {
                     animation.play(SlimeAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(SlimeAnimType::MOVE_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(slimeEnt)) {
+                if (world.has_components<InvincibleFrame>(slimeEnt)) {
                     animation.play(SlimeAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(SlimeAnimType::MOVE_UP);

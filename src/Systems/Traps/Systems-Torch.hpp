@@ -14,11 +14,11 @@ void torchIdleSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTorchIdle, animation, orientation, transform, torch, zindex]: traps) {
         if (isTorchIdle.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove_component<Torch, ParticleGenerator>(trapEnt);
+                world.remove_components<Torch, ParticleGenerator>(trapEnt);
                 animation.play(TorchAnimType::OFF);
             } else {
-                world.remove_component<IsTorchIdle>(trapEnt);
-                world.add_component(trapEnt, IsTorchCast(torch.castDuration));
+                world.remove_components<IsTorchIdle>(trapEnt);
+                world.add_components(trapEnt, IsTorchCast(torch.castDuration));
                 glm::vec2 newdirection;
                 for (auto [_, playerTransform]: world.view<const Transform2D>(with<Player>)) {
                     newdirection = glm::normalize(playerTransform.getPosition() - transform.getPosition());
@@ -63,11 +63,11 @@ void torchCastSys(MainFixedSystem, World& world) {
     for (auto [trapEnt, isTorchCast, animation, transform, orientation, torch]: traps) {
         if (isTorchCast.canSwitchState(time.fixedDelta())) {
             if (world.view(with<Enemy>).empty()) {
-                world.remove_component<Torch, ParticleGenerator>(trapEnt);
+                world.remove_components<Torch, ParticleGenerator>(trapEnt);
                 animation.play(TorchAnimType::OFF);
             } else {
-                world.remove_component<IsTorchCast>(trapEnt);
-                world.add_component(trapEnt, IsTorchIdle(torch.idleDuration));
+                world.remove_components<IsTorchCast>(trapEnt);
+                world.add_components(trapEnt, IsTorchIdle(torch.idleDuration));
                 instantiateFireBallParticle(world, transform.getPosition(), orientation, 128.f);
             }
         }

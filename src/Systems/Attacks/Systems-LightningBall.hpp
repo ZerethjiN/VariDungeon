@@ -43,7 +43,7 @@ void lightningBallHitSys(MainFixedSystem, World& world) {
 
     for (auto [ballEnt, collisions, transform]: balls) {
         for (auto othEnt: collisions) {
-            if (world.has<Wall>(othEnt) || world.has<Enemy>(othEnt)) {
+            if (world.has_components<Wall>(othEnt) || world.has_components<Enemy>(othEnt)) {
                 world.delete_entity(ballEnt);
                 break;
             }

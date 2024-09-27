@@ -12,10 +12,10 @@ void shurikenRotationSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [shurikenEnt, shurikenTransform, shuriken]: shurikens) {
-        if (auto optParent = world.getParent(shurikenEnt)) {
+        if (auto optParent = world.get_parent(shurikenEnt)) {
             auto parentEnt = optParent.value();
 
-            if (auto opt = world.get<const Transform2D>(parentEnt)) {
+            if (auto opt = world.get_components<const Transform2D>(parentEnt)) {
                 auto [parentTransform] = opt.value();
 
                 auto diff = parentTransform.getPosition() - shurikenTransform.getPosition();

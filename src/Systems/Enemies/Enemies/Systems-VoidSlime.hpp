@@ -14,8 +14,8 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isVoidSlimeMove, orientation, speed, voidSlime, enemyTransform, zindex]: enemies) {
         if (isVoidSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsVoidSlimeMove>(enemyEnt);
-            world.add_component(enemyEnt, IsVoidSlimeAttract(voidSlime.attractDuration));
+            world.remove_components<IsVoidSlimeMove>(enemyEnt);
+            world.add_components(enemyEnt, IsVoidSlimeAttract(voidSlime.attractDuration));
 
             world.append_children(enemyEnt, {
                 instantiateAttractParticle(world, enemyTransform.getPosition(), zindex + 1, voidSlime.attractDuration)
@@ -32,14 +32,14 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(VoidSlimeAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(VoidSlimeAnimType::MOVE_LEFT);
@@ -48,14 +48,14 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(VoidSlimeAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(VoidSlimeAnimType::MOVE_UP);
@@ -73,8 +73,8 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isVoidSlimeAttract, orientation, voidSlime, enemyTransform]: enemies) {
         if (isVoidSlimeAttract.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsVoidSlimeAttract>(enemyEnt);
-            world.add_component(enemyEnt, IsVoidSlimeMove(voidSlime.moveDuration));
+            world.remove_components<IsVoidSlimeAttract>(enemyEnt);
+            world.add_components(enemyEnt, IsVoidSlimeMove(voidSlime.moveDuration));
             continue;
         }
 
@@ -90,13 +90,13 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
                     animation.play(VoidSlimeAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
                     animation.play(VoidSlimeAnimType::PRE_ATTACK_LEFT);
@@ -104,13 +104,13 @@ void voidSlimeAttractSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
                     animation.play(VoidSlimeAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(VoidSlimeAnimType::HIT_PRE_ATTACK_UP);
                 } else {
                     animation.play(VoidSlimeAnimType::PRE_ATTACK_UP);

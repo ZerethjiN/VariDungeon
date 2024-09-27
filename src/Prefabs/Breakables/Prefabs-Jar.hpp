@@ -22,19 +22,19 @@ Ent instantiateJar(World& world, const glm::vec2& position) {
             {LOOT_TYPE_HEART, 1, 1}
         }),
         OnBreakableHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(JarAnimType::HIT);
             }
         }),
         OnBreakableNoHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(JarAnimType::NO_HIT);
             }
         }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(JarAnimType::DESTROYED);
             }

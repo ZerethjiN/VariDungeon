@@ -15,8 +15,8 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGasterolcanMove, orientation, speed, gasterolcan, enemyTransform, zindex]: enemies) {
         if (isGasterolcanMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsGasterolcanMove>(enemyEnt);
-            world.add_component(enemyEnt, IsGasterolcanPreAttack(gasterolcan.preAttackDuration));
+            world.remove_components<IsGasterolcanMove>(enemyEnt);
+            world.add_components(enemyEnt, IsGasterolcanPreAttack(gasterolcan.preAttackDuration));
             continue;
         }
 
@@ -29,14 +29,14 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(GasterolcanAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(GasterolcanAnimType::MOVE_LEFT);
@@ -45,14 +45,14 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(GasterolcanAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(GasterolcanAnimType::MOVE_UP);
@@ -70,20 +70,20 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isGasterolcanPreAttack, orientation, gasterolcan, enemyTransform]: enemies) {
         if (isGasterolcanPreAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsGasterolcanPreAttack>(enemyEnt);
-            world.add_component(enemyEnt, IsGasterolcanAttack(gasterolcan.attackDuration));
+            world.remove_components<IsGasterolcanPreAttack>(enemyEnt);
+            world.add_components(enemyEnt, IsGasterolcanAttack(gasterolcan.attackDuration));
             continue;
         }
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
                     animation.play(GasterolcanAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
                     animation.play(GasterolcanAnimType::PRE_ATTACK_LEFT);
@@ -91,13 +91,13 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
                     animation.play(GasterolcanAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_PRE_ATTACK_UP);
                 } else {
                     animation.play(GasterolcanAnimType::PRE_ATTACK_UP);
@@ -116,8 +116,8 @@ void gasterolcanAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isGasterolcanAttack, orientation, speed, gasterolcan, enemyTransform]: enemies) {
         if (isGasterolcanAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsGasterolcanAttack>(enemyEnt);
-            world.add_component(enemyEnt, IsGasterolcanMove(gasterolcan.moveDuration));
+            world.remove_components<IsGasterolcanAttack>(enemyEnt);
+            world.add_components(enemyEnt, IsGasterolcanMove(gasterolcan.moveDuration));
             continue;
         }
 
@@ -129,13 +129,13 @@ void gasterolcanAttackSys(MainFixedSystem, World& world) {
         velocity += newdirection * speed.speed * gasterolcan.rollSpeedCoeff * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(GasterolcanAnimType::ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(GasterolcanAnimType::ATTACK_RIGHT);
@@ -143,13 +143,13 @@ void gasterolcanAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(GasterolcanAnimType::ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(GasterolcanAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(GasterolcanAnimType::ATTACK_UP);

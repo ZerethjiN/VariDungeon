@@ -25,29 +25,29 @@ void pollEventsSys(MainUnscaledFixedSystem, World& world) {
 
     if (!vulkanEngine.window.isOpen()) {
         vulkanEngine.window.close();
-        world.stopRun();
+        world.stop_run();
     }
 }
 
 int main() {
     ZerEngine()
-        .useMultithreading(false)
-        .setFixedTimeStep(0.02f)
-        .addResource<BuildVersion>("0.0.1R")
-        .addResource<PipelineManager>()
-        .addResource<FrameBufferManager>()
-        .addResource<TextureManager>()
-        .addResource<FontManager>()
-        .addResource<SpatialHashMap>()
-        .addResource<LayerBasedCollisions>()
-        .addResource<InGameView>(glm::vec4(0, 0, 160, 144))
-        .addResource<UIView>(glm::vec4(0, 0, 160, 144))
-        .addResource<AppState>(AppStateType::APP_STATE_HOME_MENU)
-        .addSystems(startSystem, startSys)
-        .addSystems(mainUnscaledFixedSystem, {
+        .use_multithreading(false)
+        .set_fixed_time_step(0.02f)
+        .add_resource<BuildVersion>("0.0.1R")
+        .add_resource<PipelineManager>()
+        .add_resource<FrameBufferManager>()
+        .add_resource<TextureManager>()
+        .add_resource<FontManager>()
+        .add_resource<SpatialHashMap>()
+        .add_resource<LayerBasedCollisions>()
+        .add_resource<InGameView>(glm::vec4(0, 0, 160, 144))
+        .add_resource<UIView>(glm::vec4(0, 0, 160, 144))
+        .add_resource<AppState>(AppStateType::APP_STATE_HOME_MENU)
+        .add_systems(startSystem, startSys)
+        .add_systems(mainUnscaledFixedSystem, {
             pollEventsSys
         })
-        .addSystems(mainFixedSystem,
+        .add_systems(mainFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
                 return appstate == AppStateType::APP_STATE_HOME_MENU;
@@ -57,7 +57,7 @@ int main() {
                 homeMenuBackgroundSlideSys, homeMenuSelectorSys, homeMenuSelectorMoveDownSys, homeMenuSelectorMoveUpSys
             }
         )
-        .addSystems(mainFixedSystem,
+        .add_systems(mainFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
                 return appstate == AppStateType::APP_STATE_IN_GAME;
@@ -128,7 +128,7 @@ int main() {
             merchantOpenCloseSys
         })
 
-        .addSystems(
+        .add_systems(
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -139,7 +139,7 @@ int main() {
             }
         )
 
-        .addSystems(
+        .add_systems(
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -150,7 +150,7 @@ int main() {
             }
         )
 
-        .addSystems(
+        .add_systems(
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -162,7 +162,7 @@ int main() {
             }
         )
 
-        .addSystems(
+        .add_systems(
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -172,7 +172,7 @@ int main() {
         )
 
         // Enemies Lvl1 Threads
-        .addSystems(
+        .add_systems(
             mainFixedSystem, // Mummy Threads
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -180,7 +180,7 @@ int main() {
             },
             {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
         )
-        .addSystems(
+        .add_systems(
             mainFixedSystem, // Insect Threads
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -188,7 +188,7 @@ int main() {
             },
             {insectChangeDirectionSys, insectMoveSys, insectAttackSys}
         )
-        .addSystems(
+        .add_systems(
             mainFixedSystem, // Gasterolcan Threads
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -196,7 +196,7 @@ int main() {
             },
             {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
         )
-        .addSystems(
+        .add_systems(
             mainFixedSystem, // Spectre Threads
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
@@ -205,27 +205,27 @@ int main() {
             {spectreMoveSys, spectreVanishSys, spectreCastSys}
         )
 
-        .addSystems(mainFixedSystem, {
+        .add_systems(mainFixedSystem, {
             // particleSystems, generatorParticleMovement,
             lifeTimeSys,
         })
 
-        .addSystems(mainUnscaledFixedSystem, {
+        .add_systems(mainUnscaledFixedSystem, {
             // particleSystems, generatorParticleMovement,
             unscaledLifeTimeSys,
         })
 
         // Camera Set
-        .addSystems(ThreadedFixedSet([](World& world) { return !world.view(with<CameraShakeRight>).empty() || !world.view(with<CameraShakeLeft>).empty(); }, {
+        .add_systems(ThreadedFixedSet([](World& world) { return !world.view(with<CameraShakeRight>).empty() || !world.view(with<CameraShakeLeft>).empty(); }, {
             cameraShakeRightSys, cameraShakeLeftSys
         }))
-        .addSystems(lateUnscaledFixedSystem, {
+        .add_systems(lateUnscaledFixedSystem, {
             updatePositionSys
         })
-        .addSystems(lateFixedSystem, {
+        .add_systems(lateFixedSystem, {
             updateVelocitySys, collisionSys, updateTileMapSys,
         })
-        .addSystems(lateUnscaledFixedSystem, {
+        .add_systems(lateUnscaledFixedSystem, {
             textCreatorSys,
             textUICreatorSys,
             animationSys,
@@ -233,7 +233,7 @@ int main() {
             // onHoverButtonsSys,
             purgeCollisionSys
         })
-        .addSystems(lateSystem, {
+        .add_systems(lateSystem, {
             renderSys
         })
         .run();

@@ -700,8 +700,8 @@ public:
 void textUICreatorSys(LateUnscaledFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [entUI, creator]: world.view<const TextUICreator>()) {
-        world.add_component(entUI, TextUI(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.anchor, creator.textBoxSize, creator.alignement, creator.color));
-        world.remove_component<TextUICreator>(entUI);
+        world.add_components(entUI, TextUI(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.anchor, creator.textBoxSize, creator.alignement, creator.color));
+        world.remove_components<TextUICreator>(entUI);
     }
 }
 
@@ -732,8 +732,8 @@ public:
 void textCreatorSys(LateUnscaledFixedSystem, World& world) {
     auto [fontManager] = world.resource<FontManager>();
     for (auto [ent, creator]: world.view<const TextCreator>()) {
-        world.add_component(ent, Text(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.textBoxSize, creator.alignement, creator.color));
-        world.remove_component<TextCreator>(ent);
+        world.add_components(ent, Text(creator.str, fontManager.get(creator.filename), creator.size, creator.origin, creator.textBoxSize, creator.alignement, creator.color));
+        world.remove_components<TextCreator>(ent);
     }
 }
 

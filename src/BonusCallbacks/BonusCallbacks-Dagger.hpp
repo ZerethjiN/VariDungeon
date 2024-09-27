@@ -10,6 +10,6 @@ void daggerBonusCallbackLvl1(World& world) {
     auto players = world.view(with<Player>, without<PlayerDagger>);
 
     for (auto [playerEnt]: players) {
-        world.add_component(playerEnt, PlayerDagger(2.5f));
+        world.add_components(playerEnt, PlayerDagger(2.5f));
     }
 }

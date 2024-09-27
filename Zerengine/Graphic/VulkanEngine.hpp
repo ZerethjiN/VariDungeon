@@ -296,8 +296,8 @@ public:
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
             .pApplicationName = "Test Vulkan",
             .applicationVersion = VK_MAKE_VERSION(1, 0, 0),
-            .pEngineName = "Zerengine",
-            .engineVersion = VK_MAKE_VERSION(1, 0, 0),
+            .pEngineName = "ZerEngine",
+            .engineVersion = VK_MAKE_VERSION(ZERENGINE_VERSION_MAJOR, ZERENGINE_VERSION_MINOR, ZERENGINE_VERSION_PATCH),
             .apiVersion = VK_API_VERSION_1_3
         };
 
@@ -614,7 +614,7 @@ public:
 
     VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
         for (const auto& availableFormat : availableFormats) {
-            if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
+            if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
                 return availableFormat;
             }
         }

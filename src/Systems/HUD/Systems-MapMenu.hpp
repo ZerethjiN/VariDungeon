@@ -18,7 +18,7 @@ void mapMenuOpenCloseSys(MainUnscaledFixedSystem, World& world) {
             }
         } else if (!world.view<const Transform2D>(with<MapMenu>, without<MapMenuTranslation, MapMenuReverseTranslation>).empty()) {
             for (auto [mapMenuEnt, mapMenuTransform]: mapMenus) {
-                world.add_component(mapMenuEnt, MapMenuReverseTranslation(mapMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                world.add_components(mapMenuEnt, MapMenuReverseTranslation(mapMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
         }
     }
@@ -33,7 +33,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
         if (glm::distance(transform.getPosition(), mapMenuTranslation.finalPosition) <= 4.f) {
             transform.setPositionGlobal(mapMenuTranslation.finalPosition);
 
-            world.remove_component<MapMenuTranslation>(menuEnt);
+            world.remove_components<MapMenuTranslation>(menuEnt);
 
             // Title:
             world.append_children(menuEnt, {

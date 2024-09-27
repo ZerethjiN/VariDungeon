@@ -21,7 +21,7 @@ void laserHitSys(MainFixedSystem, World& world) {
 
     for (auto [laserEnt, collisions, transform]: lasers) {
         for (auto othEnt: collisions) {
-            if (world.has<Wall>(othEnt)) {
+            if (world.has_components<Wall>(othEnt)) {
                 appliedCameraShake(world, 2.0f, 64.f, 2);
                 instantiatePopHitParticle(world, transform.getPosition());
                 world.delete_entity(laserEnt);

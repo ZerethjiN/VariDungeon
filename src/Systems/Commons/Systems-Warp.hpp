@@ -11,8 +11,8 @@ void warpSys(MainFixedSystem, World& world) {
 
     for (auto [_, collisions]: warps) {
         for (auto othEnt: collisions) {
-            if (world.has<Player>(othEnt)) {
-                if (auto opt = world.get<PlayerFloor>(othEnt)) {
+            if (world.has_components<Player>(othEnt)) {
+                if (auto opt = world.get_components<PlayerFloor>(othEnt)) {
                     auto [playerFloor] = opt.value();
                     if (playerFloor.merchantFloors.contains(playerFloor.curFloor)) {
                         playerFloor.canLoadMerchantRoom = true;

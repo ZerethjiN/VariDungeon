@@ -14,8 +14,8 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, velocity, animation, isLavaSlimeMove, orientation, speed, lavaSlime, enemyTransform, zindex]: enemies) {
         if (isLavaSlimeMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsLavaSlimeMove>(enemyEnt);
-            world.add_component(enemyEnt, IsLavaSlimePreAttack(lavaSlime.preAttackDuration));
+            world.remove_components<IsLavaSlimeMove>(enemyEnt);
+            world.add_components(enemyEnt, IsLavaSlimePreAttack(lavaSlime.preAttackDuration));
 
             world.append_children(enemyEnt, {
                 instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(-16, -16), zindex),
@@ -40,14 +40,14 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(LavaSlimeAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(LavaSlimeAnimType::MOVE_LEFT);
@@ -56,14 +56,14 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(LavaSlimeAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(LavaSlimeAnimType::MOVE_UP);
@@ -80,8 +80,8 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isLavaSlimePreAttack, orientation, lavaSlime, enemyTransform]: enemies) {
         if (isLavaSlimePreAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsLavaSlimePreAttack>(enemyEnt);
-            world.add_component(enemyEnt, IsLavaSlimeMove(lavaSlime.moveDuration));
+            world.remove_components<IsLavaSlimePreAttack>(enemyEnt);
+            world.add_components(enemyEnt, IsLavaSlimeMove(lavaSlime.moveDuration));
 
             world.append_children(enemyEnt, {
                 instantiateEnemyExplosionAttackParticle(world, enemyTransform.getPosition())
@@ -90,13 +90,13 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
 
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_PRE_ATTACK_RIGHT);
                 } else {
                     animation.play(LavaSlimeAnimType::PRE_ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_PRE_ATTACK_LEFT);
                 } else {
                     animation.play(LavaSlimeAnimType::PRE_ATTACK_LEFT);
@@ -104,13 +104,13 @@ void lavaSlimeAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_PRE_ATTACK_DOWN);
                 } else {
                     animation.play(LavaSlimeAnimType::PRE_ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(LavaSlimeAnimType::HIT_PRE_ATTACK_UP);
                 } else {
                     animation.play(LavaSlimeAnimType::PRE_ATTACK_UP);

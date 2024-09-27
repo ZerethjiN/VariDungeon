@@ -14,7 +14,7 @@ void merchantOpenCloseSys(MainFixedSystem, World& world) {
     if (world.view(with<MenuBonus>).empty()) {
         for (auto [merchantRadisuEnt, collisions]: merchants) {
             for (auto othEnt: collisions) {
-                if (world.has<Player>(othEnt)) {
+                if (world.has_components<Player>(othEnt)) {
                     if (vulkanEngine.window.isKeyDown(ButtonNameType::A_BUTTON)) {
                         time.setTimeScale(0);
 
@@ -50,7 +50,7 @@ void merchantOpenCloseSys(MainFixedSystem, World& world) {
                             }
 
                             for (auto [merchantEnt]: world.view(with<Merchant>)) {
-                                world.add_component(merchantEnt, MerchantBonus(typeToIdx, bonusesIdx));
+                                world.add_components(merchantEnt, MerchantBonus(typeToIdx, bonusesIdx));
                             }
                         } else {
                             for (auto [merchantEnt, merchantBonus]: merchantBonuses) {

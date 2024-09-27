@@ -12,17 +12,17 @@ void cameraEffectApplicationSys(MainFixedSystem, World& world) {
     for (auto [curCameraEnt, cameraEffect]: cameras) {
         if (cameraEffect.canUseCameraAberation) {
             cameraEffect.canUseCameraAberation = false;
-            if (!world.has<CameraAberation>(curCameraEnt)) {
-                world.add_component(curCameraEnt, CameraAberation(cameraEffect.aberationDistance, cameraEffect.aberationDuration, cameraEffect.aberationDirection));
+            if (!world.has_components<CameraAberation>(curCameraEnt)) {
+                world.add_components(curCameraEnt, CameraAberation(cameraEffect.aberationDistance, cameraEffect.aberationDuration, cameraEffect.aberationDirection));
             }
         }
 
         if (cameraEffect.canUseCameraShake) {
             cameraEffect.canUseCameraShake = false;
-            if (!world.has<CameraShake>(curCameraEnt)) {
-                if (auto parentOpt = world.getParent(curCameraEnt)) {
+            if (!world.has_components<CameraShake>(curCameraEnt)) {
+                if (auto parentOpt = world.get_parent(curCameraEnt)) {
                     auto parentEnt = parentOpt.value();
-                    world.add_component(
+                    world.add_components(
                         curCameraEnt,
                         CameraShake(
                             /*OriginEnt:*/ parentEnt,

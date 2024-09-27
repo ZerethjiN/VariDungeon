@@ -14,8 +14,8 @@ void insectMoveSys(MainFixedSystem, World& world) {
 
     for (auto [insectEnt, velocity, animation, isInsectMove, orientation, speed, insect, transform, zindex]: insects) {
         if (isInsectMove.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsInsectMove, IsInsectChangeDirection>(insectEnt);
-            world.add_component(insectEnt, IsInsectAttack(insect.attackDuration));
+            world.remove_components<IsInsectMove, IsInsectChangeDirection>(insectEnt);
+            world.add_components(insectEnt, IsInsectAttack(insect.attackDuration));
             world.append_children(insectEnt, {
                 instantiateExclamationParticle(world, transform.getPosition() + glm::vec2(0, -16), zindex),
                 world.create_entity(
@@ -35,13 +35,13 @@ void insectMoveSys(MainFixedSystem, World& world) {
         velocity += orientation.orientation * speed.speed * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(InsectAnimType::MOVE_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(InsectAnimType::MOVE_LEFT);
@@ -49,13 +49,13 @@ void insectMoveSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(InsectAnimType::MOVE_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(InsectAnimType::MOVE_UP);
@@ -91,8 +91,8 @@ void insectAttackSys(MainFixedSystem, World& world) {
 
     for (auto [insectEnt, velocity, animation, isInsectAttack, orientation, speed, insectTransform, insect]: insects) {
         if (isInsectAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsInsectAttack>(insectEnt);
-            world.add_component(insectEnt,
+            world.remove_components<IsInsectAttack>(insectEnt);
+            world.add_components(insectEnt,
                 IsInsectMove(insect.moveDuration),
                 IsInsectChangeDirection(insect.directionCooldown)
             );
@@ -107,14 +107,14 @@ void insectAttackSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(InsectAnimType::ATTACK_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(InsectAnimType::ATTACK_LEFT);
@@ -123,14 +123,14 @@ void insectAttackSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(InsectAnimType::ATTACK_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(insectEnt)) {
+                if (world.has_components<InvincibleFrame>(insectEnt)) {
                     animation.play(InsectAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(InsectAnimType::ATTACK_UP);

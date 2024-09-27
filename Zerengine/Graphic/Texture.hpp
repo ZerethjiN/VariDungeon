@@ -75,11 +75,11 @@ public:
 
         stbi_image_free(pixels);
 
-        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
 
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
             copyBufferToImage(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
         vkDestroyBuffer(vulkanEngine.device, stagingBuffer, nullptr);
         vkFreeMemory(vulkanEngine.device, stagingBufferMemory, nullptr);
@@ -102,33 +102,33 @@ public:
             memcpy(data, buffer, static_cast<size_t>(imageSize));
         vkUnmapMemory(vulkanEngine.device, stagingBufferMemory);
 
-        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, size.x, size.y, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+        createImage(vulkanEngine.physicalDevice, vulkanEngine.device, size.x, size.y, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
 
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
             copyBufferToImage(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, stagingBuffer, textureImage, static_cast<uint32_t>(size.x), static_cast<uint32_t>(size.y));
-        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        transitionImageLayout(vulkanEngine.device, vulkanEngine.commandPool, vulkanEngine.graphicsQueue, textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
         vkDestroyBuffer(vulkanEngine.device, stagingBuffer, nullptr);
         vkFreeMemory(vulkanEngine.device, stagingBufferMemory, nullptr);
     }
 
     void createTextureImageView() {
-        textureImageView = createImageView(vulkanEngine.device, textureImage, VK_FORMAT_R8G8B8A8_SRGB);
+        textureImageView = createImageView(vulkanEngine.device, textureImage, VK_FORMAT_R8G8B8A8_UNORM);
     }
 
     void createTextureSampler() {
         VkSamplerCreateInfo samplerInfo {
             .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
-            .magFilter = VK_FILTER_NEAREST, //VK_FILTER_LINEAR,
-            .minFilter = VK_FILTER_NEAREST, //VK_FILTER_LINEAR,
+            .magFilter = VK_FILTER_NEAREST, // VK_FILTER_LINEAR,
+            .minFilter = VK_FILTER_NEAREST, // VK_FILTER_LINEAR,
             .mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR,
             .addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT,
             .addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT,
             .addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT,
-            .anisotropyEnable = VK_FALSE,//VK_TRUE
+            .anisotropyEnable = VK_FALSE, // VK_TRUE
             .compareEnable = VK_FALSE,
             .compareOp = VK_COMPARE_OP_ALWAYS,
-            .borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK,
+            .borderColor = VK_BORDER_COLOR_INT_TRANSPARENT_BLACK, // VK_BORDER_COLOR_INT_OPAQUE_BLACK,
             .unnormalizedCoordinates = VK_FALSE
         };
 

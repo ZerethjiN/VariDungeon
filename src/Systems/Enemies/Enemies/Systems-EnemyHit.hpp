@@ -11,32 +11,32 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, enemyTransform, life, collisions, zindex, loots]: enemies) {
         for (auto othEnt: collisions) {
-            if (world.has<PlayerWeapon, Damage>(othEnt)) {
+            if (world.has_components<PlayerWeapon, Damage>(othEnt)) {
                 // Damage:
-                if (auto opt = world.get<const Damage>(othEnt)) {
+                if (auto opt = world.get_components<const Damage>(othEnt)) {
                     auto [damage] = opt.value();
 
                     life -= damage;
                 }
 
                 // Visual Effect:
-                world.add_component(enemyEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
-                if (auto opt = world.get<const Transform2D>(othEnt)) {
+                world.add_components(enemyEnt, InvincibleFrame(0.25f, glm::vec2(-0.2f, -0.2f)));
+                if (auto opt = world.get_components<const Transform2D>(othEnt)) {
                     auto [othTransform] = opt.value();
 
-                    if (world.has<Velocity>(enemyEnt)) {
+                    if (world.has_components<Velocity>(enemyEnt)) {
                         float knockbackStrength = 128.f;
                         for (auto [_, playerKnockbackStrength]: world.view<const PlayerKnockbackStrength>()) {
                             knockbackStrength = playerKnockbackStrength.getKnockbackStrength();
                         }
 
                         if (life.isDead()) {
-                            world.add_component(enemyEnt,
+                            world.add_components(enemyEnt,
                                 Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 2),
                                 CombatParticleGenerator(0.15f, 3, 2)
                             );
                         } else {
-                            world.add_component(enemyEnt,
+                            world.add_components(enemyEnt,
                                 Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength),
                                 CombatParticleGenerator(0.15f, 2, 2)
                             );
@@ -54,7 +54,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                             ),
                             DamageText(
                                 /*Direction:*/ -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()),
-                                /*Duration:*/ 0.3,
+                                /*Duration:*/ 0.5,
                                 /*MaxScale:*/ 1.5,
                                 /*Speed:*/ 64
                             ),
@@ -86,11 +86,11 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         } else {
                             playerAttackSpeed *= 1.25f;
                             playerSpeed.speed *= 1.5f;
-                            world.add_component(playerEnt, PlayerFrenzy(0.5f, 1.25f, 1.5f));
+                            world.add_components(playerEnt, PlayerFrenzy(0.5f, 1.25f, 1.5f));
                         }
                     }
 
-                    if (world.has<Boss>(enemyEnt)) {
+                    if (world.has_components<Boss>(enemyEnt)) {
                         for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
                             world.delete_entity(bossHealthBarEnt);
                         }
@@ -98,13 +98,13 @@ void enemyHitSys(MainFixedSystem, World& world) {
                             instantiateChest(world, roomTransform.getPosition() + glm::vec2(-8, -40));
                             // instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }
-                        world.add_component(enemyEnt,
+                        world.add_components(enemyEnt,
                             DeathParticleGenerator(true, 0.4, 4),
                             EnemyDropLoots(newLoots, 0.4, 1)
                         );
                         appliedCameraShake(world, 0.5f, 128.f, 4);
                     } else {
-                        world.add_component(enemyEnt,
+                        world.add_components(enemyEnt,
                             DeathParticleGenerator(true, 0.2, 2),
                             EnemyDropLoots(newLoots, 0.2, 1)
                         );
@@ -113,7 +113,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                 } else {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
 
-                    if (world.has<Boss>(enemyEnt)) {
+                    if (world.has_components<Boss>(enemyEnt)) {
                         for (auto [_, lifeTextUI]: world.view<TextUI>(with<BossHealthBarText>)) {
                             lifeTextUI.setString("HP " + std::to_string(static_cast<int>(life.getCurNbLife())) + "/" + std::to_string(static_cast<int>(life.getNbLife())));
                         }

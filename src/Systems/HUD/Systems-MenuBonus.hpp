@@ -97,7 +97,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
 
             const auto& bonusesIdx = menuBonusTranslation.getBonusesIdx();
 
-            world.remove_component<MenuBonusTranslation>(menuEnt);
+            world.remove_components<MenuBonusTranslation>(menuEnt);
 
             world.append_children(menuEnt, {
                 world.create_entity(
@@ -147,7 +147,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
                     )
                 });
 
-                if (world.has<MenuBonusMerchant>(menuEnt)) {
+                if (world.has_components<MenuBonusMerchant>(menuEnt)) {
                     world.append_children(menuEnt, {
                         world.create_entity(
                             TextUICreator(std::to_string(bonusVec[bonusIdx].cost) + "$", "Fonts/Zepto-Regular.ttf", 8, UIAnchor::CENTER_CENTER, glm::vec2(128, 24), glm::vec4(242, 214, 136, 255), glm::vec2(0.0, 0.0), TextAlignementType::ALIGN_RIGHT),
@@ -175,8 +175,8 @@ void menuBonusPreReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
 
     for (auto [menuBonusEnt, menuBonusPreReverse, transform]: menus) {
         if (menuBonusPreReverse.canSwitchState(time.unscaledFixedDelta())) {
-            world.remove_component<MenuBonusPreReverseTranslation>(menuBonusEnt);
-            world.add_component(menuBonusEnt, MenuBonusReverseTranslation(transform.getPosition() + glm::vec2(0, 144), 512.f));
+            world.remove_components<MenuBonusPreReverseTranslation>(menuBonusEnt);
+            world.add_components(menuBonusEnt, MenuBonusReverseTranslation(transform.getPosition() + glm::vec2(0, 144), 512.f));
         }
     }
 }
@@ -206,28 +206,28 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
-                world.add_component(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
+                world.add_components(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
                 for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-                    world.remove_component<MenuBonusCurSelectedRow>(bonusRowEnt);
+                    world.remove_components<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.id == selector.getCurElement()) {
-                        world.add_component(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
+                        world.add_components(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
                     }
                 }
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
-                world.add_component(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
+                world.add_components(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
                 for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
-                    world.remove_component<MenuBonusCurSelectedRow>(bonusRowEnt);
+                    world.remove_components<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
                 for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.id == selector.getCurElement()) {
-                        world.add_component(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
+                        world.add_components(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
                     }
                 }
@@ -263,9 +263,9 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                         if (bonusRow.hasCallback()) {
                             bonusRow(world);
                         }
-                        world.remove_component<MenuBonusCurSelectedRow>(bonusRowEnt);
+                        world.remove_components<MenuBonusCurSelectedRow>(bonusRowEnt);
                         bonusRowIconTransform.setScale(0.75f, 0.75f);
-                        if (auto optSelectorParent = world.getParent(selectorEnt)) {
+                        if (auto optSelectorParent = world.get_parent(selectorEnt)) {
                             auto parentMenuEnt = optSelectorParent.value();
                             world.append_children(parentMenuEnt, {
                                 world.create_entity(
@@ -284,9 +284,9 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                     break;
                 }
             }
-            world.remove_component<MenuBonusSelector, UI, Animation>(selectorEnt);
+            world.remove_components<MenuBonusSelector, UI, Animation>(selectorEnt);
             for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
-                world.add_component(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
+                world.add_components(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
             }
         }
     }
@@ -300,7 +300,7 @@ void menuBonusSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, menuBonusSelectorMoveDown]: selectors) {
         if (glm::distance(transform.getPosition(), menuBonusSelectorMoveDown.getDestination()) <= 4.f) {
             transform.setPosition(menuBonusSelectorMoveDown.getDestination());
-            world.remove_component<MenuBonusSelectorMoveDown>(selectorEnt);
+            world.remove_components<MenuBonusSelectorMoveDown>(selectorEnt);
         } else {
             transform.moveY(menuBonusSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
         }
@@ -315,7 +315,7 @@ void menuBonusSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, menuBonusSelectorMoveUp]: selectors) {
         if (glm::distance(transform.getPosition(), menuBonusSelectorMoveUp.getDestination()) <= 4.f) {
             transform.setPosition(menuBonusSelectorMoveUp.getDestination());
-            world.remove_component<MenuBonusSelectorMoveUp>(selectorEnt);
+            world.remove_components<MenuBonusSelectorMoveUp>(selectorEnt);
         } else {
             transform.moveY(-menuBonusSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
         }

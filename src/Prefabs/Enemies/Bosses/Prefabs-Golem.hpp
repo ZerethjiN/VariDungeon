@@ -53,19 +53,19 @@ Ent instantiateGolemRock(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         OnBreakableHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(RockAnimType::HIT);
             }
         }),
         OnBreakableNoHit([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(RockAnimType::NO_HIT);
             }
         }),
         OnBreakableBreak([](World& world, Ent thisEnt) {
-            if (auto opt = world.get<Animation>(thisEnt)) {
+            if (auto opt = world.get_components<Animation>(thisEnt)) {
                 auto [animation] = opt.value();
                 animation.play(RockAnimType::DESTROYED);
             }

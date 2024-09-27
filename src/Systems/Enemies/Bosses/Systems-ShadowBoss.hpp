@@ -28,7 +28,7 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
                 appliedCurCameraAberation(world, 4, 0.1);
                 for (auto [torchEnt, torchAnimation]: world.view<Animation>(with<TorchDecor, ParticleGenerator>)) {
                     torchAnimation.play(TorchAnimType::OFF);
-                    world.remove_component<ParticleGenerator>(torchEnt);
+                    world.remove_components<ParticleGenerator>(torchEnt);
                 }
             }
         } else {

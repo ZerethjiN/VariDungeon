@@ -16,8 +16,8 @@ void batMoveSys(MainFixedSystem, World& world) {
         if (isBatMove.canSwitchState(time.fixedDelta())) {
             for (auto [_, playerTransform]: players) {
                 if (glm::distance(playerTransform.getPosition(), enemyTransform.getPosition()) <= bat.attackRadius) {
-                    world.remove_component<IsBatMove>(enemyEnt);
-                    world.add_component(enemyEnt, IsBatAttack(bat.attackDuration));
+                    world.remove_components<IsBatMove>(enemyEnt);
+                    world.add_components(enemyEnt, IsBatAttack(bat.attackDuration));
 
                     if (fabs(orientation.x) > fabs(orientation.y)) {
                         if (orientation.x > 0) {
@@ -70,14 +70,14 @@ void batMoveSys(MainFixedSystem, World& world) {
         if (fabs(newdirection.x) > fabs(newdirection.y)) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_MOVE_RIGHT);
                 } else {
                     animation.play(BatAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_MOVE_LEFT);
                 } else {
                     animation.play(BatAnimType::MOVE_LEFT);
@@ -86,14 +86,14 @@ void batMoveSys(MainFixedSystem, World& world) {
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_MOVE_DOWN);
                 } else {
                     animation.play(BatAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_MOVE_UP);
                 } else {
                     animation.play(BatAnimType::MOVE_UP);
@@ -111,8 +111,8 @@ void batAttackSys(MainFixedSystem, World& world) {
 
     for (auto [enemyEnt, animation, isBatAttack, orientation, velocity, speed, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
-            world.remove_component<IsBatAttack>(enemyEnt);
-            world.add_component(enemyEnt, IsBatMove(bat.moveDuration));
+            world.remove_components<IsBatAttack>(enemyEnt);
+            world.add_components(enemyEnt, IsBatMove(bat.moveDuration));
             if (fabs(orientation.x) > fabs(orientation.y)) {
                 if (orientation.x > 0) {
                     world.append_children(enemyEnt, {
@@ -144,13 +144,13 @@ void batAttackSys(MainFixedSystem, World& world) {
         velocity += newdirection * speed.speed * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_ATTACK_RIGHT);
                 } else {
                     animation.play(BatAnimType::ATTACK_RIGHT);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_ATTACK_LEFT);
                 } else {
                     animation.play(BatAnimType::ATTACK_LEFT);
@@ -158,13 +158,13 @@ void batAttackSys(MainFixedSystem, World& world) {
             }
         } else {
             if (orientation.y > 0) {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_ATTACK_DOWN);
                 } else {
                     animation.play(BatAnimType::ATTACK_DOWN);
                 }
             } else {
-                if (world.has<InvincibleFrame>(enemyEnt)) {
+                if (world.has_components<InvincibleFrame>(enemyEnt)) {
                     animation.play(BatAnimType::HIT_ATTACK_UP);
                 } else {
                     animation.play(BatAnimType::ATTACK_UP);

@@ -12,10 +12,10 @@ void smallCrystalRotationSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
     for (auto [crystalEnt, smallCrystalTransform, smallCrystal]: crystals) {
-        if (auto optParent = world.getParent(crystalEnt)) {
+        if (auto optParent = world.get_parent(crystalEnt)) {
             auto parentEnt = optParent.value();
 
-            if (auto opt = world.get<const Transform2D>(parentEnt)) {
+            if (auto opt = world.get_components<const Transform2D>(parentEnt)) {
                 auto [parentTransform] = opt.value();
 
                 auto diff = parentTransform.getPosition() - smallCrystalTransform.getPosition();

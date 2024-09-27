@@ -18,7 +18,7 @@ void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
             }
         } else if (!world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
             for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
-                world.add_component(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                world.add_components(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
         }
     }
@@ -33,7 +33,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
         if (glm::distance(transform.getPosition(), pauseMenuTranslation.getFinalPosition()) <= 4.f) {
             transform.setPositionGlobal(pauseMenuTranslation.getFinalPosition());
 
-            world.remove_component<PauseMenuTranslation>(menuEnt);
+            world.remove_components<PauseMenuTranslation>(menuEnt);
 
             // Title:
             world.append_children(menuEnt, {
@@ -87,7 +87,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                         auto pauseMenus = world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuReverseTranslation>);
 
                         for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
-                            world.add_component(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
+                            world.add_components(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
                         }
                     })
                 ),
@@ -117,11 +117,11 @@ void pauseMenuSelectorSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
-                world.add_component(selectorEnt, PauseMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
+                world.add_components(selectorEnt, PauseMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
-                world.add_component(selectorEnt, PauseMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
+                world.add_components(selectorEnt, PauseMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
             }
         }
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
@@ -202,7 +202,7 @@ void pauseMenuSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, pauseMenuSelectorMoveDown]: selectors) {
         if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveDown.getDestination()) <= 4.f) {
             transform.setPosition(pauseMenuSelectorMoveDown.getDestination());
-            world.remove_component<PauseMenuSelectorMoveDown>(selectorEnt);
+            world.remove_components<PauseMenuSelectorMoveDown>(selectorEnt);
         } else {
             transform.moveY(pauseMenuSelectorMoveDown.getSpeed() * time.unscaledFixedDelta());
         }
@@ -217,7 +217,7 @@ void pauseMenuSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
     for (auto [selectorEnt, transform, pauseMenuSelectorMoveUp]: selectors) {
         if (glm::distance(transform.getPosition(), pauseMenuSelectorMoveUp.getDestination()) <= 4.f) {
             transform.setPosition(pauseMenuSelectorMoveUp.getDestination());
-            world.remove_component<PauseMenuSelectorMoveUp>(selectorEnt);
+            world.remove_components<PauseMenuSelectorMoveUp>(selectorEnt);
         } else {
             transform.moveY(-pauseMenuSelectorMoveUp.getSpeed() * time.unscaledFixedDelta());
         }
