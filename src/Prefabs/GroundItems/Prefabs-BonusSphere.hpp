@@ -23,7 +23,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
             InnerMovementUp(),
             Lootable(),
             Velocity(),
-            Trigger(-8 / 2, -8 / 2, 8, 8),
+            Trigger(-8 / 2, (-8 / 2) + 16, 8, 8),
             ParticleGenerator(
                 /*Prefab:*/ instantiateParticleEffectStar,
                 /*Cooldown:*/ 0.5f,

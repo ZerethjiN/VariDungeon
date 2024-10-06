@@ -23,7 +23,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             ),
             // PlayerBomb(2.0f),
             PlayerAttackCooldown(0.25f),
-            PlayerKnockbackStrength(128.f),
+            PlayerKnockbackStrength(256.f),
             Sprite(textureManager, barbareUV),
             Animation(barbareAnim, BarbareAnimType::MOVE_DOWN),
             Transform2D(
@@ -47,7 +47,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
                     glm::vec2(1, 1)
                 ),
                 Velocity(),
-                Trigger(-48 / 2, -48 / 2, 48, 48)
+                Trigger(-40 / 2, -40 / 2, 40, 40)
             )
         }
     );

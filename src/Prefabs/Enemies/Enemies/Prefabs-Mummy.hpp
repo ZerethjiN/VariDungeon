@@ -28,7 +28,7 @@ Ent instantiateMummy(World& world, const glm::vec2& position) {
         ),
         Loots({{LOOT_TYPE_XP, 2, 3}}),
         ZIndex(0),
-        Life(3),
+        Life(2),
         Velocity(),
         Speed(24),
         Orientation(Orientation::SOUTH),

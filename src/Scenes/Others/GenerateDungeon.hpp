@@ -5,21 +5,41 @@
 #include <Prefabs.hpp>
 #include <RoomPrefabs.hpp>
 
-struct RoomCellInfo {
-    // int idRoom;
-    // bool isCellCheck = false;
-    bool isActive = false;
-    bool isLeftOpen = false;
-    bool isRightOpen = false;
-    bool isUpOpen = false;
-    bool isDownOpen = false;
-    bool isPrimary = false;
-    bool isFinal = false;
-    bool isBonusRoom = false;
+static constexpr std::size_t WIDTH_DUNGEON_WITH_KEY = 5zu;
+static constexpr std::size_t HEIGHT_DUNGEON_WITH_KEY = 5zu;
+static constexpr std::size_t SIZE_DUNGEON_WITH_KEY = WIDTH_DUNGEON_WITH_KEY * HEIGHT_DUNGEON_WITH_KEY;
+static constexpr std::size_t MIN_CELL_DUNGEON_WITH_KEY = 13zu;
+static constexpr std::size_t MAX_CELL_DUNGEON_WITH_KEY = 18zu;
+
+class RoomCellInfo {
+public:
+    std::size_t idRoom;
+    bool isCellCheck;
+    bool isActive;
+    bool isLeftOpen;
+    bool isRightOpen;
+    bool isUpOpen;
+    bool isDownOpen;
+    bool isPrimary;
+    bool isFinal;
+    bool isBonusRoom;
     // bool isMerchant = false;
     // bool isKeyRoom = false;
     // bool isJungleAccess = false;
     // bool isSanctuary = false;
+    
+    constexpr RoomCellInfo() noexcept:
+        idRoom(0),
+        isCellCheck(false),
+        isActive(false),
+        isLeftOpen(false),
+        isRightOpen(false),
+        isUpOpen(false),
+        isDownOpen(false),
+        isPrimary(false),
+        isFinal(false),
+        isBonusRoom(false) {
+    }
 };
 
 bool newGenCell(const std::size_t width, const std::size_t height, std::size_t lastCell, std::size_t i, const std::size_t bonusPos, std::vector<RoomCellInfo>& cellMat) {
@@ -105,6 +125,111 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
     }
 
     return true;
+}
+
+void genCellNewDungeonWithKey(std::vector<RoomCellInfo>& cellMat, std::size_t& nbRoom, const std::size_t curCell) {
+    cellMat.at(curCell).idRoom = nbRoom;
+    std::println("NbRoom: {}", nbRoom);
+    nbRoom++;
+
+    // Init Up
+    if (curCell >= WIDTH_DUNGEON_WITH_KEY) {
+        if (!cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isCellCheck) {
+            cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isCellCheck = true;
+            if (rand() % 2) {
+                cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive = true;
+                cellMat[curCell].isUpOpen = true;
+                genCellNewDungeonWithKey(cellMat, nbRoom, curCell - WIDTH_DUNGEON_WITH_KEY);
+            } else {
+                cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive = false;
+                cellMat[curCell].isUpOpen = false;
+            }
+        } else {
+            cellMat[curCell].isUpOpen = cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive;
+        }
+    }
+
+    // Init Down
+    if (curCell < (HEIGHT_DUNGEON_WITH_KEY * (WIDTH_DUNGEON_WITH_KEY - 1))) {
+        if (!cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isCellCheck) {
+            cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isCellCheck = true;
+            if (rand() % 2) {
+                cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive = true;
+                cellMat[curCell].isDownOpen = true;
+                genCellNewDungeonWithKey(cellMat, nbRoom, curCell + WIDTH_DUNGEON_WITH_KEY);
+            } else {
+                cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive = false;
+                cellMat[curCell].isDownOpen = false;
+            }
+        } else {
+            cellMat[curCell].isDownOpen = cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive;
+        }
+    }
+
+    // Init Left
+    if ((curCell % WIDTH_DUNGEON_WITH_KEY) != 0) {
+        if (!cellMat[curCell - 1].isCellCheck) {
+            cellMat[curCell - 1].isCellCheck = true;
+            if (rand() % 2) {
+                cellMat[curCell - 1].isActive = true;
+                cellMat[curCell].isLeftOpen = true;
+                genCellNewDungeonWithKey(cellMat, nbRoom, curCell - 1);
+            } else {
+                cellMat[curCell - 1].isActive = false;
+                cellMat[curCell].isLeftOpen = false;
+            }
+        } else {
+            cellMat[curCell].isLeftOpen = cellMat[curCell - 1].isActive;
+        }
+    }
+
+    // Init Right
+    if ((curCell % WIDTH_DUNGEON_WITH_KEY) != (WIDTH_DUNGEON_WITH_KEY - 1)) {
+        if (!cellMat[curCell + 1].isCellCheck) {
+            cellMat[curCell + 1].isCellCheck = true;
+            if (rand() % 2) {
+                cellMat[curCell + 1].isActive = true;
+                cellMat[curCell].isRightOpen = true;
+                genCellNewDungeonWithKey(cellMat, nbRoom, curCell + 1);
+            } else {
+                cellMat[curCell + 1].isActive = false;
+                cellMat[curCell].isRightOpen = false;
+            }
+        } else {
+            cellMat[curCell].isRightOpen = cellMat[curCell + 1].isActive;
+        }
+    }
+}
+
+void preGenCellNewDungeonWithKey(std::vector<RoomCellInfo>& cellMat) {
+    std::size_t nbRoom = 0;
+
+    do {
+        nbRoom = 0;
+        cellMat.clear();
+        cellMat.resize(25, RoomCellInfo());
+        std::size_t primaryCell = rand() % (SIZE_DUNGEON_WITH_KEY);
+        cellMat.at(primaryCell).isCellCheck = true;
+        cellMat.at(primaryCell).isActive = true;
+        cellMat.at(primaryCell).isPrimary = true;
+        genCellNewDungeonWithKey(cellMat, nbRoom, primaryCell);
+        for (std::size_t y = 0; y < HEIGHT_DUNGEON_WITH_KEY; y++) {
+            for (std::size_t x = 0; x < WIDTH_DUNGEON_WITH_KEY; x++) {
+                if (cellMat[y * WIDTH_DUNGEON_WITH_KEY + x].idRoom == nbRoom - 1) {
+                    cellMat[y * WIDTH_DUNGEON_WITH_KEY + x].isFinal = true;
+                }
+            }
+        }
+    } while ((nbRoom < MIN_CELL_DUNGEON_WITH_KEY) || (nbRoom > MAX_CELL_DUNGEON_WITH_KEY));
+
+    bool bonusRoomReady = false;
+    do {
+        std::size_t bonusCell = rand() % (SIZE_DUNGEON_WITH_KEY);
+        if (cellMat[bonusCell].isActive && !cellMat[bonusCell].isPrimary && !cellMat[bonusCell].isFinal) {
+            cellMat[bonusCell].isBonusRoom = true;
+            bonusRoomReady = true;
+        }
+    } while (!bonusRoomReady);
 }
 
 void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
@@ -430,14 +555,16 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
     // Generate Cells:
     std::vector<RoomCellInfo> cellMat;
-    bool checkGen;
-    do {
-        cellMat = std::vector<RoomCellInfo>(height * width);
-        std::size_t primaryCell = rand() % (height * width);
-        cellMat[primaryCell].isActive = true;
-        cellMat[primaryCell].isPrimary = true;
-        checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
-    } while(!checkGen);
+    // bool checkGen;
+    // do {
+    //     cellMat = std::vector<RoomCellInfo>(height * width);
+    //     std::size_t primaryCell = rand() % (height * width);
+    //     cellMat[primaryCell].isActive = true;
+    //     cellMat[primaryCell].isPrimary = true;
+    //     checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
+    // } while(!checkGen);
+
+    preGenCellNewDungeonWithKey(cellMat);
 
     // Instantiate Rooms:
     std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> newPrefabRooms;

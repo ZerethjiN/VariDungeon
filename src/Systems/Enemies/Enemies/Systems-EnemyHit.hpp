@@ -32,7 +32,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                         if (life.isDead()) {
                             world.add_components(enemyEnt,
-                                Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 2),
+                                Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 1.5),
                                 CombatParticleGenerator(0.15f, 3, 2)
                             );
                         } else {

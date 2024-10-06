@@ -24,6 +24,14 @@ public:
         return speed;
     }
 
+    [[nodiscard]] constexpr float getDuration() const noexcept {
+        return duration;
+    }
+
+    [[nodiscard]] constexpr float getCurTime() const noexcept {
+        return curTime;
+    }
+
 private:
     const float duration;
     float curTime;

@@ -41,7 +41,9 @@ void playerLootAttractSys(MainFixedSystem, World& world) {
         if (auto opt = world.get_components<const Transform2D>(targetEnt)) {
             auto [othTransform] = opt.value();
 
-            velocity += glm::normalize(othTransform.getPosition() - lootTransform.getPosition()) * lootAttract.getSpeed() * time.fixedDelta();
+            auto distancePlayerItem = std::min(glm::distance(lootTransform.getPosition(), othTransform.getPosition()), 24.f) * 0.0375f;
+
+            velocity += glm::normalize(othTransform.getPosition() - lootTransform.getPosition()) * (lootAttract.getSpeed() / distancePlayerItem) * time.fixedDelta();
 
             if (glm::distance(othTransform.getPosition(), lootTransform.getPosition()) < 8) {
                 // Visual Effect:

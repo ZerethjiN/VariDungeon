@@ -14,6 +14,7 @@ Ent instantiateShadowPortalParticle(World& world, const glm::vec2& position, flo
             rotation,
             glm::vec2(1, 1)
         ),
-        LifeTime(0.75f)
+        LifeTime(0.75f),
+        ZIndex(5)
     );
 }
