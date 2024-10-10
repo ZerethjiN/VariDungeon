@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LevelUpKnockback final {
+class LevelUpKnockback final: public IComponent {
 public:
     LevelUpKnockback(float newDuration):
         duration(newDuration),
@@ -19,7 +19,7 @@ private:
     float curTime;
 };
 
-class LevelUpPreMenu final {
+class LevelUpPreMenu final: public IComponent {
 public:
     LevelUpPreMenu(float newDuration, int newNbStars):
         duration(newDuration),
@@ -50,17 +50,17 @@ private:
     float starSpawnCurTime;
 };
 
-class MenuBonus final {};
-class MenuBonusMerchant final {};
+class MenuBonus final: public IComponent {};
+class MenuBonusMerchant final: public IComponent {};
 
-class MenuBonusPreReverseTranslation final: public IIsStateDuration {
+class MenuBonusPreReverseTranslation final: public IComponent, public IIsStateDuration {
 public:
     MenuBonusPreReverseTranslation(float duration):
         IIsStateDuration(duration) {
     }
 };
 
-class MenuBonusReverseTranslation final {
+class MenuBonusReverseTranslation final: public IComponent {
 public:
     MenuBonusReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),
@@ -80,7 +80,7 @@ private:
     const float translationSpeed;
 };
 
-class MenuBonusTranslation final {
+class MenuBonusTranslation final: public IComponent {
 public:
     MenuBonusTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed, const std::unordered_set<std::size_t>& newBonusesIdx):
         finalPosition(newFinalPosition),
@@ -106,7 +106,7 @@ private:
     const std::unordered_set<std::size_t> bonusesIdx;
 };
 
-class MenuBonusSelector final {
+class MenuBonusSelector final: public IComponent {
 public:
     MenuBonusSelector(std::size_t newNbElements, std::size_t newCurElement = 0):
         nbElements(newNbElements),
@@ -140,7 +140,7 @@ private:
     std::size_t curElement;
 };
 
-class MenuBonusSelectorMoveDown final {
+class MenuBonusSelectorMoveDown final: public IComponent {
 public:
     MenuBonusSelectorMoveDown(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -160,7 +160,7 @@ private:
     const float speed;
 };
 
-class MenuBonusSelectorMoveUp final {
+class MenuBonusSelectorMoveUp final: public IComponent {
 public:
     MenuBonusSelectorMoveUp(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -180,7 +180,7 @@ private:
     const float speed;
 };
 
-class MenuBonusCurSelectedRow final {
+class MenuBonusCurSelectedRow final: public IComponent {
 public:
     MenuBonusCurSelectedRow(float newMaxScale, float newMinScale, float newScaleSpeed):
         maxScale(newMaxScale),

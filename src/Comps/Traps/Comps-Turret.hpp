@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Turret final {
+class Turret final: public IComponent {
 public:
     Turret(float newCardinalDuration, float newDiagonalDuration, float newCardinalPreShotDuration, float newDiagonalPreShotDuration):
         cardinalDuration(newCardinalDuration),
@@ -18,7 +18,7 @@ public:
     const float diagonalPreShotDuration;
 };
 
-class IsTurretCardinal final {
+class IsTurretCardinal final: public IComponent {
 public:
     IsTurretCardinal(float newDuration, float newPreShotDuration):
         duration(newDuration),
@@ -49,7 +49,7 @@ private:
     float curPreShotTime;
 };
 
-class IsTurretDiagonal final {
+class IsTurretDiagonal final: public IComponent {
 public:
     IsTurretDiagonal(float newDuration, float newPreShotDuration):
         duration(newDuration),

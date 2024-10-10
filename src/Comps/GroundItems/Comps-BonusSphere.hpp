@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class BonusSphere final {};
+class BonusSphere final: public IComponent {};

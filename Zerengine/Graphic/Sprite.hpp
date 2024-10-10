@@ -17,7 +17,7 @@ public:
     glm::vec2 texCoord;
 };
 
-class Sprite final {
+class Sprite final: public IComponent {
 public:
     Sprite(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
@@ -179,7 +179,7 @@ enum class UIAnchor: uint8_t {
     BOTTOM_RIGHT
 };
 
-class UI final  {
+class UI final: public IComponent  {
 public:
     UI(TextureManager& textureManager, const ImageAsset& newImageAsset, std::size_t imageDataIndex, const UIAnchor newAnchor, const Color& newColor = Color(255, 255, 255, 255)):
         texture(textureManager[newImageAsset.filename]),
@@ -249,7 +249,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class ZIndex final {
+class ZIndex final: public IComponent {
 public:
     constexpr ZIndex(int newlayer) noexcept:
         layer(newlayer) {
@@ -268,7 +268,7 @@ public:
     int layer;
 };
 
-class IsUnlit final  {};
+class IsUnlit final: public IComponent {};
 
 ///////////////////////////////////////////////////////////////////////////////////
 

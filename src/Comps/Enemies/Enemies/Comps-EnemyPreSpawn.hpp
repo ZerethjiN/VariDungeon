@@ -2,9 +2,10 @@
 
 #include <Zerengine.hpp>
 
-class EnemyPreSpawn final {
+class EnemyPreSpawn final: public IComponent {
 public:
     EnemyPreSpawn(float newDuration, int newNbParticles):
+        curNbParticle(0),
         duration(newDuration),
         curTime(0),
         spawnParticleTime(newDuration / newNbParticles),
@@ -26,9 +27,8 @@ public:
         return false;
     }
 
-    int getCurNbParticle() const {
-        return curNbParticle;
-    }
+public:
+    std::size_t curNbParticle;
 
 private:
     const float duration;
@@ -36,5 +36,4 @@ private:
 
     const float spawnParticleTime;
     float curSpawnParticleTime;
-    int curNbParticle;
 };

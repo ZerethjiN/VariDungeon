@@ -2,12 +2,12 @@
 
 #include <Zerengine.hpp>
 
-class CoinIconInventoryBar final {};
-class XpIconInventoryBar final {};
-class ButtonAIconInventoryBar final  {};
-class ButtonBIconInventoryBar final {};
+class CoinIconInventoryBar final: public IComponent {};
+class XpIconInventoryBar final: public IComponent {};
+class ButtonAIconInventoryBar final: public IComponent  {};
+class ButtonBIconInventoryBar final: public IComponent {};
 
-class ShrinkIcon final {
+class ShrinkIcon final: public IComponent {
 public:
     ShrinkIcon(const glm::vec2& newShrink, float newDuration):
         shrink(newShrink),

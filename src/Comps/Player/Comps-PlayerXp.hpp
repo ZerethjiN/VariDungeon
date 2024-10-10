@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerXp final {
+class PlayerXp final: public IComponent {
 public:
     PlayerXp(float newNbXpForNextLvl):
         nbXpForNextLvl(newNbXpForNextLvl),
@@ -35,8 +35,8 @@ private:
     float curXp;
 };
 
-class PlayerXpText final {};
-class PlayerXpBarInner final {
+class PlayerXpText final: public IComponent {};
+class PlayerXpBarInner final: public IComponent {
 public:
     PlayerXpBarInner(float newMaxLength):
         maxLength(newMaxLength) {

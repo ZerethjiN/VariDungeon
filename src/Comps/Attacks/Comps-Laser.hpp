@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Laser final {
+class Laser final: public IComponent {
 public:
     Laser(const glm::vec2& newDirection):
         direction(newDirection) {
@@ -12,7 +12,7 @@ public:
     const glm::vec2 direction;
 };
 
-class PlayerLaser final {
+class PlayerLaser final: public IComponent {
 public:
     PlayerLaser(float newCooldown):
         cooldown(newCooldown),

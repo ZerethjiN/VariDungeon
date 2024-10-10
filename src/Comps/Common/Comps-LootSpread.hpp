@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LootSpread final {
+class LootSpread final: public IComponent {
 public:
     LootSpread(float newDuration, const glm::vec2& newDirection, float newSpeed):
         duration(newDuration),
@@ -31,9 +31,9 @@ private:
     const float speed;
 };
 
-class Lootable final {};
+class Lootable final: public IComponent {};
 
-class LootAttract final {
+class LootAttract final: public IComponent {
 public:
     LootAttract(float newSpeed, Ent newTargetEnt):
         speed(newSpeed),

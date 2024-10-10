@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Sarcophage final {
+class Sarcophage final: public IComponent {
 public:
     Sarcophage(float newPreLaserDuration, float newLaserDuration, float newShadowMarkDuration, float newNbShadowMark, float newObeliskDuration):
         preLaserDuration(newPreLaserDuration),
@@ -20,15 +20,15 @@ public:
     const float obeliskDuration;
 };
 
-struct IsSarcophagePreLaserAttack final: public IIsStateDuration {
+struct IsSarcophagePreLaserAttack final: public IComponent, public IIsStateDuration {
     IsSarcophagePreLaserAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsSarcophageLaserAttack final: public IIsStateDuration {
+struct IsSarcophageLaserAttack final: public IComponent, public IIsStateDuration {
     IsSarcophageLaserAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class IsSarcophageShadowMark final: public IIsStateDuration {
+class IsSarcophageShadowMark final: public IComponent, public IIsStateDuration {
 public:
     IsSarcophageShadowMark(float newDuration, int newNbShadowMark):
         IIsStateDuration(newDuration),
@@ -50,9 +50,9 @@ private:
     float curTime;
 };
 
-struct IsSarcophageObelisk final: public IIsStateDuration {
+struct IsSarcophageObelisk final: public IComponent, public IIsStateDuration {
     IsSarcophageObelisk(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-class SarcophageObelisk final {};
-class SarcophageShockwave final {};
+class SarcophageObelisk final: public IComponent {};
+class SarcophageShockwave final: public IComponent {};

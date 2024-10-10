@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Shuriken final {
+class Shuriken final: public IComponent {
 public:
     Shuriken(float newRotationSpeed, const glm::vec2& newOffset):
         rotationSpeed(newRotationSpeed),

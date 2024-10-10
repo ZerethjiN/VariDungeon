@@ -2,8 +2,8 @@
 
 #include <Zerengine.hpp>
 
-class BossHealthBar final  {};
-class BossHealthBarInner final {
+class BossHealthBar final: public IComponent  {};
+class BossHealthBarInner final: public IComponent {
 public:
     BossHealthBarInner(std::size_t newMaxPixelSize):
         maxPixelSize(newMaxPixelSize) {
@@ -16,4 +16,4 @@ public:
 private:
     const std::size_t maxPixelSize;
 };
-class BossHealthBarText final {};
+class BossHealthBarText final: public IComponent {};

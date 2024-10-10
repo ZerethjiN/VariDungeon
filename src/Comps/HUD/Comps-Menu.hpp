@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Menu final {};
+class Menu final: public IComponent {};

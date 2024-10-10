@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class ShadowMark final {
+class ShadowMark final: public IComponent {
 public:
     ShadowMark(float newPreExplosionDuration, float newExplosionDuration):
         preExplosionDuration(newPreExplosionDuration),
@@ -14,10 +14,10 @@ public:
     const float explosionDuration;
 };
 
-struct IsShadowMarkPreExplosion final: public IIsStateDuration {
+struct IsShadowMarkPreExplosion final: public IComponent, public IIsStateDuration {
     IsShadowMarkPreExplosion(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsShadowMarkExplosion final: public IIsStateDuration {
+struct IsShadowMarkExplosion final: public IComponent, public IIsStateDuration {
     IsShadowMarkExplosion(float newDuration): IIsStateDuration(newDuration) {}
 };

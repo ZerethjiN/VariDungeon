@@ -14,7 +14,7 @@ struct LootTuple final {
     std::size_t maxLootDrop;
 };
 
-class Loots final {
+class Loots final: public IComponent {
 public:
     [[nodiscard]] constexpr Loots(const std::initializer_list<LootTuple>& newLoots = {}) noexcept:
         loots(newLoots) {

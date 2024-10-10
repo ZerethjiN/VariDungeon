@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Gasterolcan final {
+class Gasterolcan final: public IComponent {
 public:
     Gasterolcan(float newMoveDuration, float newPreAttackDuration, float newAttackDuration, float newRollSpeedCoeff):
         moveDuration(newMoveDuration),
@@ -18,21 +18,21 @@ public:
     const float rollSpeedCoeff;
 };
 
-class IsGasterolcanMove final: public IIsStateDuration {
+class IsGasterolcanMove final: public IComponent, public IIsStateDuration {
 public:
     IsGasterolcanMove(float newDuration):
         IIsStateDuration(newDuration) {
     }
 };
 
-class IsGasterolcanPreAttack final: public IIsStateDuration {
+class IsGasterolcanPreAttack final: public IComponent, public IIsStateDuration {
 public:
     IsGasterolcanPreAttack(float newDuration):
         IIsStateDuration(newDuration) {
     }
 };
 
-class IsGasterolcanAttack final: public IIsStateDuration {
+class IsGasterolcanAttack final: public IComponent, public IIsStateDuration {
 public:
     IsGasterolcanAttack(float newDuration):
         IIsStateDuration(newDuration) {

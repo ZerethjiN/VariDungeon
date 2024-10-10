@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerFrenzy final {
+class PlayerFrenzy final: public IComponent {
 public:
     PlayerFrenzy(float newDuration, float newAttackSpeedCoeff, float newSpeedCoeff):
         attackSpeedCoeff(newAttackSpeedCoeff),

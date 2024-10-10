@@ -2,11 +2,11 @@
 
 #include <Zerengine.hpp>
 
-class Player final {};
-class PlayerWeapon final {};
-class PlayerAttractor final {};
+class Player final: public IComponent {};
+class PlayerWeapon final: public IComponent {};
+class PlayerAttractor final: public IComponent {};
 
-class PlayerAttackCooldown final {
+class PlayerAttackCooldown final: public IComponent {
 public:
     PlayerAttackCooldown(float newAttackCooldown):
         attackCooldown(newAttackCooldown) {
@@ -34,7 +34,7 @@ private:
     float attackCooldown;
 };
 
-class PlayerKnockbackStrength final {
+class PlayerKnockbackStrength final: public IComponent {
 public:
     PlayerKnockbackStrength(float newKnockbackStrength):
         knockbackStrength(newKnockbackStrength) {
@@ -52,7 +52,7 @@ private:
     float knockbackStrength;
 };
 
-class PlayerDamage final {
+class PlayerDamage final: public IComponent {
 public:
     PlayerDamage(float newCurDamage):
         curDamage(newCurDamage) {
@@ -90,7 +90,7 @@ private:
     float curDamage;
 };
 
-class PlayerAttackWeight final {
+class PlayerAttackWeight final: public IComponent {
 public:
     PlayerAttackWeight(const glm::vec2& newDirection, float newSpeed, float newForwardDuration):
         direction(newDirection),

@@ -1,4 +1,4 @@
 #pragma once
 #include <Zerengine.hpp>
 
-class MenuChest final {};
+class MenuChest final: public IComponent {};

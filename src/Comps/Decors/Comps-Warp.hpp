@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Warp final {};
+class Warp final: public IComponent {};

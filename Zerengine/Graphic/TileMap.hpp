@@ -46,7 +46,7 @@ private:
     float curTime;
 };
 
-class TileMap final {
+class TileMap final: public IComponent {
 public:
     TileMap(TextureManager& textureManager, const std::vector<TileMapTileInfo>& newTiles, const glm::uvec2& newTileMapSize, const glm::uvec2& newTileSize):
         tiles(),

@@ -5,7 +5,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-class Glyph final {
+class Glyph final: public IComponent {
 public:
     Glyph(const Texture* newTexture, unsigned int newAdvance, const glm::ivec2& newSize, const glm::ivec2& newbearing):
         texture(newTexture),
@@ -27,7 +27,7 @@ public:
     glm::ivec2 bearing;
 };
 
-class ZreFont final {
+class ZreFont final: public IComponent {
 public:
     ~ZreFont() {
         FT_Done_Face(ftFace);

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerCoin final {
+class PlayerCoin final: public IComponent {
 public:
     PlayerCoin():
         curCoin(100) {
@@ -30,4 +30,4 @@ private:
     float curCoin;
 };
 
-class PlayerCoinText final {};
+class PlayerCoinText final: public IComponent {};

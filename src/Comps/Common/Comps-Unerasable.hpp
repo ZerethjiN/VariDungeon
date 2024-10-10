@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Unerasable final {};
+class Unerasable final: public IComponent {};

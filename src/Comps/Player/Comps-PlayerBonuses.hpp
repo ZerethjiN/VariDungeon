@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerBonuses final {
+class PlayerBonuses final: public IComponent {
 public:
     PlayerBonuses():
         bonusesLevels() {

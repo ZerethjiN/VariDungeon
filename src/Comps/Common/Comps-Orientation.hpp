@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Orientation final {
+class Orientation final: public IComponent {
 public:
     static constexpr glm::vec2 NORTH = glm::vec2(0, -1);
     static constexpr glm::vec2 SOUTH = glm::vec2(0, 1);
@@ -48,4 +48,4 @@ public:
     };
 };
 
-class NoMoveAnimation final {};
+class NoMoveAnimation final: public IComponent {};

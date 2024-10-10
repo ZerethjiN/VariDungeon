@@ -118,7 +118,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class GeneratorParticle final  {
+class GeneratorParticle final: public IComponent  {
 public:
     GeneratorParticle(float newSpeed, const glm::vec2& newDirection):
         speed(newSpeed),

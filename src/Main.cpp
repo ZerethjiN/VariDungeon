@@ -172,38 +172,38 @@ int main() {
         )
 
         // Enemies Lvl1 Threads
-        .add_systems(
-            mainFixedSystem, // Mummy Threads
+        .add_systems(ThreadedFixedSet(
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Mummy>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME;
             },
-            {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
-        )
-        .add_systems(
-            mainFixedSystem, // Insect Threads
-            [](World& world) -> bool {
-                auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Insect>).empty();
-            },
-            {insectChangeDirectionSys, insectMoveSys, insectAttackSys}
-        )
-        .add_systems(
-            mainFixedSystem, // Gasterolcan Threads
-            [](World& world) -> bool {
-                auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Gasterolcan>).empty();
-            },
-            {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
-        )
-        .add_systems(
-            mainFixedSystem, // Spectre Threads
-            [](World& world) -> bool {
-                auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Spectre>).empty();
-            },
-            {spectreMoveSys, spectreVanishSys, spectreCastSys}
-        )
+            {
+                ThreadedFixedSet( // Mummy Threads
+                    [](World& world) -> bool {
+                        return !world.view(with<Mummy>).empty();
+                    },
+                    {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
+                ),
+                ThreadedFixedSet( // Insect Threads
+                    [](World& world) -> bool {
+                        return !world.view(with<Insect>).empty();
+                    },
+                    {insectChangeDirectionSys, insectMoveSys, insectAttackSys}
+                ),
+                ThreadedFixedSet( // Gasterolcan Threads
+                    [](World& world) -> bool {
+                        return !world.view(with<Gasterolcan>).empty();
+                    },
+                    {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
+                ),
+                ThreadedFixedSet( // Spectre Threads
+                    [](World& world) -> bool {
+                        return !world.view(with<Spectre>).empty();
+                    },
+                    {spectreMoveSys, spectreVanishSys, spectreCastSys}
+                ),
+            }
+        ))
 
         .add_systems(mainFixedSystem, {
             // particleSystems, generatorParticleMovement,

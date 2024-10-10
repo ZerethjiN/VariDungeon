@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Knockback final {
+class Knockback final: public IComponent {
 public:
     Knockback(float newDuration, const glm::vec2& newDirection, float newSpeed):
         duration(newDuration),
@@ -39,4 +39,4 @@ private:
     const float speed;
 };
 
-class UnKnockbackable final {};
+class UnKnockbackable final: public IComponent {};

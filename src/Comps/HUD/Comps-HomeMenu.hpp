@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class HomeMenuBackgroundSlide final {
+class HomeMenuBackgroundSlide final: public IComponent {
 public:
     HomeMenuBackgroundSlide(const glm::vec2& newDestination, const glm::vec2& newRollbackDestination, float newSpeed):
         destination(newDestination),
@@ -16,7 +16,7 @@ public:
     const float speed;
 };
 
-class HomeMenuButtonId final {
+class HomeMenuButtonId final: public IComponent {
 public:
     HomeMenuButtonId(std::size_t newButtonId):
         buttonId(newButtonId) {
@@ -26,7 +26,7 @@ public:
     const std::size_t buttonId;
 };
 
-class HomeMenuButtonCallback final {
+class HomeMenuButtonCallback final: public IComponent {
 public:
     HomeMenuButtonCallback(void(*const newCallback)(World&, Ent)):
         callback(newCallback) {
@@ -36,9 +36,9 @@ public:
     void(*const callback)(World&, Ent);
 };
 
-class HomeMenuSelectedButton final {};
+class HomeMenuSelectedButton final: public IComponent {};
 
-class HomeMenuSelector final {
+class HomeMenuSelector final: public IComponent {
 public:
     HomeMenuSelector(std::size_t newNbElements, std::size_t newCurElement = 0):
         nbElements(newNbElements),
@@ -72,7 +72,7 @@ private:
     std::size_t curElement;
 };
 
-class HomeMenuSelectorMoveDown final {
+class HomeMenuSelectorMoveDown final: public IComponent {
 public:
     HomeMenuSelectorMoveDown(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -84,7 +84,7 @@ public:
     const float speed;
 };
 
-class HomeMenuSelectorMoveUp final {
+class HomeMenuSelectorMoveUp final: public IComponent {
 public:
     HomeMenuSelectorMoveUp(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),

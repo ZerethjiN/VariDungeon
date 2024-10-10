@@ -9,7 +9,7 @@ enum class TextAlignementType: uint8_t {
     ALIGN_RIGHT
 };
 
-class TextUI final {
+class TextUI final: public IComponent {
 public:
     TextUI(const std::string& newText, ZreFont& newFont, unsigned int newSize, const glm::vec2& newOrigin, const UIAnchor newAnchor, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
         text(newText),
@@ -342,7 +342,7 @@ public:
     UIAnchor anchor;
 };
 
-class Text final {
+class Text final: public IComponent {
 public:
     Text(const std::string& newText, ZreFont& newFont, unsigned int newSize, const glm::vec2& newOrigin, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
         text(newText),
@@ -673,7 +673,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class TextUICreator final {
+class TextUICreator final: public IComponent {
 public:
     TextUICreator(const std::string& newStr, const std::string& newFilename, unsigned int newSize, const UIAnchor newAnchor, const glm::vec2& newTextBoxSize, const glm::vec4& newColor, const glm::vec2& newOrigin, const TextAlignementType newAlignement):
         str(newStr),
@@ -707,7 +707,7 @@ void textUICreatorSys(LateUnscaledFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class TextCreator final {
+class TextCreator final: public IComponent {
 public:
     TextCreator(const std::string& newStr, const std::string& newFilename, unsigned int newSize, const glm::vec2& newTextBoxSize, const glm::vec4& newColor, const glm::vec2& newOrigin, const TextAlignementType newAlignement):
         str(newStr),

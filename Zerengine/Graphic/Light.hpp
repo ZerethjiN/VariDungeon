@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include "Graphic/Common.hpp"
 
-class PointLight final {
+class PointLight final: public IComponent {
 public:
     PointLight(const Color& newColor, float newRadius, float newIntensity):
         color(newColor),
@@ -17,7 +17,7 @@ public:
     float intensity;
 };
 
-class AmbientLight final {
+class AmbientLight final: public IComponent {
 public:
     AmbientLight(const Color& newColor):
         color(newColor) {

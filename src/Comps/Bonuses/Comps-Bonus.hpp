@@ -31,7 +31,7 @@ struct DescriptionAndCallback {
     void(*callback)(World&);
 };
 
-class BonusData final {
+class BonusData final: public IComponent {
 public:
     BonusData(BonusType newType, std::size_t newImgIconIdx, const std::string& newName, float newCost, const std::vector<DescriptionAndCallback>& newDescriptionCallbackPerLevel):
         type(newType),
@@ -73,7 +73,7 @@ static const std::vector<BonusData> bonusVec {
     BonusData(BONUS_ELECTRICAL_ORB, 20, "Lightning Ball", 45, {{"", lightningBallBonusCallbackLvl1}}),
 };
 
-class BonusRow final {
+class BonusRow final: public IComponent {
 public:
     BonusRow(std::size_t newId, BonusType newType, float newCost, void(*newCallback)(World&)):
         id(newId),

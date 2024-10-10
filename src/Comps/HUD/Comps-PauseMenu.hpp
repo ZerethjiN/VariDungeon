@@ -1,9 +1,9 @@
 #pragma once
 #include <Zerengine.hpp>
 
-class PauseMenu final {};
+class PauseMenu final: public IComponent {};
 
-class PauseMenuCallback final {
+class PauseMenuCallback final: public IComponent {
 public:
     PauseMenuCallback(std::size_t newId, void(*const newCallback)(World&, Ent)):
         id(newId),
@@ -15,7 +15,7 @@ public:
     void(*const callback)(World&, Ent);
 };
 
-class PauseMenuReverseTranslation final {
+class PauseMenuReverseTranslation final: public IComponent {
 public:
     PauseMenuReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),
@@ -35,7 +35,7 @@ private:
     const float translationSpeed;
 };
 
-class PauseMenuTranslation final {
+class PauseMenuTranslation final: public IComponent {
 public:
     PauseMenuTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),
@@ -55,7 +55,7 @@ private:
     const float translationSpeed;
 };
 
-class PauseMenuSelector final {
+class PauseMenuSelector final: public IComponent {
 public:
     PauseMenuSelector(std::size_t newNbElements):
         nbElements(newNbElements),
@@ -92,7 +92,7 @@ private:
     std::size_t curElement;
 };
 
-class PauseMenuSelectorMoveDown final {
+class PauseMenuSelectorMoveDown final: public IComponent {
 public:
     PauseMenuSelectorMoveDown(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),
@@ -112,7 +112,7 @@ private:
     const float speed;
 };
 
-class PauseMenuSelectorMoveUp final {
+class PauseMenuSelectorMoveUp final: public IComponent {
 public:
     PauseMenuSelectorMoveUp(const glm::vec2& newDestination, float newSpeed):
         destination(newDestination),

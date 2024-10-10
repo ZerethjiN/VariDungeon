@@ -1,9 +1,9 @@
 #pragma once
 
-class Camera final {};
-class CurCamera final {};
+class Camera final: public IComponent {};
+class CurCamera final: public IComponent {};
 
-class CameraShake final {
+class CameraShake final: public IComponent {
 public:
     CameraShake(Ent newOriginEnt, float newDistance, float newSpeed, int newNbShake):
         originEnt(newOriginEnt),
@@ -21,8 +21,8 @@ public:
     int curShake;
 };
 
-class CameraShakeLeft final {};
-class CameraShakeRight final {};
+class CameraShakeLeft final: public IComponent {};
+class CameraShakeRight final: public IComponent {};
 
 void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
     auto cameras = world.view<CameraShake, Transform2D>(with<CurCamera, CameraShakeRight>, without<CameraShakeLeft>);

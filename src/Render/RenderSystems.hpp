@@ -263,10 +263,12 @@ inline void renderSys(LateSystem, World& world) {
 
     if (renderTimePoint >= 1.0f) {
         renderTimePoint -= 1.0f;
-        std::println("Nb Entities: {}", world.getTotalEntities());
-        std::println("Nb Archetypes: {}", world.getTotalArchetypes());
-        std::println("Nb Sprites: {}", nbSprites);
-        std::println("Nb Lights: {}", lights.size());
+        #ifdef DISPLAY_FPS
+            std::println("Nb Entities: {}", world.getTotalEntities());
+            std::println("Nb Archetypes: {}", world.getTotalArchetypes());
+            std::println("Nb Sprites: {}", nbSprites);
+            std::println("Nb Lights: {}", lights.size());
+        #endif
     }
 
     spriteBatchPipeline.beginSprite(nbSprites);

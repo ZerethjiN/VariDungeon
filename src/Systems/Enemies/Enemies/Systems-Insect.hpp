@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 // Run With: [insectMoveSys, insectAttackSys]
-void insectMoveSys(MainFixedSystem, World& world) {
+void insectMoveSys(ThreadedFixedSystem, World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
@@ -65,7 +65,7 @@ void insectMoveSys(MainFixedSystem, World& world) {
     }
 }
 
-void insectChangeDirectionSys(MainFixedSystem, World& world) {
+void insectChangeDirectionSys(ThreadedFixedSystem, World& world) {
     auto insects = world.view<IsInsectChangeDirection, Orientation>(with<Insect>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
@@ -83,7 +83,7 @@ void insectChangeDirectionSys(MainFixedSystem, World& world) {
 }
 
 // Run With: [insectMoveSys, insectAttackSys]
-void insectAttackSys(MainFixedSystem, World& world) {
+void insectAttackSys(ThreadedFixedSystem, World& world) {
     auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform2D, const Insect>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 

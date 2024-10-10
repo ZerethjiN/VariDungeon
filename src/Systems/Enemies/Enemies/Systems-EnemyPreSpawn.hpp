@@ -23,7 +23,7 @@ void enemyPreSpawnSys(MainFixedSystem, World& world) {
         }
 
         if (enemyPreSpawn.canSpawnParticle(time.fixedDelta())) {
-            if (enemyPreSpawn.getCurNbParticle() % 2 == 0) {
+            if (enemyPreSpawn.curNbParticle % 2 == 0) {
                 world.append_children(enemyEnt, {
                     instantiateDustParticle(world, transform.getPosition() + glm::vec2(8, 8), zindex)
                 });

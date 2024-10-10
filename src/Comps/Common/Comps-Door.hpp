@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class DoorTrigger final {
+class DoorTrigger final: public IComponent {
 public:
     enum DoorTriggerOrientation: uint8_t {
         DOOR_TRIGGER_NORTH,
@@ -36,4 +36,4 @@ private:
     const DoorTriggerOrientation orientation;
 };
 
-class IsDoorLock final {};
+class IsDoorLock final: public IComponent {};

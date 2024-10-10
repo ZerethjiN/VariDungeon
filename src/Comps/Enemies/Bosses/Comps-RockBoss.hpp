@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class RockBoss final {
+class RockBoss final: public IComponent {
 public:
     RockBoss(float newStunDuration, float newSmallCrystalsDuration, float newGroundCrystalsCooldown, float newGroundCrystalsCooldownP2, float newRollSpeedCoeff):
         stunDuration(newStunDuration),
@@ -35,10 +35,10 @@ public:
     unsigned int lastState;
 };
 
-class IsRockBossRoll final {};
-class IsRockBossRollP2 final {};
+class IsRockBossRoll final: public IComponent {};
+class IsRockBossRollP2 final: public IComponent {};
 
-class IsRockBossStun final {
+class IsRockBossStun final: public IComponent {
 public:
     IsRockBossStun(float newStunDuration):
         stunDuration(newStunDuration),
@@ -55,7 +55,7 @@ private:
     float curTime;
 };
 
-class IsRockBossGroundCrystals final {
+class IsRockBossGroundCrystals final: public IComponent {
 public:
     IsRockBossGroundCrystals(float newGroundCrystalDuration):
         groundCrystalDuration(newGroundCrystalDuration),
@@ -72,7 +72,7 @@ private:
     float curTime;
 };
 
-class IsRockBossGroundCrystalsP2 final {
+class IsRockBossGroundCrystalsP2 final: public IComponent {
 public:
     IsRockBossGroundCrystalsP2(float newGroundCrystalDuration):
         groundCrystalDuration(newGroundCrystalDuration),

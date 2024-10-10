@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Roboboule final {
+class Roboboule final: public IComponent {
 public:
     Roboboule(float newPreAttackDuration, float newPreAttackRadius):
         preAttackDuration(newPreAttackDuration),
@@ -14,9 +14,9 @@ public:
     const float preAttackRadius;
 };
 
-class IsRobobouleMove final {};
+class IsRobobouleMove final: public IComponent {};
 
-class IsRoboboulePreAttack final: public IIsStateDuration {
+class IsRoboboulePreAttack final: public IComponent, public IIsStateDuration {
 public:
     IsRoboboulePreAttack(float newDuration):
         IIsStateDuration(newDuration) {

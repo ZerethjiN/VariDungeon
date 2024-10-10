@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
-void gasterolcanMoveSys(MainFixedSystem, World& world) {
+void gasterolcanMoveSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 
@@ -63,7 +63,7 @@ void gasterolcanMoveSys(MainFixedSystem, World& world) {
 }
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
-void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
+void gasterolcanPreAttackSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
@@ -108,7 +108,7 @@ void gasterolcanPreAttackSys(MainFixedSystem, World& world) {
 }
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
-void gasterolcanAttackSys(MainFixedSystem, World& world) {
+void gasterolcanAttackSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 

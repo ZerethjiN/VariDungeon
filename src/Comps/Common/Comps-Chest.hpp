@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Chest final {};
+class Chest final: public IComponent {};

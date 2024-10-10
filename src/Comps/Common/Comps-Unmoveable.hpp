@@ -2,9 +2,9 @@
 
 #include <Zerengine.hpp>
 
-class Unmoveable final {};
+class Unmoveable final: public IComponent {};
 
-class UnmoveableTimer final {
+class UnmoveableTimer final: public IComponent {
 public:
     UnmoveableTimer(float newDuration):
         duration(newDuration),

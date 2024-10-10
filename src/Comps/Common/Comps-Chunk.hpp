@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class ChunkInfos final {
+class ChunkInfos final: public IComponent {
 public:
     ChunkInfos(std::size_t newIdx):
         idx(newIdx) {
@@ -16,7 +16,7 @@ private:
     const std::size_t idx;
 };
 
-class ChunkTable final {
+class ChunkTable final: public IComponent {
 public:
     ChunkTable(int newWidth, int newHeight, const std::initializer_list<std::pair<const std::size_t, Ent>>& newList):
         chunks(newList),
@@ -53,7 +53,7 @@ public:
     const int height;
 };
 
-class ChunkExploration final {
+class ChunkExploration final: public IComponent {
 public:
     enum RoomExplorationType: uint8_t {
         ROOM_EXPLORATION_EMPTY,
@@ -75,7 +75,7 @@ public:
     const int height;
 };
 
-class ChunkCameraMovement final {
+class ChunkCameraMovement final: public IComponent {
 public:
     ChunkCameraMovement(Ent newOldRoomEnt, Ent newNextRoomEnt, float newCameraSpeed):
         oldRoomEnt(newOldRoomEnt),

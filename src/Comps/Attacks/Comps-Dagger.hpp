@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Dagger final {
+class Dagger final: public IComponent {
 public:
     Dagger(const glm::vec2& newDirection):
         direction(newDirection) {
@@ -12,7 +12,7 @@ public:
     const glm::vec2 direction;
 };
 
-class PlayerDagger final {
+class PlayerDagger final: public IComponent {
 public:
     PlayerDagger(float newCooldown):
         cooldown(newCooldown),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LifeGroundItem final {
+class LifeGroundItem final: public IComponent {
 public:
     LifeGroundItem(float newAmount):
         amount(newAmount) {

@@ -1,7 +1,7 @@
 #pragma once
 #include <Zerengine.hpp>
 
-class ShadowBossHubPattern final {
+class ShadowBossHubPattern final: public IComponent {
 public:
     ShadowBossHubPattern(const std::initializer_list<glm::vec2>& newMovePoints):
         movePoints(newMovePoints),

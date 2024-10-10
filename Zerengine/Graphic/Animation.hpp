@@ -15,7 +15,7 @@ enum class AnimType: bool {
     UNSCALED = true
 };
 
-class Animation final {
+class Animation final: public IComponent {
 friend void animationSys(LateUnscaledFixedSystem, World& world);
 public:
     template <typename E> requires (IsAnimationEnumConcept<E>)

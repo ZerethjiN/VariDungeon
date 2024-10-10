@@ -1,11 +1,11 @@
 #pragma once
 #include <Zerengine.hpp>
 
-class MapMenu final {};
+class MapMenu final: public IComponent {};
 
-class MapMenuCell final {};
+class MapMenuCell final: public IComponent {};
 
-class MapMenuReverseTranslation final {
+class MapMenuReverseTranslation final: public IComponent {
 public:
     MapMenuReverseTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),
@@ -17,7 +17,7 @@ public:
     const float translationSpeed;
 };
 
-class MapMenuTranslation final {
+class MapMenuTranslation final: public IComponent {
 public:
     MapMenuTranslation(const glm::vec2& newFinalPosition, float newTranslationSpeed):
         finalPosition(newFinalPosition),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Slime final: public IIsTickDuration {
+class Slime final: public IComponent, public IIsTickDuration {
 public:
     Slime(float newDirectionCooldown):
         IIsTickDuration(newDirectionCooldown) {

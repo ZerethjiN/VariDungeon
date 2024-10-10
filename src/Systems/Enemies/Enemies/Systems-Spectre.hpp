@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
-void spectreMoveSys(MainFixedSystem, World& world) {
+void spectreMoveSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreMove, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 
@@ -90,7 +90,7 @@ void spectreMoveSys(MainFixedSystem, World& world) {
 }
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
-void spectreVanishSys(MainFixedSystem, World& world) {
+void spectreVanishSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreVanish, Orientation, const Spectre, const Speed, const Transform2D>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 
@@ -131,7 +131,7 @@ void spectreVanishSys(MainFixedSystem, World& world) {
 }
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
-void spectreCastSys(MainFixedSystem, World& world) {
+void spectreCastSys(ThreadedFixedSystem, World& world) {
     auto enemies = world.view<Velocity, Animation, IsSpectreCast, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 

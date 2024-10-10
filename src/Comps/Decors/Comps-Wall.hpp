@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class Wall final {};
+class Wall final: public IComponent {};

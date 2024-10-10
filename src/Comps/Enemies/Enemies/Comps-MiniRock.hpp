@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class MiniRockSpawner final {
+class MiniRockSpawner final: public IComponent {
 public:
     MiniRockSpawner(float newCooldown, int newNbMiniRock):
         nbMiniRock(newNbMiniRock),
@@ -27,4 +27,4 @@ private:
     float curTime;
 };
 
-class MiniRock final {};
+class MiniRock final: public IComponent {};

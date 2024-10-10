@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class LightningBall final {
+class LightningBall final: public IComponent {
 public:
     LightningBall(const glm::vec2& newDirection):
         direction(newDirection) {
@@ -12,7 +12,7 @@ public:
     const glm::vec2 direction;
 };
 
-class PlayerLightningBall final {
+class PlayerLightningBall final: public IComponent {
 public:
     PlayerLightningBall(float newCooldown):
         cooldown(newCooldown),

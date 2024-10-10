@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Bomb final {
+class Bomb final: public IComponent {
 public:
     Bomb(float newCooldown):
         cooldown(newCooldown) {
@@ -17,7 +17,7 @@ private:
     float cooldown;
 };
 
-class BombSpread final {
+class BombSpread final: public IComponent {
 public:
     BombSpread(float newDuration, const glm::vec2& newDirection, float newSpeed):
         duration(newDuration),
@@ -40,7 +40,7 @@ private:
     float curTime;
 };
 
-class PlayerBomb final {
+class PlayerBomb final: public IComponent {
 public:
     PlayerBomb(float newCooldown):
         cooldown(newCooldown),

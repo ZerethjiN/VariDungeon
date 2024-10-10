@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class MummyLvl2 final {
+class MummyLvl2 final: public IComponent {
 public:
     MummyLvl2(float newMoveDuration, float newPreAttackDuration, float newAttackDuration, float newAttackRadius):
         moveDuration(newMoveDuration),
@@ -18,14 +18,14 @@ public:
     const float attackRadius;
 };
 
-struct IsMummyLvl2Move final: public IIsTickDuration {
+struct IsMummyLvl2Move final: public IComponent, public IIsTickDuration {
     IsMummyLvl2Move(float newDuration): IIsTickDuration(newDuration) {}
 };
 
-struct IsMummyLvl2PreAttack final: public IIsStateDuration {
+struct IsMummyLvl2PreAttack final: public IComponent, public IIsStateDuration {
     IsMummyLvl2PreAttack(float newDuration): IIsStateDuration(newDuration) {}
 };
 
-struct IsMummyLvl2Attack final: public IIsStateDuration {
+struct IsMummyLvl2Attack final: public IComponent, public IIsStateDuration {
     IsMummyLvl2Attack(float newDuration): IIsStateDuration(newDuration) {}
 };

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Life final {
+class Life final: public IComponent {
 public:
     Life(float newNbLife):
         nbLife(newNbLife),

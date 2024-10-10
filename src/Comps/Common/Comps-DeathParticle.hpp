@@ -2,9 +2,10 @@
 
 #include <Zerengine.hpp>
 
-class DeathParticleGenerator final {
+class DeathParticleGenerator final: public IComponent {
 public:
     DeathParticleGenerator(bool newNeedDestroy, float newDuration, int newNbParticles):
+        curNbParticle(0),
         needDestroy(newNeedDestroy),
         duration(newDuration),
         curTime(0),
@@ -31,9 +32,8 @@ public:
         return needDestroy;
     }
 
-    int getCurNbParticle() const {
-        return curNbParticle;
-    }
+public:
+    std::size_t curNbParticle;
 
 private:
     const bool needDestroy;
@@ -43,5 +43,4 @@ private:
 
     const float spawnParticleTime;
     float curSpawnParticleTime;
-    int curNbParticle;
 };

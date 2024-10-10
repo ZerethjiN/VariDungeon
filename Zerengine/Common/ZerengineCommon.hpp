@@ -13,7 +13,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Transform2D final {
+class Transform2D final: public IComponent {
 friend void collisionSys(LateFixedSystem, World&);
 friend void updateVelocityRec(World&, Ent, const glm::vec2&);
 friend void updateVelocitySys(LateFixedSystem, World&);
@@ -247,7 +247,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Transform3D final {
+class Transform3D final: public IComponent {
 friend void collisionSys(LateFixedSystem, World&);
 friend void updateVelocityRec(World&, Ent, const glm::vec2&);
 friend void updateVelocitySys(LateFixedSystem, World&);
@@ -545,7 +545,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LifeTime final {
+class LifeTime final: public IComponent {
 public:
     LifeTime(float newDuration):
         duration(newDuration),
@@ -577,7 +577,7 @@ void lifeTimeSys(MainFixedSystem, World& world) {
     }
 }
 
-class UnscaledLifeTime final {
+class UnscaledLifeTime final: public IComponent {
 public:
     UnscaledLifeTime(float newDuration):
         duration(newDuration),
@@ -611,7 +611,7 @@ void unscaledLifeTimeSys(MainUnscaledFixedSystem, World& world) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Speed final {
+class Speed final: public IComponent {
 public:
     Speed(float newSpeed):
         speed(newSpeed) {
@@ -632,7 +632,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Velocity final {
+class Velocity final: public IComponent {
 public:
     operator glm::vec2&() {
         return vel;

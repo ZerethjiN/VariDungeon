@@ -15,7 +15,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class Collider final {
+class Collider final: public IComponent {
 public:
     [[nodiscard]] constexpr Collider(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
@@ -29,7 +29,7 @@ public:
     glm::vec4 col;
 };
 
-class Trigger final {
+class Trigger final: public IComponent {
 public:
     [[nodiscard]] constexpr Trigger(float x, float y, float z, float w) noexcept:
         col(x, y, z, w) {
@@ -45,7 +45,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class OnCollisionEnter final {
+class OnCollisionEnter final: public IComponent {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
@@ -73,7 +73,7 @@ private:
     std::unordered_set<Ent> oldOthCols;
 };
 
-class OnCollisionStay final {
+class OnCollisionStay final: public IComponent {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
@@ -101,7 +101,7 @@ private:
     std::unordered_set<Ent> oldOthCols;
 };
 
-class OnCollisionExit final {
+class OnCollisionExit final: public IComponent {
 friend void collisionSys(LateFixedSystem, World&);
 friend void purgeCollisionSys(LateUnscaledFixedSystem, World&);
 private:
@@ -131,7 +131,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LayerCollision final {
+class LayerCollision final: public IComponent {
 public:
     template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
     [[nodiscard]] constexpr LayerCollision(const E& newLayer) noexcept:

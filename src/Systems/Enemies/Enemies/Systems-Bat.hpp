@@ -104,12 +104,12 @@ void batMoveSys(MainFixedSystem, World& world) {
 }
 
 void batAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsBatAttack, Orientation, Velocity, const Speed, const Bat, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.view<Animation, IsBatAttack, Orientation, const Bat, const Transform2D>(without<EnemyPreSpawn>);
     auto players = world.view<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, animation, isBatAttack, orientation, velocity, speed, bat, enemyTransform]: enemies) {
+    for (auto [enemyEnt, animation, isBatAttack, orientation, bat, enemyTransform]: enemies) {
         if (isBatAttack.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsBatAttack>(enemyEnt);
             world.add_components(enemyEnt, IsBatMove(bat.moveDuration));
@@ -135,13 +135,7 @@ void batAttackSys(MainFixedSystem, World& world) {
                 }
             }
         }
-        
-        glm::vec2 newdirection;
-        for (auto [_, playerTransform]: players) {
-            newdirection = glm::normalize(playerTransform.getPosition() - enemyTransform.getPosition());
-        }
 
-        velocity += newdirection * speed.speed * time.fixedDelta();
         if (fabs(orientation.x) > fabs(orientation.y)) {
             if (orientation.x > 0) {
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {

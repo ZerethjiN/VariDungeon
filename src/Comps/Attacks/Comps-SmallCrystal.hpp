@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class SmallCrystalRotation final {
+class SmallCrystalRotation final: public IComponent {
 public:
     SmallCrystalRotation(float newRotationSpeed, const glm::vec2& newOffset):
         rotationSpeed(newRotationSpeed),
@@ -14,7 +14,7 @@ public:
     const glm::vec2 offset;
 };
 
-class SmallCrystalThrow final {
+class SmallCrystalThrow final: public IComponent {
 public:
     SmallCrystalThrow(const glm::vec2& newLastPlayerPosition, float newSpeed):
         lastPlayerPosition(newLastPlayerPosition),

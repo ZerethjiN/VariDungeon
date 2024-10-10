@@ -2,4 +2,4 @@
 
 #include <Zerengine.hpp>
 
-class King final {};
+class King final: public IComponent {};

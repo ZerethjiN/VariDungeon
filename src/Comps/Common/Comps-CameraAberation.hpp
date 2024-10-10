@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class CameraEffect final {
+class CameraEffect final: public IComponent {
 public:
     CameraEffect():
         canUseCameraShake(false),
@@ -28,7 +28,7 @@ public:
     float nbShake;
 };
 
-class CameraAberation final {
+class CameraAberation final: public IComponent {
 public:
     CameraAberation(float newDistance, float newDuration, const glm::vec2& newDirection = glm::vec2(1, 0)):
         maxDistance(newDistance),

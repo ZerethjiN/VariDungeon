@@ -2,9 +2,10 @@
 
 #include <Zerengine.hpp>
 
-class DustParticleGenerator final {
+class DustParticleGenerator final: public IComponent {
 public:
     DustParticleGenerator(bool newNeedDestroy, float newDuration, int newNbParticles):
+        curNbParticle(0),
         needDestroy(newNeedDestroy),
         duration(newDuration),
         curTime(0),
@@ -31,9 +32,8 @@ public:
         return needDestroy;
     }
 
-    int getCurNbParticle() const {
-        return curNbParticle;
-    }
+public:
+    std::size_t curNbParticle;
 
 private:
     const bool needDestroy;
@@ -43,5 +43,4 @@ private:
 
     const float spawnParticleTime;
     float curSpawnParticleTime;
-    int curNbParticle;
 };

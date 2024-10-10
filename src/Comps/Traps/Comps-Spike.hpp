@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Spike final {
+class Spike final: public IComponent {
 public:
     Spike(float newSpikeUpDuration, float newSpikeDownDuration):
         spikeUpDuration(newSpikeUpDuration),
@@ -14,7 +14,7 @@ public:
     const float spikeDownDuration;
 };
 
-class IsSpikeUp final {
+class IsSpikeUp final: public IComponent {
 public:
     IsSpikeUp(float newDuration):
         duration(newDuration),
@@ -31,7 +31,7 @@ private:
     float curTime;
 };
 
-class IsSpikeDown final {
+class IsSpikeDown final: public IComponent {
 public:
     IsSpikeDown(float newDuration):
         duration(newDuration),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class PlayerFloor final {
+class PlayerFloor final: public IComponent {
 public:
     PlayerFloor(const std::initializer_list<std::size_t>& newMerchantFloors, std::size_t newCurFloor = 0):
         curFloor(newCurFloor),

@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class Scorpion final {
+class Scorpion final: public IComponent {
 public:
     Scorpion(float newMoveDuration, float newCastDuration):
         moveDuration(newMoveDuration),
@@ -14,14 +14,14 @@ public:
     const float castDuration;
 };
 
-class IsScorpionMove final: public IIsStateDuration {
+class IsScorpionMove final: public IComponent, public IIsStateDuration {
 public:
     IsScorpionMove(float newDuration):
         IIsStateDuration(newDuration) {
     }
 };
 
-class IsScorpionCast final: public IIsStateDuration {
+class IsScorpionCast final: public IComponent, public IIsStateDuration {
 public:
     IsScorpionCast(float newDuration):
         IIsStateDuration(newDuration) {

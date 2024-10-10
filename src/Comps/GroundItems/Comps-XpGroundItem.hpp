@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class XpGroundItem final {
+class XpGroundItem final: public IComponent {
 public:
     XpGroundItem(float newAmount):
         amount(newAmount) {

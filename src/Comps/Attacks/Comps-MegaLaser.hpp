@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class MegaLaser final {
+class MegaLaser final: public IComponent {
 public:
     MegaLaser(float newRotationSpeed):
         rotationSpeed(newRotationSpeed) {
