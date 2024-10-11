@@ -517,7 +517,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class AppState final {
+class AppState final: public IResource {
 public:
     template <typename E> requires (std::is_enum_v<E> && std::is_scoped_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t>)
     [[nodiscard]] constexpr AppState(const E& newState) noexcept:

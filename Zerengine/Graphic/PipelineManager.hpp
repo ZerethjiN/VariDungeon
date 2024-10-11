@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include "IGraphicsPipeline.hpp"
 
-class PipelineManager final {
+class PipelineManager final: public IResource {
 public:
     ~PipelineManager() {
         for (auto& pair: pipelines) {

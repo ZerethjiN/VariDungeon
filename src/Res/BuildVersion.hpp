@@ -2,7 +2,7 @@
 
 #include <Zerengine.hpp>
 
-class BuildVersion final {
+class BuildVersion final: public IResource {
 public:
     BuildVersion(const std::string& newVersion):
         version(newVersion) {

@@ -3,7 +3,7 @@
 #include <string>
 #include "Texture.hpp"
 
-class TextureManager final {
+class TextureManager final: public IResource {
 public:
     TextureManager() noexcept:
         textures(),

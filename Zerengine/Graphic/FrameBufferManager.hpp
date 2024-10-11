@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include "IGraphicsPipeline.hpp"
 
-class FrameBufferManager final {
+class FrameBufferManager final: public IResource {
 public:
     ~FrameBufferManager() {
         for (auto& pair: frameBuffers) {

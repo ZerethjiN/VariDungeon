@@ -90,7 +90,7 @@ private:
     std::unordered_map<unsigned char, std::unordered_map<unsigned int, Glyph>> glyphs;
 };
 
-class FontManager final {
+class FontManager final: public IResource {
 public:
     ~FontManager() {
         for (auto& pair: fonts) {

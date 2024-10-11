@@ -144,7 +144,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class LayerBasedCollisions final {
+class LayerBasedCollisions final: public IResource {
 public:
     template <typename E> requires (std::is_enum_v<E> && std::is_same_v<std::underlying_type_t<E>, std::size_t> && std::is_scoped_enum_v<E>)
     void addExclusion(const E& typeAE, const E& typeBE) {
@@ -211,7 +211,7 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-class SpatialHashMap final {
+class SpatialHashMap final: public IResource {
 public:
     void clear() {
         cells.clear();
