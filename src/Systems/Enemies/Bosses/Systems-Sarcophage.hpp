@@ -32,6 +32,13 @@ void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
                 });
             }
             
+            world.append_children(enemyEnt, {
+                instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(8, 0), 0),
+                instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, -8), 90),
+                instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 0), 180),
+                instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, 8), 270),
+            });
+
             continue;
         }
 
@@ -165,6 +172,31 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
         if (isSarcophageObelisk.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsSarcophageObelisk>(enemyEnt);
             world.add_components(enemyEnt, IsSarcophageShadowMark(sarcophage.shadowMarkDuration, sarcophage.nbShadowMark));
+
+            for (auto [_, player_transform]: players) {
+                bool shockwave_hit = true;
+                for (auto [_, obelisk_transform, collider]: world.view<Transform2D, const Collider>(with<SarcophageObelisk>)) {
+                    if (intersectOBBWithRay(collider.col, obelisk_transform.getModel(), enemyTransform.getPosition(), player_transform.getPosition())) {
+                        shockwave_hit = false;
+                        break;
+                    }
+                }
+
+                if (shockwave_hit) {
+                    world.create_entity(
+                        EnemyWeapon(),
+                        Damage(1),
+                        Transform2D(
+                            enemyTransform.getPosition(),
+                            0,
+                            glm::vec2(1, 1)
+                        ),
+                        LifeTime(0.2f),
+                        Trigger(-256 / 2, -256 / 2, 256, 256)
+                    );
+                }
+            }
+
             for (auto [obeliskEnt]: world.view(with<SarcophageObelisk>)) {
                 world.delete_entity(obeliskEnt);
             }

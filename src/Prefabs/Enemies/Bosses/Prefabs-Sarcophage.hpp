@@ -34,7 +34,12 @@ Ent instantiateSarcophage(World& world, const glm::vec2& position) {
         Velocity(),
         Speed(24),
         Orientation(Orientation::SOUTH),
-        Collider(-24 / 2, -24 / 2, 24, 24)
+        Collider(-24 / 2, -24 / 2, 24, 24),
+        OnEnemyDeath([](World& world, const Ent& this_ent) {
+            for (auto [obelisk_ent]: world.view(with<SarcophageObelisk>)) {
+                world.delete_entity(obelisk_ent);
+            }
+        })
     );
 }
 

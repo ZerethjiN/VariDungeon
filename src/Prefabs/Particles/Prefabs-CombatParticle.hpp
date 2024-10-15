@@ -16,7 +16,7 @@ Ent instantiateRepulseCombatParticle(World& world, const glm::vec2& position, in
             glm::vec2(1, 1)
         ),
         ZIndex(baseZIndex - 1),
-        LifeTime(0.2f)
+        LifeTime(combatParticleAnim[CombatParticleAnimType::DEFAULT].getTotalDuration())
     );
 }
 
@@ -31,6 +31,6 @@ Ent instantiateSmallCombatParticle(World& world, const glm::vec2& position, int 
             glm::vec2(1, 1)
         ),
         ZIndex(baseZIndex + 1),
-        LifeTime(0.1f)
+        LifeTime(swordImpactAnim[SwordImpactAnimType::SMALL].getTotalDuration())
     );
 }

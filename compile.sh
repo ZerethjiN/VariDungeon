@@ -19,7 +19,7 @@ glslc -O --target-env=vulkan1.2 shaders/LightBatchShader.frag -o shaders/LightBa
 clang++ -D NDEBUG -o VariDungeon.out src/Main.cpp\
     -I Lib -I src -I Zerengine\
     -I /usr/include/freetype2\
-    -O3 -pipe -std=c++2c\
+    -O0 -pipe -std=c++2c\
     -fno-exceptions\
     -m64 -march=x86-64-v3\
     -lvulkan\

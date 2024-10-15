@@ -102,8 +102,8 @@ int main() {
             anubisLvl2AttackSys, anubisLvl2VanishSys,
 
             // Bosses:
-            megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeSpawnSys,
-            rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys, rockBossGroundCrystalsP2Sys, rockBossRollP2Sys,
+            megaSlimeMoveSys, megaSlimeFireballSys, megaSlimeBounceSys, megaSlimeBounceTotalSys, megaSlimePreSpawnSys,
+            rockBossPreRollSys, rockBossRollSys, rockBossStunSys, rockBossGroundCrystalsSys, rockBossSmallCrystalThrowSys,
             sarcophageShadowMarkSys, sarcophagePreLaserSys, sarcophageLaserSys, sarcophageObeliskSys, sarcophageShockwaveSys,
             golemRockAttackSys, golemRockSys, golemPreFootAttackSys, golemFootAttackSys, golemPreLaserAttackCardinalSys, golemLaserAttackCardinalSys, golemPreLaserAttackDiagonalSys, golemLaserAttackDiagonalSys,
             shadowBossHubMovementSys,

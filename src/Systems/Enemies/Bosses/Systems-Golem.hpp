@@ -47,6 +47,13 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                         });
                     }
 
+                    world.append_children(enemyEnt, {
+                        instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(8, 0), 0),
+                        instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, -8), 90),
+                        instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 0), 180),
+                        instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, 8), 270),
+                    });
+
                     for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                         for (int i = 0; i < golem.nbRocks; i++) {
                             auto rndX = rand() % 8;
@@ -163,6 +170,12 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
                     instantiateFloorCrossParticle(world, transform.getPosition() + glm::vec2(0, 16 * i), zindex),
                 });
             }
+            world.append_children(enemyEnt, {
+                instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(8, 0), 0),
+                instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(0, -8), 90),
+                instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(-8, 0), 180),
+                instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(0, 8), 270),
+            });
 
             for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < golem.nbRocks; i++) {
@@ -258,6 +271,12 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(16 * i, -16 * i), zindex),
                     });
                 }
+                world.append_children(enemyEnt, {
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(8, -8), -45),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(-8, -8), -135),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 8), -225),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(8, 8), -315),
+                });
             } else {
                 world.add_components(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
@@ -377,6 +396,12 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
                         instantiateFloorCrossParticle(world, enemyTransform.getPosition() + glm::vec2(0, 16 * i), zindex),
                     });
                 }
+                world.append_children(enemyEnt, {
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(8, 0), 0),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, -8), 90),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(-8, 0), 180),
+                    instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, 8), 270),
+                });
             } else {
                 world.add_components(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 

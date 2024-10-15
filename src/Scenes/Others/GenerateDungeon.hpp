@@ -650,6 +650,7 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
     instantiateDesertBossRoom1,
     instantiateDesertBossRoom2,
     instantiateDesertBossRoom3,
+    instantiateDesertBossRoom4,
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t curFloor) {
@@ -673,7 +674,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
     std::vector<RoomCellInfo> cellMat;
     bool isKeyFloor = false;
 
-    switch (rand() % 5) {
+    switch (2/*rand() % 5*/) {
         case 0:
             height = HEIGHT_DUNGEON_WITH_KEY;
             width = WIDTH_DUNGEON_WITH_KEY;

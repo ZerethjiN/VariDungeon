@@ -23,7 +23,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             ),
             // PlayerBomb(2.0f),
             PlayerAttackCooldown(0.25f),
-            PlayerKnockbackStrength(256.f),
+            PlayerKnockbackStrength(128.f),
             Sprite(textureManager, barbareUV),
             Animation(barbareAnim, BarbareAnimType::MOVE_DOWN),
             Transform2D(

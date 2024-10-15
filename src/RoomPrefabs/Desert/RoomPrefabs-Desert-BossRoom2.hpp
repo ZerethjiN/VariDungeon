@@ -6,7 +6,7 @@
 #include <Res.hpp>
 #include <Prefabs.hpp>
 
-Ent instantiateDesertBossRoom3(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+Ent instantiateDesertBossRoom2(World& world, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
     auto [textureManager] = world.resource<TextureManager>();
 
     auto chunkHolderEnt = world.create_entity(

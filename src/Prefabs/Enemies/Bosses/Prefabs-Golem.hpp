@@ -12,12 +12,12 @@ Ent instantiateGolem(World& world, const glm::vec2& position) {
         Enemy(),
         EnemyPreSpawn(0.5f, 2),
         Golem(
-            /*PreLaserDuration:*/ 0.75f,
-            /*LaserDuration:*/ 1.0f,
+            /*PreLaserDuration:*/ 1.0f,
+            /*LaserDuration:*/ 0.75f,
             /*NbLasers:*/ 4,
             /*RockDuration:*/ 3.0f,
-            /*NbRocks:*/ 9,
-            /*FootDuration:*/ 0.75f
+            /*NbRocks:*/ 5,
+            /*FootDuration:*/ 1.0f
         ),
         IsGolemRockAttack(3.0f),
         EnemyWeapon(),
@@ -44,9 +44,9 @@ Ent instantiateGolemRock(World& world, const glm::vec2& position) {
     return world.create_entity(
         GolemRock(0.75f),
         Breakable(),
-        Life(2),
-        Sprite(textureManager, rockUV),
-        Animation(rockAnim, RockAnimType::NO_HIT),
+        Life(1),
+        // Sprite(textureManager, rockUV),
+        // Animation(rockAnim, RockAnimType::NO_HIT),
         Transform2D(
             position,
             0,

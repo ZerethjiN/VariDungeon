@@ -26,12 +26,24 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
                     if (world.has_components<Collider>(enemyEnt)) {
                         world.remove_components<Collider>(enemyEnt);
                     }
-                    world.add_components(enemyEnt, IsMegaSlimeBounce(megaSlime.bounceDuration, megaSlime.bounceCooldownLvl1, megaSlime.bounceCooldownLvl2, megaSlime.bounceGroundDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+                    world.add_components(enemyEnt,
+                        IsMegaSlimeBounceTotal(megaSlime.bounceDuration),
+                        IsMegaSlimeBounce(megaSlime.bounceCooldown, megaSlime.bounceGroundDuration, megaSlime.nbBounce)
+                    );
                     break;
                 case 1:
-                    world.add_components(enemyEnt, IsMegaSlimeFireball(megaSlime.fireballDuration, megaSlime.fireballCooldownLvl1, megaSlime.fireballCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife()));
+                    world.add_components(enemyEnt, IsMegaSlimeFireball(megaSlime.fireballDuration, megaSlime.fireballCooldownLvl1));
                     break;
-                case 2: world.add_components(enemyEnt, IsMegaSlimeSpawn(megaSlime.spawnDuration, megaSlime.spawnCooldownLvl1, megaSlime.spawnCooldownLvl2, life.getNbLife() / 2 >= life.getCurNbLife())); break;
+                case 2:
+                    world.add_components(enemyEnt, IsMegaSlimePreSpawn(megaSlime.spawnDuration));
+                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                        instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(40, -40), 15);
+                        instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(40, 24), 15);
+                        instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(-56, -40), 15);
+                        instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(-56, 24), 15);
+                        instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(-8, -8), 15);
+                    }
+                    break;
             }
             megaSlime.lastState = rnd;
             continue;
@@ -47,64 +59,32 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_MOVE_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_MOVE_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_MOVE_RIGHT);
                 } else {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_MOVE_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::MOVE_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::MOVE_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_MOVE_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_MOVE_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_MOVE_LEFT);
                 } else {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_MOVE_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::MOVE_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::MOVE_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_MOVE_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_MOVE_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_MOVE_DOWN);
                 } else {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_MOVE_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::MOVE_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::MOVE_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_MOVE_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_MOVE_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_MOVE_UP);
                 } else {
-                    if (isMegaSlimeMove.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_MOVE_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::MOVE_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::MOVE_UP);
                 }
             }
         }
@@ -120,7 +100,7 @@ void megaSlimeFireballSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, velocity, animation, isMegaSlimeFireball, orientation, megaSlime, transform, life, zindex]: enemies) {
         if (isMegaSlimeFireball.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsMegaSlimeFireball>(enemyEnt);
-            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration));
             continue;
         }
 
@@ -159,83 +139,50 @@ void megaSlimeFireballSys(MainFixedSystem, World& world) {
             if (newdirection.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
                 } else {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_LEFT);
                 }
             }
         } else {
             if (newdirection.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
                 } else {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
                 } else {
-                    if (isMegaSlimeFireball.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_UP);
                 }
             }
         }
     }
 }
 
-void megaSlimeBounceSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMegaSlimeBounce, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+void megaSlimeBounceTotalSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Animation, IsMegaSlimeBounceTotal, Orientation, const MegaSlime, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, velocity, animation, isMegaSlimeBounce, orientation, megaSlime, transform, life]: enemies) {
-        if (isMegaSlimeBounce.canSwitchState(time.fixedDelta())) {
-            world.remove_components<IsMegaSlimeBounce>(enemyEnt);
-            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
+    for (auto [enemyEnt, animation, isMegaSlimeBounceTotal, orientation, megaSlime, transform]: enemies) {
+        if (isMegaSlimeBounceTotal.canSwitchState(time.fixedDelta())) {
+            world.remove_components<IsMegaSlimeBounceTotal, IsMegaSlimeBounce>(enemyEnt);
+            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration));
             if (!world.has_components<Collider>(enemyEnt)) {
-                appliedCameraShake(world, 0.5f, 128.f, 2);
                 world.add_components(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
+                appliedCameraShake(world, 0.5f, 128.f, 2);
                 instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, -1), 48.f);
                 instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, -1), 48.f);
@@ -248,27 +195,38 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
             }
             continue;
         }
-        
+    }
+}
+
+void megaSlimeBounceSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Velocity, Animation, IsMegaSlimeBounce, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.view<const Transform2D>(with<Player>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [enemyEnt, velocity, animation, isMegaSlimeBounce, orientation, megaSlime, transform, life]: enemies) {
         if (isMegaSlimeBounce.canBounce(time.fixedDelta())) {
-            if (isMegaSlimeBounce.isJump()) {
-                animation.play(MegaSlimeAnimType::SHADOW);
-                if (world.has_components<Collider>(enemyEnt)) {
-                    world.remove_components<Collider>(enemyEnt);
+            if (isMegaSlimeBounce.nbBounce > 0) {
+                if (isMegaSlimeBounce.isJump()) {
+                    animation.play(MegaSlimeAnimType::SHADOW);
+                    if (world.has_components<Collider>(enemyEnt)) {
+                        world.remove_components<Collider>(enemyEnt);
+                    }
+                } else {
+                    appliedCameraShake(world, 0.5f, 128.f, 2);
+                    if (!world.has_components<Collider>(enemyEnt)) {
+                        world.add_components(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
+                        instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, -1), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, -1), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 0), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 1), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, 1), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 1), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 0), 48.f);
+                        instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, -1), 48.f);
+                    }
                 }
-            } else {
-                appliedCameraShake(world, 0.5f, 128.f, 2);
-                if (!world.has_components<Collider>(enemyEnt)) {
-                    world.add_components(enemyEnt, Collider(-24 / 2, -24 / 2, 24, 24));
-                }
-                instantiateEnemyExplosionAttackParticle(world, transform.getPosition());
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, -1), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, -1), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 0), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(-1, 1), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(0, 1), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 1), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, 0), 48.f);
-                instantiateFireBallParticle(world, transform.getPosition(), glm::vec2(1, -1), 48.f);
             }
         }
 
@@ -284,64 +242,32 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
                 if (orientation.x > 0) {
                     orientation = Orientation::EAST;
                     if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_RIGHT);
-                        } else {
-                            animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
-                        }
+                        animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
                     } else {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_ATTACK_RIGHT);
-                        } else {
-                            animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
-                        }
+                        animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
                     }
                 } else {
                     orientation = Orientation::WEST;
                     if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_LEFT);
-                        } else {
-                            animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
-                        }
+                        animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
                     } else {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_ATTACK_LEFT);
-                        } else {
-                            animation.play(MegaSlimeAnimType::ATTACK_LEFT);
-                        }
+                        animation.play(MegaSlimeAnimType::ATTACK_LEFT);
                     }
                 }
             } else {
                 if (orientation.y > 0) {
                     orientation = Orientation::SOUTH;
                     if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_DOWN);
-                        } else {
-                            animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
-                        }
+                        animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
                     } else {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_ATTACK_DOWN);
-                        } else {
-                            animation.play(MegaSlimeAnimType::ATTACK_DOWN);
-                        }
+                        animation.play(MegaSlimeAnimType::ATTACK_DOWN);
                     }
                 } else {
                     orientation = Orientation::NORTH;
                     if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_UP);
-                        } else {
-                            animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
-                        }
+                        animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
                     } else {
-                        if (isMegaSlimeBounce.getIsP2()) {
-                            animation.play(MegaSlimeAnimType::P2_ATTACK_UP);
-                        } else {
-                            animation.play(MegaSlimeAnimType::ATTACK_UP);
-                        }
+                        animation.play(MegaSlimeAnimType::ATTACK_UP);
                     }
                 }
             }
@@ -349,17 +275,15 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
     }
 }
 
-void megaSlimeSpawnSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMegaSlimeSpawn, Orientation, const MegaSlime, const Speed, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+void megaSlimePreSpawnSys(MainFixedSystem, World& world) {
+    auto enemies = world.view<Animation, IsMegaSlimePreSpawn, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
-    for (auto [enemyEnt, velocity, animation, isMegaSlimeSpawn, orientation, megaSlime, speed, transform, life]: enemies) {
-        if (isMegaSlimeSpawn.canSwitchState(time.fixedDelta())) {
-            world.remove_components<IsMegaSlimeSpawn>(enemyEnt);
-            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration, life.getNbLife() / 2 >= life.getCurNbLife()));
-            // instantiateSlimeSlimeBoss(world, transform.getPosition() + glm::vec2(8, 0));
+    for (auto [enemyEnt, animation, isMegaSlimePreSpawn, orientation, megaSlime, transform, life]: enemies) {
+        if (isMegaSlimePreSpawn.canSwitchState(time.fixedDelta())) {
+            world.remove_components<IsMegaSlimePreSpawn>(enemyEnt);
+            world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration));
             for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(40, -40));
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(40, 24));
@@ -370,78 +294,36 @@ void megaSlimeSpawnSys(MainFixedSystem, World& world) {
             continue;
         }
 
-        // if (isMegaSlimeSpawn.canSpawn(time.fixedDelta())) {
-        //     instantiateSlimeSlimeBoss(world, transform.getPosition() + glm::vec2(8, 0));
-        // }
-
-        glm::vec2 newdirection;
-        for (auto [_, playerTransform]: players) {
-            newdirection = glm::normalize(playerTransform.getPosition() - transform.getPosition());
-        }
-
-        velocity += newdirection * speed.speed * time.fixedDelta();
-        if (fabs(newdirection.x) > fabs(newdirection.y)) {
-            if (newdirection.x > 0) {
+        if (fabs(orientation.x) > fabs(orientation.y)) {
+            if (orientation.x > 0) {
                 orientation = Orientation::EAST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_RIGHT);
                 } else {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_RIGHT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_RIGHT);
                 }
             } else {
                 orientation = Orientation::WEST;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_LEFT);
                 } else {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_LEFT);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_LEFT);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_LEFT);
                 }
             }
         } else {
-            if (newdirection.y > 0) {
+            if (orientation.y > 0) {
                 orientation = Orientation::SOUTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_DOWN);
                 } else {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_DOWN);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_DOWN);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_DOWN);
                 }
             } else {
                 orientation = Orientation::NORTH;
                 if (world.has_components<InvincibleFrame>(enemyEnt)) {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_HIT_ATTACK_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::HIT_ATTACK_UP);
                 } else {
-                    if (isMegaSlimeSpawn.getIsP2()) {
-                        animation.play(MegaSlimeAnimType::P2_ATTACK_UP);
-                    } else {
-                        animation.play(MegaSlimeAnimType::ATTACK_UP);
-                    }
+                    animation.play(MegaSlimeAnimType::ATTACK_UP);
                 }
             }
         }

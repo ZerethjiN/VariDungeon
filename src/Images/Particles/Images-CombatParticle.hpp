@@ -15,9 +15,9 @@ enum class CombatParticleAnimType: std::size_t {
 
 static const AnimationAsset combatParticleAnim(animEnum<CombatParticleAnimType>, {
     {CombatParticleAnimType::DEFAULT, {{
-        {0.05f, combatParticleUV[0]},
-        {0.05f, combatParticleUV[1]},
-        {0.05f, combatParticleUV[2]},
-        {0.05f, combatParticleUV[3]},
+        {0.1f, combatParticleUV[0]},
+        {0.1f, combatParticleUV[1]},
+        {0.1f, combatParticleUV[2]},
+        {0.1f, combatParticleUV[3]},
     }}},
 });

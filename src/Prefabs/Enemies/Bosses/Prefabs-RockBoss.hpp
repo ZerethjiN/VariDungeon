@@ -15,12 +15,12 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
         EnemyPreSpawn(0.5f, 2),
         RockBoss(
             /*StunDuration:*/ 2.0f,
-            /*SmallCrystalDuration:*/ 1.5f,
-            /*GroundCrystalDuration:*/ 4.0f,
-            /*GroundCrystalDurationP2:*/ 2.5f,
+            /*SmallCrystalDuration:*/ 1.25f,
+            /*GroundCrystalDuration:*/ 3.0f,
+            /*new_pre_roll_cooldown:*/ 0.75f,
             /*RollSpeedCoeff:*/ 8.0f
         ),
-        IsRockBossRoll(),
+        IsRockBossGroundCrystals(1.0f),
         Unhittable(),
         EnemyWeapon(),
         Damage(1),

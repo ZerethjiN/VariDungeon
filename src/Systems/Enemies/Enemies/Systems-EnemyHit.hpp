@@ -7,11 +7,16 @@
 #include <Images.hpp>
 
 void enemyHitSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Transform2D, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<Unhittable, InvincibleFrame>);
+    auto enemies = world.view<Transform2D, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<InvincibleFrame>);
 
     for (auto [enemyEnt, enemyTransform, life, collisions, zindex, loots]: enemies) {
-        for (auto othEnt: collisions) {
+        for (const auto& othEnt: collisions) {
             if (world.has_components<PlayerWeapon, Damage>(othEnt)) {
+                if (world.has_components<Unhittable>(enemyEnt)) {
+                    appliedCameraShake(world, 0.25f, 128.f, 2);
+                    break;
+                }
+
                 // Damage:
                 if (auto opt = world.get_components<const Damage>(othEnt)) {
                     auto [damage] = opt.value();
@@ -32,13 +37,13 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                         if (life.isDead()) {
                             world.add_components(enemyEnt,
-                                Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 1.5),
-                                CombatParticleGenerator(0.15f, 3, 2)
+                                Knockback(0.2f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength * 1.5),
+                                CombatParticleGenerator(0.2f, 3, 2)
                             );
                         } else {
                             world.add_components(enemyEnt,
-                                Knockback(0.15f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength),
-                                CombatParticleGenerator(0.15f, 2, 2)
+                                Knockback(0.2f, -glm::normalize(othTransform.getPosition() - enemyTransform.getPosition()), knockbackStrength),
+                                CombatParticleGenerator(0.2f, 2, 2)
                             );
                         }
                     }
@@ -90,6 +95,11 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         }
                     }
 
+                    if (auto opt_OnEnemyDeath = world.get_components<OnEnemyDeath>(enemyEnt)) {
+                        auto [on_enemy_death] = opt_OnEnemyDeath.value();
+                        on_enemy_death.callback(world, enemyEnt);
+                    }
+
                     if (world.has_components<Boss>(enemyEnt)) {
                         for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
                             world.delete_entity(bossHealthBarEnt);
@@ -99,14 +109,14 @@ void enemyHitSys(MainFixedSystem, World& world) {
                             // instantiateWarp(world, roomTransform.getPosition() + glm::vec2(-8, -8));
                         }
                         world.add_components(enemyEnt,
-                            DeathParticleGenerator(true, 0.4, 4),
-                            EnemyDropLoots(newLoots, 0.4, 1)
+                            DeathParticleGenerator(true, 0.5, 4),
+                            EnemyDropLoots(newLoots, 0.5, 1)
                         );
                         appliedCameraShake(world, 0.5f, 128.f, 4);
                     } else {
                         world.add_components(enemyEnt,
-                            DeathParticleGenerator(true, 0.2, 2),
-                            EnemyDropLoots(newLoots, 0.2, 1)
+                            DeathParticleGenerator(true, 0.25, 2),
+                            EnemyDropLoots(newLoots, 0.25, 1)
                         );
                         appliedCameraShake(world, 0.5f, 128.f, 2);
                     }

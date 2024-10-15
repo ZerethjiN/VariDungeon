@@ -139,7 +139,29 @@
     };
 }
 
+[[nodiscard]] std::array<glm::vec2, 2> getAxes(const std::array<glm::vec2, 2>& newVertices) noexcept {
+    auto axe0 = newVertices[0] - newVertices[1];
+
+    return {
+        glm::normalize(glm::vec2(-axe0.y, axe0.x))
+    };
+}
+
 [[nodiscard]] glm::vec2 getProjection(const std::array<glm::vec2, 4>& newVertices, const glm::vec2& newAxis) noexcept {
+    float min = glm::dot(newAxis, newVertices[0]);
+    float max = min;
+    for (std::size_t i = 1; i < newVertices.size(); i++) {
+        float p = glm::dot(newAxis, newVertices[i]);
+        if (p < min) {
+            min = p;
+        } else if (p > max) {
+            max = p;
+        }
+    }
+    return {min, max};
+}
+
+[[nodiscard]] glm::vec2 getProjection(const std::array<glm::vec2, 2>& newVertices, const glm::vec2& newAxis) noexcept {
     float min = glm::dot(newAxis, newVertices[0]);
     float max = min;
     for (std::size_t i = 1; i < newVertices.size(); i++) {
@@ -174,6 +196,32 @@
     for (const auto& axe: getAxes(newVertices1)) {
         auto projectionBox1 = getProjection(newVertices1, axe);
         auto projectionBox2 = getProjection(newVertices2, axe);
+
+        if (!isOverlap(projectionBox1, projectionBox2)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// [[nodiscard]] bool computeProjectionWithRay(const std::array<glm::vec2, 2>& newRay, const std::array<glm::vec2, 4>& newVertices1) noexcept {
+//     for (const auto& axe: getAxes(newRay)) {
+//         auto projectionBox1 = getProjection(newRay, axe);
+//         auto projectionBox2 = getProjection(newVertices1, axe);
+
+//         if (!isOverlap(projectionBox1, projectionBox2)) {
+//             return false;
+//         }
+//     }
+
+//     return true;
+// }
+
+[[nodiscard]] bool computeProjectionWithRay(const std::array<glm::vec2, 4>& newVertices1, const std::array<glm::vec2, 2>& newRay) noexcept {
+    for (const auto& axe: getAxes(newVertices1)) {
+        auto projectionBox1 = getProjection(newVertices1, axe);
+        auto projectionBox2 = getProjection(newRay, axe);
 
         if (!isOverlap(projectionBox1, projectionBox2)) {
             return false;
@@ -223,6 +271,21 @@
     if (!computeProjection(newVertices2, newVertices1)) {
         return false;
     }
+
+    return true;
+}
+
+[[nodiscard]] bool intersectOBBWithRay(const glm::vec4& col1, const glm::mat4& model1, const glm::vec2& vecBegin, const glm::vec2& vecEnd) noexcept {
+    auto newVertices1 = applyTransformOnCol(col1, model1);
+    std::array<glm::vec2, 2> newVerticesRay = {vecBegin, vecEnd};
+
+    if (!computeProjectionWithRay(newVertices1, newVerticesRay)) {
+        return false;
+    }
+
+    // if (!computeProjectionWithRay(newVerticesRay, newVertices1)) {
+    //     return false;
+    // }
 
     return true;
 }
