@@ -11,9 +11,9 @@ enum class TextAlignementType: uint8_t {
 
 class TextUI final: public IComponent {
 public:
-    TextUI(const std::string& newText, ZreFont& newFont, unsigned int newSize, const glm::vec2& newOrigin, const UIAnchor newAnchor, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
+    TextUI(const std::string& newText, std::shared_ptr<ZreFont> newFont, unsigned int newSize, const glm::vec2& newOrigin, const UIAnchor newAnchor, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
         text(newText),
-        font(&newFont),
+        font(newFont),
         size(newSize),
         needRefreshVertices(true),
         textBoxSize(newTextBoxSize),
@@ -24,8 +24,8 @@ public:
     }
 
 public:
-    void setFont(ZreFont& newFont) {
-        font = &newFont;
+    void setFont(std::shared_ptr<ZreFont> newFont) {
+        font = newFont;
         needRefreshVertices = true;
     }
 
@@ -328,9 +328,9 @@ private:
 public:
     std::string text;
     std::vector<std::string> words;
-    std::vector<const Texture*> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
     std::vector<SSBOVertex> vertices;
-    ZreFont* font = nullptr;
+    std::shared_ptr<ZreFont> font;
     unsigned int size = 30;
     bool needRefreshVertices = true;
     glm::vec2 textBoxSize;
@@ -344,9 +344,9 @@ public:
 
 class Text final: public IComponent {
 public:
-    Text(const std::string& newText, ZreFont& newFont, unsigned int newSize, const glm::vec2& newOrigin, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
+    Text(const std::string& newText, std::shared_ptr<ZreFont> newFont, unsigned int newSize, const glm::vec2& newOrigin, const glm::vec2& newTextBoxSize, const TextAlignementType newAlignement, const glm::vec4& newColor = glm::vec4(242, 214, 136, 255)):
         text(newText),
-        font(&newFont),
+        font(newFont),
         size(newSize),
         needRefreshVertices(true),
         textBoxSize(newTextBoxSize),
@@ -356,8 +356,8 @@ public:
     }
 
 public:
-    void setFont(ZreFont& newFont) {
-        font = &newFont;
+    void setFont(std::shared_ptr<ZreFont> newFont) {
+        font = newFont;
         needRefreshVertices = true;
     }
 
@@ -660,9 +660,9 @@ private:
 public:
     std::string text;
     std::vector<std::string> words;
-    std::vector<const Texture*> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
     std::vector<SSBOVertex> vertices;
-    ZreFont* font = nullptr;
+    std::shared_ptr<ZreFont> font;
     unsigned int size = 30;
     bool needRefreshVertices = true;
     glm::vec2 textBoxSize;

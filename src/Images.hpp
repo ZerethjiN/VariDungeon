@@ -38,6 +38,7 @@
 #include "Images/Decors/Images-SarcophageDecor.hpp"
 #include "Images/Decors/Images-SkullBossRoom.hpp"
 #include "Images/Decors/Images-Sphere.hpp"
+#include "Images/Decors/Images-TalentSphere.hpp"
 #include "Images/Decors/Images-Warp.hpp"
 
 // Enemies:
@@ -73,6 +74,8 @@
 #include "Images/GroundItems/Images-BonusSphere.hpp"
 #include "Images/GroundItems/Images-CoinParticle.hpp"
 #include "Images/GroundItems/Images-HeartParticle.hpp"
+#include "Images/GroundItems/Images-Key.hpp"
+#include "Images/GroundItems/Images-ShieldParticle.hpp"
 #include "Images/GroundItems/Images-XpParticle.hpp"
 
 // HUD:

@@ -17,7 +17,7 @@ void enemyDropLootsSys(MainFixedSystem, World& world) {
             for (std::size_t i = loot.getCurNbDropPerSubDrop(); i < loot.getNextMaxRange(); i++) {
                 float rndSpreadDirection = std::rand() % 360;
                 switch (loot[i]) {
-                    case LootType::LOOT_TYPE_XP:
+                    case LootType::XP:
                         instantiateXpParticle(
                             world,
                             transform.getPosition(),
@@ -26,8 +26,17 @@ void enemyDropLootsSys(MainFixedSystem, World& world) {
                             32.f
                         );
                         break;
-                    case LootType::LOOT_TYPE_HEART:
+                    case LootType::HEART:
                         instantiateHeartParticle(
+                            world,
+                            transform.getPosition(),
+                            0.25f,
+                            glm::normalize(rotateAround(glm::vec2(1, 1), glm::vec2(1, 1), rndSpreadDirection)),
+                            32.f
+                        );
+                        break;
+                    case LootType::SHIELD:
+                        instantiateShieldParticle(
                             world,
                             transform.getPosition(),
                             0.25f,

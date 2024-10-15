@@ -70,7 +70,7 @@ int main() {
             shurikenRotationSys, cameraAberationSys, cameraEffectApplicationSys,
             invincibleFramesSys, knockbackSys, damageTextSys, combatParticleGeneratorSys, deathParticleSys,
             lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
-            doorTriggerSys, openDoorSys, doorCameraMovementSys, playerAttackWeightSys,
+            doorTriggerSys, openDoorSys, openDoorWithKeySys, doorCameraMovementSys, playerAttackWeightSys,
             playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
             warpSys, particleGeneratorSys, bombSpreadSys, rerollSys,
             chestOpenSys,
@@ -110,9 +110,6 @@ int main() {
 
             fireBallAttackSys, fireBallHitSys,
 
-            // GroundItems:
-            getBonusSphereSys,
-
             // Traps:
             spikeDownSys, spikeUpSys,
             voidSphereOffSys, voidSphereOnSys,
@@ -147,6 +144,17 @@ int main() {
             },
             {
                 mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys,
+            }
+        )
+
+        .add_systems(
+            mainUnscaledFixedSystem,
+            [](World& world) -> bool {
+                auto [appstate] = world.resource<const AppState>();
+                return appstate == AppStateType::APP_STATE_IN_GAME;// && !world.view(with<MapMenu>).empty();
+            },
+            {
+                talentSphereOpenSys, talentSphererCloseSys, talentSphereMenuTranslationSys, talentSphereMenuReverseTranslationSys
             }
         )
 

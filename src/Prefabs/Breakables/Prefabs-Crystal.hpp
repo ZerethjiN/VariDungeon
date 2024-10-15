@@ -20,8 +20,9 @@ Ent instantiateCrystal(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         Loots({
-            {LOOT_TYPE_COIN, 2, 3},
-            {LOOT_TYPE_HEART, 1, 1}
+            {LootType::COIN, 2, 3},
+            {LootType::HEART, 1, 1},
+            {LootType::SHIELD, 1, 1},
         }),
         ParticleGenerator(instantiateParticleEffectStar, 1.5f, 8.f),
         OnBreakableHit([](World& world, Ent thisEnt) {

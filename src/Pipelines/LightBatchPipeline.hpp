@@ -21,6 +21,7 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <bit>
 
 #include <Zerengine.hpp>
 #include <Comps.hpp>
@@ -136,6 +137,7 @@ public:
     void end() {
         if (lights[engine.getCurFrame()].size() * sizeof(SSBOLight) > lastFragmentStorageBufferSizes[engine.getCurFrame()]) {
             if (lastFragmentStorageBufferSizes[engine.getCurFrame()] > 0) {
+                vkUnmapMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()]);
                 vkDestroyBuffer(engine.device, fragmentStorageBuffers[engine.getCurFrame()], nullptr);
                 vkFreeMemory(engine.device, fragmentStorageBuffersMemory[engine.getCurFrame()], nullptr);
             }

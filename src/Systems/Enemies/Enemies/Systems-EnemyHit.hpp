@@ -46,7 +46,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                     world.append_children(enemyEnt, {
                         world.create_entity(
-                            TextCreator(std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(36, 34, 30, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
+                            TextCreator(std::to_string(int(1)), "Fonts/Zepto-Regular.ttf", 8, glm::vec2(32, 16), glm::vec4(85, 80, 67, 255), glm::vec2(0.5, 0.5), TextAlignementType::ALIGN_LEFT),
                             Transform2D(
                                 enemyTransform.getPosition(),
                                 0,
@@ -68,7 +68,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                 if (life.isDead()) {
                     appliedCurCameraAberation(world, 4, 0.1);
 
-                    std::vector<std::size_t> newLoots;
+                    std::vector<LootType> newLoots;
 
                     if (!loots.empty()) {
                         auto rndLootType = rand() % loots.size();

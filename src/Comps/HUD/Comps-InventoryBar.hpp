@@ -3,6 +3,7 @@
 #include <Zerengine.hpp>
 
 class CoinIconInventoryBar final: public IComponent {};
+class LifeIconInventoryBar final: public IComponent {};
 class XpIconInventoryBar final: public IComponent {};
 class ButtonAIconInventoryBar final: public IComponent  {};
 class ButtonBIconInventoryBar final: public IComponent {};

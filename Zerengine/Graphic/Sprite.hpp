@@ -64,7 +64,7 @@ public:
 
     void setTextureRect(const glm::uvec4& newTextureRect) {
         textureRect = newTextureRect;
-        const glm::ivec2 originalTextureSize(texture.size);
+        const glm::ivec2 originalTextureSize(texture->size);
 
         const float left   = static_cast<float>(textureRect.x) / static_cast<float>(originalTextureSize.x);
         const float right  = left + static_cast<float>(textureRect.z) / static_cast<float>(originalTextureSize.x);
@@ -109,7 +109,7 @@ public:
     }
 
     std::array<SSBOVertex, 4> getHorizontalMirror() const noexcept {
-        const glm::ivec2 originalTextureSize(texture.size);
+        const glm::ivec2 originalTextureSize(texture->size);
 
         const float left   = static_cast<float>(textureRect.x) / static_cast<float>(originalTextureSize.x);
         const float right  = left + static_cast<float>(textureRect.z) / static_cast<float>(originalTextureSize.x);
@@ -158,7 +158,7 @@ public:
 
 public:
     std::array<SSBOVertex, 4> vertices;
-    const Texture& texture;
+    const std::shared_ptr<Texture> texture;
     glm::uvec4 textureRect;
     glm::vec2 origin;
     Color color;
@@ -207,7 +207,7 @@ public:
 
     void setTextureRect(const glm::uvec4& newTextureRect) {
         textureRect = newTextureRect;
-        const glm::ivec2 originalTextureSize(texture.size);
+        const glm::ivec2 originalTextureSize(texture->size);
 
         const float left   = static_cast<float>(textureRect.x) / static_cast<float>(originalTextureSize.x);
         const float right  = left + static_cast<float>(textureRect.z) / static_cast<float>(originalTextureSize.x);
@@ -241,7 +241,7 @@ public:
     glm::uvec4 textureRect;
     glm::vec2 origin;
     Color color;
-    const Texture& texture;
+    const std::shared_ptr<Texture> texture;
 
 public:
     UIAnchor anchor;
@@ -276,17 +276,12 @@ class IsUnlit final: public IComponent {};
 
 void TextureManager::clear(World& world) noexcept {
     std::unique_lock<std::mutex> lock(mtx);
-    std::unordered_set<Texture*> keepedTextures;
+    std::unordered_set<std::shared_ptr<Texture>> keepedTextures;
     for (auto [_, sprite]: world.view<Sprite>(with<DontDestroyOnLoad>)) {
-        keepedTextures.emplace(&const_cast<Texture&>(sprite.texture));
-    }
-    for (auto& pair: textures) {
-        if (!keepedTextures.contains(pair.second)) {
-            delete pair.second;
-        }
+        keepedTextures.emplace(sprite.texture);
     }
     textures.clear();
-    for (auto* reinjectedTexture: keepedTextures) {
+    for (auto reinjectedTexture: keepedTextures) {
         textures.emplace(reinjectedTexture->name, reinjectedTexture);
     }
 }

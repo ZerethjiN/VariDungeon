@@ -7,21 +7,15 @@
 
 class Glyph final: public IComponent {
 public:
-    Glyph(const Texture* newTexture, unsigned int newAdvance, const glm::ivec2& newSize, const glm::ivec2& newbearing):
+    Glyph(std::shared_ptr<Texture> newTexture, unsigned int newAdvance, const glm::ivec2& newSize, const glm::ivec2& newbearing):
         texture(newTexture),
         advance(newAdvance),
         size(newSize),
         bearing(newbearing) {
     }
 
-    ~Glyph() {
-        if (texture) {
-            delete texture;
-        }
-    }
-
 public:
-    const Texture* texture;
+    std::shared_ptr<Texture> texture;
     unsigned int advance;
     glm::ivec2 size;
     glm::ivec2 bearing;
@@ -29,6 +23,10 @@ public:
 
 class ZreFont final: public IComponent {
 public:
+    ZreFont(const std::string& new_filename) {
+        loadFromFile(new_filename);
+    }
+
     ~ZreFont() {
         FT_Done_Face(ftFace);
         FT_Done_FreeType(ftLibrary);
@@ -55,7 +53,7 @@ public:
 
             FT_Load_Char(ftFace, letter, FT_LOAD_RENDER);
 
-            Texture* newTexture = nullptr;
+            std::shared_ptr<Texture> newTexture;
 
             if (ftFace->glyph->bitmap.buffer != nullptr) {
                 std::vector<unsigned char> newBuffer(ftFace->glyph->bitmap.width * ftFace->glyph->bitmap.rows * 4);
@@ -66,7 +64,7 @@ public:
                     newBuffer[i + 3] = ftFace->glyph->bitmap.buffer[(i / 4)];
                 }
 
-                newTexture = new Texture(newBuffer.data(), ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows, 4);
+                newTexture = std::make_shared<Texture>(newBuffer.data(), ftFace->glyph->bitmap.width, ftFace->glyph->bitmap.rows, 4);
             }
 
             glyphs.at(letter).emplace(
@@ -92,29 +90,21 @@ private:
 
 class FontManager final: public IResource {
 public:
-    ~FontManager() {
-        for (auto& pair: fonts) {
-            delete pair.second;
-        }
-    }
-
-public:
-    ZreFont& get(const std::string& filename) {
+    [[nodiscard]] std::shared_ptr<ZreFont> get(const std::string& filename) {
         if (!fonts.contains(filename)) {
-            auto* newFont = new ZreFont();
-            newFont->loadFromFile(filename);
-            fonts.emplace(filename, newFont);
+            fonts.emplace(
+                std::piecewise_construct,
+                std::forward_as_tuple(filename),
+                std::forward_as_tuple(std::make_shared<ZreFont>(filename))
+            );
         }
-        return *fonts.at(filename);
+        return fonts.at(filename);
     }
 
     void clear() noexcept {
-        for (auto& pair: fonts) {
-            delete pair.second;
-        }
         fonts.clear();
     }
 
 private:
-    std::unordered_map<std::string, ZreFont*> fonts;
+    std::unordered_map<std::string, std::shared_ptr<ZreFont>> fonts;
 };

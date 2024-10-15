@@ -2,14 +2,15 @@
 
 #include <Zerengine.hpp>
 
-enum LootType: size_t {
-    LOOT_TYPE_XP,
-    LOOT_TYPE_COIN,
-    LOOT_TYPE_HEART
+enum class LootType: size_t {
+    XP,
+    COIN,
+    HEART,
+    SHIELD,
 };
 
 struct LootTuple final {
-    std::size_t lootType;
+    LootType lootType;
     std::size_t minLootDrop;
     std::size_t maxLootDrop;
 };

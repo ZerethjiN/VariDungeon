@@ -243,7 +243,7 @@ public:
 
 public:
     void cleanupSwapChain() {
-        for (auto* frameBuffer: frameBuffers) {
+        for (auto& frameBuffer: frameBuffers) {
             frameBuffer->cleanupSwapChain();
         }
 
@@ -281,7 +281,7 @@ public:
 
         createSwapChain();
 
-        for (auto* frameBuffer: frameBuffers) {
+        for (auto& frameBuffer: frameBuffers) {
             frameBuffer->resizeFrame();
         }
     }
@@ -298,7 +298,7 @@ public:
             .applicationVersion = VK_MAKE_VERSION(1, 0, 0),
             .pEngineName = "ZerEngine",
             .engineVersion = VK_MAKE_VERSION(ZERENGINE_VERSION_MAJOR, ZERENGINE_VERSION_MINOR, ZERENGINE_VERSION_PATCH),
-            .apiVersion = VK_API_VERSION_1_3
+            .apiVersion = VK_API_VERSION_1_2
         };
 
         auto extensions = getRequiredExtensions();
@@ -624,7 +624,7 @@ public:
 
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
         for (const auto& availablePresentMode : availablePresentModes) {
-            if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
+            if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
                 return availablePresentMode;
             }
         }

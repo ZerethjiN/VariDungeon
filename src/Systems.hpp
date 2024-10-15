@@ -64,9 +64,6 @@
 #include "Systems/Enemies/EnemiesLvl2/Systems-MummyLvl2.hpp"
 #include "Systems/Enemies/EnemiesLvl2/Systems-SlimeLvl2.hpp"
 
-// GroundItems:
-#include "Systems/GroundItems/Systems-BonusSphere.hpp"
-
 // HUD:
 #include "Systems/HUD/Systems-HomeMenu.hpp"
 #include "Systems/HUD/Systems-InventoryBar.hpp"
@@ -74,6 +71,7 @@
 #include "Systems/HUD/Systems-MenuBonus.hpp"
 #include "Systems/HUD/Systems-MenuChest.hpp"
 #include "Systems/HUD/Systems-PauseMenu.hpp"
+#include "Systems/HUD/Systems-TalentSphere.hpp"
 
 // NPC:
 #include "Systems/NPC/Systems-Merchant.hpp"

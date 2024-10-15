@@ -11,6 +11,12 @@ static constexpr std::size_t SIZE_DUNGEON_WITH_KEY = WIDTH_DUNGEON_WITH_KEY * HE
 static constexpr std::size_t MIN_CELL_DUNGEON_WITH_KEY = 13zu;
 static constexpr std::size_t MAX_CELL_DUNGEON_WITH_KEY = 18zu;
 
+static constexpr std::size_t WIDTH_BIG_FLOOR = 8u;
+static constexpr std::size_t HEIGHT_BIG_FLOOR = 8u;
+static constexpr std::size_t SIZE_BIG_FLOOR = WIDTH_BIG_FLOOR * HEIGHT_BIG_FLOOR;
+static constexpr std::size_t MIN_CELL_BIG_FLOOR = 20u;
+static constexpr std::size_t MAX_CELL_BIG_FLOOR = 30u;
+
 class RoomCellInfo {
 public:
     std::size_t idRoom;
@@ -24,7 +30,7 @@ public:
     bool isFinal;
     bool isBonusRoom;
     // bool isMerchant = false;
-    // bool isKeyRoom = false;
+    bool isKeyRoom;
     // bool isJungleAccess = false;
     // bool isSanctuary = false;
     
@@ -38,7 +44,8 @@ public:
         isDownOpen(false),
         isPrimary(false),
         isFinal(false),
-        isBonusRoom(false) {
+        isBonusRoom(false),
+        isKeyRoom(false) {
     }
 };
 
@@ -127,76 +134,76 @@ bool newGenCell(const std::size_t width, const std::size_t height, std::size_t l
     return true;
 }
 
-void genCellNewDungeonWithKey(std::vector<RoomCellInfo>& cellMat, std::size_t& nbRoom, const std::size_t curCell) {
+void genCellNewDungeonWithKey(const std::size_t width, const std::size_t height, std::vector<RoomCellInfo>& cellMat, std::size_t& nbRoom, const std::size_t curCell) {
     cellMat.at(curCell).idRoom = nbRoom;
     std::println("NbRoom: {}", nbRoom);
     nbRoom++;
 
     // Init Up
-    if (curCell >= WIDTH_DUNGEON_WITH_KEY) {
-        if (!cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isCellCheck) {
-            cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isCellCheck = true;
+    if (curCell >= width) {
+        if (!cellMat.at(curCell - width).isCellCheck) {
+            cellMat.at(curCell - width).isCellCheck = true;
             if (rand() % 2) {
-                cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive = true;
-                cellMat[curCell].isUpOpen = true;
-                genCellNewDungeonWithKey(cellMat, nbRoom, curCell - WIDTH_DUNGEON_WITH_KEY);
+                cellMat.at(curCell - width).isActive = true;
+                cellMat.at(curCell).isUpOpen = true;
+                genCellNewDungeonWithKey(width, height, cellMat, nbRoom, curCell - width);
             } else {
-                cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive = false;
-                cellMat[curCell].isUpOpen = false;
+                cellMat.at(curCell - width).isActive = false;
+                cellMat.at(curCell).isUpOpen = false;
             }
         } else {
-            cellMat[curCell].isUpOpen = cellMat[curCell - WIDTH_DUNGEON_WITH_KEY].isActive;
+            cellMat.at(curCell).isUpOpen = cellMat.at(curCell - width).isActive;
         }
     }
 
     // Init Down
-    if (curCell < (HEIGHT_DUNGEON_WITH_KEY * (WIDTH_DUNGEON_WITH_KEY - 1))) {
-        if (!cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isCellCheck) {
-            cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isCellCheck = true;
+    if (curCell < (height * (width - 1))) {
+        if (!cellMat.at(curCell + width).isCellCheck) {
+            cellMat.at(curCell + width).isCellCheck = true;
             if (rand() % 2) {
-                cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive = true;
-                cellMat[curCell].isDownOpen = true;
-                genCellNewDungeonWithKey(cellMat, nbRoom, curCell + WIDTH_DUNGEON_WITH_KEY);
+                cellMat.at(curCell + width).isActive = true;
+                cellMat.at(curCell).isDownOpen = true;
+                genCellNewDungeonWithKey(width, height, cellMat, nbRoom, curCell + width);
             } else {
-                cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive = false;
-                cellMat[curCell].isDownOpen = false;
+                cellMat.at(curCell + width).isActive = false;
+                cellMat.at(curCell).isDownOpen = false;
             }
         } else {
-            cellMat[curCell].isDownOpen = cellMat[curCell + WIDTH_DUNGEON_WITH_KEY].isActive;
+            cellMat.at(curCell).isDownOpen = cellMat.at(curCell + width).isActive;
         }
     }
 
     // Init Left
-    if ((curCell % WIDTH_DUNGEON_WITH_KEY) != 0) {
-        if (!cellMat[curCell - 1].isCellCheck) {
-            cellMat[curCell - 1].isCellCheck = true;
+    if ((curCell % width) != 0) {
+        if (!cellMat.at(curCell - 1).isCellCheck) {
+            cellMat.at(curCell - 1).isCellCheck = true;
             if (rand() % 2) {
-                cellMat[curCell - 1].isActive = true;
-                cellMat[curCell].isLeftOpen = true;
-                genCellNewDungeonWithKey(cellMat, nbRoom, curCell - 1);
+                cellMat.at(curCell - 1).isActive = true;
+                cellMat.at(curCell).isLeftOpen = true;
+                genCellNewDungeonWithKey(width, height, cellMat, nbRoom, curCell - 1);
             } else {
-                cellMat[curCell - 1].isActive = false;
-                cellMat[curCell].isLeftOpen = false;
+                cellMat.at(curCell - 1).isActive = false;
+                cellMat.at(curCell).isLeftOpen = false;
             }
         } else {
-            cellMat[curCell].isLeftOpen = cellMat[curCell - 1].isActive;
+            cellMat.at(curCell).isLeftOpen = cellMat.at(curCell - 1).isActive;
         }
     }
 
     // Init Right
-    if ((curCell % WIDTH_DUNGEON_WITH_KEY) != (WIDTH_DUNGEON_WITH_KEY - 1)) {
-        if (!cellMat[curCell + 1].isCellCheck) {
-            cellMat[curCell + 1].isCellCheck = true;
+    if ((curCell % width) != (width - 1)) {
+        if (!cellMat.at(curCell + 1).isCellCheck) {
+            cellMat.at(curCell + 1).isCellCheck = true;
             if (rand() % 2) {
-                cellMat[curCell + 1].isActive = true;
-                cellMat[curCell].isRightOpen = true;
-                genCellNewDungeonWithKey(cellMat, nbRoom, curCell + 1);
+                cellMat.at(curCell + 1).isActive = true;
+                cellMat.at(curCell).isRightOpen = true;
+                genCellNewDungeonWithKey(width, height, cellMat, nbRoom, curCell + 1);
             } else {
-                cellMat[curCell + 1].isActive = false;
-                cellMat[curCell].isRightOpen = false;
+                cellMat.at(curCell + 1).isActive = false;
+                cellMat.at(curCell).isRightOpen = false;
             }
         } else {
-            cellMat[curCell].isRightOpen = cellMat[curCell + 1].isActive;
+            cellMat.at(curCell).isRightOpen = cellMat.at(curCell + 1).isActive;
         }
     }
 }
@@ -207,17 +214,16 @@ void preGenCellNewDungeonWithKey(std::vector<RoomCellInfo>& cellMat) {
     do {
         nbRoom = 0;
         cellMat.clear();
-        cellMat.resize(25, RoomCellInfo());
+        cellMat.resize(SIZE_DUNGEON_WITH_KEY, RoomCellInfo());
         std::size_t primaryCell = rand() % (SIZE_DUNGEON_WITH_KEY);
         cellMat.at(primaryCell).isCellCheck = true;
         cellMat.at(primaryCell).isActive = true;
         cellMat.at(primaryCell).isPrimary = true;
-        genCellNewDungeonWithKey(cellMat, nbRoom, primaryCell);
-        for (std::size_t y = 0; y < HEIGHT_DUNGEON_WITH_KEY; y++) {
-            for (std::size_t x = 0; x < WIDTH_DUNGEON_WITH_KEY; x++) {
-                if (cellMat[y * WIDTH_DUNGEON_WITH_KEY + x].idRoom == nbRoom - 1) {
-                    cellMat[y * WIDTH_DUNGEON_WITH_KEY + x].isFinal = true;
-                }
+        genCellNewDungeonWithKey(WIDTH_DUNGEON_WITH_KEY, HEIGHT_DUNGEON_WITH_KEY, cellMat, nbRoom, primaryCell);
+        for (std::size_t i = 0; i < SIZE_DUNGEON_WITH_KEY; i++) {
+            if (cellMat.at(i).idRoom == nbRoom - 1) {
+                cellMat.at(i).isFinal = true;
+                break;
             }
         }
     } while ((nbRoom < MIN_CELL_DUNGEON_WITH_KEY) || (nbRoom > MAX_CELL_DUNGEON_WITH_KEY));
@@ -230,9 +236,48 @@ void preGenCellNewDungeonWithKey(std::vector<RoomCellInfo>& cellMat) {
             bonusRoomReady = true;
         }
     } while (!bonusRoomReady);
+
+    bool keyRoomReady = false;
+    do {
+        std::size_t keyCell = rand() % (SIZE_DUNGEON_WITH_KEY);
+        if (cellMat[keyCell].isActive && !cellMat[keyCell].isPrimary && !cellMat[keyCell].isFinal && !cellMat[keyCell].isBonusRoom) {
+            cellMat[keyCell].isKeyRoom = true;
+            keyRoomReady = true;
+        }
+    } while(!keyRoomReady);
 }
 
-void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight) {
+void preGenCellNewDungeonBigFloor(std::vector<RoomCellInfo>& cellMat) {
+    std::size_t nbRoom = 0;
+
+    do {
+        nbRoom = 0;
+        cellMat.clear();
+        cellMat.resize(SIZE_BIG_FLOOR, RoomCellInfo());
+        std::size_t primaryCell = rand() % (SIZE_BIG_FLOOR);
+        cellMat.at(primaryCell).isCellCheck = true;
+        cellMat.at(primaryCell).isActive = true;
+        cellMat.at(primaryCell).isPrimary = true;
+        genCellNewDungeonWithKey(WIDTH_BIG_FLOOR, HEIGHT_BIG_FLOOR, cellMat, nbRoom, primaryCell);
+        for (std::size_t i = 0; i < SIZE_BIG_FLOOR; i++) {
+            if (cellMat.at(i).idRoom == nbRoom - 1) {
+                cellMat.at(i).isFinal = true;
+                break;
+            }
+        }
+    } while ((nbRoom < MIN_CELL_BIG_FLOOR) || (nbRoom > MAX_CELL_BIG_FLOOR));
+
+    bool bonusRoomReady = false;
+    do {
+        std::size_t bonusCell = rand() % (SIZE_BIG_FLOOR);
+        if (cellMat[bonusCell].isActive && !cellMat[bonusCell].isPrimary && !cellMat[bonusCell].isFinal) {
+            cellMat[bonusCell].isBonusRoom = true;
+            bonusRoomReady = true;
+        }
+    } while (!bonusRoomReady);
+}
+
+void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, const glm::vec2& position, std::size_t width, std::size_t height, std::size_t chunkIdx, const std::vector<RoomCellInfo>& cellMat, bool isDoorOpenUp, bool isDoorOpenDown, bool isDoorOpenLeft, bool isDoorOpenRight, bool isKeyFloor) {
     auto [textureManager] = world.resource<TextureManager>();
     
     std::vector<Ent> subEnts;
@@ -250,20 +295,38 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
                 Collider(-16 / 2, -32 / 2, 64, 32)
             )
         );
-        subEnts.emplace_back(
-            world.create_entity(
-                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
-                IsDoorLock(),
-                Sprite(textureManager, doorUV, 0),
-                Transform2D(
-                    position - glm::vec2(8, (16 * 7 / 2) + 8),
-                    0,
-                    glm::vec2(1, 1)
-                ),
-                ZIndex(-9),
-                Collider(-32 / 2, -16 / 2, 32, 16)
-            )
-        );
+        if (isKeyFloor && cellMat.at(chunkIdx - width).isFinal) {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
+                    IsDoorLock(),
+                    IsDoorWithKey(),
+                    Sprite(textureManager, doorUV, 1),
+                    Transform2D(
+                        position - glm::vec2(8, (16 * 7 / 2) + 8),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        } else {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, -1), chunkIdx - width, DoorTrigger::DOOR_TRIGGER_NORTH),
+                    IsDoorLock(),
+                    Sprite(textureManager, doorUV, 0),
+                    Transform2D(
+                        position - glm::vec2(8, (16 * 7 / 2) + 8),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        }
         subEnts.emplace_back(
             world.create_entity(
                 Wall(),
@@ -276,13 +339,13 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx - width].isFinal ?
+            (cellMat.at(chunkIdx - width).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-32, -64), 0) :
                 instantiateMiniTorch(world, position + glm::vec2(-32, -64), 0)
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx - width].isFinal ?
+            (cellMat.at(chunkIdx - width).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(16, -64), 0) :
                 instantiateMiniTorch(world, position + glm::vec2(16, -64), 0)
             )
@@ -313,19 +376,36 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
                 Collider(-32 / 2, -16 / 2, 32, 48)
             )
         );
-        subEnts.emplace_back(
-            world.create_entity(
-                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
-                IsDoorLock(),
-                Sprite(textureManager, doorUV, 0),
-                Transform2D(
-                    position - glm::vec2((16 * 9 / 2) + 8, 8),
-                    270,
-                    glm::vec2(1, 1)
-                ),
-                Collider(-32 / 2, -16 / 2, 32, 16)
-            )
-        );
+        if (isKeyFloor && cellMat.at(chunkIdx - 1).isFinal) {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
+                    IsDoorLock(),
+                    IsDoorWithKey(),
+                    Sprite(textureManager, doorUV, 1),
+                    Transform2D(
+                        position - glm::vec2((16 * 9 / 2) + 8, 8),
+                        270,
+                        glm::vec2(1, 1)
+                    ),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        } else {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(-1, 0), chunkIdx - 1, DoorTrigger::DOOR_TRIGGER_WEST),
+                    IsDoorLock(),
+                    Sprite(textureManager, doorUV, 0),
+                    Transform2D(
+                        position - glm::vec2((16 * 9 / 2) + 8, 8),
+                        270,
+                        glm::vec2(1, 1)
+                    ),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        }
         subEnts.emplace_back(
             world.create_entity(
                 Wall(),
@@ -339,13 +419,13 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx - 1].isFinal ?
+            (cellMat.at(chunkIdx - 1).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-80, -32), 270) :
                 instantiateMiniTorch(world, position + glm::vec2(-80, -32), 270)
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx - 1].isFinal ?
+            (cellMat.at(chunkIdx - 1).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-80, 16), 270) :
                 instantiateMiniTorch(world, position + glm::vec2(-80, 16), 270)
             )
@@ -376,20 +456,38 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
                 Collider(-32 / 2, -16 / 2, 32, 48)
             )
         );
-        subEnts.emplace_back(
-            world.create_entity(
-                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
-                IsDoorLock(),
-                Sprite(textureManager, doorUV, 0),
-                Transform2D(
-                    position + glm::vec2((16 * 9 / 2) - 8, -8),
-                    90,
-                    glm::vec2(1, 1)
-                ),
-                ZIndex(-9),
-                Collider(-32 / 2, -16 / 2, 32, 16)
-            )
-        );
+        if (isKeyFloor && cellMat.at(chunkIdx + 1).isFinal) {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
+                    IsDoorLock(),
+                    IsDoorWithKey(),
+                    Sprite(textureManager, doorUV, 1),
+                    Transform2D(
+                        position + glm::vec2((16 * 9 / 2) - 8, -8),
+                        90,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        } else {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(1, 0), chunkIdx + 1, DoorTrigger::DOOR_TRIGGER_EAST),
+                    IsDoorLock(),
+                    Sprite(textureManager, doorUV, 0),
+                    Transform2D(
+                        position + glm::vec2((16 * 9 / 2) - 8, -8),
+                        90,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        }
         subEnts.emplace_back(
             world.create_entity(
                 Wall(),
@@ -402,13 +500,13 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx + 1].isFinal ?
+            (cellMat.at(chunkIdx + 1).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(64, -32), 90) :
                 instantiateMiniTorch(world, position + glm::vec2(64, -32), 90)
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx + 1].isFinal ?
+            (cellMat.at(chunkIdx + 1).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(64, 16), 90) :
                 instantiateMiniTorch(world, position + glm::vec2(64, 16), 90)
             )
@@ -439,20 +537,38 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
                 Collider(-16 / 2, -32 / 2, 64, 32)
             )
         );
-        subEnts.emplace_back(
-            world.create_entity(
-                DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
-                IsDoorLock(),
-                Sprite(textureManager, doorUV, 0),
-                Transform2D(
-                    position + glm::vec2(-8, (16 * 7 / 2) - 8),
-                    180,
-                    glm::vec2(1, 1)
-                ),
-                ZIndex(-9),
-                Collider(-32 / 2, -16 / 2, 32, 16)
-            )
-        );
+        if (isKeyFloor && cellMat.at(chunkIdx + width).isFinal) {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
+                    IsDoorLock(),
+                    IsDoorWithKey(),
+                    Sprite(textureManager, doorUV, 1),
+                    Transform2D(
+                        position + glm::vec2(-8, (16 * 7 / 2) - 8),
+                        180,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        } else {
+            subEnts.emplace_back(
+                world.create_entity(
+                    DoorTrigger(newCurRoomXY, newCurRoomXY + glm::ivec2(0, 1), chunkIdx + width, DoorTrigger::DOOR_TRIGGER_SOUTH),
+                    IsDoorLock(),
+                    Sprite(textureManager, doorUV, 0),
+                    Transform2D(
+                        position + glm::vec2(-8, (16 * 7 / 2) - 8),
+                        180,
+                        glm::vec2(1, 1)
+                    ),
+                    ZIndex(-9),
+                    Collider(-32 / 2, -16 / 2, 32, 16)
+                )
+            );
+        }
         subEnts.emplace_back(
             world.create_entity(
                 Wall(),
@@ -465,13 +581,13 @@ void addDoors(World& world, Ent chunkHolderEnt, const glm::ivec2 newCurRoomXY, c
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx + width].isFinal ?
+            (cellMat.at(chunkIdx + width).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(-32, 48), 180) :
                 instantiateMiniTorch(world, position + glm::vec2(-32, 48), 180)
             )
         );
         subEnts.emplace_back(
-            (cellMat[chunkIdx + width].isFinal ?
+            (cellMat.at(chunkIdx + width).isFinal ?
                 instantiateSkullBossRoom(world, position + glm::vec2(16, 48), 180) :
                 instantiateMiniTorch(world, position + glm::vec2(16, 48), 180)
             )
@@ -550,21 +666,41 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
     // Create New Table:
     std::vector<std::pair<const std::size_t, Ent>> newTables;
-    std::size_t height = 5;
-    std::size_t width = 5;
+    std::size_t height = 5zu;
+    std::size_t width = 5zu;
 
     // Generate Cells:
     std::vector<RoomCellInfo> cellMat;
-    // bool checkGen;
-    // do {
-    //     cellMat = std::vector<RoomCellInfo>(height * width);
-    //     std::size_t primaryCell = rand() % (height * width);
-    //     cellMat[primaryCell].isActive = true;
-    //     cellMat[primaryCell].isPrimary = true;
-    //     checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
-    // } while(!checkGen);
+    bool isKeyFloor = false;
 
-    preGenCellNewDungeonWithKey(cellMat);
+    switch (rand() % 5) {
+        case 0:
+            height = HEIGHT_DUNGEON_WITH_KEY;
+            width = WIDTH_DUNGEON_WITH_KEY;
+            preGenCellNewDungeonWithKey(cellMat);
+            break;
+
+        case 1:
+            height = HEIGHT_BIG_FLOOR;
+            width = WIDTH_BIG_FLOOR;
+            preGenCellNewDungeonBigFloor(cellMat);
+            break;
+
+        default: {
+                height = 5zu;
+                width = 5zu;
+                bool checkGen;
+                do {
+                    cellMat.clear();
+                    cellMat.resize(height * width, RoomCellInfo());
+                    std::size_t primaryCell = rand() % (height * width);
+                    cellMat[primaryCell].isActive = true;
+                    cellMat[primaryCell].isPrimary = true;
+                    checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
+                } while(!checkGen);
+            }
+            break;
+    }
 
     // Instantiate Rooms:
     std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> newPrefabRooms;
@@ -587,7 +723,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen, isKeyFloor);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -658,7 +794,20 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen, isKeyFloor);
+
+                newTables.emplace_back(
+                    curRoomIdx,
+                    newChunkEnt
+                );
+
+                world.setInactive(newChunkEnt);
+            } else if (cellMat[curRoomIdx].isKeyRoom) {
+                auto newRoomPrefab = instantiateDesertKeyRoom;
+
+                auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen, isKeyFloor);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -671,7 +820,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen, isKeyFloor);
 
                 newTables.emplace_back(
                     curRoomIdx,
@@ -694,7 +843,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
 
                 auto newChunkEnt = newRoomPrefab(world, glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
 
-                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen);
+                addDoors(world, newChunkEnt, glm::ivec2(roomPosX, roomPosY), glm::vec2(roomPosX * 160, roomPosY * 128), width, height, curRoomIdx, cellMat, cellMat[curRoomIdx].isUpOpen, cellMat[curRoomIdx].isDownOpen, cellMat[curRoomIdx].isLeftOpen, cellMat[curRoomIdx].isRightOpen, isKeyFloor);
 
                 newTables.emplace_back(
                     curRoomIdx,

@@ -21,7 +21,31 @@ Ent instantiateCoinParticle(World& world, const glm::vec2& position, float sprea
             ZIndex(25),
             Velocity(),
             Collider(-8 / 2, -8 / 2, 8, 8),
-            LootSpread(spreadDuration, spreadDirection, spreadSpeed)
+            LootSpread(spreadDuration, spreadDirection, spreadSpeed),
+            LootCallback([](World& world, const Ent& this_entity, const Ent& target_entity) {
+                if (world.has_components<Player>(target_entity)) {
+                    if (auto optCoin = world.get_components<const CoinGroundItem>(this_entity)) {
+                        auto [coinGroundItem] = optCoin.value();
+
+                        if (auto optPlayerCoin = world.get_components<PlayerCoin>(target_entity)) {
+                            auto [playerCoin] = optPlayerCoin.value();
+
+                            playerCoin += coinGroundItem.getAmount();
+
+                            for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
+                                coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
+                            }
+
+                            for (auto [coinIconEnt, coinIconTransform]: world.view<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
+                                if (!world.has_components<ShrinkIcon>(coinIconEnt)) {
+                                    coinIconTransform.scale(-0.2f, -0.2f);
+                                    world.add_components(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));
+                                }
+                            }
+                        }
+                    }
+                }
+            })
         ),
         // Children
         {

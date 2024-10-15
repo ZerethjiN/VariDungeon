@@ -22,6 +22,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
         {
             // Life Icon
             world.create_entity(
+                LifeIconInventoryBar(),
                 UI(textureManager, HUDElementsUV, 2, UIAnchor::BOTTOM_CENTER),
                 Transform2D(
                     position + glm::vec2(0, 0),
@@ -102,6 +103,18 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
                     0,
                     glm::vec2(1, 1)
                 )
+            ),
+
+            // Bottom Bar Key
+            world.create_entity(
+                UI(textureManager, HUDElementsUV, 6, UIAnchor::BOTTOM_CENTER),
+                PlayerKeyIcon(),
+                Transform2D(
+                    position + glm::vec2(72, 8),
+                    0,
+                    glm::vec2(1, 1)
+                ),
+                ZIndex(1)
             ),
 
             // Bottom Bar Spell A

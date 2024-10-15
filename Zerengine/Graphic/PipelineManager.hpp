@@ -4,13 +4,6 @@
 
 class PipelineManager final: public IResource {
 public:
-    ~PipelineManager() {
-        for (auto& pair: pipelines) {
-            delete pair.second;
-        }
-    }
-
-public:
     template <typename T>
     [[nodiscard]] T& get(VulkanEngine& newEngine, const VkRenderPass& newRenderPass) {
         auto pipelineIt = pipelines.find(typeid(T).hash_code());
@@ -18,19 +11,16 @@ public:
             pipelineIt = pipelines.emplace(
                 std::piecewise_construct,
                 std::forward_as_tuple(typeid(T).hash_code()),
-                std::forward_as_tuple(new T(newEngine, newRenderPass))
+                std::forward_as_tuple(std::move(std::make_unique<T>(newEngine, newRenderPass)))
             ).first;
         }
-        return *static_cast<T*>(pipelineIt->second);
+        return *static_cast<T*>(pipelineIt->second.get());
     }
 
     void clear() {
-        for (auto& pair: pipelines) {
-            delete pair.second;
-        }
         pipelines.clear();
     }
 
 private:
-    std::unordered_map<std::size_t, IGraphicsPipeline*> pipelines;
+    std::unordered_map<std::size_t, std::unique_ptr<IGraphicsPipeline>> pipelines;
 };

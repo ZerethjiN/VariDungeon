@@ -18,7 +18,7 @@ Ent instantiateMiniRockSpawner(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
-        Loots({{LOOT_TYPE_XP, 2, 3}}),
+        Loots({{LootType::XP, 2, 3}}),
         ZIndex(0),
         Life(2),
         Collider(-8 / 2, -8 / 2, 8, 8)

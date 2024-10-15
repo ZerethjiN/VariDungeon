@@ -10,11 +10,30 @@ void openDoorSys(MainFixedSystem, World& world) {
     auto enemies = world.view(with<Enemy>);
 
     if (enemies.empty()) {
-        auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger>);
+        auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger, IsDoorWithKey>);
 
         for (auto [doorEnt]: doors) {
             world.remove_components<Sprite, Collider, IsDoorLock>(doorEnt);
             world.add_components(doorEnt, Trigger(-32 / 2, -8 / 2, 32, 8));
+        }
+    }
+}
+
+void openDoorWithKeySys(MainFixedSystem, World& world) {
+    auto doors = world.view<const OnCollisionEnter>(with<IsDoorLock, IsDoorWithKey>, without<Trigger>);
+
+    for (auto [_, door_collision]: doors) {
+        for (const auto& oth_ent: door_collision) {
+            if (world.has_components<IsPlayerKey>(oth_ent)) {
+                for (auto [door_ent]: world.view(with<Sprite, Collider, IsDoorLock, IsDoorWithKey>, without<Trigger>)) {
+                    world.remove_components<Sprite, Collider, IsDoorLock, IsDoorWithKey>(door_ent);
+                    world.add_components(door_ent, Trigger(-32 / 2, -8 / 2, 32, 8));
+                }
+                world.remove_components<IsPlayerKey>(oth_ent);
+                for (auto [_, keyUI]: world.view<UI>(with<PlayerKeyIcon>)) {
+                    keyUI.setTextureRect(HUDElementsUV[6]);
+                }
+            }
         }
     }
 }

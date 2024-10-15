@@ -37,3 +37,4 @@ private:
 };
 
 class IsDoorLock final: public IComponent {};
+class IsDoorWithKey final: public IComponent {};

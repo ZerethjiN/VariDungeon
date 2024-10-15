@@ -31,7 +31,7 @@ Ent instantiateRockBoss(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
-        Loots({{LOOT_TYPE_XP, 4, 6}}),
+        Loots({{LootType::XP, 4, 6}}),
         ZIndex(0),
         Life(20),
         Velocity(),

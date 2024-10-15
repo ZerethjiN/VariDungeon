@@ -32,6 +32,8 @@ public:
     }
 
     void cleanupSwapChain() override {
+        vkDeviceWaitIdle(engine.device);
+
         for (auto framebuffer: offscreenFrameBuffers) {
             vkDestroyFramebuffer(engine.device, framebuffer, nullptr);
         }

@@ -9,12 +9,12 @@
 
 void testScene(SceneSystem, World& world) {
     // Purge
-    // auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
-    // textureManager.clear();
-    // fontManager.clear();
-    // pipelineManager.clear();
+    auto [textureManager, fontManager, pipelineManager] = world.resource<TextureManager, FontManager, PipelineManager>();
+    textureManager.clear(world);
+    fontManager.clear();
+    pipelineManager.clear();
 
-    auto [textureManager] = world.resource<TextureManager>();
+    // auto [textureManager] = world.resource<TextureManager>();
 
     // AppState
     auto [appstate] = world.resource<AppState>();

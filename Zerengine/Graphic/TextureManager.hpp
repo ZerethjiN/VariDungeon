@@ -16,28 +16,21 @@ public:
     }
 
 public:
-    ~TextureManager() {
-        for (auto& pair: textures) {
-            delete pair.second;
-        }
-    }
-
-public:
-    [[nodiscard]] const Texture& operator[](const std::string& newFilename) {
+    [[nodiscard]] std::shared_ptr<Texture> operator[](const std::string& new_filename) {
         std::unique_lock<std::mutex> lock(mtx);
-        if (!textures.contains(newFilename)) {
+        if (!textures.contains(new_filename)) {
             textures.emplace(
                 std::piecewise_construct,
-                std::forward_as_tuple(newFilename),
-                std::forward_as_tuple(new Texture(newFilename))
+                std::forward_as_tuple(new_filename),
+                std::forward_as_tuple(std::make_shared<Texture>(new_filename))
             );
         }
-        return *static_cast<Texture*>(textures.at(newFilename));
+        return textures.at(new_filename);
     }
 
     void clear(World& world) noexcept; // Define in "Sprite.hpp"
 
 private:
-    std::unordered_map<std::string, Texture*> textures;
+    std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
     std::mutex mtx;
 };

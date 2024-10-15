@@ -4,13 +4,6 @@
 
 class FrameBufferManager final: public IResource {
 public:
-    ~FrameBufferManager() {
-        for (auto& pair: frameBuffers) {
-            delete pair.second;
-        }
-    }
-
-public:
     template <typename T>
     [[nodiscard]] T& get(VulkanEngine& newEngine) {
         auto pipelineIt = frameBuffers.find(typeid(T).hash_code());
@@ -18,20 +11,17 @@ public:
             pipelineIt = frameBuffers.emplace(
                 std::piecewise_construct,
                 std::forward_as_tuple(typeid(T).hash_code()),
-                std::forward_as_tuple(new T(newEngine))
+                std::forward_as_tuple(std::make_unique<T>(newEngine))
             ).first;
-            newEngine.frameBuffers.emplace_back(pipelineIt->second);
+            newEngine.frameBuffers.emplace_back(pipelineIt->second.get());
         }
-        return *static_cast<T*>(pipelineIt->second);
+        return *static_cast<T*>(pipelineIt->second.get());
     }
 
     void clear() {
-        for (auto& pair: frameBuffers) {
-            delete pair.second;
-        }
         frameBuffers.clear();
     }
 
 private:
-    std::unordered_map<std::size_t, IFrameBuffer*> frameBuffers;
+    std::unordered_map<std::size_t, std::unique_ptr<IFrameBuffer>> frameBuffers;
 };

@@ -6,13 +6,22 @@ class Life final: public IComponent {
 public:
     Life(float newNbLife):
         nbLife(newNbLife),
-        curNbLife(newNbLife) {
+        curNbLife(newNbLife),
+        curNbShield(0) {
     }
 
     Life& operator -=(float damage) {
-        curNbLife -= damage;
-        if (curNbLife < 0) {
-            curNbLife = 0;
+        if (curNbShield > 0) {
+            curNbShield -= damage;
+            if (curNbShield < 0) {
+                // curNbLife += curNbShield;
+                curNbShield = 0;
+            }
+        } else {
+            curNbLife -= damage;
+            if (curNbLife < 0) {
+                curNbLife = 0;
+            }
         }
         return *this;
     }
@@ -23,6 +32,13 @@ public:
             curNbLife = nbLife;
         }
         return *this;
+    }
+
+    void addShield(float newShield) {
+        curNbShield += newShield;
+        if (curNbShield > nbLife) {
+            curNbShield = nbLife;
+        }
     }
 
     void increaseMaxLife(float newAmount) {
@@ -42,7 +58,13 @@ public:
         return nbLife;
     }
 
+    float getCurNbShield() const {
+        return curNbShield;
+    }
+
 private:
     float nbLife;
     float curNbLife;
+
+    float curNbShield;
 };

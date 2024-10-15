@@ -52,3 +52,13 @@ private:
     const float speed;
     const Ent targetEnt;
 };
+
+class LootCallback final: public IComponent {
+public:
+    LootCallback(std::function<void(World&, const Ent&, const Ent&)> new_callback):
+        callback(new_callback) {
+    }
+
+public:
+    std::function<void(World&, const Ent&, const Ent&)> callback;
+};

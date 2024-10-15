@@ -4,8 +4,8 @@
 
 class PlayerCoin final: public IComponent {
 public:
-    PlayerCoin():
-        curCoin(100) {
+    PlayerCoin(float new_coins):
+        curCoin(new_coins) {
     }
 
     PlayerCoin& operator +=(float newAmount) {

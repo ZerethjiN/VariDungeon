@@ -56,7 +56,7 @@ void breakableHitSys(MainFixedSystem, World& world) {
                     zindex = -3;
                     // animation.play(breakable.destroyedAnimName);
 
-                    std::vector<std::size_t> newLoots;
+                    std::vector<LootType> newLoots;
                     if (!loots.empty()) {
                         auto rndLootType = rand() % loots.size();
                         const auto& loot = loots[rndLootType];

@@ -9,10 +9,10 @@
 
 void hubScene(SceneSystem, World& world) {
     // Purge
-    // auto [textureManager, fontManager, pipelineManager, time] = world.resource<TextureManager, FontManager, PipelineManager, Time>();
-    // textureManager.clear();
-    // fontManager.clear();
-    // pipelineManager.clear();
+    auto [textureManager, fontManager, pipelineManager] = world.resource<TextureManager, FontManager, PipelineManager>();
+    textureManager.clear(world);
+    fontManager.clear();
+    pipelineManager.clear();
 
     // AppState
     auto [appstate] = world.resource<AppState>();
@@ -45,7 +45,7 @@ void hubScene(SceneSystem, World& world) {
     cellMat[7].isDownOpen = true;
 
     auto beginingRoomEnt = instantiateHubBeginingRoom(world, glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
-    addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
+    addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen, false);
 
     newTables.emplace_back(
         12,
@@ -53,7 +53,7 @@ void hubScene(SceneSystem, World& world) {
     );
 
     auto kingsRoomEnt = instantiateHubKingsRoom(world, glm::vec2(2 * 160, 1 * 128), width, height, 7, cellMat[7].isUpOpen, cellMat[7].isDownOpen, cellMat[7].isLeftOpen, cellMat[7].isRightOpen);
-    addDoors(world, kingsRoomEnt, glm::ivec2(2, 1), glm::vec2(2 * 160, 1 * 128), width, height, 7, cellMat, cellMat[7].isUpOpen, cellMat[7].isDownOpen, cellMat[7].isLeftOpen, cellMat[7].isRightOpen);
+    addDoors(world, kingsRoomEnt, glm::ivec2(2, 1), glm::vec2(2 * 160, 1 * 128), width, height, 7, cellMat, cellMat[7].isUpOpen, cellMat[7].isDownOpen, cellMat[7].isLeftOpen, cellMat[7].isRightOpen, false);
 
     newTables.emplace_back(
         7,

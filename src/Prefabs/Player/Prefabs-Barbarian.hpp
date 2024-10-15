@@ -15,7 +15,7 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             Barbarian(),
             PlayerXp(25),
             Life(5),//(5),
-            PlayerCoin(),
+            PlayerCoin(0),
             PlayerDamage(1),//(1),
             PlayerBonuses(),
             PlayerFloor(

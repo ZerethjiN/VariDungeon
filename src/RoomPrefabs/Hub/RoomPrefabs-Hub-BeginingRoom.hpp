@@ -21,9 +21,9 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
     // Background Tiles:
     std::vector<TileMapTileInfo> backgroundTiles {
         tileMapDesertUV[ 14], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 10], tileMapDesertUV[ 15],
-        tileMapDesertUV[ 13], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  1], tileMapDesertUV[  1], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 13], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
-        tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[  1], tileMapDesertUV[  1], tileMapDesertUV[  5], tileMapDesertUV[  6], tileMapDesertUV[ 30], tileMapDesertUV[ 30],
+        tileMapDesertUV[ 13], tileMapDesertUV[ 26], tileMapDesertUV[ 27], tileMapDesertUV[ 30], tileMapDesertUV[  1], tileMapDesertUV[  1], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 13], tileMapDesertUV[ 28], tileMapDesertUV[ 29], tileMapDesertUV[ 30], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
+        tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  1], tileMapDesertUV[  1], tileMapDesertUV[  5], tileMapDesertUV[  6], tileMapDesertUV[ 30], tileMapDesertUV[ 30],
         tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  5], tileMapDesertUV[  6], tileMapDesertUV[  1], tileMapDesertUV[  1], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[ 30], tileMapDesertUV[ 30],
         tileMapDesertUV[ 13], tileMapDesertUV[ 30], tileMapDesertUV[  6], tileMapDesertUV[  6], tileMapDesertUV[  1], tileMapDesertUV[  4], tileMapDesertUV[  5], tileMapDesertUV[  5], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
         tileMapDesertUV[ 13], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[  4], tileMapDesertUV[  1], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 30], tileMapDesertUV[ 11],
@@ -90,6 +90,9 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
                 glm::vec2(1, 1)
             )
         ),
+
+        // Talent Sphere:
+        instantiateTalentSphere(world, position + glm::vec2(-56, -44)),
 
         // Decors:
         instantiateColumn(world, position + glm::vec2(32, 8)),

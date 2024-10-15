@@ -11,4 +11,7 @@ static const ImageAsset HUDElementsUV("Textures/HUDElements.png", {
     {{ 24,   0,  8, 8}, {0.5f, 0.5f}}, //  4: Xp Icon
 
     {{ 80,   0, 16, 16}, {0.5f, 0.5f}}, // 5: Coin Icon
+
+    {{ 64,   0,  8, 16}, {0.5f, 0.5f}}, // 6: Key Empty
+    {{ 72,   0,  8, 16}, {0.5f, 0.5f}}, // 7: Key Full
 });

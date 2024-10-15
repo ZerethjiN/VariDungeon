@@ -12,7 +12,8 @@ Ent instantiateSpike(World& world, const glm::vec2& position) {
         Damage(1),
         Spike(1.0f, 1.0f),
         IsSpikeDown(1.0f),
-        Sprite(textureManager, spikeUV, 0),
+        Sprite(textureManager, spikeUV),
+        Animation(spikeAnim, SpikeAnimType::DOWN),
         Transform2D(
             position,
             0,

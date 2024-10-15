@@ -4,7 +4,7 @@
 
 class EnemyDropLoots final: public IComponent {
 public:
-    EnemyDropLoots(const std::initializer_list<size_t>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
+    EnemyDropLoots(const std::initializer_list<LootType>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
         loots(newLoots),
         subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
         curSubDropDuration(0),
@@ -12,7 +12,7 @@ public:
         curNbDropPerSubDrop(0) {
     }
 
-    EnemyDropLoots(const std::vector<size_t>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
+    EnemyDropLoots(const std::vector<LootType>& newLoots, float newTotalDuration, std::size_t newNbDropPerSubDrop):
         loots(newLoots),
         subDropDuration(newTotalDuration / std::ceilf(static_cast<float>(newLoots.size()) / static_cast<float>(newNbDropPerSubDrop))),
         curSubDropDuration(0),
@@ -53,12 +53,12 @@ public:
         return curNbDropPerSubDrop;
     }
 
-    size_t operator[](size_t index) const {
+    LootType operator[](size_t index) const {
         return loots[index];
     }
 
 private:
-    const std::vector<size_t> loots;
+    const std::vector<LootType> loots;
     
     const float subDropDuration;
     float curSubDropDuration;

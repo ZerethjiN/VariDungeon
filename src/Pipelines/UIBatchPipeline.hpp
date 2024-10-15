@@ -21,6 +21,7 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <bit>
 
 #include <Zerengine.hpp>
 
@@ -134,16 +135,16 @@ public:
 
     void addUI(const UI& ui, Transform2D& transform, const ZreView& view) {
         std::uint32_t textureIdx = 0;
-        if (auto textureHashsIt = textureHashs.find(ui.texture.textureImage); textureHashsIt != textureHashs.end()) {
+        if (auto textureHashsIt = textureHashs.find(ui.texture->textureImage); textureHashsIt != textureHashs.end()) {
             textureIdx = textureHashsIt->second;
         } else {
             textureIdx = textures.size();
             textureHashs.emplace(
-                ui.texture.textureImage,
+                ui.texture->textureImage,
                 textureIdx
             );
             textures.emplace_back(
-                &ui.texture
+                ui.texture
             );
             for (auto& needRefreshPair: needRefreshTextures) {
                 needRefreshPair.first = true;
@@ -235,7 +236,7 @@ public:
         ui.updateVertices();
 
         int i = 0;
-        for (const auto* texture: ui.textures) {
+        for (const auto& texture: ui.textures) {
             if (texture != nullptr) {
                 std::uint32_t textureIdx = 0;
                 if (auto textureHashsIt = textureHashs.find(texture->textureImage); textureHashsIt != textureHashs.end()) {
@@ -280,6 +281,7 @@ public:
     void end() {
         if (sprites[engine.getCurFrame()].size() * sizeof(StorageBufferObject) > lastVertexStorageBufferSizes[engine.getCurFrame()]) {
             if (lastVertexStorageBufferSizes[engine.getCurFrame()] > 0) {
+                vkUnmapMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()]);
                 vkDestroyBuffer(engine.device, vertexStorageBuffers[engine.getCurFrame()], nullptr);
                 vkFreeMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()], nullptr);
             }
@@ -373,7 +375,7 @@ public:
     std::array<void*, VulkanEngine::MAX_FRAMES_IN_FLIGHT> vertexStorageBuffersMapped;
 
 public:
-    std::vector<const Texture*> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
     std::unordered_map<VkImage, std::size_t> textureHashs;
 
 public:

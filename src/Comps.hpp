@@ -40,6 +40,7 @@
 
 // Decors:
 #include "Comps/Decors/Comps-King.hpp"
+#include "Comps/Decors/Comps-TalentSphere.hpp"
 #include "Comps/Decors/Comps-Wall.hpp"
 #include "Comps/Decors/Comps-Warp.hpp"
 
@@ -78,7 +79,9 @@
 // GroundItems:
 #include "Comps/GroundItems/Comps-BonusSphere.hpp"
 #include "Comps/GroundItems/Comps-CoinGroundItem.hpp"
+#include "Comps/GroundItems/Comps-Key.hpp"
 #include "Comps/GroundItems/Comps-LifeGroundItem.hpp"
+#include "Comps/GroundItems/Comps-ShieldGroundItem.hpp"
 #include "Comps/GroundItems/Comps-XpGroundItem.hpp"
 
 // HUD:
@@ -90,6 +93,7 @@
 #include "Comps/HUD/Comps-MenuBonus.hpp"
 #include "Comps/HUD/Comps-MenuChest.hpp"
 #include "Comps/HUD/Comps-PauseMenu.hpp"
+#include "Comps/HUD/Comps-TalentSphereMenu.hpp"
 
 // NPC:
 #include "Comps/NPC/Comps-Merchant.hpp"
@@ -101,6 +105,7 @@
 #include "Comps/Player/Comps-PlayerCoin.hpp"
 #include "Comps/Player/Comps-PlayerFloor.hpp"
 #include "Comps/Player/Comps-PlayerFrenzy.hpp"
+#include "Comps/Player/Comps-PlayerKey.hpp"
 #include "Comps/Player/Comps-PlayerLife.hpp"
 #include "Comps/Player/Comps-PlayerXp.hpp"
 

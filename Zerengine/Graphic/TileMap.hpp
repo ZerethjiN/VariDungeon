@@ -66,8 +66,8 @@ public:
                 const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].first.getCurImage().spriteRect;
                 const glm::vec2& origin = tiles[i + j * tilemapSize.x].first.getCurImage().origin;
 
-                const Texture& texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
-                const glm::ivec2 originalTextureSize(texture.size);
+                const std::shared_ptr<Texture> texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
+                const glm::ivec2 originalTextureSize(texture->size);
 
                 auto& quad = tiles[i + j * tilemapSize.x].second;
 
@@ -102,8 +102,8 @@ public:
             for (unsigned int j = 0; j < tilemapSize.y; ++j) {
                 const glm::uvec4& tileRect = tiles[i + j * tilemapSize.x].first.getCurImage(delta).spriteRect;
 
-                const Texture& texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
-                const glm::ivec2 originalTextureSize(texture.size);
+                const std::shared_ptr<Texture> texture = textureManager[tiles[i + j * tilemapSize.x].first.getCurImage().filename];
+                const glm::ivec2 originalTextureSize(texture->size);
 
                 auto& quad = tiles[i + j * tilemapSize.x].second;
 

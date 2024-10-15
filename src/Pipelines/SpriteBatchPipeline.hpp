@@ -21,6 +21,7 @@
 #include <optional>
 #include <set>
 #include <unordered_map>
+#include <bit>
 
 #include <Zerengine.hpp>
 
@@ -58,8 +59,8 @@ public:
     };
 
 public:
-    SpriteBatchPipeline(VulkanEngine& newEngine, const VkRenderPass& newRenderPass):
-        IGraphicsPipeline(newEngine, newRenderPass, 1, {
+    SpriteBatchPipeline(VulkanEngine& engine, const VkRenderPass& newRenderPass):
+        IGraphicsPipeline(engine, newRenderPass, 1, {
             {
                 .stageFlags = VK_SHADER_STAGE_VERTEX_BIT,
                 .offset = 0,
@@ -150,18 +151,18 @@ public:
         sprites[engine.getCurFrame()].reserve(nbSprites);
     }
 
-    std::uint32_t getTextureIdx(const Texture& texture) {
+    std::uint32_t getTextureIdx(std::shared_ptr<Texture> texture) {
         std::uint32_t textureIdx = 0;
-        if (auto textureHashsIt = textureHashs.find(texture.textureImage); textureHashsIt != textureHashs.end()) {
+        if (auto textureHashsIt = textureHashs.find(texture->textureImage); textureHashsIt != textureHashs.end()) {
             textureIdx = textureHashsIt->second;
         } else {
             textureIdx = textures.size();
             textureHashs.emplace(
-                texture.textureImage,
+                texture->textureImage,
                 textureIdx
             );
             textures.emplace_back(
-                &texture
+                texture
             );
             for (auto& needRefreshPair: needRefreshTextures) {
                 needRefreshPair.first = true;
@@ -286,7 +287,7 @@ public:
     void addText(Text& ui, Transform2D& transform) {
         ui.updateVertices();
         int i = 0;
-        for (const auto* texture: ui.textures) {
+        for (auto& texture: ui.textures) {
             if (texture != nullptr) {
                 sprites[vulkanEngine.getCurFrame()].emplace_back(
                     std::array<SSBOVertex, 4>{
@@ -297,7 +298,7 @@ public:
                     },
                     transform.getModel(),
                     ui.color / 255.f,
-                    getTextureIdx(*texture),
+                    getTextureIdx(texture),
                     0,
                     1,
                     0,
@@ -318,6 +319,7 @@ public:
     void end() {
         if (sprites[engine.getCurFrame()].size() * sizeof(StorageBufferObject) > lastVertexStorageBufferSizes[engine.getCurFrame()]) {
             if (lastVertexStorageBufferSizes[engine.getCurFrame()] > 0) {
+                vkUnmapMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()]);
                 vkDestroyBuffer(engine.device, vertexStorageBuffers[engine.getCurFrame()], nullptr);
                 vkFreeMemory(engine.device, vertexStorageBuffersMemory[engine.getCurFrame()], nullptr);
             }
@@ -410,7 +412,7 @@ private:
     std::array<VkDeviceMemory, VulkanEngine::MAX_FRAMES_IN_FLIGHT> vertexStorageBuffersMemory;
     std::array<void*, VulkanEngine::MAX_FRAMES_IN_FLIGHT> vertexStorageBuffersMapped;
 
-    std::vector<const Texture*> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
     std::unordered_map<VkImage, std::size_t> textureHashs;
 
     std::array<std::vector<StorageBufferObject>, VulkanEngine::MAX_FRAMES_IN_FLIGHT> sprites;

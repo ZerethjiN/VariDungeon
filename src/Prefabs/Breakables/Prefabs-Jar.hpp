@@ -18,8 +18,9 @@ Ent instantiateJar(World& world, const glm::vec2& position) {
             glm::vec2(1, 1)
         ),
         Loots({
-            {LOOT_TYPE_COIN, 2, 3},
-            {LOOT_TYPE_HEART, 1, 1}
+            {LootType::COIN, 2, 3},
+            {LootType::HEART, 1, 1},
+            {LootType::SHIELD, 1, 1},
         }),
         OnBreakableHit([](World& world, Ent thisEnt) {
             if (auto opt = world.get_components<Animation>(thisEnt)) {
