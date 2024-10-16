@@ -183,7 +183,7 @@ int main() {
         .add_systems(ThreadedFixedSet(
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME;
+                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Enemy>).empty();
             },
             {
                 ThreadedFixedSet( // Mummy Threads
@@ -209,6 +209,21 @@ int main() {
                         return !world.view(with<Spectre>).empty();
                     },
                     {spectreMoveSys, spectreVanishSys, spectreCastSys}
+                ),
+
+                // Boss Threads
+                ThreadedFixedSet(
+                    [](World& world) -> bool {
+                        return !world.view(with<Boss>).empty();
+                    },
+                    {
+                        ThreadedFixedSet( // Shadow Boss Threads
+                            [](World& world) -> bool {
+                                return !world.view(with<ShadowBoss>).empty();
+                            },
+                            {shadow_boss_move_sys, shadow_boss_pre_laser_sys, shadow_boss_laser_sys, shadow_boss_shadow_mark_duration_sys, shadow_boss_shadow_mark_invocation_sys, shadow_boss_minion_pre_spawn_sys, shadowMinionSys, shadow_boss_shadow_explosion_sys}
+                        ),
+                    }
                 ),
             }
         ))

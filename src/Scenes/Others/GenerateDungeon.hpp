@@ -647,10 +647,11 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
 };
 
 static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabBossRoomDeserts = {
-    instantiateDesertBossRoom1,
-    instantiateDesertBossRoom2,
-    instantiateDesertBossRoom3,
-    instantiateDesertBossRoom4,
+    // instantiateDesertBossRoom1,
+    // instantiateDesertBossRoom2,
+    // instantiateDesertBossRoom3,
+    // instantiateDesertBossRoom4,
+    instantiateFinalBossRoom,
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t curFloor) {
@@ -697,7 +698,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     std::size_t primaryCell = rand() % (height * width);
                     cellMat[primaryCell].isActive = true;
                     cellMat[primaryCell].isPrimary = true;
-                    checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
+                    checkGen = newGenCell(width, height, primaryCell, 2, 1/*9, 5*/, cellMat);
                 } while(!checkGen);
             }
             break;

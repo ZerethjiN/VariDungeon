@@ -232,6 +232,11 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                     }
                 }
             }
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::EXIT) && !world.view(with<MenuBonusMerchant>).empty()) { 
+            world.remove_components<MenuBonusSelector, UI, Animation>(selectorEnt);
+            for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
+                world.add_components(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
+            }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
             for (auto [bonusRowEnt, bonusRowIconTransform, bonusRow]: world.view<Transform2D, const BonusRow>()) {
                 if (bonusRow.id == selector.getCurElement()) {

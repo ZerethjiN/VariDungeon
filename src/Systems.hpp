@@ -54,6 +54,7 @@
 #include "Systems/Enemies/Enemies/Systems-Roboboule.hpp"
 #include "Systems/Enemies/Enemies/Systems-RockInsect.hpp"
 #include "Systems/Enemies/Enemies/Systems-Scorpion.hpp"
+#include "Systems/Enemies/Enemies/Systems-ShadowMinion.hpp"
 #include "Systems/Enemies/Enemies/Systems-Slime.hpp"
 #include "Systems/Enemies/Enemies/Systems-Spectre.hpp"
 #include "Systems/Enemies/Enemies/Systems-VoidSlime.hpp"

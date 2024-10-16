@@ -66,6 +66,7 @@
 #include "Comps/Enemies/Enemies/Comps-Roboboule.hpp"
 #include "Comps/Enemies/Enemies/Comps-RockInsect.hpp"
 #include "Comps/Enemies/Enemies/Comps-Scorpion.hpp"
+#include "Comps/Enemies/Enemies/Comps-ShadowMinion.hpp"
 #include "Comps/Enemies/Enemies/Comps-Slime.hpp"
 #include "Comps/Enemies/Enemies/Comps-Spectre.hpp"
 #include "Comps/Enemies/Enemies/Comps-VoidSlime.hpp"

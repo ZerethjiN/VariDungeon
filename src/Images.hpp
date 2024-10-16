@@ -60,6 +60,7 @@
 #include "Images/Enemies/Enemies/Images-Roboboule.hpp"
 #include "Images/Enemies/Enemies/Images-RockInsect.hpp"
 #include "Images/Enemies/Enemies/Images-Scorpion.hpp"
+#include "Images/Enemies/Enemies/Images-ShadowMinion.hpp"
 #include "Images/Enemies/Enemies/Images-Slime.hpp"
 #include "Images/Enemies/Enemies/Images-Spectre.hpp"
 #include "Images/Enemies/Enemies/Images-VoidSlime.hpp"

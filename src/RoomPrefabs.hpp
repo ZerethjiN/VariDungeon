@@ -3,12 +3,14 @@
 // Desert:
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-BeginingRoom.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-BonusRoom.hpp"
-#include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom1.hpp"
-#include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom2.hpp"
-#include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom3.hpp"
-#include "RoomPrefabs/Desert/RoomPrefabs-Desert-BossRoom4.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-KeyRoom.hpp"
 #include "RoomPrefabs/Desert/RoomPrefabs-Desert-TestRoom.hpp"
+
+// Desert Bosses:
+#include "RoomPrefabs/Desert/BossRoom/RoomPrefabs-Desert-BossRoom1.hpp"
+#include "RoomPrefabs/Desert/BossRoom/RoomPrefabs-Desert-BossRoom2.hpp"
+#include "RoomPrefabs/Desert/BossRoom/RoomPrefabs-Desert-BossRoom3.hpp"
+#include "RoomPrefabs/Desert/BossRoom/RoomPrefabs-Desert-BossRoom4.hpp"
 
 // Desert Lvl1:
 #include "RoomPrefabs/Desert/RoomLvl1/RoomPrefabs-Desert-Room1.hpp"
@@ -59,5 +61,6 @@
 
 
 
-// Other:
-#include "RoomPrefabs/Other/RoomPrefabs-MerchantRoom.hpp"
+// Common:
+#include "RoomPrefabs/Common/RoomPrefabs-FinalBossRoom.hpp"
+#include "RoomPrefabs/Common/RoomPrefabs-MerchantRoom.hpp"

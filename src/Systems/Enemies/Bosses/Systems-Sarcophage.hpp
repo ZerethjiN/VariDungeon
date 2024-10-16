@@ -185,7 +185,7 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
                 if (shockwave_hit) {
                     world.create_entity(
                         EnemyWeapon(),
-                        Damage(1),
+                        Damage(4),
                         Transform2D(
                             enemyTransform.getPosition(),
                             0,
