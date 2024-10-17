@@ -32,8 +32,9 @@ Ent instantiateShadowBoss(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.create_entity(
         Boss(),
+        FinalBoss(),
         Enemy(),
-        EnemyPreSpawn(0.5f, 2),
+        EnemyPreSpawn(2.0f, 2),
         ShadowBoss(
             /*Move Duration:*/ 1.0f,
             /*Pre Laser Duration:*/ 0.75f,
@@ -53,7 +54,9 @@ Ent instantiateShadowBoss(World& world, const glm::vec2& position) {
             0,
             glm::vec2(1, 1)
         ),
-        Loots({{LootType::XP, 4, 6}}),
+        Loots({
+            {LootType::KING, 1, 1}
+        }),
         ZIndex(0),
         Life(40),
         Velocity(),

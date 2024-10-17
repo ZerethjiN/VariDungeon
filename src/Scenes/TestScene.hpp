@@ -32,13 +32,15 @@ void testScene(SceneSystem, World& world) {
     );
 
     std::size_t curFloor = 0;
-    bool canLoadMerchantRoom = false;
-    for (auto [_, playerFloor]: world.view<const PlayerFloor>()) {
-        curFloor = playerFloor.curFloor;
-        canLoadMerchantRoom = playerFloor.canLoadMerchantRoom;
+    bool can_load_merchant_room = false;
+    bool can_load_final_boss_room = false;
+    for (auto [_, player_floor]: world.view<const PlayerFloor>()) {
+        curFloor = player_floor.cur_floor;
+        can_load_merchant_room = player_floor.can_load_merchant_room;
+        can_load_final_boss_room = player_floor.can_load_final_boss_room;
     }
 
-    if (canLoadMerchantRoom) {
+    if (can_load_merchant_room) {
         // Rooms Generation:
         // Create New Table:
         std::vector<std::pair<const std::size_t, Ent>> newTables;
@@ -51,7 +53,106 @@ void testScene(SceneSystem, World& world) {
         cellMat[12].isPrimary = true;
 
         auto beginingRoomEnt = instantiateMerchantRoom(world, glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
-        // addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
+        addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, false, false, false, false, false);
+
+        newTables.emplace_back(
+            12,
+            beginingRoomEnt
+        );
+
+        // Chunk Exploration Init:
+        std::vector<std::vector<ChunkExploration::RoomExplorationType>> roomTypes;
+        for (int y = 0; y < height; y++) {
+            roomTypes.emplace_back();
+            for (int x = 0; x < width; x++) {
+                if (cellMat[y * width + x].isPrimary) {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_PLAYER);
+                } else if (cellMat[y * width + x].isActive) {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_UNKNOW);
+                } else {
+                    roomTypes.at(y).emplace_back(ChunkExploration::ROOM_EXPLORATION_EMPTY);
+                }
+            }
+        }
+
+        // ChunkTable recreation:
+        world.create_entity(
+            ChunkTable(width, height, newTables),
+            ChunkExploration(width, height, roomTypes)
+        );
+
+        // Spawn Player + Camera:
+        auto players = world.view<Transform2D>(with<Player>);
+        if (players.empty()) {
+            auto playerEnt = instantiateBarbarian(world, glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
+            world.addDontDestroyOnLoad(playerEnt);
+        } else {
+            for (auto [_, playerTransform]: players) {
+                playerTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
+            }
+        }
+
+        auto cameras = world.view(with<CurCamera>);
+        if (cameras.empty()) {
+            auto cameraOrigin = world.create_entity(
+                Transform2D(
+                    glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
+                    0,
+                    glm::vec2(1, 1)
+                )
+            );
+
+            world.append_children(cameraOrigin, {
+                // Camera
+                world.create_entity(
+                    Transform2D(
+                        glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0),// + glm::vec2(160 * 2, 144 * 2),
+                        0,
+                        glm::vec2(1, 1)
+                    ),
+                    Camera(),
+                    CurCamera(),
+                    CameraEffect()
+                )
+            });
+
+            world.addDontDestroyOnLoad(cameraOrigin);
+        } else {
+            for (auto [curCameraEnt]: cameras) {
+                if (auto opt = world.get_parent(curCameraEnt)) {
+                    if (auto optTransform = world.get_components<Transform2D>(opt.value())) {
+                        auto [parentTransform] = optTransform.value();
+                        parentTransform.setPosition(glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, 0));
+                    }
+                }
+            }
+
+            for (auto [cameraEnt]: world.view(with<CameraShake>)) {
+                if (world.has_components<CameraShake>(cameraEnt)) {
+                    world.remove_components<CameraShake>(cameraEnt);
+                }
+                if (world.has_components<CameraShakeLeft>(cameraEnt)) {
+                    world.remove_components<CameraShakeLeft>(cameraEnt);
+                }
+                if (world.has_components<CameraShakeRight>(cameraEnt)) {
+                    world.remove_components<CameraShakeRight>(cameraEnt);
+                }
+            }
+        }
+    } else if (can_load_final_boss_room) {
+        // Rooms Generation:
+        // Create New Table:
+        std::vector<std::pair<const std::size_t, Ent>> newTables;
+        std::size_t height = 5;
+        std::size_t width = 5;
+
+        // Generate Cells:
+        std::vector<RoomCellInfo> cellMat(height * width);
+        cellMat[12].isActive = true;
+        cellMat[12].isPrimary = true;
+
+        auto beginingRoomEnt = instantiateFinalBossRoom(world, glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat[12].isUpOpen, cellMat[12].isDownOpen, cellMat[12].isLeftOpen, cellMat[12].isRightOpen);
+        addDoors(world, beginingRoomEnt, glm::ivec2(2, 2), glm::vec2(2 * 160, 2 * 128), width, height, 12, cellMat, false, false, false, false, false);
 
         newTables.emplace_back(
             12,

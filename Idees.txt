@@ -1,0 +1,21 @@
+
+// Hub:
+// [Hub Debut]
+// [Hub Salle du Roi]
+// [Hub Salle du mode extreme]
+
+// Donjon:
+// [Etage d'Ennemies Niveau 1]
+// [Etage d'Ennemies Niveau 1]
+// [Salle du Marchand]
+// [Etage d'Ennemies Niveau 2]
+// [Etage d'Ennemies Niveau 2]X----[Si on saute dans le portail de l'etage + battue etage des ombres 1x]----> [Etage de la Jungle]
+// [Salle du Marchand]X----[Si on parle au voyageur + battue etage des ombres 1x]----> [Etage de la caverne]
+// [Salle du Boss Final]
+// X----[Si Boss Final Battue 1x]---->[Etage des Ombres]
+
+
+
+// X----[Si Upgrade 3x Bonus Maudit + Battue etage Caverne]----> [Etage Maudit]
+// X----[Si Upgrade 3x Bonus Saint + Battue etage Jungle]----> [Etage Celeste]
+// X----[Si Achat au Marchand d'un Medaillon + Battue Biome Maudit]----> [Etage CHEPAKOI]

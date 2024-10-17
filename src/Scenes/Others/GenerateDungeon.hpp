@@ -647,11 +647,10 @@ static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size
 };
 
 static const std::vector<Ent(*)(World&, const glm::vec2&, std::size_t, std::size_t, std::size_t, bool, bool, bool, bool)> prefabBossRoomDeserts = {
-    // instantiateDesertBossRoom1,
-    // instantiateDesertBossRoom2,
-    // instantiateDesertBossRoom3,
-    // instantiateDesertBossRoom4,
-    instantiateFinalBossRoom,
+    instantiateDesertBossRoom1,
+    instantiateDesertBossRoom2,
+    instantiateDesertBossRoom3,
+    instantiateDesertBossRoom4,
 };
 
 void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t curFloor) {

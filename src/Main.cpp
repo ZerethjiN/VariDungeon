@@ -1,4 +1,4 @@
-#define DISPLAY_FPS
+// #define DISPLAY_FPS
 #define GLM_ENABLE_EXPERIMENTAL
 #define GLFW_INCLUDE_VULKAN
 #include <unordered_map>
@@ -74,7 +74,8 @@ int main() {
             playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
             warpSys, particleGeneratorSys, bombSpreadSys, rerollSys,
             chestOpenSys,
-            
+            unmoveable_timer_sys,
+
             // Attacks:
             shadowMarkPreExplosionSys, shadowMarkExplosionSys,
             groundCrystalAttackCrossSys,

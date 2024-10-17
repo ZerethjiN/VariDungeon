@@ -13,7 +13,7 @@ void startSys(StartSystem, World& world) {
         {static_cast<std::size_t>(ButtonNameType::VALIDATE), {GLFW_KEY_ENTER}},
         {static_cast<std::size_t>(ButtonNameType::B_BUTTON), {GLFW_KEY_SPACE}},
         {static_cast<std::size_t>(ButtonNameType::A_BUTTON), {GLFW_KEY_ENTER}},
-        {static_cast<std::size_t>(ButtonNameType::EXIT), {GLFW_KEY_ESCAPE}},
+        {static_cast<std::size_t>(ButtonNameType::EXIT), {GLFW_KEY_ESCAPE, GLFW_KEY_BACKSPACE}},
         {static_cast<std::size_t>(ButtonNameType::REROLL_BUTTON), {GLFW_KEY_R}},
         {static_cast<std::size_t>(ButtonNameType::MAP_MENU), {GLFW_KEY_M, GLFW_KEY_SEMICOLON}}
     };

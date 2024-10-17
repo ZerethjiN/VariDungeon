@@ -2,6 +2,8 @@
 
 #include <Zerengine.hpp>
 
+class InventoryBar final: public IComponent {};
+
 class CoinIconInventoryBar final: public IComponent {};
 class LifeIconInventoryBar final: public IComponent {};
 class XpIconInventoryBar final: public IComponent {};

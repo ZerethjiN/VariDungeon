@@ -1758,7 +1758,7 @@ public:
     }
 
     template <typename T, typename... Ts> requires ((IsComponentConcept<T> && (IsComponentConcept<Ts> && ...)) && (!std::is_reference_v<T> || (!std::is_reference_v<Ts> || ...)) && (!std::is_const_v<T> || (!std::is_const_v<Ts> || ...)))
-    [[nodiscard("La valeur de retour d'une commande Has doit toujours etre evalue")]] auto hasThisFrame(const Ent& ent) const noexcept -> bool {
+    [[nodiscard("La valeur de retour d'une commande Has doit toujours etre evalue")]] auto has_components_this_frame(const Ent& ent) const noexcept -> bool {
         if (!reg.exist(ent)) {
             return false;
         }
@@ -1794,7 +1794,7 @@ public:
         //     return true;
         // }
         // return false;
-        return hasThisFrame<T, Ts...>(ent);
+        return has_components_this_frame<T, Ts...>(ent);
     }
 
 private:

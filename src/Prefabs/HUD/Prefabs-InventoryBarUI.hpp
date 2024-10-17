@@ -10,6 +10,7 @@ Ent instantiateInventoryBarUI(World& world, const glm::vec2& position) {
     return world.append_children(
         // Parent
         world.create_entity(
+            InventoryBar(),
             UI(textureManager, inventoryBarUV, UIAnchor::BOTTOM_CENTER),
             Transform2D(
                 position,

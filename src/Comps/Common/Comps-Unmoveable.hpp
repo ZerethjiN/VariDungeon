@@ -6,17 +6,15 @@ class Unmoveable final: public IComponent {};
 
 class UnmoveableTimer final: public IComponent {
 public:
-    UnmoveableTimer(float newDuration):
-        duration(newDuration),
-        curTime(0) {
+    UnmoveableTimer(float new_duration):
+        cur_time(new_duration) {
     }
 
-    bool canStopUnmove(float delta) {
-        curTime += delta;
-        return curTime >= duration;
+    bool can_stop_unmove(float delta) {
+        cur_time -= delta;
+        return cur_time < 0;
     }
 
 private:
-    const float duration;
-    float curTime;
+    float cur_time;
 };

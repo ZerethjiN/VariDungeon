@@ -74,6 +74,7 @@
 #include "Prefabs/GroundItems/Prefabs-CoinParticle.hpp"
 #include "Prefabs/GroundItems/Prefabs-HeartParticle.hpp"
 #include "Prefabs/GroundItems/Prefabs-Key.hpp"
+#include "Prefabs/GroundItems/Prefabs-King.hpp"
 #include "Prefabs/GroundItems/Prefabs-ShieldParticle.hpp"
 #include "Prefabs/GroundItems/Prefabs-XpParticle.hpp"
 

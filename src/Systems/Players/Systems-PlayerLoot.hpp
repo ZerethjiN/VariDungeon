@@ -9,13 +9,15 @@
 void playerLootSys(MainFixedSystem, World& world) {
     auto players = world.view<const OnCollisionStay>(with<PlayerAttractor>);
 
-    for (auto [playerEnt, collisions]: players) {
+    for (auto [_, collisions]: players) {
         for (auto othEnt: collisions) {
             if (world.has_components<Lootable>(othEnt)) {
                 world.remove_components<Lootable>(othEnt);
-                world.add_components(othEnt,
-                    LootAttract(128.f, playerEnt)
-                );
+                for (auto [player_ent]: world.view(with<Player>)) {
+                    world.add_components(othEnt,
+                        LootAttract(128.f, player_ent)
+                    );
+                }
                 if (auto opt = world.get_components<Transform2D>(othEnt)) {
                     auto [othTransform] = opt.value();
                     othTransform.scale(0.1f, 0.1f);

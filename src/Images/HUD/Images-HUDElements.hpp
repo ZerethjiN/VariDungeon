@@ -14,4 +14,5 @@ static const ImageAsset HUDElementsUV("Textures/HUDElements.png", {
 
     {{ 64,   0,  8, 16}, {0.5f, 0.5f}}, // 6: Key Empty
     {{ 72,   0,  8, 16}, {0.5f, 0.5f}}, // 7: Key Full
+    {{ 56,   0,  8, 16}, {0.5f, 0.5f}}, // 8: No Key
 });

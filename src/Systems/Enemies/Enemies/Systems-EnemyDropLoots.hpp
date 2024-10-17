@@ -44,6 +44,9 @@ void enemyDropLootsSys(MainFixedSystem, World& world) {
                             32.f
                         );
                         break;
+                    case LootType::KING:
+                        instantiateKingGroundItem(world, transform.getPosition());
+                        break;
                     default:
                         instantiateCoinParticle(
                             world,

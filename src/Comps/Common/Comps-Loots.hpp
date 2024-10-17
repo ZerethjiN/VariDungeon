@@ -7,6 +7,7 @@ enum class LootType: size_t {
     COIN,
     HEART,
     SHIELD,
+    KING,
 };
 
 struct LootTuple final {
