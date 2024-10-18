@@ -53,17 +53,17 @@ Ent instantiateXpParticle(World& world, const glm::vec2& position, float spreadD
                                 appliedCurCameraAberation(world, 8, 0.2);
                             }
 
-                            for (auto [_, xpTextUI]: world.view<TextUI>(with<PlayerXpText>)) {
+                            for (auto [_, xpTextUI]: world.query<TextUI>(with<PlayerXpText>)) {
                                 xpTextUI.setString("XP " + std::to_string(static_cast<int>(playerXp.getCurXp())) + "/" + std::to_string(static_cast<int>(playerXp.getNbXpForNextLvl())));
                             }
 
                             auto xpRatio = playerXp.getCurXp() / playerXp.getNbXpForNextLvl();
 
-                            for (auto [_, xpInnerBarUI, xpInnerBar]: world.view<UI, const PlayerXpBarInner>()) {
+                            for (auto [_, xpInnerBarUI, xpInnerBar]: world.query<UI, const PlayerXpBarInner>()) {
                                 xpInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(xpRatio * xpInnerBar.getMaxLength()), 8));
                             }
 
-                            for (auto [xpIconEnt, xpIconTransform]: world.view<Transform2D>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
+                            for (auto [xpIconEnt, xpIconTransform]: world.query<Transform2D>(with<XpIconInventoryBar>, without<ShrinkIcon>)) {
                                 if (!world.has_components<ShrinkIcon>(xpIconEnt)) {
                                     xpIconTransform.scale(-0.2f, -0.2f);
                                     world.add_components(xpIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));

@@ -92,7 +92,8 @@ Ent instantiateHubBeginingRoom(World& world, const glm::vec2& position, std::siz
         ),
 
         // Talent Sphere:
-        instantiateTalentSphere(world, position + glm::vec2(-56, -44)),
+        // instantiateTalentSphere(world, position + glm::vec2(-56, -44)),
+        instantiateChest(world, position + glm::vec2(-56, -44)),
 
         // Decors:
         instantiateColumn(world, position + glm::vec2(32, 8)),

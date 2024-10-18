@@ -10,11 +10,13 @@ Ent instantiateChest(World& world, const glm::vec2& position) {
     return world.create_entity(
         Chest(),
         Sprite(textureManager, chestUV),
+        // Animation(chestAnim, ChestAnimType::OPENING),
         Transform2D(
             position,
             0,
             glm::vec2(1, 1)
         ),
-        Collider(-16 / 2, -32 / 2, 16, 32)
+        Collider(-16 / 2, -16 / 2, 16, 16),
+        ParticleGenerator(instantiateParticleEffectStar, 0.5f, 12.f)
     );
 }

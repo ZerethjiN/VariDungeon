@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void groundCrystalAttackCrossSys(MainFixedSystem, World& world) {
-    auto crystals = world.view<IsGroundCrystalAttackCross, Animation, const GroundCrystalAttack>();
+    auto crystals = world.query<IsGroundCrystalAttackCross, Animation, const GroundCrystalAttack>();
 
     auto [time] = world.resource<const Time>();
 

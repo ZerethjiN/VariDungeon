@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerLaserSys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerLaser>();
+    auto players = world.query<PlayerLaser>(without<IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 

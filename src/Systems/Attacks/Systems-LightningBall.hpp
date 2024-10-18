@@ -7,15 +7,15 @@
 #include <Images.hpp>
 
 void playerLightningBallSys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerLightningBall, const Transform2D>();
+    auto players = world.query<PlayerLightningBall, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [_, playerDagger, playerTransform]: players) {
-        if (playerDagger.canSpawnLightningBall(time.fixedDelta()) && !world.view(with<Enemy>).empty()) {
+        if (playerDagger.canSpawnLightningBall(time.fixedDelta()) && !world.query(with<Enemy>).empty()) {
             glm::vec2 minDirection;
             float minDistance = std::numeric_limits<float>::max();
-            for (auto [_, enemyTransform]: world.view<const Transform2D>(with<Enemy>)) {
+            for (auto [_, enemyTransform]: world.query<const Transform2D>(with<Enemy>)) {
                 auto newDistance = glm::distance(enemyTransform.getPosition(), playerTransform.getPosition());
                 if (newDistance < minDistance) {
                     minDistance = newDistance;
@@ -29,7 +29,7 @@ void playerLightningBallSys(MainFixedSystem, World& world) {
 }
 
 void lightballMovementSys(MainFixedSystem, World& world) {
-    auto balls = world.view<Velocity, const Speed, const LightningBall>();
+    auto balls = world.query<Velocity, const Speed, const LightningBall>();
 
     auto [time] = world.resource<const Time>();
 
@@ -39,7 +39,7 @@ void lightballMovementSys(MainFixedSystem, World& world) {
 }
 
 void lightningBallHitSys(MainFixedSystem, World& world) {
-    auto balls = world.view<const OnCollisionEnter, const Transform2D>(with<LightningBall>);
+    auto balls = world.query<const OnCollisionEnter, const Transform2D>(with<LightningBall>);
 
     for (auto [ballEnt, collisions, transform]: balls) {
         for (auto othEnt: collisions) {

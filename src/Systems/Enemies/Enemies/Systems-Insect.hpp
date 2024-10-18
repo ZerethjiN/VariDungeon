@@ -8,7 +8,7 @@
 
 // Run With: [insectMoveSys, insectAttackSys]
 void insectMoveSys(ThreadedFixedSystem, World& world) {
-    auto insects = world.view<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto insects = world.query<Velocity, Animation, IsInsectMove, Orientation, const Speed, const Insect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -66,7 +66,7 @@ void insectMoveSys(ThreadedFixedSystem, World& world) {
 }
 
 void insectChangeDirectionSys(ThreadedFixedSystem, World& world) {
-    auto insects = world.view<IsInsectChangeDirection, Orientation>(with<Insect>, without<Unmoveable, EnemyPreSpawn>);
+    auto insects = world.query<IsInsectChangeDirection, Orientation>(with<Insect>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -84,8 +84,8 @@ void insectChangeDirectionSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [insectMoveSys, insectAttackSys]
 void insectAttackSys(ThreadedFixedSystem, World& world) {
-    auto insects = world.view<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform2D, const Insect>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto insects = world.query<Velocity, Animation, IsInsectAttack, Orientation, const Speed, const Transform2D, const Insect>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

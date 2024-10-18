@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void shadowMinionSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Transform2D>(with<ShadowMinion>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, Orientation, const Speed, const Transform2D>(with<ShadowMinion>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

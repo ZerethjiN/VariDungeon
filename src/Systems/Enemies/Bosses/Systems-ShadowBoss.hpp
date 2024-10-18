@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shadowBossHubMovementSys(MainFixedSystem, World& world) {
-    auto bosses = world.view<Velocity, ShadowBossHubPattern, const Speed, const Transform2D>();
+    auto bosses = world.query<Velocity, ShadowBossHubPattern, const Speed, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
@@ -16,7 +16,7 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
             shadowBoss.curPoint++;
             if (shadowBoss.curPoint >= shadowBoss.movePoints.size()) {
                 world.delete_entity(bossEnt);
-                for (auto [kingEnt, kingTransform]: world.view<const Transform2D>(with<King>)) {
+                for (auto [kingEnt, kingTransform]: world.query<const Transform2D>(with<King>)) {
                     instantiateWarp(world, kingTransform.getPosition());
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(-24, 24));
                     instantiateFragments(world, kingTransform.getPosition() + glm::vec2(24, 40));
@@ -26,7 +26,7 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
                 }
                 appliedCameraShake(world, 0.5f, 128.f, 2);
                 appliedCurCameraAberation(world, 4, 0.1);
-                for (auto [torchEnt, torchAnimation]: world.view<Animation>(with<TorchDecor, ParticleGenerator>)) {
+                for (auto [torchEnt, torchAnimation]: world.query<Animation>(with<TorchDecor, ParticleGenerator>)) {
                     torchAnimation.play(TorchAnimType::OFF);
                     world.remove_components<ParticleGenerator>(torchEnt);
                 }
@@ -40,8 +40,8 @@ void shadowBossHubMovementSys(MainFixedSystem, World& world) {
 }
 
 void shadow_boss_move_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsShadowBossMove, Orientation, ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsShadowBossMove, Orientation, ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -91,7 +91,7 @@ void shadow_boss_move_sys(ThreadedFixedSystem, World& world) {
 
                 case 2:
                     world.add_components(enemy_ent, IsShadowBossMinionPreSpawn(shadow_boss.minion_pre_spawn_duration));
-                    for (auto [_, room_transform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                    for (auto [_, room_transform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                         instantiateFloorCrossParticle(world, room_transform.getPosition() + glm::vec2(40, -40), 15);
                         instantiateFloorCrossParticle(world, room_transform.getPosition() + glm::vec2(40, 24), 15);
                         instantiateFloorCrossParticle(world, room_transform.getPosition() + glm::vec2(-56, -40), 15);
@@ -109,7 +109,7 @@ void shadow_boss_move_sys(ThreadedFixedSystem, World& world) {
                         } while(shadowRnd == shadow_boss.last_shadow_rnd);
                         shadow_boss.last_shadow_rnd = rnd;
 
-                        for (auto [_, room_transform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                        for (auto [_, room_transform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                             if (shadowRnd != 0) {
                                 instantiateShadowMarkParticle(world, room_transform.getPosition() + glm::vec2(-56, -44));
                                 instantiateShadowMarkParticle(world, room_transform.getPosition() + glm::vec2(-24, -44));
@@ -199,7 +199,7 @@ void shadow_boss_move_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_pre_laser_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsShadowBossPreLaser, const Orientation, const ShadowBoss, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsShadowBossPreLaser, const Orientation, const ShadowBoss, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -252,7 +252,7 @@ void shadow_boss_pre_laser_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_laser_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsShadowBossLaser, const Orientation, const ShadowBoss>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsShadowBossLaser, const Orientation, const ShadowBoss>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -295,8 +295,8 @@ void shadow_boss_laser_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_shadow_mark_duration_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsShadowBossShadowMarkDuration, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsShadowBossShadowMarkDuration, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -349,8 +349,8 @@ void shadow_boss_shadow_mark_duration_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_shadow_mark_invocation_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<IsShadowBossShadowMarkInvocation>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<IsShadowBossShadowMarkInvocation>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -364,8 +364,8 @@ void shadow_boss_shadow_mark_invocation_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_minion_pre_spawn_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsShadowBossMinionPreSpawn, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsShadowBossMinionPreSpawn, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -373,7 +373,7 @@ void shadow_boss_minion_pre_spawn_sys(ThreadedFixedSystem, World& world) {
         if (is_shadow_boss_minion_pre_spawn.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsShadowBossMinionPreSpawn>(enemy_ent);
             world.add_components(enemy_ent, IsShadowBossMove(shadow_boss.move_duration));
-            for (auto [_, room_transform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            for (auto [_, room_transform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                 instantiateShadowMinion(world, room_transform.getPosition() + glm::vec2(40, -40));
                 instantiateShadowMinion(world, room_transform.getPosition() + glm::vec2(40, 24));
                 instantiateShadowMinion(world, room_transform.getPosition() + glm::vec2(-56, -40));
@@ -424,8 +424,8 @@ void shadow_boss_minion_pre_spawn_sys(ThreadedFixedSystem, World& world) {
 }
 
 void shadow_boss_shadow_explosion_sys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsShadowBossShadowExplosion, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsShadowBossShadowExplosion, Orientation, const ShadowBoss, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

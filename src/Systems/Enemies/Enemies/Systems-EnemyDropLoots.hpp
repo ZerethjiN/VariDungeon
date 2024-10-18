@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void enemyDropLootsSys(MainFixedSystem, World& world) {
-    auto loots = world.view<EnemyDropLoots, const Transform2D>();
-    auto players = world.view(with<Player>);
+    auto loots = world.query<EnemyDropLoots, const Transform2D>();
+    auto players = world.query(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

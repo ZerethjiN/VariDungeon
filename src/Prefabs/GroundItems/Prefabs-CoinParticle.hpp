@@ -32,11 +32,11 @@ Ent instantiateCoinParticle(World& world, const glm::vec2& position, float sprea
 
                             playerCoin += coinGroundItem.getAmount();
 
-                            for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
+                            for (auto [_, coinTextUI]: world.query<TextUI>(with<PlayerCoinText>)) {
                                 coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
                             }
 
-                            for (auto [coinIconEnt, coinIconTransform]: world.view<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
+                            for (auto [coinIconEnt, coinIconTransform]: world.query<Transform2D>(with<CoinIconInventoryBar>, without<ShrinkIcon>)) {
                                 if (!world.has_components<ShrinkIcon>(coinIconEnt)) {
                                     coinIconTransform.scale(-0.2f, -0.2f);
                                     world.add_components(coinIconEnt, ShrinkIcon(glm::vec2(-0.2f, -0.2f), 0.1f));

@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void anubisMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsAnubisMove, Orientation, const Speed, const Anubis, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -87,7 +87,7 @@ void anubisMoveSys(MainFixedSystem, World& world) {
 }
 
 void anubisAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsAnubisAttack, Orientation, const Anubis, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsAnubisAttack, Orientation, const Anubis, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

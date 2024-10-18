@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void daggerBonusCallbackLvl1(World& world) {
-    auto players = world.view(with<Player>, without<PlayerDagger>);
+    auto players = world.query(with<Player>, without<PlayerDagger>);
 
     for (auto [playerEnt]: players) {
         world.add_components(playerEnt, PlayerDagger(2.5f));

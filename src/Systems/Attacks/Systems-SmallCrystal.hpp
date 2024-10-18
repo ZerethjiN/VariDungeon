@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void smallCrystalRotationSys(MainFixedSystem, World& world) {
-    auto crystals = world.view<Transform2D, const SmallCrystalRotation>();
+    auto crystals = world.query<Transform2D, const SmallCrystalRotation>();
 
     auto [time] = world.resource<const Time>();
 
@@ -31,7 +31,7 @@ void smallCrystalRotationSys(MainFixedSystem, World& world) {
 }
 
 void smallCrystalThrowSys(MainFixedSystem, World& world) {
-    auto crystals = world.view<Velocity, const Transform2D, const SmallCrystalThrow>();
+    auto crystals = world.query<Velocity, const Transform2D, const SmallCrystalThrow>();
 
     auto [time] = world.resource<const Time>();
 

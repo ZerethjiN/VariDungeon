@@ -142,7 +142,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////
 
 void updateTileMapSys(LateFixedSystem, World& world) {
-    auto tilemaps = world.view<TileMap>();
+    auto tilemaps = world.query<TileMap>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 

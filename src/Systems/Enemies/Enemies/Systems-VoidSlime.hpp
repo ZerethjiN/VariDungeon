@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void voidSlimeMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsVoidSlimeMove, Orientation, const Speed, const VoidSlime, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsVoidSlimeMove, Orientation, const Speed, const VoidSlime, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -66,8 +66,8 @@ void voidSlimeMoveSys(MainFixedSystem, World& world) {
 }
 
 void voidSlimeAttractSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsVoidSlimeAttract, Orientation, const VoidSlime, const Transform2D>(without<EnemyPreSpawn>);
-    auto players = world.view<Velocity, const Transform2D>(with<Player>);
+    auto enemies = world.query<Animation, IsVoidSlimeAttract, Orientation, const VoidSlime, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.query<Velocity, const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

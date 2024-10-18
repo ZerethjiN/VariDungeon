@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerFrenzySys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerFrenzy, PlayerAttackCooldown, Speed>(with<Player>);
+    auto players = world.query<PlayerFrenzy, PlayerAttackCooldown, Speed>(with<Player>, without<IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 

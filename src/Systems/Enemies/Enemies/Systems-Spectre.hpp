@@ -8,8 +8,8 @@
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
 void spectreMoveSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSpectreMove, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSpectreMove, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -91,8 +91,8 @@ void spectreMoveSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
 void spectreVanishSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSpectreVanish, Orientation, const Spectre, const Speed, const Transform2D>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSpectreVanish, Orientation, const Spectre, const Speed, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -132,8 +132,8 @@ void spectreVanishSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [spectreMoveSys, spectreVanishSys, spectreCastSys]
 void spectreCastSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSpectreCast, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSpectreCast, Orientation, const Speed, const Spectre, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

@@ -6,8 +6,22 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void warpSys(MainFixedSystem, World& world) {
-    auto warps = world.view<const OnCollisionEnter>(with<Warp>);
+void warp_opening_sys(MainFixedSystem, World& world) {
+    auto warps = world.query<WarpOpening, Animation>(with<Warp>, without<Trigger>);
+
+    auto [time] = world.resource<const Time>();
+
+    for (auto [warp_ent, warp_opening, animation]: warps) {
+        if (warp_opening.canSwitchState(time.fixedDelta())) {
+            animation.play(WarpAnimType::DEFAULT);
+            world.remove_components<WarpOpening>(warp_ent);
+            world.add_components(warp_ent, Trigger(-16 / 2, -16 / 2, 16, 16));
+        }
+    }
+}
+
+void warp_sys(MainFixedSystem, World& world) {
+    auto warps = world.query<const OnCollisionEnter>(with<Warp>);
 
     for (auto [_, collisions]: warps) {
         for (auto othEnt: collisions) {

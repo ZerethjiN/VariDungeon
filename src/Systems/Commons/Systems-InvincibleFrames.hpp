@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void invincibleFramesSys(MainFixedSystem, World& world) {
-    auto invincibles = world.view<InvincibleFrame, Transform2D>();
+    auto invincibles = world.query<InvincibleFrame, Transform2D>();
 
     auto [time] = world.resource<const Time>();
 

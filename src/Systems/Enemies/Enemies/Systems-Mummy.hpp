@@ -8,8 +8,8 @@
 
 // Run With: [mummyMoveSys, mummyPreAttack, mummyAttackSys]
 void mummyMoveSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMummyMove, Orientation, const Speed, const Mummy, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsMummyMove, Orientation, const Speed, const Mummy, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -103,7 +103,7 @@ void mummyMoveSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [mummyMoveSys, mummyPreAttack, mummyAttackSys]
 void mummyPreAttackSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMummyPreAttack, Orientation, const Mummy, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMummyPreAttack, Orientation, const Mummy, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -160,7 +160,7 @@ void mummyPreAttackSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [mummyMoveSys, mummyPreAttack, mummyAttackSys]
 void mummyAttackSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMummyAttack, Orientation, const Mummy, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMummyAttack, Orientation, const Mummy, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void cameraEffectApplicationSys(MainFixedSystem, World& world) {
-    auto cameras = world.view<CameraEffect>(with<CurCamera>);
+    auto cameras = world.query<CameraEffect>(with<CurCamera>);
 
     for (auto [curCameraEnt, cameraEffect]: cameras) {
         if (cameraEffect.canUseCameraAberation) {
@@ -39,7 +39,7 @@ void cameraEffectApplicationSys(MainFixedSystem, World& world) {
 }
 
 void cameraSys(MainFixedSystem, World& world) {
-    auto cameras = world.view<const Transform2D>(with<CurCamera>);
+    auto cameras = world.query<const Transform2D>(with<CurCamera>);
 
     auto [inGameView, uiView] = world.resource<InGameView, UIView>();
 

@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void megaSlimeMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMegaSlimeMove, Orientation, MegaSlime, const Speed, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsMegaSlimeMove, Orientation, MegaSlime, const Speed, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -36,7 +36,7 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
                     break;
                 case 2:
                     world.add_components(enemyEnt, IsMegaSlimePreSpawn(megaSlime.spawnDuration));
-                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                    for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                         instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(40, -40), 15);
                         instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(40, 24), 15);
                         instantiateFloorCrossParticle(world, roomTransform.getPosition() + glm::vec2(-56, -40), 15);
@@ -92,8 +92,8 @@ void megaSlimeMoveSys(MainFixedSystem, World& world) {
 }
 
 void megaSlimeFireballSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMegaSlimeFireball, Orientation, const MegaSlime, const Transform2D, const Life, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsMegaSlimeFireball, Orientation, const MegaSlime, const Transform2D, const Life, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -172,7 +172,7 @@ void megaSlimeFireballSys(MainFixedSystem, World& world) {
 }
 
 void megaSlimeBounceTotalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMegaSlimeBounceTotal, Orientation, const MegaSlime, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMegaSlimeBounceTotal, Orientation, const MegaSlime, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -199,8 +199,8 @@ void megaSlimeBounceTotalSys(MainFixedSystem, World& world) {
 }
 
 void megaSlimeBounceSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMegaSlimeBounce, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsMegaSlimeBounce, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -276,7 +276,7 @@ void megaSlimeBounceSys(MainFixedSystem, World& world) {
 }
 
 void megaSlimePreSpawnSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMegaSlimePreSpawn, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMegaSlimePreSpawn, Orientation, const MegaSlime, const Transform2D, const Life>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -284,7 +284,7 @@ void megaSlimePreSpawnSys(MainFixedSystem, World& world) {
         if (isMegaSlimePreSpawn.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsMegaSlimePreSpawn>(enemyEnt);
             world.add_components(enemyEnt, IsMegaSlimeMove(megaSlime.moveDuration));
-            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(40, -40));
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(40, 24));
                 instantiateSlimeSlimeBoss(world, roomTransform.getPosition() + glm::vec2(-56, -40));

@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void rockInsectMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockInsectMove, Orientation, const Speed, const RockInsect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsRockInsectMove, Orientation, const Speed, const RockInsect, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -87,7 +87,7 @@ void rockInsectMoveSys(MainFixedSystem, World& world) {
 }
 
 void rockInsectPreCastSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockInsectPreCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsRockInsectPreCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -153,7 +153,7 @@ void rockInsectPreCastSys(MainFixedSystem, World& world) {
 }
 
 void rockInsectCastSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockInsectCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsRockInsectCast, Orientation, const RockInsect, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

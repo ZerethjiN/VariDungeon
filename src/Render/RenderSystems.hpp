@@ -19,18 +19,18 @@ inline void renderSys(LateSystem, World& world) {
     auto [time, inGameView, uiView] = world.resource<const Time, InGameView, UIView>();
     auto [textureManager] = world.resource<TextureManager>();
 
-    auto tileMapsNoIndexes = world.view<const TileMap, Transform2D>(without<ZIndex>);
-    auto tileMapsIndexes = world.view<const TileMap, Transform2D, const ZIndex>();
-    auto spriteNoIndexes = world.view<const Sprite, Transform2D>(without<ZIndex>);
-    auto spriteIndexes = world.view<const Sprite, Transform2D, const ZIndex>();
-    auto textNoIndexes = world.view<Text, Transform2D>(without<ZIndex>);
-    auto textIndexes = world.view<Text, Transform2D, const ZIndex>();
-    auto lights = world.view<const PointLight, Transform2D>();
-    // auto shockwaves = world.view<const Shockwave, const Transform2D>();
-    auto uiNoIndexes = world.view<const UI, Transform2D>(without<ZIndex>);
-    auto uiIndexes = world.view<const UI, Transform2D, const ZIndex>();
-    auto textUINoIndexes = world.view<TextUI, Transform2D>(without<ZIndex>);
-    auto textUIIndexes = world.view<TextUI, Transform2D, const ZIndex>();
+    auto tileMapsNoIndexes = world.query<const TileMap, Transform2D>(without<ZIndex>);
+    auto tileMapsIndexes = world.query<const TileMap, Transform2D, const ZIndex>();
+    auto spriteNoIndexes = world.query<const Sprite, Transform2D>(without<ZIndex>);
+    auto spriteIndexes = world.query<const Sprite, Transform2D, const ZIndex>();
+    auto textNoIndexes = world.query<Text, Transform2D>(without<ZIndex>);
+    auto textIndexes = world.query<Text, Transform2D, const ZIndex>();
+    auto lights = world.query<const PointLight, Transform2D>();
+    // auto shockwaves = world.query<const Shockwave, const Transform2D>();
+    auto uiNoIndexes = world.query<const UI, Transform2D>(without<ZIndex>);
+    auto uiIndexes = world.query<const UI, Transform2D, const ZIndex>();
+    auto textUINoIndexes = world.query<TextUI, Transform2D>(without<ZIndex>);
+    auto textUIIndexes = world.query<TextUI, Transform2D, const ZIndex>();
 
     auto& offscreenFrameBuffer = frameBufferManager.get<OffscreenFrameBuffer>(vulkanEngine);
     auto& mainFrameBuffer = frameBufferManager.get<MainFrameBuffer>(vulkanEngine);
@@ -47,7 +47,7 @@ inline void renderSys(LateSystem, World& world) {
 
     // AmbientLight
     glm::vec4 ambientLight(255, 255, 255, 255);
-    for (auto [_, ambient]: world.view<const AmbientLight>()) {
+    for (auto [_, ambient]: world.query<const AmbientLight>()) {
         ambientLight = ambient.color;
     }
 
@@ -398,7 +398,7 @@ inline void renderSys(LateSystem, World& world) {
     //// preparation de l'aberation ////
     float aberationOffset = 0;
     glm::vec2 aberationDirection(1, 0);
-    for (auto [_, aberation]: world.view<const CameraAberation>()) {
+    for (auto [_, aberation]: world.query<const CameraAberation>()) {
         aberationOffset = aberation.distance;
         aberationDirection = aberation.direction;
     }

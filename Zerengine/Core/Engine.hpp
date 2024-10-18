@@ -1940,7 +1940,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(With<Filters...> = {}, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(With<Filters...> = {}, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(IsInactive).hash_code(), typeid(Excludes).hash_code()...});
     }
 
@@ -1955,7 +1955,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(Without<Excludes...>, With<Filters...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(Without<Excludes...>, With<Filters...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(IsInactive).hash_code(), typeid(Excludes).hash_code()...});
     }
 
@@ -1970,7 +1970,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(With<Filters...>, Without<Excludes...>, WithInactive) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(With<Filters...>, Without<Excludes...>, WithInactive) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 
@@ -1985,7 +1985,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(Without<Excludes...>, With<Filters...>, WithInactive) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(Without<Excludes...>, With<Filters...>, WithInactive) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 
@@ -2000,7 +2000,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(With<Filters...>, WithInactive, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(With<Filters...>, WithInactive, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 
@@ -2015,7 +2015,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(Without<Excludes...>, WithInactive, With<Filters...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(Without<Excludes...>, WithInactive, With<Filters...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 
@@ -2030,7 +2030,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(WithInactive, With<Filters...> = {}, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(WithInactive, With<Filters...> = {}, Without<Excludes...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 
@@ -2045,7 +2045,7 @@ public:
         !((std::is_const_v<Filters> || std::is_reference_v<Filters>) || ...) &&
         !((std::is_const_v<Excludes> || std::is_reference_v<Excludes>) || ...)
     )
-    [[nodiscard]] auto view(WithInactive, Without<Excludes...>, With<Filters...> = {}) noexcept -> const View<Comps...> {
+    [[nodiscard]] auto query(WithInactive, Without<Excludes...>, With<Filters...> = {}) noexcept -> const View<Comps...> {
         return reg.view<Comps...>({typeid(Comps).hash_code()..., typeid(Filters).hash_code()...}, {typeid(Excludes).hash_code()...});
     }
 

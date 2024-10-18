@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void scorpionMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsScorpionMove, Orientation, const Speed, const Scorpion, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsScorpionMove, Orientation, const Speed, const Scorpion, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -95,7 +95,7 @@ void scorpionMoveSys(MainFixedSystem, World& world) {
 }
 
 void scorpionAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsScorpionCast, const Transform2D, const Orientation, const Scorpion>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsScorpionCast, const Transform2D, const Orientation, const Scorpion>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

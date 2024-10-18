@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void levelUpKnockbackSys(MainFixedSystem, World& world) {
-    auto preMenus = world.view<LevelUpKnockback, Transform2D>();
+    auto preMenus = world.query<LevelUpKnockback, Transform2D>();
 
     auto [textureManager, time] = world.resource<TextureManager, Time>();
 
@@ -35,7 +35,7 @@ void levelUpKnockbackSys(MainFixedSystem, World& world) {
 }
 
 void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
-    auto preMenus = world.view<LevelUpPreMenu>();
+    auto preMenus = world.query<LevelUpPreMenu>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -58,7 +58,7 @@ void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
             world.delete_entity(preMenuEnt);
 
             std::unordered_map<std::size_t, BonusData> lastBonuses;
-            for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+            for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                 for (const auto& bonus: bonusVec) {
                     if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
                         lastBonuses.emplace(bonus.type, bonus);
@@ -74,7 +74,7 @@ void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
                     alreadyLevelMax = false;
                     newBonusIdx = rand() % bonusVec.size();
                     alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
-                    for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                    for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                         alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
                     }
                 } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
@@ -87,7 +87,7 @@ void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const MenuBonusTranslation>();
+    auto menus = world.query<Transform2D, const MenuBonusTranslation>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -117,7 +117,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
             int i = 0;
             for (auto bonusIdx: bonusesIdx) {
                 std::size_t bonusLevel = 0;
-                for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                     bonusLevel = playerBonuses.getBonusLevel(bonusVec[bonusIdx].type);
                 }
 
@@ -169,7 +169,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusPreReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<MenuBonusPreReverseTranslation, const Transform2D>();
+    auto menus = world.query<MenuBonusPreReverseTranslation, const Transform2D>();
 
     auto [time] = world.resource<Time>();
 
@@ -182,7 +182,7 @@ void menuBonusPreReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const MenuBonusReverseTranslation>();
+    auto menus = world.query<Transform2D, const MenuBonusReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 
@@ -199,7 +199,7 @@ void menuBonusReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<MenuBonusSelector, const Transform2D>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
+    auto selectors = world.query<MenuBonusSelector, const Transform2D>(without<MenuBonusSelectorMoveDown, MenuBonusSelectorMoveUp>);
 
     auto [textureManager] = world.resource<TextureManager>();
 
@@ -207,11 +207,11 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
                 world.add_components(selectorEnt, MenuBonusSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 32), 384.f));
-                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                for (auto [bonusRowEnt, transform, selectedRow]: world.query<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
                     world.remove_components<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
-                for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
+                for (auto [bonusRowEnt, bonusRow]: world.query<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.id == selector.getCurElement()) {
                         world.add_components(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
@@ -221,32 +221,32 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
                 world.add_components(selectorEnt, MenuBonusSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -32), 384.f));
-                for (auto [bonusRowEnt, transform, selectedRow]: world.view<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
+                for (auto [bonusRowEnt, transform, selectedRow]: world.query<Transform2D, const MenuBonusCurSelectedRow>(with<BonusRow>)) {
                     transform.setScale(selectedRow.getMinScale(), selectedRow.getMinScale());
                     world.remove_components<MenuBonusCurSelectedRow>(bonusRowEnt);
                 }
-                for (auto [bonusRowEnt, bonusRow]: world.view<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
+                for (auto [bonusRowEnt, bonusRow]: world.query<const BonusRow>(without<MenuBonusCurSelectedRow>)) {
                     if (bonusRow.id == selector.getCurElement()) {
                         world.add_components(bonusRowEnt, MenuBonusCurSelectedRow(1.1f, 1.0f, 0.25f));
                         break;
                     }
                 }
             }
-        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::EXIT) && !world.view(with<MenuBonusMerchant>).empty()) { 
+        } else if (vulkanEngine.window.isKeyDown(ButtonNameType::EXIT) && !world.query(with<MenuBonusMerchant>).empty()) { 
             world.remove_components<MenuBonusSelector, UI, Animation>(selectorEnt);
-            for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
+            for (auto [menuBonusEnt]: world.query(with<MenuBonus>)) {
                 world.add_components(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
-            for (auto [bonusRowEnt, bonusRowIconTransform, bonusRow]: world.view<Transform2D, const BonusRow>()) {
+            for (auto [bonusRowEnt, bonusRowIconTransform, bonusRow]: world.query<Transform2D, const BonusRow>()) {
                 if (bonusRow.id == selector.getCurElement()) {
                     bool canBuy = false;
-                    if (!world.view(with<MenuBonusMerchant>).empty()) {
-                        for (auto [_, playerCoin]: world.view<PlayerCoin>()) {
+                    if (!world.query(with<MenuBonusMerchant>).empty()) {
+                        for (auto [_, playerCoin]: world.query<PlayerCoin>()) {
                             if (playerCoin >= bonusRow.cost) {
                                 playerCoin -= bonusRow.cost;
                                 canBuy = true;
-                                for (auto [_, coinTextUI]: world.view<TextUI>(with<PlayerCoinText>)) {
+                                for (auto [_, coinTextUI]: world.query<TextUI>(with<PlayerCoinText>)) {
                                     coinTextUI.setString("" + std::to_string(static_cast<int>(playerCoin.getCurCoin())));
                                 }
                             }
@@ -257,10 +257,10 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                     }
 
                     if (canBuy) {
-                        for (auto [_, playerBonuses]: world.view<PlayerBonuses>()) {
+                        for (auto [_, playerBonuses]: world.query<PlayerBonuses>()) {
                             playerBonuses.addBonus(bonusRow.type);
-                            if (!world.view(with<MenuBonusMerchant>).empty()) {
-                                for (auto [_, merchantBonus]: world.view<MerchantBonus>()) {
+                            if (!world.query(with<MenuBonusMerchant>).empty()) {
+                                for (auto [_, merchantBonus]: world.query<MerchantBonus>()) {
                                     merchantBonus.bonusesIdx.erase(merchantBonus.typeToIdx.at(bonusRow.type));
                                 }
                             }
@@ -290,7 +290,7 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
                 }
             }
             world.remove_components<MenuBonusSelector, UI, Animation>(selectorEnt);
-            for (auto [menuBonusEnt]: world.view(with<MenuBonus>)) {
+            for (auto [menuBonusEnt]: world.query(with<MenuBonus>)) {
                 world.add_components(menuBonusEnt, MenuBonusPreReverseTranslation(menuBonusHUDAnim[MenuBonusHUDAnimType::VALIDATION_MOTIF].getTotalDuration()));
             }
         }
@@ -298,7 +298,7 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const MenuBonusSelectorMoveDown>();
+    auto selectors = world.query<Transform2D, const MenuBonusSelectorMoveDown>();
 
     auto [time] = world.resource<const Time>();
 
@@ -313,7 +313,7 @@ void menuBonusSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const MenuBonusSelectorMoveUp>();
+    auto selectors = world.query<Transform2D, const MenuBonusSelectorMoveUp>();
 
     auto [time] = world.resource<const Time>();
 
@@ -328,7 +328,7 @@ void menuBonusSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void menuBonusCurSelectedRowScaleSys(MainUnscaledFixedSystem, World& world) {
-    auto bonusRows = world.view<Transform2D, MenuBonusCurSelectedRow>(with<BonusRow>);
+    auto bonusRows = world.query<Transform2D, MenuBonusCurSelectedRow>(with<BonusRow>);
 
     auto [time] = world.resource<const Time>();
 

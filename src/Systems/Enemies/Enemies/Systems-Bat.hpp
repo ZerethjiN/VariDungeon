@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void batMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsBatMove, Orientation, const Speed, const Bat, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsBatMove, Orientation, const Speed, const Bat, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -104,8 +104,8 @@ void batMoveSys(MainFixedSystem, World& world) {
 }
 
 void batAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsBatAttack, Orientation, const Bat, const Transform2D>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Animation, IsBatAttack, Orientation, const Bat, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

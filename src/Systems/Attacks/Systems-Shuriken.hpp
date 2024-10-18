@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shurikenRotationSys(MainFixedSystem, World& world) {
-    auto shurikens = world.view<Transform2D, const Shuriken>();
+    auto shurikens = world.query<Transform2D, const Shuriken>();
 
     auto [time] = world.resource<const Time>();
 

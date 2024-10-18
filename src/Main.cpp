@@ -64,7 +64,7 @@ int main() {
             },
             {
             barbarianMovementSys, barbarianStartAttackSys, barbarianStopAttackSys, barbarianStartDashSys, barbarianStopDashSys,
-            playerLootSys, playerLootAttractSys, playerHitSys, playerFrenzySys,
+            playerLootSys, playerLootAttractSys, playerHitSys, is_player_dead_sys, playerFrenzySys,
             breakableHitSys, breakableOnHitSys,
             enemyHitSys, enemyDropLootsSys,
             shurikenRotationSys, cameraAberationSys, cameraEffectApplicationSys,
@@ -72,8 +72,8 @@ int main() {
             lootSpreadSys, cameraSys, innerMovementDownSys, innerMovementUpSys, dustParticleSys,
             doorTriggerSys, openDoorSys, openDoorWithKeySys, doorCameraMovementSys, playerAttackWeightSys,
             playerDaggerSys, daggerMovementSys, laserMovementSys, laserHitSys, playerLaserSys,
-            warpSys, particleGeneratorSys, bombSpreadSys, rerollSys,
-            chestOpenSys,
+            warp_opening_sys, warp_sys, particleGeneratorSys, bombSpreadSys, rerollSys,
+            chest_collision_sys, chest_opening_loot_sys, chest_opening_sys,
             unmoveable_timer_sys,
 
             // Attacks:
@@ -130,7 +130,7 @@ int main() {
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<MenuChest>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME && !world.query(with<MenuChest>).empty();
             },
             {
                 menuChestValidateSys,
@@ -141,7 +141,7 @@ int main() {
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME;// && !world.view(with<MapMenu>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME;// && !world.query(with<MapMenu>).empty();
             },
             {
                 mapMenuOpenCloseSys, mapMenuTranslationSys, mapMenuReverseTranslationSys,
@@ -152,7 +152,7 @@ int main() {
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME;// && !world.view(with<MapMenu>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME;// && !world.query(with<MapMenu>).empty();
             },
             {
                 talentSphereOpenSys, talentSphererCloseSys, talentSphereMenuTranslationSys, talentSphereMenuReverseTranslationSys
@@ -163,7 +163,7 @@ int main() {
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && (!world.view(with<LevelUpPreMenu>).empty() || !world.view(with<MenuBonus>).empty());
+                return appstate == AppStateType::APP_STATE_IN_GAME && (!world.query(with<LevelUpPreMenu>).empty() || !world.query(with<MenuBonus>).empty());
             },
             {
                 levelUpPreMenuSys, menuBonusTranslationSys, menuBonusPreReverseTranslationSys, menuBonusReverseTranslationSys, menuBonusSelectorSys,
@@ -175,7 +175,7 @@ int main() {
             mainUnscaledFixedSystem,
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<PauseMenu>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME && !world.query(with<PauseMenu>).empty();
             },
             {pauseMenuTranslationSys, pauseMenuReverseTranslationSys, pauseMenuSelectorSys, pauseMenuSelectorMoveDownSys, pauseMenuSelectorMoveUpSys}
         )
@@ -184,30 +184,30 @@ int main() {
         .add_systems(ThreadedFixedSet(
             [](World& world) -> bool {
                 auto [appstate] = world.resource<const AppState>();
-                return appstate == AppStateType::APP_STATE_IN_GAME && !world.view(with<Enemy>).empty();
+                return appstate == AppStateType::APP_STATE_IN_GAME && !world.query(with<Enemy>).empty();
             },
             {
                 ThreadedFixedSet( // Mummy Threads
                     [](World& world) -> bool {
-                        return !world.view(with<Mummy>).empty();
+                        return !world.query(with<Mummy>).empty();
                     },
                     {mummyMoveSys, mummyPreAttackSys, mummyAttackSys}
                 ),
                 ThreadedFixedSet( // Insect Threads
                     [](World& world) -> bool {
-                        return !world.view(with<Insect>).empty();
+                        return !world.query(with<Insect>).empty();
                     },
                     {insectChangeDirectionSys, insectMoveSys, insectAttackSys}
                 ),
                 ThreadedFixedSet( // Gasterolcan Threads
                     [](World& world) -> bool {
-                        return !world.view(with<Gasterolcan>).empty();
+                        return !world.query(with<Gasterolcan>).empty();
                     },
                     {gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys}
                 ),
                 ThreadedFixedSet( // Spectre Threads
                     [](World& world) -> bool {
-                        return !world.view(with<Spectre>).empty();
+                        return !world.query(with<Spectre>).empty();
                     },
                     {spectreMoveSys, spectreVanishSys, spectreCastSys}
                 ),
@@ -215,12 +215,12 @@ int main() {
                 // Boss Threads
                 ThreadedFixedSet(
                     [](World& world) -> bool {
-                        return !world.view(with<Boss>).empty();
+                        return !world.query(with<Boss>).empty();
                     },
                     {
                         ThreadedFixedSet( // Shadow Boss Threads
                             [](World& world) -> bool {
-                                return !world.view(with<ShadowBoss>).empty();
+                                return !world.query(with<ShadowBoss>).empty();
                             },
                             {shadow_boss_move_sys, shadow_boss_pre_laser_sys, shadow_boss_laser_sys, shadow_boss_shadow_mark_duration_sys, shadow_boss_shadow_mark_invocation_sys, shadow_boss_minion_pre_spawn_sys, shadowMinionSys, shadow_boss_shadow_explosion_sys}
                         ),
@@ -240,7 +240,7 @@ int main() {
         })
 
         // Camera Set
-        .add_systems(ThreadedFixedSet([](World& world) { return !world.view(with<CameraShakeRight>).empty() || !world.view(with<CameraShakeLeft>).empty(); }, {
+        .add_systems(ThreadedFixedSet([](World& world) { return !world.query(with<CameraShakeRight>).empty() || !world.query(with<CameraShakeLeft>).empty(); }, {
             cameraShakeRightSys, cameraShakeLeftSys
         }))
         .add_systems(lateUnscaledFixedSystem, {

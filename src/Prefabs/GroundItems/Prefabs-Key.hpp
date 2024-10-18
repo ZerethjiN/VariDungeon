@@ -31,7 +31,7 @@ Ent instantiateKey(World& world, const glm::vec2& position) {
             ),
             LootCallback([](World& world, const Ent& this_entity, const Ent& target_entity) {
                 if (world.has_components<Player>(target_entity)) {
-                    for (auto [_, keyUI]: world.view<UI>(with<PlayerKeyIcon>)) {
+                    for (auto [_, keyUI]: world.query<UI>(with<PlayerKeyIcon>)) {
                         keyUI.setTextureRect(HUDElementsUV[7]);
                     }
 

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void strengthBonusCallbackLvl1(World& world) {
-    auto players = world.view<PlayerDamage>(with<Player>);
+    auto players = world.query<PlayerDamage>(with<Player>);
 
     for (auto [_, playerDamage]: players) {
         playerDamage *= 1.25f;

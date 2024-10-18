@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void combatParticleGeneratorSys(MainFixedSystem, World& world) {
-    auto generators = world.view<CombatParticleGenerator, const Transform2D, const ZIndex>();
+    auto generators = world.query<CombatParticleGenerator, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 

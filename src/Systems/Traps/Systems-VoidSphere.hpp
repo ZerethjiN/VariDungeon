@@ -7,13 +7,13 @@
 #include <Images.hpp>
 
 void voidSphereOffSys(MainFixedSystem, World& world) {
-    auto spheres = world.view<IsVoidSphereOff, Animation, const VoidSphere, const ZIndex, const Transform2D>();
+    auto spheres = world.query<IsVoidSphereOff, Animation, const VoidSphere, const ZIndex, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [sphereEnt, isVoidSphereOff, animation, voidSphere, zindex, transform]: spheres) {
         if (isVoidSphereOff.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<VoidSphere>(sphereEnt);
             } else {
                 world.remove_components<IsVoidSphereOff>(sphereEnt);
@@ -28,14 +28,14 @@ void voidSphereOffSys(MainFixedSystem, World& world) {
 }
 
 void voidSphereOnSys(MainFixedSystem, World& world) {
-    auto spheres = world.view<IsVoidSphereOn, Animation, const VoidSphere, const Transform2D>();
-    auto players = world.view<Velocity, const Transform2D>(with<Player>);
+    auto spheres = world.query<IsVoidSphereOn, Animation, const VoidSphere, const Transform2D>();
+    auto players = world.query<Velocity, const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
     for (auto [sphereEnt, isVoidSphereOn, animation, voidSphere, enemyTransform]: spheres) {
         if (isVoidSphereOn.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<VoidSphere>(sphereEnt);
             } else {
                 world.remove_components<IsVoidSphereOn>(sphereEnt);

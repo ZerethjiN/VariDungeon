@@ -88,7 +88,7 @@ void testScene2(SceneSystem, World& world) {
         HomeMenuButtonId(0),
         HomeMenuSelectedButton(),
         HomeMenuButtonCallback([](World& world, Ent thisEnt) {
-            for (auto [player_ent]: world.view(with<Player>)) {
+            for (auto [player_ent]: world.query(with<Player>)) {
                 world.delete_entity(player_ent);
             }
             world.loadScene(hubScene);

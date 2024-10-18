@@ -7,11 +7,11 @@
 #include <Images.hpp>
 
 void barbarianStartDashSys(MainFixedSystem, World& world) {
-    auto players = world.view<const Transform2D, const Orientation, const PlayerDamage, const ZIndex>(with<Player, Barbarian>, without<IsBarbarianDash>);
+    auto players = world.query<const Transform2D, const Orientation, const PlayerDamage, const ZIndex>(with<Player, Barbarian>, without<IsBarbarianDash, IsPlayerDead>);
 
     for (auto [playerEnt, transform, orientation, playerDamage, zindex]: players) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::B_BUTTON)) {
-            for (auto [buttonBIconEnt, buttonBIconTransform]: world.view<Transform2D>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
+            for (auto [buttonBIconEnt, buttonBIconTransform]: world.query<Transform2D>(with<ButtonBIconInventoryBar>, without<ShrinkIcon>)) {
                 if (!world.has_components<ShrinkIcon>(buttonBIconEnt)) {
                     buttonBIconTransform.scale(-0.1f, -0.1f);
                     world.add_components(buttonBIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.2f));
@@ -101,7 +101,7 @@ void barbarianStartDashSys(MainFixedSystem, World& world) {
 }
 
 void barbarianStopDashSys(MainFixedSystem, World& world) {
-    auto players = world.view<IsBarbarianDash, const Orientation, const Transform2D, const ZIndex>(with<Player, Barbarian>);
+    auto players = world.query<IsBarbarianDash, const Orientation, const Transform2D, const ZIndex>(with<Player, Barbarian>, without<IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 
@@ -129,7 +129,7 @@ void barbarianStopDashSys(MainFixedSystem, World& world) {
 }
 
 void barbarianMovementSys(MainFixedSystem, World& world) {
-    auto players = world.view<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>, without<Unmoveable>);
+    auto players = world.query<Velocity, Animation, Orientation, const Speed>(with<Player, Barbarian>, without<Unmoveable, IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 
@@ -252,11 +252,11 @@ void barbarianMovementSys(MainFixedSystem, World& world) {
 }
 
 void barbarianStartAttackSys(MainFixedSystem, World& world) {
-    auto players = world.view<Animation, const Orientation, const Transform2D, const PlayerDamage, const PlayerAttackCooldown>(with<Player, Barbarian>, without<IsBarbarianAttack>);
+    auto players = world.query<Animation, const Orientation, const Transform2D, const PlayerDamage, const PlayerAttackCooldown>(with<Player, Barbarian>, without<IsBarbarianAttack, IsPlayerDead>);
 
     for (auto [playerEnt, animation, orientation, transform, playerDamage, playerAttackCooldown]: players) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::A_BUTTON)) {
-            for (auto [buttonAIconEnt, buttonAIconTransform]: world.view<Transform2D>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
+            for (auto [buttonAIconEnt, buttonAIconTransform]: world.query<Transform2D>(with<ButtonAIconInventoryBar>, without<ShrinkIcon>)) {
                 if (!world.has_components<ShrinkIcon>(buttonAIconEnt)) {
                     buttonAIconTransform.scale(-0.1f, -0.1f);
                     world.add_components(buttonAIconEnt, ShrinkIcon(glm::vec2(-0.1f, -0.1f), 0.05f));
@@ -390,7 +390,7 @@ void barbarianStartAttackSys(MainFixedSystem, World& world) {
 }
 
 void barbarianStopAttackSys(MainFixedSystem, World& world) {
-    auto players = world.view<IsBarbarianAttack>(with<Player, Barbarian>);
+    auto players = world.query<IsBarbarianAttack>(with<Player, Barbarian>, without<IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 

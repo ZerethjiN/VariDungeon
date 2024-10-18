@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void lootSpreadSys(MainFixedSystem, World& world) {
-    auto loots = world.view<Velocity, LootSpread, const Collider>();
-    auto players = world.view(with<Player>);
+    auto loots = world.query<Velocity, LootSpread, const Collider>();
+    auto players = world.query(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

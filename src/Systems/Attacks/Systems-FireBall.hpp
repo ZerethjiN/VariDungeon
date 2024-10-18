@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void fireBallHitSys(MainFixedSystem, World& world) {
-    auto fireballs = world.view<const OnCollisionEnter, const Transform2D>(with<FireBall>);
+    auto fireballs = world.query<const OnCollisionEnter, const Transform2D>(with<FireBall>);
 
     for (auto [fireballEnt, collisions, transform]: fireballs) {
         for (auto othEnt: collisions) {
@@ -22,7 +22,7 @@ void fireBallHitSys(MainFixedSystem, World& world) {
 }
 
 void fireBallAttackSys(MainFixedSystem, World& world) {
-    auto fireballs = world.view<Velocity, const FireBall, const Speed>();
+    auto fireballs = world.query<Velocity, const FireBall, const Speed>();
 
     auto [time] = world.resource<const Time>();
 

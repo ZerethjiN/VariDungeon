@@ -32,17 +32,17 @@ Ent instantiateShieldParticle(World& world, const glm::vec2& position, float spr
 
                             playerLife.addShield(shieldGroundItem.getAmount());
 
-                            for (auto [_, lifeIcon]: world.view<UI>(with<LifeIconInventoryBar>)) {
+                            for (auto [_, lifeIcon]: world.query<UI>(with<LifeIconInventoryBar>)) {
                                 lifeIcon.setTextureRect(HUDElementsUV[3]);
                             }
 
-                            for (auto [_, lifeTextUI]: world.view<TextUI>(with<PlayerLifeText>)) {
+                            for (auto [_, lifeTextUI]: world.query<TextUI>(with<PlayerLifeText>)) {
                                 lifeTextUI.setString("Shield " + std::to_string(static_cast<int>(playerLife.getCurNbShield())) + "/" + std::to_string(static_cast<int>(playerLife.getNbLife())));
                             }
 
                             auto lifeRatio = playerLife.getCurNbShield() / playerLife.getNbLife();
 
-                            for (auto [_, lifeInnerBarUI, lifeInnerBar]: world.view<UI, const PlayerLifeBarInner>()) {
+                            for (auto [_, lifeInnerBarUI, lifeInnerBar]: world.query<UI, const PlayerLifeBarInner>()) {
                                 lifeInnerBarUI.setTextureRect(glm::vec4(0, 16, static_cast<unsigned int>(lifeRatio * lifeInnerBar.getMaxLength()), 8));
                             }
                         }

@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void lavaSlimeMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsLavaSlimeMove, Orientation, const Speed, const LavaSlime, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsLavaSlimeMove, Orientation, const Speed, const LavaSlime, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -74,7 +74,7 @@ void lavaSlimeMoveSys(MainFixedSystem, World& world) {
 }
 
 void lavaSlimeAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsLavaSlimePreAttack, Orientation, const LavaSlime, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsLavaSlimePreAttack, Orientation, const LavaSlime, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

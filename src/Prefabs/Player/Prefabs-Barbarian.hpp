@@ -14,9 +14,9 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             Player(),
             Barbarian(),
             PlayerXp(25),
-            Life(50),//(5),
+            Life(5),//(5),
             PlayerCoin(0),
-            PlayerDamage(100),//(1),
+            PlayerDamage(1),//(1),
             PlayerBonuses(),
             PlayerFloor(
                 /*Merchant Floors:*/ {2, 4},
@@ -36,7 +36,14 @@ Ent instantiateBarbarian(World& world, const glm::vec2& position) {
             Velocity(),
             Speed(72),
             Orientation(Orientation::SOUTH),
-            Collider(-8 / 2, -8 / 2, 8, 8)
+            Collider(-8 / 2, -8 / 2, 8, 8),
+            OnPlayerDeath([](World& world, const Ent& this_entity) {
+                if (auto opt_animation = world.get_components<Animation>(this_entity)) {
+                    auto [animation] = opt_animation.value();
+
+                    animation.play(BarbareAnimType::DEAD);
+                }
+            })
         ),
         // Children
         {

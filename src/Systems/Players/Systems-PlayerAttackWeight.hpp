@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void playerAttackWeightSys(MainFixedSystem, World& world) {
-    auto players = world.view<PlayerAttackWeight, Velocity>();
+    auto players = world.query<PlayerAttackWeight, Velocity>(without<IsPlayerDead>);
 
     auto [time] = world.resource<const Time>();
 

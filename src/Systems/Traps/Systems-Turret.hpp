@@ -7,13 +7,13 @@
 #include <Images.hpp>
 
 void turretCardinalSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTurretCardinal, Animation, const Transform2D, const Turret, const ZIndex>();
+    auto traps = world.query<IsTurretCardinal, Animation, const Transform2D, const Turret, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [trapEnt, isTurretCardinal, animation, transform, turret, zindex]: traps) {
         if (isTurretCardinal.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<Turret>(trapEnt);
                 animation.play(TurretAnimType::OFF);
             } else {
@@ -44,13 +44,13 @@ void turretCardinalSys(MainFixedSystem, World& world) {
 }
 
 void turretDiagonalSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTurretDiagonal, Animation, const Transform2D, const Turret, const ZIndex>();
+    auto traps = world.query<IsTurretDiagonal, Animation, const Transform2D, const Turret, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [trapEnt, isTurretDiagonal, animation, transform, turret, zindex]: traps) {
         if (isTurretDiagonal.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<Turret>(trapEnt);
                 animation.play(TurretAnimType::OFF);
             } else {

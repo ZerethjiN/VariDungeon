@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void slimeLvl2MoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Move, Orientation, SlimeLvl2, const Speed, const Transform2D>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSlimeLvl2Move, Orientation, SlimeLvl2, const Speed, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -70,8 +70,8 @@ void slimeLvl2MoveSys(MainFixedSystem, World& world) {
 }
 
 void slimeLvl2JumpSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSlimeLvl2Jump, Orientation, const Speed, const Transform2D, const SlimeLvl2>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSlimeLvl2Jump, Orientation, const Speed, const Transform2D, const SlimeLvl2>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

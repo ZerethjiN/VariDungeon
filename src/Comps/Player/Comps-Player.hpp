@@ -6,6 +6,13 @@ class Player final: public IComponent {};
 class PlayerWeapon final: public IComponent {};
 class PlayerAttractor final: public IComponent {};
 
+class IsPlayerDead final: public IComponent, public IIsStateDuration {
+public:
+    IsPlayerDead(float new_duration):
+        IIsStateDuration(new_duration) {
+    }
+};
+
 class PlayerAttackCooldown final: public IComponent {
 public:
     PlayerAttackCooldown(float newAttackCooldown):
@@ -131,4 +138,14 @@ private:
     const float forwardDuration;
     float curTime;
     bool isForward;
+};
+
+class OnPlayerDeath final: public IComponent {
+public:
+    OnPlayerDeath(const std::function<void(World&, const Ent&)>& new_callback):
+        callback(new_callback) {
+    }
+
+public:
+    std::function<void(World&, const Ent&)> callback;
 };

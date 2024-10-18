@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void rockBossPreRollSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockBossPreRoll, const Orientation, const RockBoss>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsRockBossPreRoll, const Orientation, const RockBoss>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -20,7 +20,7 @@ void rockBossPreRollSys(MainFixedSystem, World& world) {
 }
 
 void rockBossRollSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, RockBoss, const Orientation, const Speed>(with<IsRockBossRoll, Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Velocity, Animation, RockBoss, const Orientation, const Speed>(with<IsRockBossRoll, Unhittable>, without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -87,7 +87,7 @@ void rockBossRollSys(MainFixedSystem, World& world) {
 }
 
 void rockBossStunSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsRockBossStun, RockBoss, const Orientation, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsRockBossStun, RockBoss, const Orientation, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -105,7 +105,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 
             // switch (rand() % 2) {
             //     case 0:
-            //         for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            //         for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
             //             for (int l = 0; l < 3; l++) {
             //                 for (int i = 0; i < 8; i++) {
             //                     instantiateGroundCrystalAttack(world, roomTransform.getPosition() + glm::vec2(i * 16.f - 64.f,  l * 40.f - 48.f));
@@ -114,7 +114,7 @@ void rockBossStunSys(MainFixedSystem, World& world) {
             //         }
             //         break;
             //     case 1:
-            //         for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            //         for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
             //             for (int l = 0; l < 3; l++) {
             //                 for (int i = 0; i < 6; i++) {
             //                     instantiateGroundCrystalAttack(world, roomTransform.getPosition() + glm::vec2(l * 56.f - 64.f, i * 16.f - 48.f));
@@ -171,8 +171,8 @@ void rockBossStunSys(MainFixedSystem, World& world) {
 }
 
 void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsRockBossGroundCrystals, RockBoss, Orientation, const Speed, const Transform2D>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsRockBossGroundCrystals, RockBoss, Orientation, const Speed, const Transform2D>(with<Unhittable>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -233,14 +233,14 @@ void rockBossGroundCrystalsSys(MainFixedSystem, World& world) {
 }
 
 void rockBossSmallCrystalThrowSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<RockBoss>(without<IsRockBossStun, EnemyPreSpawn>);
+    auto enemies = world.query<RockBoss>(without<IsRockBossStun, EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
     for (auto [enemyEnt, rockBoss]: enemies) {
         if (rockBoss.canThrowSmallCrystal(time.fixedDelta())) {
-            for (auto [smallCrystalEnt]: world.view(with<SmallCrystalRotation>)) {
-                for (auto [_, playerTransform, zindex]: world.view<const Transform2D, const ZIndex>(with<Player>)) {
+            for (auto [smallCrystalEnt]: world.query(with<SmallCrystalRotation>)) {
+                for (auto [_, playerTransform, zindex]: world.query<const Transform2D, const ZIndex>(with<Player>)) {
                     world.remove_components<SmallCrystalRotation>(smallCrystalEnt);
                     world.add_components(smallCrystalEnt, SmallCrystalThrow(playerTransform.getPosition(), 64.f));
                     instantiateFloorCrossParticle(world, playerTransform.getPosition(), zindex);

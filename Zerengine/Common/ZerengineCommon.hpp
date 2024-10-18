@@ -570,7 +570,7 @@ private:
 void lifeTimeSys(MainFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
-    for (auto [ent, lifeTime]: world.view<LifeTime>()) {
+    for (auto [ent, lifeTime]: world.query<LifeTime>()) {
         if (lifeTime.isEndDuration(time.fixedDelta())) {
             world.delete_entity(ent);
         }
@@ -602,7 +602,7 @@ private:
 void unscaledLifeTimeSys(MainUnscaledFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
-    for (auto [ent, lifeTime]: world.view<UnscaledLifeTime>()) {
+    for (auto [ent, lifeTime]: world.query<UnscaledLifeTime>()) {
         if (lifeTime.isEndDuration(time.unscaledFixedDelta())) {
             world.delete_entity(ent);
         }

@@ -7,13 +7,13 @@
 #include <Images.hpp>
 
 void playerLootSys(MainFixedSystem, World& world) {
-    auto players = world.view<const OnCollisionStay>(with<PlayerAttractor>);
+    auto players = world.query<const OnCollisionStay>(with<PlayerAttractor>, without<IsPlayerDead>);
 
     for (auto [_, collisions]: players) {
         for (auto othEnt: collisions) {
             if (world.has_components<Lootable>(othEnt)) {
                 world.remove_components<Lootable>(othEnt);
-                for (auto [player_ent]: world.view(with<Player>)) {
+                for (auto [player_ent]: world.query(with<Player>)) {
                     world.add_components(othEnt,
                         LootAttract(128.f, player_ent)
                     );
@@ -28,7 +28,7 @@ void playerLootSys(MainFixedSystem, World& world) {
 }
 
 void playerLootAttractSys(MainFixedSystem, World& world) {
-    auto loots = world.view<Velocity, const Transform2D, const LootAttract>();
+    auto loots = world.query<Velocity, const Transform2D, const LootAttract>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 

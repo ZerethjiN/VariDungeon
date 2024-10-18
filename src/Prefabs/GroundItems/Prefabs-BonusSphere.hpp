@@ -38,7 +38,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
 
                 // Menu Bonus:
                 std::unordered_map<std::size_t, BonusData> lastBonuses;
-                for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                     for (const auto& bonus: bonusVec) {
                         if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
                             lastBonuses.emplace(bonus.type, bonus);
@@ -54,7 +54,7 @@ Ent instantiateBonusSphere(World& world, const glm::vec2& position) {
                         alreadyLevelMax = false;
                         newBonusIdx = rand() % bonusVec.size();
                         alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
-                        for (auto [_, playerBonuses]: world.view<const PlayerBonuses>()) {
+                        for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                             alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
                         }
                     } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);

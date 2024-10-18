@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void inventoryBarShrinkSys(MainFixedSystem, World& world) {
-    auto icons = world.view<ShrinkIcon, Transform2D>();
+    auto icons = world.query<ShrinkIcon, Transform2D>();
 
     auto [time] = world.resource<const Time>();
 

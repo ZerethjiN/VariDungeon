@@ -7,16 +7,16 @@
 
 void mapMenuOpenCloseSys(MainUnscaledFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::MAP_MENU)) {
-        auto mapMenus = world.view<const Transform2D>(with<MapMenu>);
+        auto mapMenus = world.query<const Transform2D>(with<MapMenu>);
 
         auto [time] = world.resource<Time>();
 
         if (mapMenus.empty()) {
-            if (world.view(with<Menu>).empty()) {
+            if (world.query(with<Menu>).empty()) {
                 time.setTimeScale(0);
                 instantiateMapMenuUI(world, glm::vec2(-72, -64));
             }
-        } else if (!world.view<const Transform2D>(with<MapMenu>, without<MapMenuTranslation, MapMenuReverseTranslation>).empty()) {
+        } else if (!world.query<const Transform2D>(with<MapMenu>, without<MapMenuTranslation, MapMenuReverseTranslation>).empty()) {
             for (auto [mapMenuEnt, mapMenuTransform]: mapMenus) {
                 world.add_components(mapMenuEnt, MapMenuReverseTranslation(mapMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
@@ -25,7 +25,7 @@ void mapMenuOpenCloseSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const MapMenuTranslation>();
+    auto menus = world.query<Transform2D, const MapMenuTranslation>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -61,7 +61,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                 )
             });
 
-            for (auto [_, exploration]: world.view<const ChunkExploration>()) {
+            for (auto [_, exploration]: world.query<const ChunkExploration>()) {
                 for (int y = 0; y < exploration.height; y++) {
                     for (int x = 0; x < exploration.width; x++) {
                         switch (exploration.roomTypes.at(y).at(x)) {
@@ -129,7 +129,7 @@ void mapMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void mapMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const MapMenuReverseTranslation>();
+    auto menus = world.query<Transform2D, const MapMenuReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 

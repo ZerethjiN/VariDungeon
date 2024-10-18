@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void knockbackSys(MainFixedSystem, World& world) {
-    auto knockbacks = world.view<Knockback, Velocity>();
+    auto knockbacks = world.query<Knockback, Velocity>();
 
     auto [time] = world.resource<const Time>();
 

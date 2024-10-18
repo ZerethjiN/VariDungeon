@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void shadowMarkPreExplosionSys(MainFixedSystem, World& world) {
-    auto marks = world.view<Animation, IsShadowMarkPreExplosion, const ShadowMark>();
+    auto marks = world.query<Animation, IsShadowMarkPreExplosion, const ShadowMark>();
 
     auto [time] = world.resource<const Time>();
 
@@ -24,7 +24,7 @@ void shadowMarkPreExplosionSys(MainFixedSystem, World& world) {
 }
 
 void shadowMarkExplosionSys(MainFixedSystem, World& world) {
-    auto marks = world.view<IsShadowMarkExplosion>();
+    auto marks = world.query<IsShadowMarkExplosion>();
 
     auto [time] = world.resource<const Time>();
 

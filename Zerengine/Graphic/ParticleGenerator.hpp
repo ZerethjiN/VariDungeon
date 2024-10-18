@@ -133,7 +133,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////
 
 // void particleSystems(World& world) {
-//     auto generators = world.view<ParticleGenerator, const Transform2D>();
+//     auto generators = world.query<ParticleGenerator, const Transform2D>();
 
 //     auto [time] = world.getRes<const Time>();
 
@@ -164,7 +164,7 @@ public:
 // }
 
 void generatorParticleMovement(World& world) {
-    auto particles = world.view<Velocity, const GeneratorParticle>();
+    auto particles = world.query<Velocity, const GeneratorParticle>();
 
     auto [time] = world.resource<const Time>();
 

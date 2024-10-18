@@ -6,8 +6,8 @@
 #include <Images.hpp>
 
 void talentSphereOpenSys(MainUnscaledFixedSystem, World& world) {
-    auto spheres = world.view<const OnCollisionEnter>(with<TalentSphere>);
-    auto menus = world.view(with<Menu>);
+    auto spheres = world.query<const OnCollisionEnter>(with<TalentSphere>);
+    auto menus = world.query(with<Menu>);
 
     auto [time] = world.resource<Time>();
 
@@ -24,7 +24,7 @@ void talentSphereOpenSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void talentSphererCloseSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<const Transform2D>(with<TalentSphereMenu>, without<TalentSphereMenuReverseTranslation, TalentSphereMenuTranslation>);
+    auto menus = world.query<const Transform2D>(with<TalentSphereMenu>, without<TalentSphereMenuReverseTranslation, TalentSphereMenuTranslation>);
 
     if (!menus.empty() && vulkanEngine.window.isKeyDown(ButtonNameType::EXIT)) {
         for (auto [menu_ent, menuTransform]: menus) {
@@ -34,7 +34,7 @@ void talentSphererCloseSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void talentSphereMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const TalentSphereMenuTranslation>();
+    auto menus = world.query<Transform2D, const TalentSphereMenuTranslation>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -50,7 +50,7 @@ void talentSphereMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void talentSphereMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const TalentSphereMenuReverseTranslation>();
+    auto menus = world.query<Transform2D, const TalentSphereMenuReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 

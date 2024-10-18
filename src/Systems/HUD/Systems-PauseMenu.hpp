@@ -7,16 +7,16 @@
 
 void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::EXIT)) {
-        auto pauseMenus = world.view<const Transform2D>(with<PauseMenu>);
+        auto pauseMenus = world.query<const Transform2D>(with<PauseMenu>);
 
         auto [time] = world.resource<Time>();
 
         if (pauseMenus.empty()) {
-            if (world.view(with<Menu>).empty()) {
+            if (world.query(with<Menu>).empty()) {
                 time.setTimeScale(0);
                 instantiatePauseMenuUI(world, glm::vec2(-72, -64));
             }
-        } else if (!world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
+        } else if (!world.query<const Transform2D>(with<PauseMenu>, without<PauseMenuTranslation, PauseMenuReverseTranslation>).empty()) {
             for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
                 world.add_components(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
             }
@@ -25,7 +25,7 @@ void pauseMenuOpenCloseSys(MainFixedSystem, World& world) {
 }
 
 void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const PauseMenuTranslation>();
+    auto menus = world.query<Transform2D, const PauseMenuTranslation>();
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -84,7 +84,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
                     ),
                     ZIndex(1),
                     PauseMenuCallback(0, [](World& world, Ent thisEnt) {
-                        auto pauseMenus = world.view<const Transform2D>(with<PauseMenu>, without<PauseMenuReverseTranslation>);
+                        auto pauseMenus = world.query<const Transform2D>(with<PauseMenu>, without<PauseMenuReverseTranslation>);
 
                         for (auto [pauseMenuEnt, pauseMenuTransform]: pauseMenus) {
                             world.add_components(pauseMenuEnt, PauseMenuReverseTranslation(pauseMenuTransform.getPosition() + glm::vec2(0, 144), 512.f));
@@ -112,7 +112,7 @@ void pauseMenuTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void pauseMenuSelectorSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<PauseMenuSelector, const Transform2D>(without<PauseMenuSelectorMoveDown, PauseMenuSelectorMoveUp>);
+    auto selectors = world.query<PauseMenuSelector, const Transform2D>(without<PauseMenuSelectorMoveDown, PauseMenuSelectorMoveUp>);
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
@@ -166,7 +166,7 @@ void pauseMenuSelectorSys(MainUnscaledFixedSystem, World& world) {
             ) {
                 printf("BRAVO!!!\n");
             }
-            for (auto [callbackEnt, callback]: world.view<const PauseMenuCallback>()) {
+            for (auto [callbackEnt, callback]: world.query<const PauseMenuCallback>()) {
                 if (callback.id == selector.getCurElement()) {
                     callback.callback(world, callbackEnt);
                     break;
@@ -177,7 +177,7 @@ void pauseMenuSelectorSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void pauseMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
-    auto menus = world.view<Transform2D, const PauseMenuReverseTranslation>();
+    auto menus = world.query<Transform2D, const PauseMenuReverseTranslation>();
 
     auto [time] = world.resource<Time>();
 
@@ -195,7 +195,7 @@ void pauseMenuReverseTranslationSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void pauseMenuSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const PauseMenuSelectorMoveDown>();
+    auto selectors = world.query<Transform2D, const PauseMenuSelectorMoveDown>();
 
     auto [time] = world.resource<const Time>();
 
@@ -210,7 +210,7 @@ void pauseMenuSelectorMoveDownSys(MainUnscaledFixedSystem, World& world) {
 }
 
 void pauseMenuSelectorMoveUpSys(MainUnscaledFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const PauseMenuSelectorMoveUp>();
+    auto selectors = world.query<Transform2D, const PauseMenuSelectorMoveUp>();
 
     auto [time] = world.resource<const Time>();
 

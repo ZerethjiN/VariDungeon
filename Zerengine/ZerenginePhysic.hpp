@@ -503,7 +503,7 @@ inline void updateVelocityRec(World& world, Ent ent, const glm::vec2& vel) {
 }
 
 inline void updateVelocitySys(LateFixedSystem, World& world) {
-    for (auto [ent, velocity, trans]: world.view<Velocity, Transform2D>()) {
+    for (auto [ent, velocity, trans]: world.query<Velocity, Transform2D>()) {
         if (velocity.vel != glm::vec2(0, 0)) {
             trans.moveVelocity(velocity.vel);
             updateVelocityRec(world, ent, velocity.vel);
@@ -515,7 +515,7 @@ inline void updateVelocitySys(LateFixedSystem, World& world) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 inline void updatePositionSys(LateUnscaledFixedSystem, World& world) {
-    for (auto [ent, trans]: world.view<Transform2D>()) {
+    for (auto [ent, trans]: world.query<Transform2D>()) {
         if (trans.needUpdatePosition) {
             trans.moveVelocity(trans.diffPosition);
             updateVelocityRec(world, ent, trans.diffPosition);
@@ -532,38 +532,38 @@ inline void updatePositionSys(LateUnscaledFixedSystem, World& world) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 inline void collisionSys(LateFixedSystem, World& world) {
-    for (auto [_, collision]: world.view<OnCollisionEnter>()) {
+    for (auto [_, collision]: world.query<OnCollisionEnter>()) {
         collision.oldOthCols.swap(collision.othCols);
         collision.othCols.clear();
     }
 
-    for (auto [_, collision]: world.view<OnCollisionStay>()) {
+    for (auto [_, collision]: world.query<OnCollisionStay>()) {
         collision.oldOthCols.swap(collision.othCols);
         collision.othCols.clear();
     }
 
-    for (auto [_, collision]: world.view<OnCollisionExit>()) {
+    for (auto [_, collision]: world.query<OnCollisionExit>()) {
         collision.oldOthCols.swap(collision.othCols);
         collision.othCols.clear();
     }
 
     auto [layerBasedCollisions, spatialHashMap] = world.resource<const LayerBasedCollisions, SpatialHashMap>();
 
-    for (auto [othEnt, othTrig, othTrans]: world.view<const Trigger, Transform2D>()) {
+    for (auto [othEnt, othTrig, othTrans]: world.query<const Trigger, Transform2D>()) {
         if (othTrans.hashMapUpdated) {
             othTrans.hashMapUpdated = false;
             spatialHashMap.emplace_or_replace(othEnt, othTrig.col, othTrans.getModel());
         }
     }
 
-    for (auto [othEnt, othCol, othTrans]: world.view<const Collider, Transform2D>()) {
+    for (auto [othEnt, othCol, othTrans]: world.query<const Collider, Transform2D>()) {
         if (othTrans.hashMapUpdated) {
             othTrans.hashMapUpdated = false;
             spatialHashMap.emplace_or_replace(othEnt, othCol.col, othTrans.getModel());
         }
     }
 
-    for (auto [dynEnt, dynTrig, dynTrans]: world.view<const Trigger, Transform2D>(with<Velocity>)) {
+    for (auto [dynEnt, dynTrig, dynTrans]: world.query<const Trigger, Transform2D>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynTrig.col, dynTrans.getModel());
 
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
@@ -758,7 +758,7 @@ inline void collisionSys(LateFixedSystem, World& world) {
         }
     }
 
-    for (auto [dynEnt, dynCol, dynTrans]: world.view<const Collider, Transform2D>(with<Velocity>)) {
+    for (auto [dynEnt, dynCol, dynTrans]: world.query<const Collider, Transform2D>(with<Velocity>)) {
         auto list = spatialHashMap.getIntersectList(dynEnt, dynCol.col, dynTrans.getModel());
 
         if (auto onCollisionEnterOpt = world.getThisFrame<OnCollisionEnter>(dynEnt)) {
@@ -981,19 +981,19 @@ inline void collisionSys(LateFixedSystem, World& world) {
     }
 
     // Purge Empty Collisions
-    for (auto [entCollision, collision]: world.view<OnCollisionEnter>()) {
+    for (auto [entCollision, collision]: world.query<OnCollisionEnter>()) {
         if (collision.othCols.empty()) {
             world.remove_components<OnCollisionEnter>(entCollision);
         }
     }
 
-    for (auto [entCollision, collision]: world.view<OnCollisionStay>()) {
+    for (auto [entCollision, collision]: world.query<OnCollisionStay>()) {
         if (collision.othCols.empty()) {
             world.remove_components<OnCollisionStay>(entCollision);
         }
     }
 
-    for (auto [entCollision, collision]: world.view<OnCollisionExit>()) {
+    for (auto [entCollision, collision]: world.query<OnCollisionExit>()) {
         if (collision.othCols.empty()) {
             world.remove_components<OnCollisionExit>(entCollision);
         }
@@ -1008,21 +1008,21 @@ inline void purgeCollisionSys(LateUnscaledFixedSystem, World& world) {
     for (const auto othEnt: world.getDestroyedEnts()) {
         spatialHashMap.erase(othEnt);
         if (world.has_components<OnCollisionEnter>(othEnt) || world.has_components<OnCollisionStay>(othEnt) || world.has_components<OnCollisionExit>(othEnt)) {
-            for (auto [_, collision]: world.view<OnCollisionEnter>()) {
+            for (auto [_, collision]: world.query<OnCollisionEnter>()) {
                 // if (collision.othCols.contains(othEnt)) {
                     // printf("Purge Enter: [%zu]\n", othEnt);
                     collision.othCols.erase(othEnt);
                 // }
             }
 
-            for (auto [_, collision]: world.view<OnCollisionStay>()) {
+            for (auto [_, collision]: world.query<OnCollisionStay>()) {
                 // if (collision.othCols.contains(othEnt)) {
                     // printf("Purge Stay: [%zu]\n", othEnt);
                     collision.othCols.erase(othEnt);
                 // }
             }
 
-            for (auto [_, collision]: world.view<OnCollisionExit>()) {
+            for (auto [_, collision]: world.query<OnCollisionExit>()) {
                 // if (collision.othCols.contains(othEnt)) {
                     // printf("Purge Exit: [%zu]\n", othEnt);
                     collision.othCols.erase(othEnt);

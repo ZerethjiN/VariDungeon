@@ -88,7 +88,7 @@ void hubScene(SceneSystem, World& world) {
     instantiateInventoryBarUI(world, glm::vec2(-80, -16));
 
     // Spawn Player + Camera:
-    auto players = world.view<Transform2D>(with<Player>);
+    auto players = world.query<Transform2D>(with<Player>);
     if (players.empty()) {
         auto playerEnt = instantiateBarbarian(world, glm::vec2(2 * 160, 2 * 128) + glm::vec2(-8, -8));
         world.addDontDestroyOnLoad(playerEnt);
@@ -98,7 +98,7 @@ void hubScene(SceneSystem, World& world) {
         }
     }
 
-    auto cameras = world.view(with<CurCamera>);
+    auto cameras = world.query(with<CurCamera>);
     if (cameras.empty()) {
         auto cameraOrigin = world.create_entity(
             Transform2D(
@@ -133,7 +133,7 @@ void hubScene(SceneSystem, World& world) {
             }
         }
 
-        for (auto [cameraEnt]: world.view(with<CameraShake>)) {
+        for (auto [cameraEnt]: world.query(with<CameraShake>)) {
             if (world.has_components<CameraShake>(cameraEnt)) {
                 world.remove_components<CameraShake>(cameraEnt);
             }

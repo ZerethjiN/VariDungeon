@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void laserBonusCallbackLvl1(World& world) {
-    auto players = world.view(with<Player>, without<PlayerLaser>);
+    auto players = world.query(with<Player>, without<PlayerLaser>);
 
     for (auto [playerEnt]: players) {
         world.add_components(playerEnt, PlayerLaser(0.75f));

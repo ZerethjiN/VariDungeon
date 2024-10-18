@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void homeMenuBackgroundSlideSys(MainFixedSystem, World& world) {
-    auto backgrounds = world.view<Transform2D, HomeMenuBackgroundSlide>();
+    auto backgrounds = world.query<Transform2D, HomeMenuBackgroundSlide>();
 
     auto [time] = world.resource<const Time>();
 
@@ -20,17 +20,17 @@ void homeMenuBackgroundSlideSys(MainFixedSystem, World& world) {
 }
 
 void homeMenuSelectorSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<HomeMenuSelector, const Transform2D>(without<HomeMenuSelectorMoveDown, HomeMenuSelectorMoveUp>);
+    auto selectors = world.query<HomeMenuSelector, const Transform2D>(without<HomeMenuSelectorMoveDown, HomeMenuSelectorMoveUp>);
 
     for (auto [selectorEnt, selector, selectorTransform]: selectors) {
         if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_DOWN)) {
             if (selector.nextElement()) {
                 world.add_components(selectorEnt, HomeMenuSelectorMoveDown(selectorTransform.getPosition() + glm::vec2(0, 40), 384.f));
-                for (auto [curButtonEnt, transform]: world.view<Transform2D>(with<HomeMenuButtonId, HomeMenuSelectedButton>)) {
+                for (auto [curButtonEnt, transform]: world.query<Transform2D>(with<HomeMenuButtonId, HomeMenuSelectedButton>)) {
                     world.remove_components<HomeMenuSelectedButton>(curButtonEnt);
                     transform.scale(-0.05f, -0.05f);
                 }
-                for (auto [curButtonEnt, transform, buttonId]: world.view<Transform2D, const HomeMenuButtonId>(without<HomeMenuSelectedButton>)) {
+                for (auto [curButtonEnt, transform, buttonId]: world.query<Transform2D, const HomeMenuButtonId>(without<HomeMenuSelectedButton>)) {
                     if (buttonId.buttonId == selector.getCurElement()) {
                         world.add_components(curButtonEnt, HomeMenuSelectedButton());
                         transform.scale(0.05f, 0.05f);
@@ -40,11 +40,11 @@ void homeMenuSelectorSys(MainFixedSystem, World& world) {
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::MOVE_UP)) {
             if (selector.previousElement()) {
                 world.add_components(selectorEnt, HomeMenuSelectorMoveUp(selectorTransform.getPosition() + glm::vec2(0, -40), 384.f));
-                for (auto [curButtonEnt, transform]: world.view<Transform2D>(with<HomeMenuButtonId, HomeMenuSelectedButton>)) {
+                for (auto [curButtonEnt, transform]: world.query<Transform2D>(with<HomeMenuButtonId, HomeMenuSelectedButton>)) {
                     world.remove_components<HomeMenuSelectedButton>(curButtonEnt);
                     transform.scale(-0.05f, -0.05f);
                 }
-                for (auto [curButtonEnt, transform, buttonId]: world.view<Transform2D, const HomeMenuButtonId>(without<HomeMenuSelectedButton>)) {
+                for (auto [curButtonEnt, transform, buttonId]: world.query<Transform2D, const HomeMenuButtonId>(without<HomeMenuSelectedButton>)) {
                     if (buttonId.buttonId == selector.getCurElement()) {
                         world.add_components(curButtonEnt, HomeMenuSelectedButton());
                         transform.scale(0.05f, 0.05f);
@@ -52,7 +52,7 @@ void homeMenuSelectorSys(MainFixedSystem, World& world) {
                 }
             }
         } else if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
-            for (auto [curButtonEnt, callback]: world.view<HomeMenuButtonCallback>(with<HomeMenuSelectedButton>)) {
+            for (auto [curButtonEnt, callback]: world.query<HomeMenuButtonCallback>(with<HomeMenuSelectedButton>)) {
                 callback.callback(world, curButtonEnt);
             }
         } else if (vulkanEngine.window.isKeyUp(ButtonNameType::EXIT)) {
@@ -63,7 +63,7 @@ void homeMenuSelectorSys(MainFixedSystem, World& world) {
 }
 
 void homeMenuSelectorMoveDownSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const HomeMenuSelectorMoveDown>();
+    auto selectors = world.query<Transform2D, const HomeMenuSelectorMoveDown>();
 
     auto [time] = world.resource<const Time>();
 
@@ -78,7 +78,7 @@ void homeMenuSelectorMoveDownSys(MainFixedSystem, World& world) {
 }
 
 void homeMenuSelectorMoveUpSys(MainFixedSystem, World& world) {
-    auto selectors = world.view<Transform2D, const HomeMenuSelectorMoveUp>();
+    auto selectors = world.query<Transform2D, const HomeMenuSelectorMoveUp>();
 
     auto [time] = world.resource<const Time>();
 

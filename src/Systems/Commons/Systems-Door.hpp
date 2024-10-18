@@ -7,10 +7,10 @@
 #include <Images.hpp>
 
 void openDoorSys(MainFixedSystem, World& world) {
-    auto enemies = world.view(with<Enemy>);
+    auto enemies = world.query(with<Enemy>);
 
     if (enemies.empty()) {
-        auto doors = world.view(with<Sprite, Collider, IsDoorLock>, without<Trigger, IsDoorWithKey>);
+        auto doors = world.query(with<Sprite, Collider, IsDoorLock>, without<Trigger, IsDoorWithKey>);
 
         for (auto [doorEnt]: doors) {
             world.remove_components<Sprite, Collider, IsDoorLock>(doorEnt);
@@ -20,17 +20,17 @@ void openDoorSys(MainFixedSystem, World& world) {
 }
 
 void openDoorWithKeySys(MainFixedSystem, World& world) {
-    auto doors = world.view<const OnCollisionEnter>(with<IsDoorLock, IsDoorWithKey>, without<Trigger>);
+    auto doors = world.query<const OnCollisionEnter>(with<IsDoorLock, IsDoorWithKey>, without<Trigger>);
 
     for (auto [_, door_collision]: doors) {
         for (const auto& oth_ent: door_collision) {
             if (world.has_components<IsPlayerKey>(oth_ent)) {
-                for (auto [door_ent]: world.view(with<Sprite, Collider, IsDoorLock, IsDoorWithKey>, without<Trigger>)) {
+                for (auto [door_ent]: world.query(with<Sprite, Collider, IsDoorLock, IsDoorWithKey>, without<Trigger>)) {
                     world.remove_components<Sprite, Collider, IsDoorLock, IsDoorWithKey>(door_ent);
                     world.add_components(door_ent, Trigger(-32 / 2, -8 / 2, 32, 8));
                 }
                 world.remove_components<IsPlayerKey>(oth_ent);
-                for (auto [_, keyUI]: world.view<UI>(with<PlayerKeyIcon>)) {
+                for (auto [_, keyUI]: world.query<UI>(with<PlayerKeyIcon>)) {
                     keyUI.setTextureRect(HUDElementsUV[6]);
                 }
             }
@@ -39,7 +39,7 @@ void openDoorWithKeySys(MainFixedSystem, World& world) {
 }
 
 void doorCameraMovementSys(MainFixedSystem, World& world) {
-    auto cameras = world.view<Transform2D, const ChunkCameraMovement>();
+    auto cameras = world.query<Transform2D, const ChunkCameraMovement>();
 
     auto [time] = world.resource<const Time>();
 
@@ -52,7 +52,7 @@ void doorCameraMovementSys(MainFixedSystem, World& world) {
                 world.remove_components<ChunkCameraMovement>(cameraEnt);
                 world.setInactive(chunkCameraMovement.getOldRoomEnt());
 
-                for (auto [playerEnt]: world.view(with<Player, Unmoveable>)) {
+                for (auto [playerEnt]: world.query(with<Player, Unmoveable>)) {
                     world.remove_components<Unmoveable>(playerEnt);
                 }
             } else {
@@ -65,24 +65,24 @@ void doorCameraMovementSys(MainFixedSystem, World& world) {
 }
 
 void doorTriggerSys(MainFixedSystem, World& world) {
-    auto doors = world.view<const OnCollisionEnter, const DoorTrigger>(without<IsDoorLock>);
+    auto doors = world.query<const OnCollisionEnter, const DoorTrigger>(without<IsDoorLock>);
 
     for (auto [_, collisions, doorTrigger]: doors) {
         for (auto othEnt: collisions) {
             if (world.has_components<Player, Transform2D>(othEnt)) {
                 Ent nextRoomEnt = 0;
-                for (auto [_, exploration, chunkTable]: world.view<ChunkExploration, const ChunkTable>()) {
+                for (auto [_, exploration, chunkTable]: world.query<ChunkExploration, const ChunkTable>()) {
                     nextRoomEnt = chunkTable.getChunkById(doorTrigger.getNextRoomIdx());
                     exploration.roomTypes[doorTrigger.curRoomXY.y][doorTrigger.curRoomXY.x] = ChunkExploration::ROOM_EXPLORATION_KNOW;
                     exploration.roomTypes[doorTrigger.nextRoomXY.y][doorTrigger.nextRoomXY.x] = ChunkExploration::ROOM_EXPLORATION_PLAYER;
                 }
 
                 Ent curRoomEnt = 0;
-                for (auto [roomEnt]: world.view(with<ChunkInfos>)) {
+                for (auto [roomEnt]: world.query(with<ChunkInfos>)) {
                     curRoomEnt = roomEnt;
                 }
 
-                for (auto [cameraEnt]: world.view(with<CurCamera>)) {
+                for (auto [cameraEnt]: world.query(with<CurCamera>)) {
                     if (auto optParent = world.get_parent(cameraEnt)) {
                         auto cameraParentEnt = optParent.value();
                         if (curRoomEnt != 0 && nextRoomEnt != 0) {

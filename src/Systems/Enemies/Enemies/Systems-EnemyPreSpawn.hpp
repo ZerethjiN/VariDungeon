@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void enemyPreSpawnSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<EnemyPreSpawn, const Transform2D, const ZIndex>();
+    auto enemies = world.query<EnemyPreSpawn, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -16,7 +16,7 @@ void enemyPreSpawnSys(MainFixedSystem, World& world) {
     for (auto [enemyEnt, enemyPreSpawn, transform, zindex]: enemies) {
         if (enemyPreSpawn.canRemovePreSpawn(time.fixedDelta())) {
             world.remove_components<EnemyPreSpawn>(enemyEnt);
-            if (noHealthBar && world.has_components<Boss>(enemyEnt) && world.view(with<BossHealthBar>).empty()) {
+            if (noHealthBar && world.has_components<Boss>(enemyEnt) && world.query(with<BossHealthBar>).empty()) {
                 instantiateBossHealthBarUI(world, glm::vec2(0, 0));
                 noHealthBar = false;
             }

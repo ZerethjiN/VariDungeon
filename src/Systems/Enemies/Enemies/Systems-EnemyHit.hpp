@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void enemyHitSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Transform2D, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<InvincibleFrame>);
+    auto enemies = world.query<Transform2D, Life, const OnCollisionEnter, const ZIndex, const Loots>(with<Enemy>, without<InvincibleFrame>);
 
     for (auto [enemyEnt, enemyTransform, life, collisions, zindex, loots]: enemies) {
         if (life.isDead()) {
@@ -36,7 +36,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
 
                     if (world.has_components<Velocity>(enemyEnt)) {
                         float knockbackStrength = 128.f;
-                        for (auto [_, playerKnockbackStrength]: world.view<const PlayerKnockbackStrength>()) {
+                        for (auto [_, playerKnockbackStrength]: world.query<const PlayerKnockbackStrength>()) {
                             knockbackStrength = playerKnockbackStrength.getKnockbackStrength();
                         }
 
@@ -89,7 +89,7 @@ void enemyHitSys(MainFixedSystem, World& world) {
                         }
                     }
 
-                    for (auto [playerEnt, playerAttackSpeed, playerSpeed]: world.view<PlayerAttackCooldown, Speed>(with<Player>)) {
+                    for (auto [playerEnt, playerAttackSpeed, playerSpeed]: world.query<PlayerAttackCooldown, Speed>(with<Player>)) {
                         if (auto opt = world.getThisFrame<PlayerFrenzy>(playerEnt)) {
                             auto [playerFrenzy] = opt.value();
                             playerFrenzy.reset();
@@ -106,11 +106,11 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     }
 
                     if (world.has_components<Boss>(enemyEnt)) {
-                        for (auto [bossHealthBarEnt]: world.view(with<BossHealthBar>)) {
+                        for (auto [bossHealthBarEnt]: world.query(with<BossHealthBar>)) {
                             world.delete_entity(bossHealthBarEnt);
                         }
                         if (!world.has_components<FinalBoss>(enemyEnt)) {
-                            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                            for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                                 instantiateChest(world, roomTransform.getPosition() + glm::vec2(-8, -40));
                             }
                         }
@@ -130,13 +130,13 @@ void enemyHitSys(MainFixedSystem, World& world) {
                     appliedCameraShake(world, 0.5f, 128.f, 2);
 
                     if (world.has_components<Boss>(enemyEnt)) {
-                        for (auto [_, lifeTextUI]: world.view<TextUI>(with<BossHealthBarText>)) {
+                        for (auto [_, lifeTextUI]: world.query<TextUI>(with<BossHealthBarText>)) {
                             lifeTextUI.setString("HP " + std::to_string(static_cast<int>(life.getCurNbLife())) + "/" + std::to_string(static_cast<int>(life.getNbLife())));
                         }
 
                         auto lifeRatio = life.getCurNbLife() / life.getNbLife();
 
-                        for (auto [_, ui, bossHealthBarInner]: world.view<UI, const BossHealthBarInner>()) {
+                        for (auto [_, ui, bossHealthBarInner]: world.query<UI, const BossHealthBarInner>()) {
                             ui.setTextureRect(glm::vec4(0, 36, static_cast<unsigned int>(lifeRatio * bossHealthBarInner.getMaxPixelSize()), 8));
                         }
                     }

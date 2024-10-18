@@ -8,7 +8,7 @@
 
 void menuChestValidateSys(MainUnscaledFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::VALIDATE)) {
-        for (auto [menuEnt]: world.view(with<MenuChest>)) {
+        for (auto [menuEnt]: world.query(with<MenuChest>)) {
             auto [time] = world.resource<Time>();
             time.setTimeScale(1);
             world.delete_entity(menuEnt);

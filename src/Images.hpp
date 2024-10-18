@@ -84,6 +84,7 @@
 #include "Images/HUD/Images-BossHealthBar.hpp"
 #include "Images/HUD/Images-BottomBar.hpp"
 #include "Images/HUD/Images-Firework.hpp"
+#include "Images/HUD/Images-GameOver.hpp"
 #include "Images/HUD/Images-HomeBackground.hpp"
 #include "Images/HUD/Images-HomeButton.hpp"
 #include "Images/HUD/Images-HUDElements.hpp"

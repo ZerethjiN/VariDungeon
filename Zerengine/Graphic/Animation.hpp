@@ -230,14 +230,14 @@ public:
 void animationSys(LateUnscaledFixedSystem, World& world) {
     auto [time] = world.resource<const Time>();
 
-    for (auto [_, anim, sprt]: world.view<Animation, Sprite>()) {
+    for (auto [_, anim, sprt]: world.query<Animation, Sprite>()) {
         if (anim.isUnscaled == AnimType::UNSCALED)
             anim.update(time.unscaledFixedDelta(), sprt);
         else
             anim.update(time.fixedDelta(), sprt);
     }
 
-    for (auto [_, anim, ui]: world.view<Animation, UI>()) {
+    for (auto [_, anim, ui]: world.query<Animation, UI>()) {
         if (anim.isUnscaled == AnimType::UNSCALED)
             anim.update(time.unscaledFixedDelta(), ui);
         else

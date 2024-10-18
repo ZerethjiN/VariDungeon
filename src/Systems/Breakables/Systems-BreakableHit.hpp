@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void breakableOnHitSys(MainFixedSystem, World& world) {
-    auto breakables = world.view<Animation, OnBreakableHitDuration>(with<Breakable>);
+    auto breakables = world.query<Animation, OnBreakableHitDuration>(with<Breakable>);
 
     auto [time] = world.resource<const Time>();
 
@@ -26,7 +26,7 @@ void breakableOnHitSys(MainFixedSystem, World& world) {
 }
 
 void breakableHitSys(MainFixedSystem, World& world) {
-    auto breakables = world.view<Transform2D, Life, Animation, ZIndex, const OnCollisionEnter, const Loots>(with<Breakable>, without<OnBreakableHitDuration, InvincibleFrame>);
+    auto breakables = world.query<Transform2D, Life, Animation, ZIndex, const OnCollisionEnter, const Loots>(with<Breakable>, without<OnBreakableHitDuration, InvincibleFrame>);
 
     for (auto [breakableEnt, transform, life, animation, zindex, collisions, loots]: breakables) {
         for (auto othEnt: collisions) {

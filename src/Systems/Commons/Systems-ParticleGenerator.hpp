@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void particleGeneratorSys(MainFixedSystem, World& world) {
-    auto generators = world.view<ParticleGenerator, const Transform2D>();
+    auto generators = world.query<ParticleGenerator, const Transform2D>();
 
     auto [time] = world.resource<const Time>();
 

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void unmoveable_timer_sys(MainFixedSystem, World& world) {
-    auto timers = world.view<UnmoveableTimer>(with<Unmoveable>);
+    auto timers = world.query<UnmoveableTimer>(with<Unmoveable>);
 
     auto [time] = world.resource<const Time>();
 

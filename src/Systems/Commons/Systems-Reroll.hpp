@@ -8,7 +8,7 @@
 
 void rerollSys(MainFixedSystem, World& world) {
     if (vulkanEngine.window.isKeyDown(ButtonNameType::REROLL_BUTTON)) {
-        for (auto [player_ent]: world.view(with<Player>)) {
+        for (auto [player_ent]: world.query(with<Player>)) {
             world.delete_entity(player_ent);
         }
         world.loadScene(testScene);

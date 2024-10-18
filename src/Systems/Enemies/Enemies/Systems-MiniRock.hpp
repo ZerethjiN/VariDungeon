@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void miniRockSpawnerSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, MiniRockSpawner, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, MiniRockSpawner, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -27,8 +27,8 @@ void miniRockSpawnerSys(MainFixedSystem, World& world) {
 }
 
 void miniRockMoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, Orientation, const Speed, const Transform2D, const ZIndex>(with<MiniRock>, without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, Orientation, const Speed, const Transform2D, const ZIndex>(with<MiniRock>, without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

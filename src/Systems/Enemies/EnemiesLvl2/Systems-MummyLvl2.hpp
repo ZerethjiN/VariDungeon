@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void mummyLvl2MoveSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsMummyLvl2Move, Orientation, const Speed, const MummyLvl2, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsMummyLvl2Move, Orientation, const Speed, const MummyLvl2, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -106,7 +106,7 @@ void mummyLvl2MoveSys(MainFixedSystem, World& world) {
 }
 
 void mummyLvl2PreAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMummyLvl2PreAttack, Orientation, const MummyLvl2, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMummyLvl2PreAttack, Orientation, const MummyLvl2, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -162,7 +162,7 @@ void mummyLvl2PreAttackSys(MainFixedSystem, World& world) {
 }
 
 void mummyLvl2AttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsMummyLvl2Attack, Orientation, const MummyLvl2, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsMummyLvl2Attack, Orientation, const MummyLvl2, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 

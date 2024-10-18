@@ -8,8 +8,8 @@
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanMoveSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGasterolcanMove, Orientation, const Speed, const Gasterolcan, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -64,7 +64,7 @@ void gasterolcanMoveSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanPreAttackSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
+    auto enemies = world.query<Animation, IsGasterolcanPreAttack, Orientation, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
 
     auto [time] = world.resource<const Time>();
 
@@ -109,8 +109,8 @@ void gasterolcanPreAttackSys(ThreadedFixedSystem, World& world) {
 
 // Run With: [gasterolcanMoveSys, gasterolcanPreAttackSys, gasterolcanAttackSys]
 void gasterolcanAttackSys(ThreadedFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGasterolcanAttack, Orientation, const Speed, const Gasterolcan, const Transform2D>(without<EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 

@@ -7,7 +7,7 @@
 #include <Images.hpp>
 
 void cameraAberationSys(MainFixedSystem, World& world) {
-    auto aberations = world.view<CameraAberation>();
+    auto aberations = world.query<CameraAberation>();
 
     auto [time] = world.resource<const Time>();
 

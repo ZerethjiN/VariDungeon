@@ -657,7 +657,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
     std::cout << "Generate Dungeon - Total Ent: " << world.getTotalEntities() << std::endl;
 
     // Purge Old Table:
-    auto chunkTables = world.view<const ChunkTable>();
+    auto chunkTables = world.query<const ChunkTable>();
     for (auto [chunkTableEnt, chunkTable]: chunkTables) {
         for (const auto& chunkPair: chunkTable) {
             world.delete_entity(chunkPair.second);
@@ -731,7 +731,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     newChunkEnt
                 );
 
-                auto players = world.view<Transform2D>(with<Player>);
+                auto players = world.query<Transform2D>(with<Player>);
 
                 if (players.empty()) {
                     auto playerEnt = instantiateBarbarian(world, glm::vec2(roomPosX * 160, roomPosY * 128) + glm::vec2(-8, -8));
@@ -742,7 +742,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     }
                 }
 
-                auto cameras = world.view(with<CurCamera>);
+                auto cameras = world.query(with<CurCamera>);
 
                 if (cameras.empty()) {
                     auto cameraOrigin = world.create_entity(
@@ -778,7 +778,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                         }
                     }
 
-                    for (auto [cameraEnt]: world.view(with<CameraShake>)) {
+                    for (auto [cameraEnt]: world.query(with<CameraShake>)) {
                         if (world.has_components<CameraShake>(cameraEnt)) {
                             world.remove_components<CameraShake>(cameraEnt);
                         }

@@ -57,7 +57,7 @@ public:
 };
 
 void appliedCurCameraAberation(World& world, float newDistance, float newDuration, const glm::vec2& newAberationDirection = glm::vec2(1, 0)) {
-    auto aberations = world.view<CameraAberation>();
+    auto aberations = world.query<CameraAberation>();
 
     if (!aberations.empty()) {
         for (auto [_, aberation]: aberations) {
@@ -67,7 +67,7 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
             aberation.curTime = 0;
         }
     } else {
-        auto curCameras = world.view<CameraEffect>(with<CurCamera>);
+        auto curCameras = world.query<CameraEffect>(with<CurCamera>);
 
         for (auto [_, cameraEffect]: curCameras) {
             cameraEffect.canUseCameraAberation = true;
@@ -82,7 +82,7 @@ void appliedCurCameraAberation(World& world, float newDistance, float newDuratio
 }
 
 void appliedCameraShake(World& world, float distance, float speed, unsigned int nbShake) {
-    auto cameras = world.view<CameraEffect>(with<CurCamera>, without<CameraShake>);
+    auto cameras = world.query<CameraEffect>(with<CurCamera>, without<CameraShake>);
 
     for (auto [_, cameraEffect]: cameras) {
         cameraEffect.canUseCameraShake = true;

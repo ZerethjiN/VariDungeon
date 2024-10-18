@@ -23,7 +23,7 @@ Ent instantiateKingGroundItem(World& world, const glm::vec2& position) {
         Velocity(),
         LootCallback([](World& world, const Ent& this_entity, const Ent& target_entity) {
             if (world.has_components<Player>(target_entity)) {
-                for (auto [player_ent]: world.view(with<Player>)) {
+                for (auto [player_ent]: world.query(with<Player>)) {
                     world.delete_entity(player_ent);
                 }
                 world.loadScene(hubScene);

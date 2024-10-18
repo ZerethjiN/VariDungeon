@@ -25,7 +25,7 @@ class CameraShakeLeft final: public IComponent {};
 class CameraShakeRight final: public IComponent {};
 
 void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
-    auto cameras = world.view<CameraShake, Transform2D>(with<CurCamera, CameraShakeRight>, without<CameraShakeLeft>);
+    auto cameras = world.query<CameraShake, Transform2D>(with<CurCamera, CameraShakeRight>, without<CameraShakeLeft>);
 
     auto [time] = world.resource<const Time>();
 
@@ -49,7 +49,7 @@ void cameraShakeRightSys(ThreadedFixedSystem, World& world) noexcept {
 }
 
 void cameraShakeLeftSys(ThreadedFixedSystem, World& world) noexcept {
-    auto cameras = world.view<CameraShake, Transform2D>(with<CurCamera, CameraShakeLeft>, without<CameraShakeRight>);
+    auto cameras = world.query<CameraShake, Transform2D>(with<CurCamera, CameraShakeLeft>, without<CameraShakeRight>);
     auto [time] = world.resource<const Time>();
 
     for (auto [entCam, camShake, transform]: cameras) {

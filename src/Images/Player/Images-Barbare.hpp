@@ -86,6 +86,12 @@ static const ImageAsset barbareUV("Textures/Barbare.png", {
     {{240,  32, 32, 16}, {0.25f, 0.50f}}, // 53: Barbare Hit Dash Right
     {{240,  48, 32, 16}, {0.75f, 0.50f}}, // 54: Barbare Hit Dash Left
     {{272,  32, 16, 32}, {0.50f, 0.75f}}, // 55: Barbare Hit Dash Up
+
+    // Dead
+    {{224,   0, 16, 16}, {0.50f, 0.50f}}, // 56: Barbare Dead
+
+    // Hit Dead
+    {{224,  64, 16, 16}, {0.50f, 0.50f}}, // 57: Barbare Hit Dead
 });
 
 enum class BarbareAnimType: std::size_t {
@@ -125,6 +131,8 @@ enum class BarbareAnimType: std::size_t {
     PERSISTENCE_RIGHT,
     PERSISTENCE_LEFT,
     PERSISTENCE_UP,
+    DEAD,
+    HIT_DEAD,
 };
 
 static const AnimationAsset barbareAnim(animEnum<BarbareAnimType>, {
@@ -293,4 +301,14 @@ static const AnimationAsset barbareAnim(animEnum<BarbareAnimType>, {
         {0.15f, barbareUV[51]},
         {0.15f, barbareUV[55]},
     }}},
+
+    // Dead
+    {BarbareAnimType::DEAD, {{
+        {1.00f, barbareUV[56]},
+    }, AnimationType::ONE_SHOT}},
+
+    // Hit Dead
+    {BarbareAnimType::HIT_DEAD, {{
+        {1.00f, barbareUV[57]},
+    }, AnimationType::ONE_SHOT}},
 });

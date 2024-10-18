@@ -277,7 +277,7 @@ class IsUnlit final: public IComponent {};
 void TextureManager::clear(World& world) noexcept {
     std::unique_lock<std::mutex> lock(mtx);
     std::unordered_set<std::shared_ptr<Texture>> keepedTextures;
-    for (auto [_, sprite]: world.view<Sprite>(with<DontDestroyOnLoad>)) {
+    for (auto [_, sprite]: world.query<Sprite>(with<DontDestroyOnLoad>)) {
         keepedTextures.emplace(sprite.texture);
     }
     textures.clear();

@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophageShadowMark, Orientation, const Sarcophage, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSarcophageShadowMark, Orientation, const Sarcophage, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -69,8 +69,8 @@ void sarcophageShadowMarkSys(MainFixedSystem, World& world) {
 }
 
 void sarcophagePreLaserSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophagePreLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSarcophagePreLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -116,8 +116,8 @@ void sarcophagePreLaserSys(MainFixedSystem, World& world) {
 }
 
 void sarcophageLaserSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsSarcophageLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsSarcophageLaserAttack, Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -125,7 +125,7 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
         if (isSarcophageLaserAttack.canSwitchState(time.fixedDelta())) {
             world.remove_components<IsSarcophageLaserAttack>(enemyEnt);
             world.add_components(enemyEnt, IsSarcophageObelisk(sarcophage.obeliskDuration));
-            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < 2; i++) {
                     auto rndX = rand() % 6;
                     auto rndY = rand() % 3;
@@ -163,8 +163,8 @@ void sarcophageLaserSys(MainFixedSystem, World& world) {
 
 
 void sarcophageObeliskSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Animation, IsSarcophageObelisk, const Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Animation, IsSarcophageObelisk, const Orientation, const Sarcophage, const Speed, const Transform2D>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -175,7 +175,7 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
 
             for (auto [_, player_transform]: players) {
                 bool shockwave_hit = true;
-                for (auto [_, obelisk_transform, collider]: world.view<Transform2D, const Collider>(with<SarcophageObelisk>)) {
+                for (auto [_, obelisk_transform, collider]: world.query<Transform2D, const Collider>(with<SarcophageObelisk>)) {
                     if (intersectOBBWithRay(collider.col, obelisk_transform.getModel(), enemyTransform.getPosition(), player_transform.getPosition())) {
                         shockwave_hit = false;
                         break;
@@ -197,7 +197,7 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
                 }
             }
 
-            for (auto [obeliskEnt]: world.view(with<SarcophageObelisk>)) {
+            for (auto [obeliskEnt]: world.query(with<SarcophageObelisk>)) {
                 world.delete_entity(obeliskEnt);
             }
             world.append_children(enemyEnt, {
@@ -233,7 +233,7 @@ void sarcophageObeliskSys(MainFixedSystem, World& world) {
 }
 
 void sarcophageShockwaveSys(MainFixedSystem, World& world) {
-    auto preMenus = world.view<Transform2D>(with<SarcophageShockwave>);
+    auto preMenus = world.query<Transform2D>(with<SarcophageShockwave>);
 
     auto [time] = world.resource<Time>();
 

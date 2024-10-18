@@ -7,8 +7,8 @@
 #include <Images.hpp>
 
 void golemRockAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemRockAttack, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGolemRockAttack, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -54,7 +54,7 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
                         instantiateShadowPortalParticle(world, enemyTransform.getPosition() + glm::vec2(0, 8), 270),
                     });
 
-                    for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                    for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                         for (int i = 0; i < golem.nbRocks; i++) {
                             auto rndX = rand() % 8;
                             auto rndY = rand() % 6;
@@ -105,7 +105,7 @@ void golemRockAttackSys(MainFixedSystem, World& world) {
 }
 
 void golemRockSys(MainFixedSystem, World& world) {
-    auto rocks = world.view<GolemRock, const Transform2D>(with<Breakable>, without<Player>);
+    auto rocks = world.query<GolemRock, const Transform2D>(with<Breakable>, without<Player>);
 
     auto [textureManager, time] = world.resource<TextureManager, const Time>();
 
@@ -123,7 +123,7 @@ void golemRockSys(MainFixedSystem, World& world) {
 }
 
 void golemPreFootAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<const OnCollisionEnter, const Golem, const Transform2D, const ZIndex>(with<IsGolemRockAttack>, without<IsGolemFootAttack>);
+    auto enemies = world.query<const OnCollisionEnter, const Golem, const Transform2D, const ZIndex>(with<IsGolemRockAttack>, without<IsGolemFootAttack>);
 
     for (auto [enemyEnt, collisions, golem, transform, zindex]: enemies) {
         for (auto othEnt: collisions) {
@@ -153,7 +153,7 @@ void golemPreFootAttackSys(MainFixedSystem, World& world) {
 }
 
 void golemFootAttackSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<IsGolemFootAttack, const Golem, const Transform2D, const ZIndex>();
+    auto enemies = world.query<IsGolemFootAttack, const Golem, const Transform2D, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
@@ -177,7 +177,7 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
                 instantiateShadowPortalParticle(world, transform.getPosition() + glm::vec2(0, 8), 270),
             });
 
-            for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+            for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                 for (int i = 0; i < golem.nbRocks; i++) {
                     auto rndX = rand() % 8;
                     auto rndY = rand() % 6;
@@ -203,8 +203,8 @@ void golemFootAttackSys(MainFixedSystem, World& world) {
 }
 
 void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGolemPreLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -251,8 +251,8 @@ void golemPreLaserAttackCardinalSys(MainFixedSystem, World& world) {
 
 
 void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGolemLaserAttackCardinal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -280,7 +280,7 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
             } else {
                 world.add_components(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
-                for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {
                         auto rndX = rand() % 8;
                         auto rndY = rand() % 6;
@@ -328,8 +328,8 @@ void golemLaserAttackCardinalSys(MainFixedSystem, World& world) {
 }
 
 void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemPreLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGolemPreLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -376,8 +376,8 @@ void golemPreLaserAttackDiagonalSys(MainFixedSystem, World& world) {
 
 
 void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
-    auto enemies = world.view<Velocity, Animation, IsGolemLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
-    auto players = world.view<const Transform2D>(with<Player>);
+    auto enemies = world.query<Velocity, Animation, IsGolemLaserAttackDiagonal, Orientation, const Golem, const Speed, const Transform2D, const ZIndex>(without<Unmoveable, EnemyPreSpawn>);
+    auto players = world.query<const Transform2D>(with<Player>);
 
     auto [time] = world.resource<const Time>();
 
@@ -405,7 +405,7 @@ void golemLaserAttackDiagonalSys(MainFixedSystem, World& world) {
             } else {
                 world.add_components(enemyEnt, IsGolemRockAttack(golem.rockDuration));
 
-                for (auto [_, roomTransform]: world.view<const Transform2D>(with<ChunkInfos>)) {
+                for (auto [_, roomTransform]: world.query<const Transform2D>(with<ChunkInfos>)) {
                     for (int i = 0; i < golem.nbRocks; i++) {
                         auto rndX = rand() % 8;
                         auto rndY = rand() % 6;

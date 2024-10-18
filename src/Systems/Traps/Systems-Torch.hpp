@@ -7,20 +7,20 @@
 #include <Images.hpp>
 
 void torchIdleSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTorchIdle, Animation, Orientation, const Transform2D, const Torch, const ZIndex>();
+    auto traps = world.query<IsTorchIdle, Animation, Orientation, const Transform2D, const Torch, const ZIndex>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [trapEnt, isTorchIdle, animation, orientation, transform, torch, zindex]: traps) {
         if (isTorchIdle.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<Torch, ParticleGenerator>(trapEnt);
                 animation.play(TorchAnimType::OFF);
             } else {
                 world.remove_components<IsTorchIdle>(trapEnt);
                 world.add_components(trapEnt, IsTorchCast(torch.castDuration));
                 glm::vec2 newdirection;
-                for (auto [_, playerTransform]: world.view<const Transform2D>(with<Player>)) {
+                for (auto [_, playerTransform]: world.query<const Transform2D>(with<Player>)) {
                     newdirection = glm::normalize(playerTransform.getPosition() - transform.getPosition());
                     for (int i = 1; i < 7; i++) {
                         if (fabs(newdirection.x) > fabs(newdirection.y)) {
@@ -56,13 +56,13 @@ void torchIdleSys(MainFixedSystem, World& world) {
 }
 
 void torchCastSys(MainFixedSystem, World& world) {
-    auto traps = world.view<IsTorchCast, Animation, const Transform2D, const Orientation, const Torch>();
+    auto traps = world.query<IsTorchCast, Animation, const Transform2D, const Orientation, const Torch>();
 
     auto [time] = world.resource<const Time>();
 
     for (auto [trapEnt, isTorchCast, animation, transform, orientation, torch]: traps) {
         if (isTorchCast.canSwitchState(time.fixedDelta())) {
-            if (world.view(with<Enemy>).empty()) {
+            if (world.query(with<Enemy>).empty()) {
                 world.remove_components<Torch, ParticleGenerator>(trapEnt);
                 animation.play(TorchAnimType::OFF);
             } else {
