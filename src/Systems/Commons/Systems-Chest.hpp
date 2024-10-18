@@ -62,10 +62,10 @@ void chest_opening_sys(MainFixedSystem, World& world) {
         if (chest_opening.canSwitchState(time.fixedDelta())) {
             time.setTimeScale(0);
 
-            std::unordered_map<std::size_t, BonusData> lastBonuses;
+            std::unordered_map<BonusType, BonusData> lastBonuses;
             for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                 for (const auto& bonus: bonusVec) {
-                    if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
+                    if (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonus.type)) < bonus.descriptionCallbackPerLevel.size()) {
                         lastBonuses.emplace(bonus.type, bonus);
                     }
                 }
@@ -80,7 +80,7 @@ void chest_opening_sys(MainFixedSystem, World& world) {
                     newBonusIdx = rand() % bonusVec.size();
                     alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
                     for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
-                        alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
+                        alreadyLevelMax |= (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonusVec[newBonusIdx].type)) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
                     }
                 } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
                 bonusesIdx.emplace(newBonusIdx);
@@ -121,15 +121,20 @@ void chest_opening_sys(MainFixedSystem, World& world) {
                 });
 
                 // Add Bonus On Player
+                std::size_t bonusLevel = 0;
                 for (auto [_, playerBonuses]: world.query<PlayerBonuses>()) {
-                    playerBonuses.addBonus(bonusVec[bonusIdx].type);
+                    playerBonuses.addBonus(static_cast<std::size_t>(bonusVec[bonusIdx].type));
+                    bonusLevel = playerBonuses.getBonusLevel(static_cast<std::size_t>(bonusVec[bonusIdx].type));
                 }
-                if (bonusVec[bonusIdx].descriptionCallbackPerLevel[0].callback) {
-                    bonusVec[bonusIdx].descriptionCallbackPerLevel[0].callback(world);
+                if (bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback) {
+                    bonusVec[bonusIdx].descriptionCallbackPerLevel[bonusLevel].callback(bonusCallback, world);
                 }
             }
 
-            instantiateWarp(world, chestTransform.getPosition() + glm::vec2(0, 32));
+            for (auto [_, room_transform]: world.query<const Transform2D>(with<ChunkInfos>)) {
+                instantiateWarp(world, room_transform.getPosition() + glm::vec2(-8, -8));
+            }
+
             world.delete_entity(chestEnt);
         }
     }

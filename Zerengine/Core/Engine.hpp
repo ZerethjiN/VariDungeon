@@ -24,7 +24,7 @@
 
 static constexpr inline std::size_t ZERENGINE_VERSION_MAJOR = 24;
 static constexpr inline std::size_t ZERENGINE_VERSION_MINOR = 10;
-static constexpr inline std::size_t ZERENGINE_VERSION_PATCH = 3;
+static constexpr inline std::size_t ZERENGINE_VERSION_PATCH = 4;
 
 using Ent = std::size_t;
 using Type = std::size_t;

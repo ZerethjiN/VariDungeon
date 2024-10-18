@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void lightningBallBonusCallbackLvl1(World& world) {
+void lightningBallBonusCallbackLvl1(BonusCallback, World& world) {
     auto players = world.query(with<Player>, without<PlayerLightningBall>);
 
     for (auto [playerEnt]: players) {

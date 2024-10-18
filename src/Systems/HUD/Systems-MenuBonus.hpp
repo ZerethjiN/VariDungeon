@@ -57,10 +57,10 @@ void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
         if (preMenu.canSpawnMenu(time.unscaledFixedDelta())) {
             world.delete_entity(preMenuEnt);
 
-            std::unordered_map<std::size_t, BonusData> lastBonuses;
+            std::unordered_map<BonusType, BonusData> lastBonuses;
             for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                 for (const auto& bonus: bonusVec) {
-                    if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
+                    if (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonus.type)) < bonus.descriptionCallbackPerLevel.size()) {
                         lastBonuses.emplace(bonus.type, bonus);
                     }
                 }
@@ -75,7 +75,7 @@ void levelUpPreMenuSys(MainUnscaledFixedSystem, World& world) {
                     newBonusIdx = rand() % bonusVec.size();
                     alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
                     for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
-                        alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
+                        alreadyLevelMax |= (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonusVec[newBonusIdx].type)) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
                     }
                 } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
                 bonusesIdx.emplace(newBonusIdx);
@@ -118,7 +118,7 @@ void menuBonusTranslationSys(MainUnscaledFixedSystem, World& world) {
             for (auto bonusIdx: bonusesIdx) {
                 std::size_t bonusLevel = 0;
                 for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
-                    bonusLevel = playerBonuses.getBonusLevel(bonusVec[bonusIdx].type);
+                    bonusLevel = playerBonuses.getBonusLevel(static_cast<std::size_t>(bonusVec[bonusIdx].type));
                 }
 
                 if (bonusVec[bonusIdx].descriptionCallbackPerLevel.empty()) {
@@ -258,7 +258,7 @@ void menuBonusSelectorSys(MainUnscaledFixedSystem, World& world) {
 
                     if (canBuy) {
                         for (auto [_, playerBonuses]: world.query<PlayerBonuses>()) {
-                            playerBonuses.addBonus(bonusRow.type);
+                            playerBonuses.addBonus(static_cast<std::size_t>(bonusRow.type));
                             if (!world.query(with<MenuBonusMerchant>).empty()) {
                                 for (auto [_, merchantBonus]: world.query<MerchantBonus>()) {
                                     merchantBonus.bonusesIdx.erase(merchantBonus.typeToIdx.at(bonusRow.type));

@@ -6,10 +6,26 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void speedBonusCallbackLvl1(World& world) {
+void speedBonusCallbackLvl1(BonusCallback, World& world) {
     auto players = world.query<Speed>(with<Player>);
 
     for (auto [_, speed]: players) {
-        speed.speed *= 1.10f;
+        speed.speed *= 1.08f;
+    }
+}
+
+void speedBonusCallbackLvl2(BonusCallback, World& world) {
+    auto players = world.query<Speed>(with<Player>);
+
+    for (auto [_, speed]: players) {
+        speed.speed *= 1.08f;
+    }
+}
+
+void speedBonusCallbackLvl3(BonusCallback, World& world) {
+    auto players = world.query<Speed>(with<Player>);
+
+    for (auto [_, speed]: players) {
+        speed.speed *= 1.08f;
     }
 }

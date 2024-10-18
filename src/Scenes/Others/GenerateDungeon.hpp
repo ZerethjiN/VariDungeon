@@ -674,7 +674,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
     std::vector<RoomCellInfo> cellMat;
     bool isKeyFloor = false;
 
-    switch (2/*rand() % 5*/) {
+    switch (rand() % 5) {
         case 0:
             height = HEIGHT_DUNGEON_WITH_KEY;
             width = WIDTH_DUNGEON_WITH_KEY;
@@ -697,7 +697,7 @@ void generateDungeon(World& world, const glm::vec2& dungeonPosition, std::size_t
                     std::size_t primaryCell = rand() % (height * width);
                     cellMat[primaryCell].isActive = true;
                     cellMat[primaryCell].isPrimary = true;
-                    checkGen = newGenCell(width, height, primaryCell, 2, 1/*9, 5*/, cellMat);
+                    checkGen = newGenCell(width, height, primaryCell, 9, 5, cellMat);
                 } while(!checkGen);
             }
             break;

@@ -33,7 +33,7 @@ public:
         curTime = 0;
     }
 
-private:
+public:
     float cooldown;
     float curTime;
 };

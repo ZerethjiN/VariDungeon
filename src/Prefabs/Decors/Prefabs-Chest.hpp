@@ -9,7 +9,9 @@ Ent instantiateChest(World& world, const glm::vec2& position) {
     auto [textureManager] = world.resource<TextureManager>();
     return world.create_entity(
         Chest(),
+        Enemy(),
         Sprite(textureManager, chestUV),
+        Velocity(),
         // Animation(chestAnim, ChestAnimType::OPENING),
         Transform2D(
             position,

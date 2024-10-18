@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void shurikenBonusCallbackLvl1(World& world) {
+void shurikenBonusCallbackLvl1(BonusCallback, World& world) {
     auto players = world.query<const Transform2D>(with<Player>);
 
     for (auto [playerEnt, transform]: players) {

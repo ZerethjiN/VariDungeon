@@ -30,7 +30,7 @@ public:
     }
 
     [[nodiscard]] constexpr const ImageData& operator [](int idx) const noexcept {
-        return assets[idx];
+        return assets.at(idx);
     }
 
 public:

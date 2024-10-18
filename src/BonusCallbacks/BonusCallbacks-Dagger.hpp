@@ -6,7 +6,7 @@
 #include <Prefabs.hpp>
 #include <Images.hpp>
 
-void daggerBonusCallbackLvl1(World& world) {
+void daggerBonusCallbackLvl1(BonusCallback, World& world) {
     auto players = world.query(with<Player>, without<PlayerDagger>);
 
     for (auto [playerEnt]: players) {

@@ -25,10 +25,10 @@ void merchantOpenCloseSys(MainFixedSystem, World& world) {
                         if (merchantBonuses.empty()) {
                             std::unordered_map<BonusType, std::size_t> typeToIdx;
 
-                            std::unordered_map<std::size_t, BonusData> lastBonuses;
+                            std::unordered_map<BonusType, BonusData> lastBonuses;
                             for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
                                 for (const auto& bonus: bonusVec) {
-                                    if (playerBonuses.getBonusLevel(bonus.type) < bonus.descriptionCallbackPerLevel.size()) {
+                                    if (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonus.type)) < bonus.descriptionCallbackPerLevel.size()) {
                                         lastBonuses.emplace(bonus.type, bonus);
                                     }
                                 }
@@ -42,7 +42,7 @@ void merchantOpenCloseSys(MainFixedSystem, World& world) {
                                     newBonusIdx = rand() % bonusVec.size();
                                     alreadyLevelMax |= bonusVec[newBonusIdx].descriptionCallbackPerLevel.empty();
                                     for (auto [_, playerBonuses]: world.query<const PlayerBonuses>()) {
-                                        alreadyLevelMax |= (playerBonuses.getBonusLevel(bonusVec[newBonusIdx].type) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
+                                        alreadyLevelMax |= (playerBonuses.getBonusLevel(static_cast<std::size_t>(bonusVec[newBonusIdx].type)) >= bonusVec[newBonusIdx].descriptionCallbackPerLevel.size());
                                     }
                                 } while (bonusesIdx.contains(newBonusIdx) || alreadyLevelMax);
                                 bonusesIdx.emplace(newBonusIdx);

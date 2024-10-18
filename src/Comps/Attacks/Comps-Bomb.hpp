@@ -56,7 +56,7 @@ public:
         return false;
     }
 
-private:
-    const float cooldown;
+public:
+    float cooldown;
     float curTime;
 };
